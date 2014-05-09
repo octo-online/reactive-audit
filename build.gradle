@@ -1,0 +1,51 @@
+
+buildscript {
+    repositories {
+        maven {
+            url "https://maven.eveoh.nl/content/repositories/releases"
+        }
+    }
+
+    dependencies {
+        classpath "nl.eveoh:gradle-aspectj:1.4"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+project.ext {
+    aspectjVersion = '1.8.0'
+}
+
+//apply plugin: 'java'
+apply plugin: 'aspectj'
+
+sourceCompatibility = '8'
+version = '1.0'
+
+dependencies {
+    compile "org.aspectj:aspectjrt:${aspectjVersion}"
+    compile "org.aspectj:aspectjtools:${aspectjVersion}"
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testRuntime "org.aspectj:aspectjweaver:${aspectjVersion}"
+    testRuntime "org.aspectj:aspectjrt:${aspectjVersion}"
+
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.12'
+}
+
+test {
+    // Juste pour afficher les logs dans les tests
+    testLogging.showStandardStreams = true
+//    beforeTest { descriptor ->
+//        logger.lifecycle("Running test: " + descriptor)
+//    }
+    include 'com/octo/reactive/audit/**'
+    def weaver=""
+    weaver="-javaagent:"+project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
+    jvmArgs weaver
+}

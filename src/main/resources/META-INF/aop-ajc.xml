@@ -1,0 +1,8 @@
+<aspectj>
+    <aspects>
+        <aspect name="com.octo.reactive.audit.SuppressAuditReactiveAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.FileInputStreamAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.FileOutputStreamAspect"/>
+    </aspects>
+</aspectj>
+

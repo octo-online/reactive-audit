@@ -1,7 +1,10 @@
 package com.octo.reactive.audit;
 
+import com.sun.istack.internal.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 import java.util.regex.Pattern;
 
 /**
@@ -22,6 +25,7 @@ public class ConfigAuditReactive
 			return 0;
 		}
 	};
+	private Stack<Transaction> stack = new Stack<>();
 
 	void incSuppress()
 	{
@@ -37,6 +41,7 @@ public class ConfigAuditReactive
 	}
 	public boolean isThrow()
 	{
+		//logger.warn("Throw exception");
 		return throwExceptions;
 	}
 	public boolean isThreadNameMatch(String name)
@@ -52,12 +57,20 @@ public class ConfigAuditReactive
 		return threadPattern.toString();
 	}
 
-	public Transaction current()
+	private Transaction current()
 	{
 		return new Transaction()
 				.log(logger.getLogLevel())
 				.throwExceptions(throwExceptions)
 				.threadPattern(threadPattern.toString());
+	}
+	protected void push()
+	{
+		stack.push(current());
+	}
+	protected void pop()
+	{
+		stack.pop().commit();
 	}
 
 	public class Transaction
@@ -67,44 +80,46 @@ public class ConfigAuditReactive
 		public Transaction throwExceptions(boolean onOff)
 		{
 			cmds.add(() -> throwExceptions = onOff);
-            return this;
-        }
-        public Transaction log(int level)
-        {
-            cmds.add(()-> logger.setLevel(level));
-            return this;
-        }
-
-		public Transaction threadPattern(String pattern)
-		{
-			cmds.add(() -> threadPattern=Pattern.compile(pattern));
 			return this;
 		}
-        public synchronized void commit()
-        {
-            cmds.forEach(x -> x.run());
-        }
-    }
 
-    public Transaction begin()
-    {
-        return new Transaction();
-    }
+		public Transaction log(int level)
+		{
+			cmds.add(() -> logger.setLevel(level));
+			return this;
+		}
 
-    public static final ConfigAuditReactive config  = new ConfigAuditReactive();
-    public static final Transaction         strict  =
-		    config.begin()
-				    .throwExceptions(true)
-				    .log(Logger.None)
-		            .threadPattern(".*");
-    public static final Transaction         logOnly =
-		    config.begin()
-				    .throwExceptions(false)
-				    .log(Logger.Warn)
-		            .threadPattern(defaultThreadPattern);
-    public static final Transaction         off     =
-		    config.begin()
-				    .throwExceptions(false)
-				    .log(Logger.Error)
-		            .threadPattern("(?!)");
+		public Transaction threadPattern(@NotNull String pattern)
+		{
+			cmds.add(() -> threadPattern = Pattern.compile(pattern));
+			return this;
+		}
+
+		public synchronized void commit()
+		{
+			cmds.forEach(x -> x.run());
+		}
+	}
+
+	public Transaction begin()
+	{
+		return new Transaction();
+	}
+
+	public static final ConfigAuditReactive config  = new ConfigAuditReactive();
+	public static final Transaction         strict  =
+			config.begin()
+					.throwExceptions(true)
+					.log(Logger.None)
+					.threadPattern(".*");
+	public static final Transaction         logOnly =
+			config.begin()
+					.throwExceptions(false)
+					.log(Logger.Warn)
+					.threadPattern(defaultThreadPattern);
+	public static final Transaction         off     =
+			config.begin()
+					.throwExceptions(false)
+					.log(Logger.Error)
+					.threadPattern("(?!)");
 }

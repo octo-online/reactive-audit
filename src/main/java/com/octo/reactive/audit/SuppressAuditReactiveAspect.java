@@ -13,14 +13,12 @@ import org.aspectj.lang.annotation.SuppressAjWarnings;
 public class SuppressAuditReactiveAspect
 {
 	@Before("execution(@com.octo.reactive.audit.SuppressAuditReactive * *(..) )")
-	@SuppressAjWarnings({"adviceDidNotMatch"})
 	public void beforeSuppress(JoinPoint thisJoinPoint) throws AuditReactiveException
 	{
 		ConfigAuditReactive.config.incSuppress();
 	}
 
 	@After("execution(@com.octo.reactive.audit.SuppressAuditReactive * *(..))")
-	@SuppressAjWarnings({"adviceDidNotMatch"})
 	public void afterSuppress(JoinPoint thisJoinPoint) throws AuditReactiveException
 	{
 		ConfigAuditReactive.config.decSuppress();

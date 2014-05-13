@@ -1,5 +1,6 @@
 package com.octo.reactive.audit.java.io;
 
+import com.octo.reactive.audit.ConfigAuditReactive;
 import org.junit.Test;
 
 import java.io.*;
@@ -7,18 +8,17 @@ import java.io.*;
 /**
  * Created by pprados on 06/05/14.
  */
-public class ByteArrayOutputStreamTest extends OutputStreamTest
+public class CharArrayWriterTest extends WriterTest
 {
 	@Override
-	protected OutputStream newOutputStream() throws IOException
+	protected Writer newWriter() throws IOException
 	{
-		return new ByteArrayOutputStream();
+		return new CharArrayWriter(10);
 	}
-
 	@Test
 	public void derived()
 	{
-		class Derived extends ByteArrayOutputStream
+		class Derived extends CharArrayWriter
 		{
 			Derived()
 			{

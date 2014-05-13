@@ -1,8 +1,32 @@
 <aspectj>
     <aspects>
+        <!-- Global -->
         <aspect name="com.octo.reactive.audit.SuppressAuditReactiveAspect"/>
+
+        <!-- InputStream -->
+        <aspect name="com.octo.reactive.audit.java.io.InputStreamAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.BufferedInputStreamAspect"/>
         <aspect name="com.octo.reactive.audit.java.io.FileInputStreamAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.FilterInputStreamAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.SequenceInputStreamAspect"/>
+
+        <!-- OutputStream -->
+        <aspect name="com.octo.reactive.audit.java.io.OutputStreamAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.BufferedOutputStreamAspect"/>
         <aspect name="com.octo.reactive.audit.java.io.FileOutputStreamAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.FilterOutputStreamAspect"/>
+
+        <!-- Reader -->
+        <aspect name="com.octo.reactive.audit.java.io.ReaderAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.FileReaderAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.BufferedReaderAspect"/>
+
+        <!-- Writer -->
+        <aspect name="com.octo.reactive.audit.java.io.WriterAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.FileWriterAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.FilterWriterAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.BufferedWriterAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.PrintWriterAspect"/>
     </aspects>
 </aspectj>
 

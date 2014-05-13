@@ -7,22 +7,22 @@ import java.io.*;
 /**
  * Created by pprados on 06/05/14.
  */
-public class ByteArrayOutputStreamTest extends OutputStreamTest
+public class BufferedOutputStreamTest extends FileOutputStreamTest
 {
 	@Override
 	protected OutputStream newOutputStream() throws IOException
 	{
-		return new ByteArrayOutputStream();
+		return new BufferedOutputStream(super.newOutputStream());
 	}
 
 	@Test
 	public void derived()
 	{
-		class Derived extends ByteArrayOutputStream
+		class Derived extends BufferedOutputStream
 		{
 			Derived()
 			{
-				super(10);
+				super(new ByteArrayOutputStream(10));
 			}
 		};
 		new Derived();

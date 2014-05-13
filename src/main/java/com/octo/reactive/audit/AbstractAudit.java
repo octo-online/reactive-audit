@@ -31,7 +31,6 @@ public class AbstractAudit
     {
 	    if (checkForAll())
 	    {
-		    System.err.println(thisJoinPoint.getSignature());
 		    ConfigAuditReactive.logger.warn(thisJoinPoint.getSignature());
 		    if (config.isThrow())
 			    throw new FileAuditReactiveException(thisJoinPoint.getSignature().toString());

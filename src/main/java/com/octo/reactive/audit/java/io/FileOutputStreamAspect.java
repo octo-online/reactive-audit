@@ -11,28 +11,12 @@ import org.aspectj.lang.annotation.SuppressAjWarnings;
 @Aspect
 public class FileOutputStreamAspect extends AbstractAudit
 {
-    @Pointcut("call(java.io.FileOutputStream.new(..))")
+    @Pointcut("initialization(java.io.FileOutputStream+.new(..))")
     void new_() {}
-    @Pointcut("call(* java.io.OutputStream.close())")
-    void close() {}
-    @Pointcut("call(* java.io.OutputStream.flush())")
-    void flush() {}
-    @Pointcut("call(* java.io.OutputStream.write(..))")
-    void write() {}
-
 	@Before("(new_())")
-    @SuppressAjWarnings({"adviceDidNotMatch"})
     @LatencyLevel(LatencyLevel.MEDIUM)
     public void advice_medium(JoinPoint thisJoinPoint)
     {
         mediumLatency(thisJoinPoint);
-    }
-    @Before("(close() || flush() || write())" +
-		    "&& target(java.io.FileOutputStream)")
-    @SuppressAjWarnings({"adviceDidNotMatch"})
-    @LatencyLevel(LatencyLevel.HIGH)
-    public void advice_high(JoinPoint thisJoinPoint)
-    {
-	    highLatency(thisJoinPoint);
     }
 }

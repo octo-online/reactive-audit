@@ -1,0 +1,73 @@
+package com.octo.reactive.audit.java.io;
+
+import com.octo.reactive.audit.AuditReactiveException;
+import com.octo.reactive.audit.ConfigAuditReactive;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.io.Writer;
+
+/**
+ * Created by pprados on 06/05/14.
+ */
+public abstract class AuditedWriterTest extends WriterTest
+{
+	@Override
+	protected abstract Writer newWriter() throws IOException ;
+
+	@Test(expected=AuditReactiveException.class)
+	public void New() throws IOException
+	{
+		super.New();
+	}
+	@Test(expected=AuditReactiveException.class)
+	public void append_c() throws IOException
+	{
+		super.append_c();
+	}
+	@Test(expected=AuditReactiveException.class)
+	public void append_CharSequence() throws IOException
+	{
+		super.append_CharSequence();
+	}
+	@Test(expected=AuditReactiveException.class)
+	public void append_CharSequence_ii() throws IOException
+	{
+		super.append_CharSequence_ii();
+	}
+	@Test(expected=AuditReactiveException.class)
+	public void close() throws IOException
+	{
+		super.close();
+	}
+	@Test(expected=AuditReactiveException.class)
+	public void flush() throws IOException
+	{
+		super.flush();
+	}
+	@Test(expected=AuditReactiveException.class)
+	public void write_C() throws IOException
+	{
+		super.write_C();
+	}
+	@Test(expected=AuditReactiveException.class)
+	public void write_Cii() throws IOException
+	{
+		super.write_Cii();
+	}
+	@Test(expected=AuditReactiveException.class)
+	public void write_i() throws IOException
+	{
+		super.write_i();
+	}
+	@Test(expected=AuditReactiveException.class)
+	public void write_String() throws IOException
+	{
+		super.write_String();
+	}
+	@Test(expected=AuditReactiveException.class)
+	public void write_String_ii() throws IOException
+	{
+		super.write_String_ii();
+	}
+}

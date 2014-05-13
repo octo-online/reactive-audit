@@ -4,31 +4,16 @@ import com.octo.reactive.audit.AuditReactiveException;
 import com.octo.reactive.audit.ConfigAuditReactive;
 import org.junit.Test;
 
-import java.io.*;
-
-import static org.junit.Assert.assertTrue;
-import static com.octo.reactive.audit.TestTools.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Created by pprados on 06/05/14.
  */
-public class FileOutputStreamTest extends AuditOutputStreamTest
+public abstract class AuditOutputStreamTest extends OutputStreamTest
 {
-	@Override
-	protected OutputStream newOutputStream() throws IOException
-	{
-		return new FileOutputStream(getFileOut());
-	}
-
-	private File getFileOut() throws IOException
-    {
-        push();
-        File f=File.createTempFile("temp-file-name", ".tmp");
-        f.delete();
-        f.deleteOnExit();
-	    pop();
-        return f;
-    }
 	@Override
 	@Test(expected=AuditReactiveException.class)
 	public void New() throws IOException
@@ -64,17 +49,5 @@ public class FileOutputStreamTest extends AuditOutputStreamTest
 	public void write_Bii() throws IOException
 	{
 		super.write_Bii();
-	}
-	@Test
-	public void derived() throws IOException
-	{
-		class Derived extends FileOutputStream
-		{
-			Derived() throws IOException
-			{
-				super(getFileOut());
-			}
-		};
-		new Derived();
 	}
 }

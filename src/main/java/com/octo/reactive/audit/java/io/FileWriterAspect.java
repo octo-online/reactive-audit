@@ -10,12 +10,10 @@ import org.aspectj.lang.annotation.Before;
 @Aspect
 public class FileWriterAspect extends AbstractWriterAudit
 {
-	@Before("initialization(java.io.FileWriter+.new(..))")
-	@LatencyLevel(LatencyLevel.MEDIUM)
+	@Before("call(java.io.FileWriter.new(..))")
 	public void new_(JoinPoint thisJoinPoint) throws AuditReactiveException
 	{
-		if (isLastOutputStreamFromWriterWithLatency(thisJoinPoint))
-			mediumLatency(thisJoinPoint);
+		latency(LatencyLevel.LOW,thisJoinPoint);
 	}
 
 }

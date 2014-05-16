@@ -22,7 +22,8 @@ public class FileReaderTest extends InputStreamReaderTest
 		return in;
 	}
 	@Test(expected=AuditReactiveException.class)
-	public void New_File() throws IOException
+	@Override
+	public void New() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();
 		try (Reader in= new FileReader(getFileIn()))
@@ -37,16 +38,6 @@ public class FileReaderTest extends InputStreamReaderTest
 		try (Reader in= new FileReader(getFileIn().getName()))
 		{
 			ConfigAuditReactive.off.commit();
-		}
-	}
-	@Test(expected=AuditReactiveException.class)
-	public void read() throws IOException
-	{
-		ConfigAuditReactive.off.commit();
-		try (Reader in= newReader())
-		{
-			ConfigAuditReactive.strict.commit();
-			in.read();
 		}
 	}
 	@Test

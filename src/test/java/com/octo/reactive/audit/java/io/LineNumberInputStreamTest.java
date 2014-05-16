@@ -4,6 +4,9 @@ import org.junit.Test;
 
 import java.io.*;
 
+import static com.octo.reactive.audit.TestTools.pop;
+import static com.octo.reactive.audit.TestTools.push;
+
 /**
  * Created by pprados on 06/05/14.
  */
@@ -14,9 +17,18 @@ public class LineNumberInputStreamTest extends FileInputStreamTest
 	@Override
 	protected InputStream newInputStream() throws IOException
 	{
-		return new LineNumberInputStream(super.newInputStream());
+		push();
+		InputStream in = super.newInputStream();
+		pop();
+		return new LineNumberInputStream(in);
 	}
 
+	@Override
+	@Test
+	public void New() throws IOException
+	{
+		super.New();
+	}
 	@Test
 	public void derived() throws IOException
 	{

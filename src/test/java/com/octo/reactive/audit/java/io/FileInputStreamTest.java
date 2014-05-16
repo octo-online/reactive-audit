@@ -28,7 +28,13 @@ public class FileInputStreamTest extends AuditedInputStreamTest
 	    pop();
         return f;
     }
-	@Test
+	@Override
+	@Test(expected=AuditReactiveException.class)
+	public void New() throws IOException
+	{
+		super.New();
+	}
+	@Test(expected=AuditReactiveException.class)
 	public void derived() throws IOException
 	{
 		class Derived extends FileInputStream

@@ -18,30 +18,13 @@ public class AbstractAudit
 	{
 		return isReactiveThread() && !config.isSuppressAudit();
 	}
-    protected void lowLatency(JoinPoint thisJoinPoint) throws AuditReactiveException
+    protected void latency(int level,JoinPoint thisJoinPoint) throws AuditReactiveException
     {
 	    if (checkForAll())
 	    {
-		    ConfigAuditReactive.logger.info(thisJoinPoint.getSignature());
+		    // FIXME: level
+		    ConfigAuditReactive.config.info(thisJoinPoint.getSignature());
 		    if (config.isThrow())  // LOW, MEDIUM, HIGH ?
-			    throw new FileAuditReactiveException(thisJoinPoint.getSignature().toString());
-	    }
-    }
-    protected void mediumLatency(JoinPoint thisJoinPoint) throws AuditReactiveException
-    {
-	    if (checkForAll())
-	    {
-		    ConfigAuditReactive.logger.warn(thisJoinPoint.getSignature());
-		    if (config.isThrow())
-			    throw new FileAuditReactiveException(thisJoinPoint.getSignature().toString());
-	    }
-    }
-    protected void highLatency(JoinPoint thisJoinPoint) throws AuditReactiveException
-    {
-	    if (checkForAll())
-	    {
-		    ConfigAuditReactive.logger.error(thisJoinPoint.getSignature());
-		    if (config.isThrow())
 			    throw new FileAuditReactiveException(thisJoinPoint.getSignature().toString());
 	    }
     }

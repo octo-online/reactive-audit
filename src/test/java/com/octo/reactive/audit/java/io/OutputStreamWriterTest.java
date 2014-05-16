@@ -22,6 +22,7 @@ public class OutputStreamWriterTest extends AuditedWriterTest
 		return new OutputStreamWriter(out);
 
 	}
+	// FIXME: monter de classe ?
 	protected File getFileOut() throws IOException
 	{
 		push();

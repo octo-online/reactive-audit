@@ -23,10 +23,8 @@ public class OutputStreamAspect extends AbstractOutputStreamAudit
     void write() {}
 
     @Before("(close() || flush() || write())")
-    @LatencyLevel(LatencyLevel.HIGH)
     public void advice_high(JoinPoint thisJoinPoint)
     {
-	    if (isLastOutputStreamWithLatency((OutputStream)thisJoinPoint.getTarget()))
-		    highLatency(thisJoinPoint);
+	    latency(LatencyLevel.HIGH,thisJoinPoint,(OutputStream)thisJoinPoint.getTarget());
     }
 }

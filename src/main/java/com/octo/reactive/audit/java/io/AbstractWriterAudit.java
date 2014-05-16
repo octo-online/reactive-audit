@@ -1,5 +1,6 @@
 package com.octo.reactive.audit.java.io;
 
+import com.octo.reactive.audit.AuditReactiveException;
 import org.aspectj.lang.JoinPoint;
 
 import java.io.*;
@@ -33,11 +34,10 @@ public class AbstractWriterAudit extends AbstractOutputStreamAudit
 		}
 	}
 
-	protected boolean isLastOutputStreamFromWriterWithLatency(JoinPoint thisJoinPoint)
+	protected boolean isLastOutputStreamFromWriterWithLatency(Writer writer)
 	{
 		try
 		{
-			Writer writer = (Writer) thisJoinPoint.getTarget();
 			while (writer instanceof FilterWriter
 					|| writer instanceof BufferedWriter
 					|| writer instanceof PrintWriter)
@@ -52,13 +52,16 @@ public class AbstractWriterAudit extends AbstractOutputStreamAudit
 				}
 				else
 				{
+					System.err.println("ICI BUFFERED");
 					writer=(Writer) fieldOutBufferedWriter.get(writer);
+					System.err.println("writer="+writer);
 				}
 			}
 			if (writer instanceof OutputStreamWriter)
 			{
 				OutputStream out = (OutputStream) fieldLockWriter.get(writer);
-				return isLastOutputStreamWithLatency(out);
+				boolean lastOutputStreamWithLatency = isLastOutputStreamWithLatency(out);
+				return lastOutputStreamWithLatency;
 			}
 			else
 				return false;
@@ -67,5 +70,11 @@ public class AbstractWriterAudit extends AbstractOutputStreamAudit
 		{
 			throw new Error(e);
 		}
+	}
+
+	protected void latency(int level,JoinPoint thisJoinPoint,Writer writer) throws AuditReactiveException
+	{
+		if (isLastOutputStreamFromWriterWithLatency(writer))
+			super.latency(level,thisJoinPoint);
 	}
 }

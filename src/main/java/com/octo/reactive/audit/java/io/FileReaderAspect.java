@@ -13,13 +13,12 @@ import java.io.*;
 import java.lang.reflect.Field;
 
 @Aspect
-public class FileReaderAspect extends AbstractAudit
+public class FileReaderAspect extends AbstractReaderAudit
 {
-	@Before("initialization(java.io.FileReader+.new(..))")
-	@LatencyLevel(LatencyLevel.MEDIUM)
+	@Before("call(java.io.FileReader.new(..))")
 	public void new_(JoinPoint thisJoinPoint) throws AuditReactiveException
 	{
-		mediumLatency(thisJoinPoint);
+		latency(LatencyLevel.LOW,thisJoinPoint);
 	}
 
 }

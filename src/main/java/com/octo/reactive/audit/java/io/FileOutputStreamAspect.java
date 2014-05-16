@@ -8,15 +8,15 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 
+import java.io.OutputStream;
+
 @Aspect
-public class FileOutputStreamAspect extends AbstractAudit
+public class FileOutputStreamAspect extends AbstractOutputStreamAudit
 {
-    @Pointcut("initialization(java.io.FileOutputStream+.new(..))")
-    void new_() {}
-	@Before("(new_())")
-    @LatencyLevel(LatencyLevel.MEDIUM)
-    public void advice_medium(JoinPoint thisJoinPoint)
+	// FIXME: After ? Et récupération du target ?
+	@Before("call(java.io.FileOutputStream.new(..))")
+    public void new_(JoinPoint thisJoinPoint)
     {
-        mediumLatency(thisJoinPoint);
+        latency(LatencyLevel.LOW,thisJoinPoint);
     }
 }

@@ -4,6 +4,9 @@ import org.junit.Test;
 
 import java.io.*;
 
+import static com.octo.reactive.audit.TestTools.pop;
+import static com.octo.reactive.audit.TestTools.push;
+
 /**
  * Created by pprados on 06/05/14.
  */
@@ -12,7 +15,10 @@ public class LineNumberReaderTest extends FileReaderTest
 	@Override
 	protected Reader newReader() throws IOException
 	{
-		return new LineNumberReader(super.newReader());
+		push();
+		Reader in = super.newReader();
+		pop();
+		return new LineNumberReader(in);
 	}
 	@Test
 	public void derived() throws IOException

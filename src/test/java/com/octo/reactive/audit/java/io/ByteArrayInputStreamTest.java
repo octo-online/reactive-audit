@@ -10,13 +10,13 @@ import java.io.*;
 public class ByteArrayInputStreamTest extends InputStreamTest
 {
 	@Override
-	protected InputStream newInputStream()
+	protected InputStream newInputStream() throws IOException
 	{
 		return new ByteArrayInputStream(new byte[10]);
 	}
 
 	@Test
-	public void derived()
+	public void derived() throws IOException
 	{
 		class Derived extends ByteArrayInputStream
 		{

@@ -9,13 +9,13 @@ import org.junit.Test;
 public class SuppressAuditReactiveTest
 {
 	@Test
-	@SuppressAuditReactive
+	@SuppressAuditReactive("Direct call")
 	public void directCall()
 	{
 		 assertTrue(ConfigAuditReactive.config.isSuppressAudit());
 	}
 	@Test
-	@SuppressAuditReactive
+	@SuppressAuditReactive("Indirect call")
 	public void indirectCall()
 	{
 		Runnable r=new Runnable()
@@ -32,7 +32,7 @@ public class SuppressAuditReactiveTest
 		assertEquals(1,ConfigAuditReactive.config.getSuppress());
 	}
 	@Test
-	@SuppressAuditReactive
+	@SuppressAuditReactive("Double call")
 	public void doubleCall()
 	{
 		Runnable r=new Runnable()

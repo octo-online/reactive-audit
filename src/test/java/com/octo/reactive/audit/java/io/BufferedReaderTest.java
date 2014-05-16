@@ -10,7 +10,7 @@ import java.io.*;
 /**
  * Created by pprados on 06/05/14.
  */
-public class BufferedReaderTest extends InputStreamReaderTest
+public class BufferedReaderTest extends FileReaderTest
 {
 	@Override
 	protected Reader newReader() throws IOException
@@ -20,14 +20,14 @@ public class BufferedReaderTest extends InputStreamReaderTest
 		pop();
 		return new BufferedReader(reader);
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test
 	public void derived() throws IOException
 	{
 		class Derived extends BufferedReader
 		{
 			Derived() throws IOException
 			{
-				super(new InputStreamReader(new FileInputStream(getFileIn())));
+				super(new StringReader("abc"));
 			}
 		};
 		new Derived();

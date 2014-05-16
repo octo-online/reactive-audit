@@ -4,15 +4,22 @@ import org.junit.Test;
 
 import java.io.*;
 
+import static com.octo.reactive.audit.TestTools.pop;
+import static com.octo.reactive.audit.TestTools.push;
+
 /**
  * Created by pprados on 06/05/14.
  */
-public class SequenceInputStreamTest extends FileInputStreamTest
+public class SequenceInputStreamTest extends ByteArrayInputStreamTest
 {
 	@Override
 	protected InputStream newInputStream() throws IOException
 	{
-		return new SequenceInputStream(super.newInputStream(),super.newInputStream());
+		push();
+		InputStream in1=super.newInputStream();
+		InputStream in2=super.newInputStream();
+		pop();
+		return new SequenceInputStream(in1,in2);
 	}
 
 	@Test

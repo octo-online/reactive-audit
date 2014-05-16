@@ -14,7 +14,6 @@ public class PushbackReaderTest extends FilterReaderTest
 	protected Reader newReader() throws IOException
 	{
 		push();
-		ConfigAuditReactive.off.commit();
 		Reader reader=super.newReader();
 		pop();
 		return new PushbackReader(reader);

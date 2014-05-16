@@ -35,37 +35,7 @@ public class FileOutputStreamTest extends AuditOutputStreamTest
 	{
 		super.New();
 	}
-	@Override
 	@Test(expected=AuditReactiveException.class)
-	public void flush() throws IOException
-	{
-		super.flush();
-	}
-	@Override
-	@Test(expected=AuditReactiveException.class)
-	public void close() throws IOException
-	{
-		super.close();
-	}
-	@Override
-	@Test(expected=AuditReactiveException.class)
-	public void write_b() throws IOException
-	{
-		super.write_b();
-	}
-	@Override
-	@Test(expected=AuditReactiveException.class)
-	public void write_B() throws IOException
-	{
-		super.write_B();
-	}
-	@Override
-	@Test(expected=AuditReactiveException.class)
-	public void write_Bii() throws IOException
-	{
-		super.write_Bii();
-	}
-	@Test
 	public void derived() throws IOException
 	{
 		class Derived extends FileOutputStream

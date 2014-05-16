@@ -12,7 +12,6 @@ import java.io.*;
 @Aspect
 public class PrintWriterAspect extends AbstractWriterAudit
 {
-	// FIXME: new ?
 	@Pointcut("call(* java.io.PrintWriter.format(..))")
     public void format(){ }
 	@Pointcut("call(* java.io.PrintWriter.print(..))")
@@ -22,18 +21,9 @@ public class PrintWriterAspect extends AbstractWriterAudit
 	@Pointcut("call(* java.io.PrintWriter.println(..))")
 	public void println() { }
 
-	@Before("initialization(java.io.PrintWriter+.new(..))")
-	@LatencyLevel(LatencyLevel.MEDIUM)
-	public void new_(JoinPoint thisJoinPoint) throws AuditReactiveException
-	{
-		mediumLatency(thisJoinPoint);
-	}
-
 	@Before("(format() || print() || printf() || println())")
-	@LatencyLevel(LatencyLevel.HIGH)
 	public void advice_high(JoinPoint thisJoinPoint)
 	{
-		if (isLastOutputStreamFromWriterWithLatency(thisJoinPoint))
-			highLatency(thisJoinPoint);
+		latency(LatencyLevel.HIGH,thisJoinPoint);
 	}
 }

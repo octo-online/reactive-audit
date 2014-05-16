@@ -19,26 +19,20 @@ public class ReaderAspect extends AbstractReaderAudit
     public void close() { }
 
 	@Before("(skip())")
-    @LatencyLevel(LatencyLevel.LOW)
     public void advice_low(JoinPoint thisJoinPoint)
     {
-	    if (isLastInputStreamInReaderWithLatency(thisJoinPoint))
-		    lowLatency(thisJoinPoint);
+		latency(LatencyLevel.LOW,thisJoinPoint,(Reader)thisJoinPoint.getTarget());
     }
 
     @Before("(close())")
-    @LatencyLevel(LatencyLevel.MEDIUM)
     public void advice_medium(JoinPoint thisJoinPoint)
     {
-	    if (isLastInputStreamInReaderWithLatency(thisJoinPoint))
-	        mediumLatency(thisJoinPoint);
+	    latency(LatencyLevel.MEDIUM,thisJoinPoint,(Reader)thisJoinPoint.getTarget());
     }
 
     @Before("(read())")
-    @LatencyLevel(LatencyLevel.HIGH)
     public void advice_high(JoinPoint thisJoinPoint)
     {
-	    if (isLastInputStreamInReaderWithLatency(thisJoinPoint))
-	        highLatency(thisJoinPoint);
+        latency(LatencyLevel.HIGH,thisJoinPoint,(Reader)thisJoinPoint.getTarget());
     }
 }

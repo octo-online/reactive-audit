@@ -21,18 +21,14 @@ public class WriterAspect extends AbstractWriterAudit
 	public void write() { }
 
     @Before("(append() || close())")
-    @LatencyLevel(LatencyLevel.MEDIUM)
     public void advice_medium(JoinPoint thisJoinPoint)
     {
-	    if (isLastOutputStreamFromWriterWithLatency(thisJoinPoint))
-	        mediumLatency(thisJoinPoint);
+		latency(LatencyLevel.MEDIUM,thisJoinPoint,(Writer)thisJoinPoint.getTarget());
     }
 
     @Before("(write() || flush())")
-    @LatencyLevel(LatencyLevel.HIGH)
     public void advice_high(JoinPoint thisJoinPoint)
     {
-	    if (isLastOutputStreamFromWriterWithLatency(thisJoinPoint))
-	        highLatency(thisJoinPoint);
+		latency(LatencyLevel.HIGH,thisJoinPoint,(Writer)thisJoinPoint.getTarget());
     }
 }

@@ -5,6 +5,9 @@ import org.junit.Test;
 
 import java.io.*;
 
+import static com.octo.reactive.audit.TestTools.pop;
+import static com.octo.reactive.audit.TestTools.push;
+
 /**
  * Created by pprados on 06/05/14.
  */
@@ -13,7 +16,16 @@ public class ObjectOutputStreamTest extends FileOutputStreamTest
 	@Override
 	protected OutputStream newOutputStream() throws IOException
 	{
-		return new ObjectOutputStream(super.newOutputStream());
+		push();
+		OutputStream out = super.newOutputStream();
+		pop();
+		return new ObjectOutputStream(out);
+	}
+	@Override
+	@Test
+	public void New() throws IOException
+	{
+		super.New();
 	}
 	@Test
 	public void derived() throws IOException

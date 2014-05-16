@@ -16,6 +16,7 @@ repositories {
 }
 
 project.ext {
+//    aspectjVersion = '1.7.2'
     aspectjVersion = '1.8.0'
 }
 
@@ -40,12 +41,12 @@ task wrapper(type: Wrapper) {
 
 test {
     // Juste pour afficher les logs dans les tests
-    //testLogging.showStandardStreams = true
+    testLogging.showStandardStreams = true
     beforeTest { descriptor ->
         logger.lifecycle("Running test: " + descriptor)
     }
     include 'com/octo/reactive/audit/**'
-    def weaver=""
-    weaver="-javaagent:"+project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
+//    include 'com/octo/reactive/audit/java/io/**'
+    def weaver="-javaagent:"+project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
     jvmArgs weaver
 }

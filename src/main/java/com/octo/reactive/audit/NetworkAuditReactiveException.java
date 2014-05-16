@@ -3,6 +3,8 @@ package com.octo.reactive.audit;
 /**
  * Created by pprados on 06/05/14.
  */
+// FIXME: dans le package client
+
 public class NetworkAuditReactiveException extends AuditReactiveException
 {
     public NetworkAuditReactiveException(String message)

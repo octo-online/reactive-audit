@@ -15,7 +15,10 @@ public class ObjectInputStreamTest extends AuditedInputStreamTest
 	@Override
 	protected InputStream newInputStream() throws IOException
 	{
-		return new ObjectInputStream(new FileInputStream(getFileIn()));
+		push();
+		FileInputStream in = new FileInputStream(getFileIn()); // FIXME: super ?
+		pop();
+		return new ObjectInputStream(in);
 	}
 	private File getFileIn() throws IOException
 	{
@@ -30,14 +33,24 @@ public class ObjectInputStreamTest extends AuditedInputStreamTest
 		pop();
 		return f;
 	}
+	@Override
+	@Test
+	public void New() throws IOException
+	{
+		super.New();
+	}
 	@Test
 	public void derived() throws IOException
 	{
+		ByteArrayOutputStream buf=new ByteArrayOutputStream(100);
+		ObjectOutputStream obj=new ObjectOutputStream(buf);
+		obj.writeObject("");
+		obj.close();
 		class Derived extends ObjectInputStream
 		{
 			Derived() throws IOException
 			{
-				super(new ByteArrayInputStream(new byte[10]));
+				super(new ByteArrayInputStream(buf.toByteArray()));
 			}
 		};
 		new Derived();

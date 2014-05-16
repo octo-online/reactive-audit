@@ -22,26 +22,20 @@ public class InputStreamAspect extends AbstractInputStreamAudit
     public void close() { }
 
 	@Before("(available() || skip())")
-    @LatencyLevel(LatencyLevel.LOW)
     public void advice_low(JoinPoint thisJoinPoint)
     {
-	    if (isLastInputStreamWithLatency((InputStream) thisJoinPoint.getTarget()))
-	        lowLatency(thisJoinPoint);
+        latency(LatencyLevel.LOW,thisJoinPoint,(InputStream)thisJoinPoint.getTarget());
     }
 
     @Before("(close())")
-    @LatencyLevel(LatencyLevel.MEDIUM)
     public void advice_medium(JoinPoint thisJoinPoint)
     {
-	    if (isLastInputStreamWithLatency((InputStream) thisJoinPoint.getTarget()))
-	        mediumLatency(thisJoinPoint);
+        latency(LatencyLevel.MEDIUM,thisJoinPoint,(InputStream)thisJoinPoint.getTarget());
     }
 
     @Before("(read())")
-    @LatencyLevel(LatencyLevel.HIGH)
     public void advice_high(JoinPoint thisJoinPoint)
     {
-	    if (isLastInputStreamWithLatency((InputStream) thisJoinPoint.getTarget()))
-		    highLatency(thisJoinPoint);
+	    latency(LatencyLevel.HIGH,thisJoinPoint,(InputStream)thisJoinPoint.getTarget());
     }
 }

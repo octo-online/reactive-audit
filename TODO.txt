@@ -1,0 +1,2 @@
+Voir http://www.infoq.com/articles/Type-Annotations-in-Java-8?utm_campaign=infoq_content&utm_source=infoq&utm_medium=feed&utm_term=global
+et le framework http://types.cs.washington.edu/checker-framework/

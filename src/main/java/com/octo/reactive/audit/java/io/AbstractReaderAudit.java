@@ -30,11 +30,10 @@ public class AbstractReaderAudit extends AbstractInputStreamAudit
 		}
 	}
 
-	protected boolean isLastInputStreamInReaderWithLatency(JoinPoint thisJoinPoint)
+	protected boolean isLastInputStreamInReaderWithLatency(Reader reader)
 	{
 		try
 		{
-			Reader reader = (Reader) thisJoinPoint.getTarget();
 			while (reader instanceof FilterReader
 					|| reader instanceof BufferedReader)
 			{
@@ -60,5 +59,11 @@ public class AbstractReaderAudit extends AbstractInputStreamAudit
 			throw new Error(e);
 		}
 	}
-
+	protected void latency(int level,JoinPoint thisJoinPoint,Reader reader)
+	{
+		if (isLastInputStreamInReaderWithLatency(reader))
+		{
+			super.latency(level,thisJoinPoint);
+		}
+	}
 }

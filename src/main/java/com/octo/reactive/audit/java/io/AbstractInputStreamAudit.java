@@ -1,6 +1,7 @@
 package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.AbstractAudit;
+import org.aspectj.lang.JoinPoint;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -63,4 +64,11 @@ public class AbstractInputStreamAudit extends AbstractAudit
 		return (in instanceof FileInputStream);
 	}
 
+	protected void latency(int level,JoinPoint thisJoinPoint,InputStream in)
+	{
+		if (isLastInputStreamWithLatency(in))
+		{
+			super.latency(level,thisJoinPoint);
+		}
+	}
 }

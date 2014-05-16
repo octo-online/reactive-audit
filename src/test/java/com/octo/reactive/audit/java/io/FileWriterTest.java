@@ -1,5 +1,6 @@
 package com.octo.reactive.audit.java.io;
 
+import com.octo.reactive.audit.AuditReactiveException;
 import org.junit.Test;
 
 import java.io.FileReader;
@@ -17,7 +18,13 @@ public class FileWriterTest extends OutputStreamWriterTest
 	{
 		return new FileWriter(getFileOut());
 	}
-	@Test
+	@Test(expected=AuditReactiveException.class)
+	public void New() throws IOException
+	{
+		super.New();
+	}
+
+	@Test(expected=AuditReactiveException.class)
 	public void derived() throws IOException
 	{
 		class Derived extends FileWriter

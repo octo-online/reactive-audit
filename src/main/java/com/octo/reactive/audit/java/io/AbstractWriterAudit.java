@@ -52,9 +52,7 @@ public class AbstractWriterAudit extends AbstractOutputStreamAudit
 				}
 				else
 				{
-					System.err.println("ICI BUFFERED");
 					writer=(Writer) fieldOutBufferedWriter.get(writer);
-					System.err.println("writer="+writer);
 				}
 			}
 			if (writer instanceof OutputStreamWriter)

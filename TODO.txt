@@ -1,2 +1,4 @@
 Voir http://www.infoq.com/articles/Type-Annotations-in-Java-8?utm_campaign=infoq_content&utm_source=infoq&utm_medium=feed&utm_term=global
 et le framework http://types.cs.washington.edu/checker-framework/
+
+Voir : http://blog.xebia.fr/2008/05/02/java-agent-instrumentez-vos-classes/

@@ -29,4 +29,18 @@ public class FilterOutputStreamTest extends FileOutputStreamTest
 		super.New();
 	}
 
+	@Test
+	@Override
+	public void derived() throws IOException
+	{
+		class Derived extends FilterOutputStream
+		{
+			Derived() throws IOException
+			{
+				super(newOutputStream());
+			}
+		};
+		new Derived();
+	}
+
 }

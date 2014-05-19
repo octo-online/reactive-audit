@@ -29,7 +29,8 @@ public class PushbackInputStreamTest extends FileInputStreamTest
 	}
 
 	@Test
-	public void derived_2() throws IOException
+	@Override
+	public void derived() throws IOException
 	{
 		class Derived extends PrintWriter
 		{

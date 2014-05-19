@@ -1,6 +1,7 @@
 package com.octo.reactive.audit;
 
 /**
+ * Helper for unit test.
  * Created by pprados on 12/05/2014.
  */
 public class TestTools

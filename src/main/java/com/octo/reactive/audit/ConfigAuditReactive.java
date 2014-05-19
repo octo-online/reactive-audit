@@ -2,6 +2,7 @@ package com.octo.reactive.audit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
@@ -15,10 +16,11 @@ import java.util.regex.Pattern;
     // TODO: testu de cette classe
 public class ConfigAuditReactive
 {
-	public static final int None     = 3;// FIXME: 0;
+	public static final int None     = 0;// FIXME: 0;
 	public static final int Error    = 1;
 	public static final int Warn     = 2;
 	public static final int Info     = 3;
+	public static final int Debug    = 4;
 	private             int logLevel = None;
 
 	void setLogLevel(int aLevel)
@@ -62,12 +64,25 @@ public class ConfigAuditReactive
 			log_(Info, String.format(format, args));
 	}
 
+	public void debug(Object msg)
+	{
+		if (logLevel >= Debug)
+			log_(Debug, msg.toString());
+	}
+
+	public void debug(String format, String... args)
+	{
+		if (logLevel >= Debug)
+			log_(Debug, String.format(format, args));
+	}
+
 	final String[] levels = new String[]
 			{
 					"",
-					"Error:",
-					"Warn:",
-					"Info:"
+					"ERROR: ",
+					"WARN : ",
+					"INFO : ",
+					"DEBUG: "
 			};
 
 	private void log_(int level, String msg)
@@ -76,18 +91,46 @@ public class ConfigAuditReactive
 	}
 
 
-
-	private static final String defaultThreadPattern="^(ForkJoinPool-.*|Test worker)";
-	private       boolean throwExceptions = false;
-	private       Pattern threadPattern   = Pattern.compile(defaultThreadPattern);
-	private       long bootstrapDelay = 0L;
-	private ThreadLocal<Integer> suppressAudit=new ThreadLocal()
+	private static final String               DEFAULT_THREAD_PATTERN = "^(ForkJoinPool-.*)";
+	private              boolean              throwExceptions        = false;
+	private              Pattern              threadPattern          = Pattern.compile(DEFAULT_THREAD_PATTERN);
+	private              long                 bootstrapStart         = 0L;
+	private              long                 bootstrapDelay         = 0L;
+	private              boolean              afterBootstrap         = false;
+	private volatile     boolean              started                = false;
+	private              ThreadLocal<Integer> suppressAudit          = new ThreadLocal()
 	{
-		@Override protected Integer initialValue() {
+		@Override
+		protected Integer initialValue()
+		{
 			return 0;
 		}
 	};
-	private Stack<Transaction> stack = new Stack<>();
+	private              Stack<Transaction>   stack                  = new Stack<>();
+
+	synchronized void startup()
+	{
+		if (!started)
+		{
+			bootstrapStart = System.currentTimeMillis();
+			Properties properties = new Properties();
+			String url = System.getenv("auditReactive");  // FIXME: costrante
+			if (url == null) url = LoadParams.DEFAULT_FILENAME;
+			url = System.getProperty("auditReactive", url);
+			new LoadParams(this, url).commit();
+			started = true;
+			info("Start");
+		}
+	}
+
+	void shutdown()
+	{
+		if (started)
+		{
+			info("Shutdown");
+			started = false;
+		}
+	}
 
 	/**
 	 * Increment the thread local variable to suppress audit for the current stack.
@@ -131,8 +174,20 @@ public class ConfigAuditReactive
 	 */
 	boolean isSuppressAudit()
 	{
-		return suppressAudit.get()!=0;
+		return suppressAudit.get() != 0;
 	}
+
+	boolean isAfterStartupDelay()
+	{
+		if (afterBootstrap) return true;
+		if ((System.currentTimeMillis() - bootstrapStart) > bootstrapDelay)
+		{
+			afterBootstrap = true;
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Return the current bootstrap delay before start the audit.
 	 * @return The delay in MS after the startup.
@@ -292,7 +347,7 @@ public class ConfigAuditReactive
 			config.begin()
 					.throwExceptions(false)
 					.log(Warn)
-					.threadPattern(defaultThreadPattern)
+					.threadPattern(DEFAULT_THREAD_PATTERN)
 					.bootStrapDelay(0);
 	/**
 	 * A transaction with 'off' audit.

@@ -15,7 +15,7 @@ import java.lang.reflect.Field;
 @Aspect
 public class FileReaderAspect extends AbstractReaderAudit
 {
-	@Before("call(java.io.FileReader.new(..))")
+	@Before("call(java.io.FileReader+.new(..))")
 	public void new_(JoinPoint thisJoinPoint) throws AuditReactiveException
 	{
 		latency(LatencyLevel.LOW,thisJoinPoint);

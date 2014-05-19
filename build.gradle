@@ -30,6 +30,8 @@ dependencies {
     compile "org.aspectj:aspectjrt:${aspectjVersion}"
     compile "org.aspectj:aspectjtools:${aspectjVersion}"
     testCompile group: 'junit', name: 'junit', version: '4.11'
+    //testCompile "org.aspectj:aspectjrt:${aspectjVersion}"
+    //testcompile "org.aspectj:aspectjtools:${aspectjVersion}"
     testRuntime "org.aspectj:aspectjweaver:${aspectjVersion}"
     testRuntime "org.aspectj:aspectjrt:${aspectjVersion}"
 
@@ -42,11 +44,12 @@ task wrapper(type: Wrapper) {
 test {
     // Juste pour afficher les logs dans les tests
     testLogging.showStandardStreams = true
-    beforeTest { descriptor ->
-        logger.lifecycle("Running test: " + descriptor)
-    }
+//    beforeTest { descriptor ->
+//        logger.lifecycle("Running test: " + descriptor)
+//    }
     include 'com/octo/reactive/audit/**'
 //    include 'com/octo/reactive/audit/java/io/**'
-    def weaver="-javaagent:"+project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
-    jvmArgs weaver
+    def weaver="-javaagent:" +
+        project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
+    jvmArgs " -DauditReactive=testAuditReactive.properties " + weaver
 }

@@ -3,6 +3,7 @@
         <!-- Global -->
         <!--FIXME-->
         <!--<aspect name="com.octo.reactive.audit.DumpJoinPoint"/>-->
+        <aspect name="com.octo.reactive.audit.MainAspect"/>
         <aspect name="com.octo.reactive.audit.SuppressAuditReactiveAspect"/>
         <aspect name="com.octo.reactive.audit.WithLatencyAspect"/>
 

@@ -13,8 +13,7 @@ import java.io.OutputStream;
 @Aspect
 public class FileOutputStreamAspect extends AbstractOutputStreamAudit
 {
-	// FIXME: After ? Et récupération du target ?
-	@Before("call(java.io.FileOutputStream.new(..))")
+	@Before("call(java.io.FileOutputStream+.new(..))")
     public void new_(JoinPoint thisJoinPoint)
     {
         latency(LatencyLevel.LOW,thisJoinPoint);

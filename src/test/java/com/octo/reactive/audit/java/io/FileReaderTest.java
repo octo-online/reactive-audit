@@ -40,7 +40,7 @@ public class FileReaderTest extends InputStreamReaderTest
 			ConfigAuditReactive.off.commit();
 		}
 	}
-	@Test
+	@Test(expected=AuditReactiveException.class)
 	public void derived() throws IOException
 	{
 		class Derived extends FileReader

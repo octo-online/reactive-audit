@@ -1,26 +1,33 @@
 <aspectj>
     <aspects>
         <!-- Global -->
-        <!--FIXME-->
         <!--<aspect name="com.octo.reactive.audit.DumpJoinPoint"/>-->
         <aspect name="com.octo.reactive.audit.MainAspect"/>
         <aspect name="com.octo.reactive.audit.SuppressAuditReactiveAspect"/>
         <aspect name="com.octo.reactive.audit.WithLatencyAspect"/>
 
+        <!-- java.lang -->
+        <aspect name="com.octo.reactive.audit.java.lang.ObjectAspect"/>
+        <aspect name="com.octo.reactive.audit.java.lang.ProcessAspect"/>
+        <aspect name="com.octo.reactive.audit.java.lang.ThreadAspect"/>
 
-        <!-- InputStream -->
+        <!-- java.io -->
+        <aspect name="com.octo.reactive.audit.java.io.FlushableAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.FileAspect"/>
+
+        <!-- java.io.InputStream+ -->
         <aspect name="com.octo.reactive.audit.java.io.InputStreamAspect"/>
         <aspect name="com.octo.reactive.audit.java.io.FileInputStreamAspect"/>
 
-        <!-- OutputStream -->
+        <!-- java.io.OutputStream+ -->
         <aspect name="com.octo.reactive.audit.java.io.OutputStreamAspect"/>
         <aspect name="com.octo.reactive.audit.java.io.FileOutputStreamAspect"/>
 
-        <!-- Reader -->
+        <!-- java.io.Reader+ -->
         <aspect name="com.octo.reactive.audit.java.io.ReaderAspect"/>
         <aspect name="com.octo.reactive.audit.java.io.FileReaderAspect"/>
 
-        <!-- Writer -->
+        <!-- java.io.Writer+ -->
         <aspect name="com.octo.reactive.audit.java.io.WriterAspect"/>
         <aspect name="com.octo.reactive.audit.java.io.FileWriterAspect"/>
         <aspect name="com.octo.reactive.audit.java.io.BufferedWriterAspect"/>

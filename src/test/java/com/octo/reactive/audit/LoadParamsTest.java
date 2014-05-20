@@ -19,7 +19,7 @@ public class LoadParamsTest
 		System.setProperty("auditReactive.threadPattern","abc");
 		System.setProperty("auditReactive.bootstrapDelay","10");
 		new LoadParams(ConfigAuditReactive.config,LoadParams.DEFAULT_FILENAME).commit();
-		assertEquals(ConfigAuditReactive.Info,ConfigAuditReactive.config.getLogLevel());
+		assertEquals(Logger.Info,ConfigAuditReactive.config.getLogLevel());
 		assertEquals(true,ConfigAuditReactive.config.isThrow());
 		assertEquals("abc",ConfigAuditReactive.config.getThreadPattern());
 		assertEquals(10,ConfigAuditReactive.config.getBootstrapDelay());

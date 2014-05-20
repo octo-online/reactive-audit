@@ -9,88 +9,9 @@ import java.util.regex.Pattern;
 /**
  * Created by pprados on 07/05/14.
  */
-// FIXME: dans le package client
-
-// TODO : systemProperty 'some.prop', 'value'
-// TODO : java.io.File
-    // TODO: testu de cette classe
 public class ConfigAuditReactive
 {
-	public static final int None     = 0;// FIXME: 0;
-	public static final int Error    = 1;
-	public static final int Warn     = 2;
-	public static final int Info     = 3;
-	public static final int Debug    = 4;
-	private             int logLevel = None;
-
-	void setLogLevel(int aLevel)
-	{
-		logLevel = aLevel;
-	}
-
-	public void error(Object msg)
-	{
-		if (logLevel >= Error)
-			log_(Error, msg.toString());
-	}
-
-	public void error(String format, String... args)
-	{
-		if (logLevel >= Error)
-			log_(Error, String.format(format, args));
-	}
-
-	public void warn(Object msg)
-	{
-		if (logLevel >= Warn)
-			log_(Warn, msg.toString());
-	}
-
-	public void warn(String format, String... args)
-	{
-		if (logLevel >= Warn)
-			log_(Warn, String.format(format, args));
-	}
-
-	public void info(Object msg)
-	{
-		if (logLevel >= Info)
-			log_(Info, msg.toString());
-	}
-
-	public void info(String format, String... args)
-	{
-		if (logLevel >= Info)
-			log_(Info, String.format(format, args));
-	}
-
-	public void debug(Object msg)
-	{
-		if (logLevel >= Debug)
-			log_(Debug, msg.toString());
-	}
-
-	public void debug(String format, String... args)
-	{
-		if (logLevel >= Debug)
-			log_(Debug, String.format(format, args));
-	}
-
-	final String[] levels = new String[]
-			{
-					"",
-					"ERROR: ",
-					"WARN : ",
-					"INFO : ",
-					"DEBUG: "
-			};
-
-	private void log_(int level, String msg)
-	{
-		System.err.println(levels[level] + msg); // FIXME
-	}
-
-
+	Logger  logger=new Logger();
 	private static final String               DEFAULT_THREAD_PATTERN = "^(ForkJoinPool-.*)";
 	private              boolean              throwExceptions        = false;
 	private              Pattern              threadPattern          = Pattern.compile(DEFAULT_THREAD_PATTERN);
@@ -106,7 +27,8 @@ public class ConfigAuditReactive
 			return 0;
 		}
 	};
-	private              Stack<Transaction>   stack                  = new Stack<>();
+	private              Stack<Transaction>   stack                  = new Stack<Transaction>();
+	private              HistoryStackElement  history    = new HistoryStackElement();
 
 	synchronized void startup()
 	{
@@ -119,7 +41,7 @@ public class ConfigAuditReactive
 			url = System.getProperty("auditReactive", url);
 			new LoadParams(this, url).commit();
 			started = true;
-			info("Start");
+			logger.info("Start");
 		}
 	}
 
@@ -127,7 +49,7 @@ public class ConfigAuditReactive
 	{
 		if (started)
 		{
-			info("Shutdown");
+			logger.info("Shutdown");
 			started = false;
 		}
 	}
@@ -208,14 +130,6 @@ public class ConfigAuditReactive
 	}
 
 	/**
-	 * Return the current log logLevel.
-	 * @return The log logLevel.
-	 */
-	public int getLogLevel()
-	{
-		return logLevel;
-	}
-	/**
 	 * Return the current thread pattern.
 	 * @return The current thread pattern.
 	 */
@@ -224,13 +138,17 @@ public class ConfigAuditReactive
 		return threadPattern.toString();
 	}
 
+	public int getLogLevel()
+	{
+		return logger.getLogLevel();
+	}
 	/**
 	 * @return Return a transaction with the current value.
 	 */
 	private Transaction current()
 	{
 		return new Transaction()
-				.log(logLevel)
+				.log(logger.getLogLevel())
 				.throwExceptions(throwExceptions)
 				.threadPattern(threadPattern.toString())
 				.bootStrapDelay(bootstrapDelay);
@@ -258,7 +176,18 @@ public class ConfigAuditReactive
 	public class Transaction
 	{
 		private List<Runnable> cmds = new ArrayList<>();
+		private boolean readOnly;
 
+		private void add(Runnable cmd)
+		{
+			if (readOnly) throw new IllegalArgumentException("Read only");
+			cmds.add(cmd);
+		}
+		Transaction setReadOnly()
+		{
+			readOnly=true;
+			return this;
+		}
 		/**
 		 * Ask to throw an exception if detect an error.
 		 * May be apply after the commit().
@@ -267,7 +196,7 @@ public class ConfigAuditReactive
 		 */
 		public Transaction throwExceptions(boolean onOff)
 		{
-			cmds.add(() -> throwExceptions = onOff);
+			add(() -> throwExceptions = onOff);
 			return this;
 		}
 
@@ -279,7 +208,7 @@ public class ConfigAuditReactive
 		 */
 		public Transaction log(int level)
 		{
-			cmds.add(() -> setLogLevel(level));
+			add(() -> logger.setLogLevel(level));
 			return this;
 		}
 
@@ -291,7 +220,7 @@ public class ConfigAuditReactive
 		 */
 		public Transaction threadPattern(String pattern)
 		{
-			cmds.add(() -> threadPattern = Pattern.compile(pattern));
+			add(() -> threadPattern = Pattern.compile(pattern));
 			return this;
 		}
 
@@ -303,7 +232,7 @@ public class ConfigAuditReactive
 		 */
 		public Transaction bootStrapDelay(long delay)
 		{
-			cmds.add(()-> bootstrapDelay=delay);
+			add(()-> bootstrapDelay=delay);
 			return this;
 		}
 
@@ -337,25 +266,55 @@ public class ConfigAuditReactive
 	public static final Transaction         strict  =
 			config.begin()
 					.throwExceptions(true)
-					.log(None)
+					.log(Logger.None)
 					.threadPattern(".*")
-					.bootStrapDelay(0);
+					.bootStrapDelay(0)
+					.setReadOnly();
 	/**
 	 * A transaction with 'log only' parameters.
 	 */
 	public static final Transaction         logOnly =
 			config.begin()
 					.throwExceptions(false)
-					.log(Warn)
+					.log(Logger.Warn)
 					.threadPattern(DEFAULT_THREAD_PATTERN)
-					.bootStrapDelay(0);
+					.bootStrapDelay(0)
+					.setReadOnly();
 	/**
 	 * A transaction with 'off' audit.
 	 */
 	public static final Transaction         off     =
 			config.begin()
 					.throwExceptions(false)
-					.log(Error)
+					.log(Logger.Error)
 					.threadPattern("(?!)")
-					.bootStrapDelay(0);
+					.bootStrapDelay(0)
+					.setReadOnly();
+
+	// It's easy to rename the package
+	// FIXME: testu
+	static final String myPackage=ConfigAuditReactive.class.getPackage().getName();
+	public void logIfNew(int level,Object msg)
+	{
+		StackTraceElement[] stack=new Throwable().getStackTrace();
+		// Mount the stacktrace
+
+		for (StackTraceElement caller:stack)
+		{
+			if (!caller.getClassName().startsWith(myPackage)
+					|| caller.getClassName().endsWith("Test")) // Pour les tests interne
+			{
+				if (history.addNewCaller(caller))
+				{
+					System.err.println("Add caller="+caller); // FIXME
+					logger.info(msg);
+				}
+				else
+				{
+					System.err.println("IGNORE caller="+caller); // FIXME
+				}
+				break;
+			}
+		}
+	}
 }

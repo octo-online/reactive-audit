@@ -10,7 +10,6 @@ import static com.octo.reactive.audit.TestTools.*;
  */
 public class FilterWriterTest extends OutputStreamWriterTest
 {
-	// FIXME
 	@Override
 	protected Writer newWriter() throws IOException
 	{

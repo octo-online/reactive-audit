@@ -16,16 +16,16 @@ public class PipedInputStreamTest //extends InputStreamTest
 		return null; // TODO : Pipe
 	}
 
-//	@Test
-//	public void derived() throws IOException
-//	{
-//		class Derived extends OutputStreamWriter
-//		{
-//			Derived() throws IOException
-//			{
-//				super(new ByteArrayOutputStream(10));
-//			}
-//		};
-//		new Derived();
-//	}
+	@Test
+	public void derived() throws IOException
+	{
+		class Derived extends OutputStreamWriter
+		{
+			Derived() throws IOException
+			{
+				super(new ByteArrayOutputStream(10));
+			}
+		};
+		new Derived();
+	}
 }

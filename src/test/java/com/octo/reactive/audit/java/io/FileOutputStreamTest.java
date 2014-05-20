@@ -2,6 +2,7 @@ package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.AuditReactiveException;
 import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.FileAuditReactiveException;
 import org.junit.Test;
 
 import java.io.*;
@@ -30,12 +31,12 @@ public class FileOutputStreamTest extends AuditOutputStreamTest
         return f;
     }
 	@Override
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void New() throws IOException
 	{
 		super.New();
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void derived() throws IOException
 	{
 		class Derived extends FileOutputStream

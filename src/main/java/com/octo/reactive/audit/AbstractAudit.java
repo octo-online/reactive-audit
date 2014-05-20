@@ -26,7 +26,7 @@ public class AbstractAudit
 		    if (!config.isAfterStartupDelay())
 			    return;
 		    // FIXME: level of trace
-		    config.info(thisJoinPoint.getSignature());
+		    config.logIfNew(level,thisJoinPoint.getSignature());
 		    if (config.isThrow())  // LOW, MEDIUM, HIGH ?
 			    throw new FileAuditReactiveException(thisJoinPoint.getSignature().toString());
 	    }

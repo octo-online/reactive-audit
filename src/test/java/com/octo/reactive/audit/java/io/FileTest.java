@@ -2,6 +2,7 @@ package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.AuditReactiveException;
 import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.FileAuditReactiveException;
 import org.junit.Test;
 
 import java.io.File;
@@ -26,80 +27,80 @@ public class FileTest
 		return f;
 	}
 
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void createNewFile() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();
 		getFileIn().createNewFile();
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void createTempFile() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();
 		File.createTempFile("prefix","suffix");
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void delete() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();
 		getFileIn().delete();
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void exists() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();
 		getFileIn().exists();
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void getFreeSpace() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();
 		getFileIn().getFreeSpace();
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void getTotalSpace() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();
 		getFileIn().getTotalSpace();
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void getUsableSpace() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();
 		getFileIn().getUsableSpace();
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void list() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();
 		getFileIn().list();
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void listFiles() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();
 		getFileIn().listFiles();
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void mkdir() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();
 		getFileIn().mkdir();
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void mkdirs() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();
 		getFileIn().mkdirs();
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void renameTo() throws IOException
 	{
 		File newName=new File("toto");
 		ConfigAuditReactive.strict.commit();
 		getFileIn().renameTo(newName);
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void setX() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();

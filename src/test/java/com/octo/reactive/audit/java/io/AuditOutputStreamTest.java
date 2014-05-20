@@ -2,6 +2,7 @@ package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.AuditReactiveException;
 import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.FileAuditReactiveException;
 import org.junit.Test;
 
 import java.io.File;
@@ -22,31 +23,31 @@ public abstract class AuditOutputStreamTest extends OutputStreamTest
 //		super.New();
 //	}
 	@Override
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void flush() throws IOException
 	{
 		super.flush();
 	}
 	@Override
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void close() throws IOException
 	{
 		super.close();
 	}
 	@Override
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void write_b() throws IOException
 	{
 		super.write_b();
 	}
 	@Override
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void write_B() throws IOException
 	{
 		super.write_B();
 	}
 	@Override
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void write_Bii() throws IOException
 	{
 		super.write_Bii();

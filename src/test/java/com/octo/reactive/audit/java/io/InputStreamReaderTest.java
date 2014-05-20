@@ -2,6 +2,7 @@ package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.AuditReactiveException;
 import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.FileAuditReactiveException;
 import org.junit.Test;
 
 import java.io.*;
@@ -32,7 +33,7 @@ public class InputStreamReaderTest extends AuditedReaderTest
 		return f;
 	}
 	// FIXME: est-ce ncessaire ?
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void read_with_FilterInputStream() throws IOException
 	{
 		ConfigAuditReactive.off.commit();

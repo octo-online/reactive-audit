@@ -2,6 +2,7 @@ package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.AuditReactiveException;
 import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.FileAuditReactiveException;
 import org.junit.Test;
 import static com.octo.reactive.audit.TestTools.*;
 
@@ -21,7 +22,7 @@ public class FileReaderTest extends InputStreamReaderTest
 		Reader in = new FileReader(fileIn);
 		return in;
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	@Override
 	public void New() throws IOException
 	{
@@ -31,7 +32,7 @@ public class FileReaderTest extends InputStreamReaderTest
 			ConfigAuditReactive.off.commit();
 		}
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void New_String() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();
@@ -40,7 +41,7 @@ public class FileReaderTest extends InputStreamReaderTest
 			ConfigAuditReactive.off.commit();
 		}
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void derived() throws IOException
 	{
 		class Derived extends FileReader

@@ -12,7 +12,7 @@ import java.io.Writer;
 public class FlushableTest
 {
 	// FIXME: les jars des JDKs ne sont pas les bons
-//	@Test
+//	@Test(expected=FileAuditReactiveException.class)
 //	public void flush() throws IOException
 //	{
 //		ConfigAuditReactive.strict.commit();

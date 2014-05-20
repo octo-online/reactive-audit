@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 /**
  * Created by pprados on 16/05/2014.
  */
-public class LoadParams
+class LoadParams
 {
 	public static final String DEFAULT_FILENAME="testAuditReactive.properties";
 	private static final String PREFIX="auditReactive.";
@@ -42,7 +42,7 @@ public class LoadParams
 			}
 			catch (MalformedURLException ee)
 			{
-				config.warn(propertiesFile+" malformed");
+				config.logger.warn(propertiesFile+" malformed");
 			}
 		}
 	}
@@ -59,11 +59,11 @@ public class LoadParams
 	{
 		switch (param.toLowerCase())
 		{
-			case "error" : tx.log(ConfigAuditReactive.Error); break;
-			case "warn" : tx.log(ConfigAuditReactive.Warn); break;
-			case "info" : tx.log(ConfigAuditReactive.Info); break;
-			case "debug" : tx.log(ConfigAuditReactive.Debug); break;
-			default: tx.log(ConfigAuditReactive.None); break;
+			case "error" : tx.log(Logger.Error); break;
+			case "warn" : tx.log(Logger.Warn); break;
+			case "info" : tx.log(Logger.Info); break;
+			case "debug" : tx.log(Logger.Debug); break;
+			default: tx.log(Logger.None); break;
 		}
 	}
 	private void parseThreadPattern(String param)
@@ -89,14 +89,14 @@ public class LoadParams
 		}
 		catch (IOException e)
 		{
-			config.info(filename + " not found");
+			config.logger.info(filename + " not found");
 		}
 		// 3. Set from JVM -D
 		applyProperties(System.getProperties(), PREFIX);
 		tx.commit();
-		config.debug("threadPattern  = " + config.getThreadPattern());
-		config.debug("throwExceptions= "+config.isThrow());
-		config.debug("bootstrapDelay = " + config.getBootstrapDelay());
+		config.logger.debug("threadPattern  = " + config.getThreadPattern());
+		config.logger.debug("throwExceptions= "+config.isThrow());
+		config.logger.debug("bootstrapDelay = " + config.getBootstrapDelay());
 	}
 	private void applyEnv(String prefix)
 	{

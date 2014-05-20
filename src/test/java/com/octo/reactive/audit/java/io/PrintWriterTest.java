@@ -2,6 +2,7 @@ package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.AuditReactiveException;
 import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.FileAuditReactiveException;
 import org.junit.Test;
 
 import java.io.*;
@@ -23,7 +24,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 		return new PrintWriter(writer);
 	}
 
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void format_Locale_String_Objects() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
@@ -33,7 +34,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 			out.format(Locale.getDefault(),"","");
 		}
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void format_Locale_Objects() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
@@ -43,7 +44,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 			out.format(Locale.getDefault(),"");
 		}
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void print_b() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
@@ -53,7 +54,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 			out.print(true);
 		}
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void print_i() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
@@ -64,7 +65,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 		}
 	}
 
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void printf_Locale_String_Object() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
@@ -74,7 +75,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 			out.printf(Locale.getDefault(),"",3);
 		}
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void printf_Locale_Object() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
@@ -84,7 +85,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 			out.printf(Locale.getDefault(),"");
 		}
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void println_b() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
@@ -94,7 +95,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 			out.println(true);
 		}
 	}
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected=FileAuditReactiveException.class)
 	public void println_i() throws IOException
 	{
 		ConfigAuditReactive.off.commit();

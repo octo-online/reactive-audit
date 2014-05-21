@@ -1,6 +1,7 @@
 package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.AuditReactiveException;
+import com.octo.reactive.audit.Latency;
 import org.aspectj.lang.JoinPoint;
 
 import java.io.*;
@@ -44,15 +45,15 @@ public class AbstractWriterAudit extends AbstractOutputStreamAudit
 			{
 				if (writer instanceof FilterWriter)
 				{
-					writer=(Writer) fieldOutFilterWriter.get(writer);
+					writer = (Writer) fieldOutFilterWriter.get(writer);
 				}
 				else if (writer instanceof PrintWriter)
 				{
-					writer=(Writer)fieldOutPrintWriter.get(writer);
+					writer = (Writer) fieldOutPrintWriter.get(writer);
 				}
 				else
 				{
-					writer=(Writer) fieldOutBufferedWriter.get(writer);
+					writer = (Writer) fieldOutBufferedWriter.get(writer);
 				}
 			}
 			if (writer instanceof OutputStreamWriter)
@@ -70,9 +71,9 @@ public class AbstractWriterAudit extends AbstractOutputStreamAudit
 		}
 	}
 
-	protected void latency(int level,JoinPoint thisJoinPoint,Writer writer) throws AuditReactiveException
+	protected void latency(Latency level, JoinPoint thisJoinPoint, Writer writer) throws AuditReactiveException
 	{
 		if (isLastOutputStreamFromWriterWithLatency(writer))
-			super.latency(level,thisJoinPoint);
+			super.latency(level, thisJoinPoint);
 	}
 }

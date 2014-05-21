@@ -1,9 +1,13 @@
 package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.AbstractAudit;
+import com.octo.reactive.audit.Latency;
 import org.aspectj.lang.JoinPoint;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FilterInputStream;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.lang.reflect.Field;
 
 public class AbstractInputStreamAudit extends AbstractAudit
@@ -22,9 +26,9 @@ public class AbstractInputStreamAudit extends AbstractAudit
 			fieldInFilterInputStream.setAccessible(true);
 			fieldBinObjectInputStream = ObjectInputStream.class.getDeclaredField("bin");
 			fieldBinObjectInputStream.setAccessible(true);
-			fieldInObjectInputStream =fieldBinObjectInputStream.getType().getDeclaredField("in");
+			fieldInObjectInputStream = fieldBinObjectInputStream.getType().getDeclaredField("in");
 			fieldInObjectInputStream.setAccessible(true);
-			fieldPeekObjectInputStream =fieldInObjectInputStream.getType().getDeclaredField("in");
+			fieldPeekObjectInputStream = fieldInObjectInputStream.getType().getDeclaredField("in");
 			fieldPeekObjectInputStream.setAccessible(true);
 		}
 		catch (NoSuchFieldException e)
@@ -47,13 +51,13 @@ public class AbstractInputStreamAudit extends AbstractAudit
 				}
 				else
 				{
-					ObjectInputStream objIn=(ObjectInputStream)in;
+					ObjectInputStream objIn = (ObjectInputStream) in;
 					// Ok for Java8
-					in=(InputStream)fieldPeekObjectInputStream.get(
-								fieldInObjectInputStream.get(
+					in = (InputStream) fieldPeekObjectInputStream.get(
+							fieldInObjectInputStream.get(
 									fieldBinObjectInputStream.get(objIn)
-								)
-						);
+							)
+					);
 				}
 			}
 			catch (IllegalAccessException e)
@@ -64,11 +68,11 @@ public class AbstractInputStreamAudit extends AbstractAudit
 		return (in instanceof FileInputStream);
 	}
 
-	protected void latency(int level,JoinPoint thisJoinPoint,InputStream in)
+	protected void latency(Latency level, JoinPoint thisJoinPoint, InputStream in)
 	{
 		if (isLastInputStreamWithLatency(in))
 		{
-			super.latency(level,thisJoinPoint);
+			super.latency(level, thisJoinPoint);
 		}
 	}
 }

@@ -1,22 +1,14 @@
 package com.octo.reactive.audit;
 
+import static com.octo.reactive.audit.Logger.Level.*;
+import static com.octo.reactive.audit.Logger.Level.Error;
+
 /**
  * Created by pprados on 19/05/2014.
  */
 class Logger
 {
-	@FunctionalInterface
-	public interface DelegateLogger
-	{
-		void log(int level, String msg);
-	}
-
-	public static final int            None     = 0;// FIXME: 0;
-	public static final int            Error    = 1;
-	public static final int            Warn     = 2;
-	public static final int            Info     = 3;
-	public static final int            Debug    = 4;
-	static final String[] levels = new String[]
+	private static final String[] levelsString = new String[]
 			{
 					"",
 					"ERROR: ",
@@ -24,21 +16,18 @@ class Logger
 					"INFO : ",
 					"DEBUG: "
 			};
-
-
 	DelegateLogger delegate =
-			(level, msg) -> System.err.println(levels[level] + msg);  // FIXME
+			(level, msg) -> System.err.println(levelsString[level.ordinal()] + msg);  // FIXME;
+	private Level logLevel = None;
 
-	private int logLevel = None;
-
-	void setLogLevel(int aLevel)
-	{
-		logLevel = aLevel;
-	}
-
-	int getLogLevel()
+	Level getLogLevel()
 	{
 		return logLevel;
+	}
+
+	void setLogLevel(Level aLevel)
+	{
+		logLevel = aLevel;
 	}
 
 	public void error(Object msg)
@@ -81,11 +70,22 @@ class Logger
 		log(Debug, String.format(format, args));
 	}
 
-	void log(int level, String msg)
+	void log(Level level, Object msg)
 	{
 		// TODO: filtre sur level ?
-		if (level>=logLevel)
-			delegate.log(level,msg);
+		if (level.compareTo(logLevel) > 0)
+			delegate.log(level, msg);
+	}
+
+	enum Level
+	{
+		None, Error, Warn, Info, Debug
+	}
+
+	@FunctionalInterface
+	public interface DelegateLogger
+	{
+		void log(Level level, Object msg);
 	}
 
 }

@@ -1,14 +1,21 @@
 package com.octo.reactive.audit;
 
-import static org.junit.Assert.*;
 import org.junit.Test;
+
+import java.io.File;
+
+import static com.octo.reactive.audit.Logger.Level;
+import static com.octo.reactive.audit.Logger.Level.Warn;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 
 /**
  * Created by pprados on 07/05/2014.
  */
 public class ConfigAuditReactiveTest
 {
-	// TODO: completer les tests
+	/*
 	@Test
 	public void testCurrentThread_test()
 	{
@@ -44,56 +51,157 @@ public class ConfigAuditReactiveTest
 		assertEquals("abc",ConfigAuditReactive.config.getThreadPattern());
 		assertEquals(0,ConfigAuditReactive.config.getBootstrapDelay());
 	}
-	@Test
-	public void logIfNew() throws InterruptedException
+	@Test(expected = IllegalArgumentException.class)
+	public void lockTransaction()
 	{
-		ConfigAuditReactive.logOnly.commit();
+		ConfigAuditReactive.config.begin()
+				.seal()
+				.log(Logger.Warn);
+	}
+*/
+	@Test
+	@SuppressAuditReactive // For accept join
+	public void logIfNewThread() throws InterruptedException
+	{
+		ConfigAuditReactive.config.begin()
+				.threadPattern(".*")
+				.log(Warn)
+				.throwExceptions(false)
+				.commit();
 		boolean[] log=new boolean[1];
-		class DelegateLogger implements Logger.DelegateLogger
+		ConfigAuditReactive.config.logger.delegate = new Logger.DelegateLogger()
 		{
-			public void log(int level, String msg)
+			@Override
+			public void log(Level level, Object msg)
 			{
 				log[0]=true;
 			}
-		}
-		ctx1();   // Log
-		assertTrue(log[0]);
-		log[0]=false;
-		ctx2();   // Log
-		assertTrue(log[0]);
-		log[0]=false;
-		ctx1();   // no-Log
-		assertFalse(log[0]);
-		log[0]=false;
-		ctx3();   // Log
-		assertTrue(log[0]);
-		log[0]=false;
-		ctx4();   // Log
-		assertTrue(log[0]);
-		log[0]=false;
-		ctx3();   // no-Log
-		assertFalse(log[0]);
-		log[0]=false;
-		ctx4();   // no-Log
-		assertFalse(log[0]);
-		log[0]=false;
+		};
+		Thread t;
 
+		log[0] = false;
+		// FIXME: ecriture java8 rejeté par aspectj 8.0
+		Runnable rctx1 = new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				latenceCall1();
+			}
+		};
+//		Runnable rctx1=() -> latenceCall1();
+		t = new Thread(rctx1);
+		t.start();
+		t.join();
+		assertTrue(log[0]);
+
+		log[0]=false;
+		Runnable rctx2 = new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				latenceCall2();
+			}
+		};
+		t = new Thread(rctx2);
+		t.start();
+		t.join();
+		assertTrue(log[0]);
+
+		log[0]=false;
+		t = new Thread(rctx1);
+		t.start();
+		t.join();
+		assertFalse(log[0]);
+
+		log[0]=false;
+		Runnable rctx3 = new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				latenceCall3();
+			}
+		};
+		t = new Thread(rctx3);
+		t.start();
+		t.join();
+		assertTrue(log[0]);
+
+		log[0]=false;
+		Runnable rctx4 = new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				latenceCall4();
+			}
+		};
+		t = new Thread(rctx4);
+		t.start();
+		t.join();
+		assertTrue(log[0]);
+
+		log[0]=false;
+		t = new Thread(rctx3);
+		t.start();
+		t.join();
+		assertFalse(log[0]);
+
+		log[0]=false;
+		t = new Thread(rctx4);
+		t.start();
+		t.join();
+		assertFalse(log[0]);
 	}
-	private void ctx1() throws InterruptedException
+
+	@Test
+	public void logIfNewLoop()
 	{
-		Thread.sleep(1);
+		ConfigAuditReactive.config.begin()
+				.threadPattern(".*")
+				.log(Warn)
+				.throwExceptions(false)
+				.commit();
+		boolean[] log = new boolean[1];
+		ConfigAuditReactive.config.logger.delegate = new Logger.DelegateLogger()
+		{
+			@Override
+			public void log(Level level, Object msg)
+			{
+				log[0] = true;
+			}
+		};
+
+		for (int i = 0; i < 10; ++i)
+		{
+			log[0] = false;
+			latenceCall1();
+			if (i == 0) assertTrue(log[0]);
+			else assertFalse(log[0]);
+
+		}
 	}
-	private void ctx2() throws InterruptedException
+
+	private void latenceCall1()
 	{
-		Thread.sleep(1);
+		new File("/").getFreeSpace();
 	}
-	private void ctx3() throws InterruptedException
+
+	private void latenceCall2()
 	{
-		ctx1();
+		new File("/").getFreeSpace();
 	}
-	private void ctx4() throws InterruptedException
+
+	private void latenceCall3()
 	{
-		ctx1();
-		ctx2();
+		latenceCall1();
+	}
+
+	private void latenceCall4()
+	{
+		latenceCall1();
+		latenceCall2();
 	}
 }

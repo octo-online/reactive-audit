@@ -12,9 +12,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface LatencyLevel
 {
-    static final int LOW  = 10;
-    static final int MEDIUM  = 50;
-    static final int HIGH = 100;
+//    static final int LOW  = 10;
+//    static final int MEDIUM  = 50;
+//    static final int HIGH = 100;
 
-    int value();
+	Latency value();
 }

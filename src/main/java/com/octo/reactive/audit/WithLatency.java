@@ -2,6 +2,8 @@ package com.octo.reactive.audit;
 
 import java.lang.annotation.*;
 
+import static com.octo.reactive.audit.Latency.HIGH;
+
 /**
  * Created by pprados on 07/05/2014.
  */
@@ -13,6 +15,7 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 public @interface WithLatency
 {
-	int value() default LatencyLevel.HIGH;
+	Latency value() default HIGH;
+
 	String msg() default "Use latency method";
 }

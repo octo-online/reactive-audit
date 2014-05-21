@@ -1,13 +1,11 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.AbstractAudit;
 import com.octo.reactive.audit.AuditReactiveException;
-import com.octo.reactive.audit.FileAuditReactiveException;
-import com.octo.reactive.audit.LatencyLevel;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 
-import java.io.InputStream;
+import static com.octo.reactive.audit.Latency.LOW;
 
 @Aspect
 public class FileInputStreamAspect extends AbstractInputStreamAudit
@@ -15,6 +13,6 @@ public class FileInputStreamAspect extends AbstractInputStreamAudit
 	@Before("call(java.io.FileInputStream+.new(..))")
 	public void new_(JoinPoint thisJoinPoint) throws AuditReactiveException
 	{
-		latency(LatencyLevel.LOW,thisJoinPoint);
+		latency(LOW, thisJoinPoint);
 	}
 }

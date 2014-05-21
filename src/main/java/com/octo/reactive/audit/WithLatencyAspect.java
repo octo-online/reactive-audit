@@ -1,9 +1,10 @@
 package com.octo.reactive.audit;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+
+import static com.octo.reactive.audit.Latency.HIGH;
 
 /**
  * Created by pprados on 09/05/2014.
@@ -15,6 +16,6 @@ public class WithLatencyAspect extends AbstractAudit
 	public void beforeSuppress(JoinPoint thisJoinPoint)
 			throws AuditReactiveException
 	{
-		latency(LatencyLevel.HIGH,thisJoinPoint);
+		latency(HIGH, thisJoinPoint);
 	}
 }

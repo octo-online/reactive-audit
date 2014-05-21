@@ -1,9 +1,13 @@
 package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.AbstractAudit;
+import com.octo.reactive.audit.Latency;
 import org.aspectj.lang.JoinPoint;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.FilterOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 
 public class AbstractOutputStreamAudit extends AbstractAudit
@@ -44,11 +48,11 @@ public class AbstractOutputStreamAudit extends AbstractAudit
 				}
 				else
 				{
-					ObjectOutputStream objIn=(ObjectOutputStream)out;
+					ObjectOutputStream objIn = (ObjectOutputStream) out;
 					// Ok for Java8
-					out=(OutputStream)fieldOutObjectOutputStream.get(
+					out = (OutputStream) fieldOutObjectOutputStream.get(
 							fieldBoutObjectOutputStream.get(objIn)
-						);
+					);
 				}
 			}
 			catch (IllegalAccessException e)
@@ -58,11 +62,12 @@ public class AbstractOutputStreamAudit extends AbstractAudit
 		}
 		return (out instanceof FileOutputStream);
 	}
-	protected void latency(int level,JoinPoint thisJoinPoint,OutputStream out)
+
+	protected void latency(Latency level, JoinPoint thisJoinPoint, OutputStream out)
 	{
 		if (isLastOutputStreamWithLatency(out))
 		{
-			super.latency(level,thisJoinPoint);
+			super.latency(level, thisJoinPoint);
 		}
 	}
 }

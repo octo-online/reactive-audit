@@ -1,5 +1,6 @@
 package com.octo.reactive.audit.java.io;
 
+import com.octo.reactive.audit.Latency;
 import org.aspectj.lang.JoinPoint;
 
 import java.io.*;
@@ -39,11 +40,11 @@ public class AbstractReaderAudit extends AbstractInputStreamAudit
 			{
 				if (reader instanceof FilterReader)
 				{
-					reader=(Reader)fieldInFilterReader.get(reader);
+					reader = (Reader) fieldInFilterReader.get(reader);
 				}
 				else
 				{
-					reader=(Reader)fieldInBufferedReader.get(reader);
+					reader = (Reader) fieldInBufferedReader.get(reader);
 				}
 			}
 			if (reader instanceof InputStreamReader)
@@ -59,11 +60,12 @@ public class AbstractReaderAudit extends AbstractInputStreamAudit
 			throw new Error(e);
 		}
 	}
-	protected void latency(int level,JoinPoint thisJoinPoint,Reader reader)
+
+	protected void latency(Latency level, JoinPoint thisJoinPoint, Reader reader)
 	{
 		if (isLastInputStreamInReaderWithLatency(reader))
 		{
-			super.latency(level,thisJoinPoint);
+			super.latency(level, thisJoinPoint);
 		}
 	}
 }

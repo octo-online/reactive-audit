@@ -6,20 +6,61 @@ import java.util.Properties;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
+import static com.octo.reactive.audit.Logger.Level;
+import static com.octo.reactive.audit.Logger.Level.Error;
+import static com.octo.reactive.audit.Logger.Level.*;
+
 /**
  * Created by pprados on 07/05/14.
  */
 public class ConfigAuditReactive
 {
-	Logger  logger=new Logger();
-	private static final String               DEFAULT_THREAD_PATTERN = "^(ForkJoinPool-.*)";
-	private              boolean              throwExceptions        = false;
-	private              Pattern              threadPattern          = Pattern.compile(DEFAULT_THREAD_PATTERN);
-	private              long                 bootstrapStart         = 0L;
-	private              long                 bootstrapDelay         = 0L;
-	private              boolean              afterBootstrap         = false;
-	private volatile     boolean              started                = false;
-	private              ThreadLocal<Integer> suppressAudit          = new ThreadLocal()
+	/**
+	 * The singleton with the current parameters.
+	 */
+	public static final  ConfigAuditReactive config                 = new ConfigAuditReactive();
+	/**
+	 * A transaction with 'strict' parameters.
+	 */
+	public static final  Transaction         strict                 =
+			config.begin()
+					.throwExceptions(true)
+					.log(None)
+					.threadPattern(".*")
+					.bootStrapDelay(0)
+					.seal();
+	/**
+	 * A transaction with 'log only' parameters.
+	 */
+	public static final  Transaction         logOnly                =
+			config.begin()
+					.throwExceptions(false)
+					.log(Warn)
+							//.threadPattern(DEFAULT_THREAD_PATTERN)
+					.bootStrapDelay(0)
+					.seal();
+	/**
+	 * A transaction with 'off' audit.
+	 */
+	public static final  Transaction         off                    =
+			config.begin()
+					.throwExceptions(false)
+					.log(Error)
+					.threadPattern("(?!)")
+					.bootStrapDelay(0)
+					.seal();
+	// It's easy to rename the package
+	// FIXME: testu
+	static final         String              myPackage              = ConfigAuditReactive.class.getPackage().getName();
+	private static final String              DEFAULT_THREAD_PATTERN = "^(ForkJoinPool-.*)";
+	private              Pattern             threadPattern          = Pattern.compile(DEFAULT_THREAD_PATTERN);
+	Logger logger = new Logger();
+	private          boolean              throwExceptions = false;
+	private          long                 bootstrapStart  = 0L;
+	private          long                 bootstrapDelay  = 0L;
+	private          boolean              afterBootstrap  = false;
+	private volatile boolean              started         = false;
+	private          ThreadLocal<Integer> suppressAudit   = new ThreadLocal()
 	{
 		@Override
 		protected Integer initialValue()
@@ -27,8 +68,8 @@ public class ConfigAuditReactive
 			return 0;
 		}
 	};
-	private              Stack<Transaction>   stack                  = new Stack<Transaction>();
-	private              HistoryStackElement  history    = new HistoryStackElement();
+	private          Stack<Transaction>   stack           = new Stack<Transaction>();
+	private          HistoryStackElement  history         = new HistoryStackElement(this);
 
 	synchronized void startup()
 	{
@@ -55,7 +96,7 @@ public class ConfigAuditReactive
 	}
 
 	/**
-	 * Increment the thread local variable to suppress audit for the current stack.
+	 * Increment the thread local variable to suppress audit for the current frame.
 	 */
 	void incSuppress()
 	{
@@ -63,7 +104,7 @@ public class ConfigAuditReactive
 	}
 
 	/**
-	 * Decrement the thread local variable to suppress audit for the current stack.
+	 * Decrement the thread local variable to suppress audit for the current frame.
 	 */
 	void decSuppress()
 	{
@@ -90,7 +131,7 @@ public class ConfigAuditReactive
 	}
 
 	/**
-	 * Ask if supress the audit for the current stack.
+	 * Ask if supress the audit for the current frame.
 	 *
 	 * @return <code>true</code> if refuse the audit now.
 	 */
@@ -131,6 +172,7 @@ public class ConfigAuditReactive
 
 	/**
 	 * Return the current thread pattern.
+	 *
 	 * @return The current thread pattern.
 	 */
 	public String getThreadPattern()
@@ -138,10 +180,11 @@ public class ConfigAuditReactive
 		return threadPattern.toString();
 	}
 
-	public int getLogLevel()
+	public Level getLogLevel()
 	{
 		return logger.getLogLevel();
 	}
+
 	/**
 	 * @return Return a transaction with the current value.
 	 */
@@ -171,26 +214,52 @@ public class ConfigAuditReactive
 	}
 
 	/**
+	 * Begin a transaction to update the parameters.
+	 * Call commit() to apply.
+	 * @return The transaction.
+	 */
+	public Transaction begin()
+	{
+		return new Transaction();
+	}
+
+	public void logIfNew(Level level, Object msg)
+	{
+		if (!history.isAlreadyLogged())
+		{
+			logger.log(level, msg);
+		}
+	}
+
+	/**
 	 * A current transcation to modify the parameters.
 	 */
 	public class Transaction
 	{
 		private List<Runnable> cmds = new ArrayList<>();
-		private boolean readOnly;
+		private boolean sealed;
 
-		private void add(Runnable cmd)
+		private void add(Runnable cmd) throws IllegalArgumentException
 		{
-			if (readOnly) throw new IllegalArgumentException("Read only");
+			if (sealed) throw new IllegalArgumentException("Sealed");
 			cmds.add(cmd);
 		}
-		Transaction setReadOnly()
+
+		/**
+		 * Seal the transaction.
+		 *
+		 * @return this
+		 */
+		/*package*/ Transaction seal()
 		{
-			readOnly=true;
+			sealed = true;
 			return this;
 		}
+
 		/**
 		 * Ask to throw an exception if detect an error.
 		 * May be apply after the commit().
+		 *
 		 * @param onOff true or fall
 		 * @return The current transcation.
 		 */
@@ -203,10 +272,11 @@ public class ConfigAuditReactive
 		/**
 		 * Select the trace logLevel.
 		 * May be apply after the commit().
+		 *
 		 * @param level The logLevel.
 		 * @return The current transcation.
 		 */
-		public Transaction log(int level)
+		public Transaction log(Level level)
 		{
 			add(() -> logger.setLogLevel(level));
 			return this;
@@ -215,6 +285,7 @@ public class ConfigAuditReactive
 		/**
 		 * Ask a specific pattern for detect the reactive thread.
 		 * May be apply after the commit().
+		 *
 		 * @param pattern The regexp pattern.
 		 * @return The current transaction.
 		 */
@@ -227,12 +298,13 @@ public class ConfigAuditReactive
 		/**
 		 * Ask a specific boot strap delay before start the audit.
 		 * May be apply after the commit().
+		 *
 		 * @param delay The new delay.
 		 * @return The current transaction.
 		 */
 		public Transaction bootStrapDelay(long delay)
 		{
-			add(()-> bootstrapDelay=delay);
+			add(() -> bootstrapDelay = delay);
 			return this;
 		}
 
@@ -243,78 +315,6 @@ public class ConfigAuditReactive
 		public synchronized void commit()
 		{
 			cmds.forEach(x -> x.run());
-		}
-	}
-
-	/**
-	 * Begin a transaction to update the parameters.
-	 * Call commit() to apply.
-	 * @return The transaction.
-	 */
-	public Transaction begin()
-	{
-		return new Transaction();
-	}
-
-	/**
-	 * The singleton with the current parameters.
-	 */
-	public static final ConfigAuditReactive config  = new ConfigAuditReactive();
-	/**
-	 * A transaction with 'strict' parameters.
-	 */
-	public static final Transaction         strict  =
-			config.begin()
-					.throwExceptions(true)
-					.log(Logger.None)
-					.threadPattern(".*")
-					.bootStrapDelay(0)
-					.setReadOnly();
-	/**
-	 * A transaction with 'log only' parameters.
-	 */
-	public static final Transaction         logOnly =
-			config.begin()
-					.throwExceptions(false)
-					.log(Logger.Warn)
-					.threadPattern(DEFAULT_THREAD_PATTERN)
-					.bootStrapDelay(0)
-					.setReadOnly();
-	/**
-	 * A transaction with 'off' audit.
-	 */
-	public static final Transaction         off     =
-			config.begin()
-					.throwExceptions(false)
-					.log(Logger.Error)
-					.threadPattern("(?!)")
-					.bootStrapDelay(0)
-					.setReadOnly();
-
-	// It's easy to rename the package
-	// FIXME: testu
-	static final String myPackage=ConfigAuditReactive.class.getPackage().getName();
-	public void logIfNew(int level,Object msg)
-	{
-		StackTraceElement[] stack=new Throwable().getStackTrace();
-		// Mount the stacktrace
-
-		for (StackTraceElement caller:stack)
-		{
-			if (!caller.getClassName().startsWith(myPackage)
-					|| caller.getClassName().endsWith("Test")) // Pour les tests interne
-			{
-				if (history.addNewCaller(caller))
-				{
-					System.err.println("Add caller="+caller); // FIXME
-					logger.info(msg);
-				}
-				else
-				{
-					System.err.println("IGNORE caller="+caller); // FIXME
-				}
-				break;
-			}
 		}
 	}
 }

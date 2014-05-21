@@ -2,6 +2,8 @@ package com.octo.reactive.audit;
 
 import org.aspectj.lang.JoinPoint;
 
+import static com.octo.reactive.audit.Logger.Level.Debug;
+
 /**
  * Created by pprados on 07/05/2014.
  */
@@ -18,15 +20,16 @@ public class AbstractAudit
 	{
 		return isReactiveThread() && !config.isSuppressAudit();
 	}
-    protected void latency(int level,JoinPoint thisJoinPoint) throws AuditReactiveException
-    {
+
+	protected void latency(Latency latencyLevel, JoinPoint thisJoinPoint) throws AuditReactiveException
+	{
 	    if (checkForAll())
 	    {
 		    final ConfigAuditReactive config=ConfigAuditReactive.config;
 		    if (!config.isAfterStartupDelay())
 			    return;
 		    // FIXME: level of trace
-		    config.logIfNew(level,thisJoinPoint.getSignature());
+		    config.logIfNew(Debug, thisJoinPoint.getSignature());
 		    if (config.isThrow())  // LOW, MEDIUM, HIGH ?
 			    throw new FileAuditReactiveException(thisJoinPoint.getSignature().toString());
 	    }

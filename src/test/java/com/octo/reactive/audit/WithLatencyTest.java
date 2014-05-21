@@ -2,7 +2,7 @@ package com.octo.reactive.audit;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static com.octo.reactive.audit.Latency.LOW;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -16,7 +16,7 @@ public class WithLatencyTest
 		ConfigAuditReactive.strict.commit();
 		class Test
 		{
-			@WithLatency(LatencyLevel.LOW)
+			@WithLatency(LOW)
 			public void directCall()
 			{
 				assertTrue(false);

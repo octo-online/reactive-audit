@@ -1,14 +1,13 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.AuditReactiveException;
-import com.octo.reactive.audit.LatencyLevel;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.Writer;
+
+import static com.octo.reactive.audit.Latency.HIGH;
 
 @Aspect
 public class BufferedWriterAspect extends AbstractWriterAudit
@@ -20,7 +19,7 @@ public class BufferedWriterAspect extends AbstractWriterAudit
 	@Before("(newLine())")
 	public void advice_high(JoinPoint thisJoinPoint)
 	{
-		latency(LatencyLevel.HIGH,thisJoinPoint,(Writer)thisJoinPoint.getTarget());
+		latency(HIGH, thisJoinPoint, (Writer) thisJoinPoint.getTarget());
 	}
 
 }

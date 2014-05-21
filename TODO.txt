@@ -2,3 +2,4 @@ Voir http://www.infoq.com/articles/Type-Annotations-in-Java-8?utm_campaign=infoq
 et le framework http://types.cs.washington.edu/checker-framework/
 
 Voir : http://blog.xebia.fr/2008/05/02/java-agent-instrumentez-vos-classes/
+Faire un mode debug qui affiche tous les threads names

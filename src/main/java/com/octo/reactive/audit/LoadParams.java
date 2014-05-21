@@ -1,15 +1,13 @@
 package com.octo.reactive.audit;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
-import java.util.function.Supplier;
+
+import static com.octo.reactive.audit.Logger.Level.*;
+import static com.octo.reactive.audit.Logger.Level.Error;
 
 /**
  * Created by pprados on 16/05/2014.
@@ -59,11 +57,21 @@ class LoadParams
 	{
 		switch (param.toLowerCase())
 		{
-			case "error" : tx.log(Logger.Error); break;
-			case "warn" : tx.log(Logger.Warn); break;
-			case "info" : tx.log(Logger.Info); break;
-			case "debug" : tx.log(Logger.Debug); break;
-			default: tx.log(Logger.None); break;
+			case "error":
+				tx.log(Error);
+				break;
+			case "warn":
+				tx.log(Warn);
+				break;
+			case "info":
+				tx.log(Info);
+				break;
+			case "debug":
+				tx.log(Debug);
+				break;
+			default:
+				tx.log(None);
+				break;
 		}
 	}
 	private void parseThreadPattern(String param)

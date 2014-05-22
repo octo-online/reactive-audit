@@ -37,27 +37,33 @@ class HistoryStackElement
 	boolean isAlreadyLogged()
 	{
 		StackTraceElement[] stack = new Throwable().getStackTrace();
-//		StackTraceElement top=null;
-//		if (config.getLogLevel()==Logger.Debug)
-//		{
-//			for (StackTraceElement caller : stack)
-//			{
-//				if (!caller.getClassName().startsWith(myPackage)
-//						|| caller.getClassName().endsWith("Test")) // Pour les tests interne
-//				{
-//					top=caller;
-//					break;
-//				}
-//			}
-//		}
+		StackTraceElement top=null;
+		if (true)
+		{
+			for (StackTraceElement caller : stack)
+			{
+				if (!caller.getClassName().startsWith(myPackage)
+						|| caller.getClassName().endsWith("Test")) // Pour les tests interne
+				{
+					top=caller;
+					break;
+				}
+			}
+		}
 		boolean alreadyLogged = searchStack(stack);
 		if (!alreadyLogged)
 		{
 			logged.add(stack);
+			System.err.println("ADD "+top);
 		}
 		return alreadyLogged;
 	}
 
+	/**
+	 * Search stack in history.
+	 * @param stack
+	 * @return true if found the same stack
+	 */
 	private boolean searchStack(StackTraceElement[] stack)
 	{
 		for (StackTraceElement[] s : logged)
@@ -68,7 +74,7 @@ class HistoryStackElement
 				for (int i = 0; i < stack.length; ++i)
 					if (!stack[i].equals(s[i]))
 					{
-						// config.logger.debug("DIFFERENCE=" + stack[i] + " " + s[i]);
+						config.logger.debug("DIFFERENCE=" + stack[i] + " " + s[i]);
 						find = false;
 						break;
 					}

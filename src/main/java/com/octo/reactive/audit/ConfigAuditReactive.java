@@ -1,9 +1,6 @@
 package com.octo.reactive.audit;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Stack;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static com.octo.reactive.audit.Logger.Level;
@@ -18,11 +15,11 @@ public class ConfigAuditReactive
 	/**
 	 * The singleton with the current parameters.
 	 */
-	public static final  ConfigAuditReactive config                 = new ConfigAuditReactive();
+	public static final ConfigAuditReactive config  = new ConfigAuditReactive();
 	/**
 	 * A transaction with 'strict' parameters.
 	 */
-	public static final  Transaction         strict                 =
+	public static final Transaction         strict  =
 			config.begin()
 					.throwExceptions(true)
 					.log(None)
@@ -32,35 +29,36 @@ public class ConfigAuditReactive
 	/**
 	 * A transaction with 'log only' parameters.
 	 */
-	public static final  Transaction         logOnly                =
+	public static final Transaction         logOnly =
 			config.begin()
 					.throwExceptions(false)
 					.log(Warn)
-							//.threadPattern(DEFAULT_THREAD_PATTERN)
 					.bootStrapDelay(0)
 					.seal();
 	/**
 	 * A transaction with 'off' audit.
 	 */
-	public static final  Transaction         off                    =
+	public static final Transaction         off     =
 			config.begin()
 					.throwExceptions(false)
 					.log(Error)
 					.threadPattern("(?!)")
 					.bootStrapDelay(0)
 					.seal();
+
 	// It's easy to rename the package
 	// FIXME: testu
-	static final         String              myPackage              = ConfigAuditReactive.class.getPackage().getName();
-	private static final String              DEFAULT_THREAD_PATTERN = "^(ForkJoinPool-.*)";
-	private              Pattern             threadPattern          = Pattern.compile(DEFAULT_THREAD_PATTERN);
+	static final         String  myPackage              = ConfigAuditReactive.class.getPackage().getName();
+	private static final String  DEFAULT_THREAD_PATTERN = "^(ForkJoinPool-.*)";
+	private              Pattern threadPattern          = Pattern.compile(DEFAULT_THREAD_PATTERN);
 	Logger logger = new Logger();
-	private          boolean              throwExceptions = false;
-	private          long                 bootstrapStart  = 0L;
-	private          long                 bootstrapDelay  = 0L;
-	private          boolean              afterBootstrap  = false;
-	private volatile boolean              started         = false;
-	private          ThreadLocal<Integer> suppressAudit   = new ThreadLocal()
+	private          boolean              throwExceptions    = false;
+	private          long                 bootstrapStart     = 0L;
+	private          long                 bootstrapDelay     = 0L;
+	private          boolean              afterBootstrap     = false;
+
+	private volatile boolean              started            = false;
+	private          ThreadLocal<Integer> suppressAudit      = new ThreadLocal()
 	{
 		@Override
 		protected Integer initialValue()
@@ -68,8 +66,9 @@ public class ConfigAuditReactive
 			return 0;
 		}
 	};
-	private          Stack<Transaction>   stack           = new Stack<Transaction>();
-	private          HistoryStackElement  history         = new HistoryStackElement(this);
+	private          Stack<Transaction>   stack              = new Stack<Transaction>();
+	private          HistoryStackElement  history            = new HistoryStackElement(this);
+	private          Set<String>      histroryThreadName = Collections.synchronizedSet(new TreeSet<String>());
 
 	synchronized void startup()
 	{
@@ -127,6 +126,8 @@ public class ConfigAuditReactive
 	 */
 	boolean isThreadNameMatch(String name)
 	{
+		if (histroryThreadName.add(name))
+			logger.debug("Thread \""+name+"\"");
 		return threadPattern.matcher(name).matches();
 	}
 

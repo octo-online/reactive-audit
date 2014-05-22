@@ -35,7 +35,7 @@ class Logger
 		log(Error, msg.toString());
 	}
 
-	public void error(String format, String... args)
+	public void error(String format, Object... args)
 	{
 		log(Error, String.format(format, args));
 	}
@@ -45,7 +45,7 @@ class Logger
 		log(Warn, msg.toString());
 	}
 
-	public void warn(String format, String... args)
+	public void warn(String format, Object... args)
 	{
 		log(Warn, String.format(format, args));
 	}
@@ -55,7 +55,7 @@ class Logger
 		log(Info, msg.toString());
 	}
 
-	public void info(String format, String... args)
+	public void info(String format, Object... args)
 	{
 		log(Info, String.format(format, args));
 	}
@@ -65,7 +65,7 @@ class Logger
 		log(Debug, msg.toString());
 	}
 
-	public void debug(String format, String... args)
+	public void debug(String format, Object... args)
 	{
 		log(Debug, String.format(format, args));
 	}
@@ -73,7 +73,7 @@ class Logger
 	void log(Level level, Object msg)
 	{
 		// TODO: filtre sur level ?
-		if (level.compareTo(logLevel) > 0)
+		if (logLevel.compareTo(level) > 0)
 			delegate.log(level, msg);
 	}
 

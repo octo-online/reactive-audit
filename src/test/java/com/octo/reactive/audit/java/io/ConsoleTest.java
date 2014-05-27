@@ -1,9 +1,7 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.AuditReactiveException;
+import com.octo.reactive.audit.annotation.AuditReactiveException;
 import org.junit.Test;
-
-import java.io.Console;
 
 /**
  * Created by pprados on 14/05/2014.

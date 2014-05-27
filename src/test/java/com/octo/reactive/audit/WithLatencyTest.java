@@ -1,5 +1,7 @@
 package com.octo.reactive.audit;
 
+import com.octo.reactive.audit.annotation.AuditReactiveException;
+import com.octo.reactive.audit.annotation.WithLatency;
 import org.junit.Test;
 
 import static com.octo.reactive.audit.Latency.LOW;

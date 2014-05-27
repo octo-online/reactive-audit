@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 import static com.octo.reactive.audit.Logger.Level;
-import static com.octo.reactive.audit.Logger.Level.Error;
 import static com.octo.reactive.audit.Logger.Level.*;
 
 /**
@@ -12,53 +11,52 @@ import static com.octo.reactive.audit.Logger.Level.*;
  */
 public class ConfigAuditReactive
 {
+	private static final String              DEFAULT_THREAD_PATTERN = "^(ForkJoinPool-.*)";
 	/**
 	 * The singleton with the current parameters.
 	 */
-	public static final ConfigAuditReactive config  = new ConfigAuditReactive();
+	public static final  ConfigAuditReactive config                 = new ConfigAuditReactive();
 	/**
 	 * A transaction with 'strict' parameters.
 	 */
-	public static final Transaction         strict  =
+	public static final  Transaction         strict                 =
 			config.begin()
 					.throwExceptions(true)
-					.log(None)
+					.log(NONE)
 					.threadPattern(".*")
 					.bootStrapDelay(0)
 					.seal();
 	/**
 	 * A transaction with 'log only' parameters.
 	 */
-	public static final Transaction         logOnly =
+	public static final  Transaction         logOnly                =
 			config.begin()
 					.throwExceptions(false)
-					.log(Warn)
+					.log(WARN)
+					.threadPattern(DEFAULT_THREAD_PATTERN)
 					.bootStrapDelay(0)
 					.seal();
 	/**
 	 * A transaction with 'off' audit.
 	 */
-	public static final Transaction         off     =
+	public static final  Transaction         off                    =
 			config.begin()
 					.throwExceptions(false)
-					.log(Error)
+					.log(ERROR)
 					.threadPattern("(?!)")
 					.bootStrapDelay(0)
 					.seal();
-
-	// It's easy to rename the package
-	// FIXME: testu
-	static final         String  myPackage              = ConfigAuditReactive.class.getPackage().getName();
-	private static final String  DEFAULT_THREAD_PATTERN = "^(ForkJoinPool-.*)";
-	private              Pattern threadPattern          = Pattern.compile(DEFAULT_THREAD_PATTERN);
+	// Help to rename the package
+	static final         String              auditPackageName       = ConfigAuditReactive.class.getPackage().getName();
 	Logger logger = new Logger();
-	private          boolean              throwExceptions    = false;
-	private          long                 bootstrapStart     = 0L;
-	private          long                 bootstrapDelay     = 0L;
-	private          boolean              afterBootstrap     = false;
+	private Pattern threadPattern;
+	private boolean throwExceptions = false;
+	private long    bootstrapStart  = 0L;
+	private long    bootstrapDelay  = 0L;
+	private boolean afterBootstrap  = false;
 
-	private volatile boolean              started            = false;
-	private          ThreadLocal<Integer> suppressAudit      = new ThreadLocal()
+	private volatile boolean              started           = false;
+	private          ThreadLocal<Integer> suppressAudit     = new ThreadLocal()
 	{
 		@Override
 		protected Integer initialValue()
@@ -66,34 +64,45 @@ public class ConfigAuditReactive
 			return 0;
 		}
 	};
-	private          Stack<Transaction>   stack              = new Stack<Transaction>();
-	private          HistoryStackElement  history            = new HistoryStackElement(this);
-	private          Set<String>      histroryThreadName = Collections.synchronizedSet(new TreeSet<String>());
+	private          Stack<Transaction>   stack             = new Stack<Transaction>();
+	private          HistoryStackElement  history           = new HistoryStackElement(this);
+	private          Set<String>          historyThreadName = Collections.synchronizedSet(new TreeSet<String>());
 
 	synchronized void startup()
 	{
 		if (!started)
 		{
 			bootstrapStart = System.currentTimeMillis();
+			logOnly.commit();
 			Properties properties = new Properties();
-			String url = System.getenv("auditReactive");  // FIXME: costrante
+			String url = System.getenv(LoadParams.KEY_AUDIT_FILENAME);  // FIXME: costrante
 			if (url == null) url = LoadParams.DEFAULT_FILENAME;
-			url = System.getProperty("auditReactive", url);
+			url = System.getProperty(LoadParams.KEY_AUDIT_FILENAME, url);
 			new LoadParams(this, url).commit();
 			started = true;
-			logger.info("Start");
+			logger.info("Start audit");
 		}
 	}
 
-	void shutdown()
+	synchronized void shutdown()
 	{
 		if (started)
 		{
-			logger.info("Shutdown");
+			logger.info("Shutdown audit");
 			started = false;
 		}
 	}
 
+	void reset()
+	{
+		started=false;
+		afterBootstrap=false;
+		history.purge();
+		stack.clear();
+		historyThreadName.clear();
+		suppressAudit.set(0);
+		startup();
+	}
 	/**
 	 * Increment the thread local variable to suppress audit for the current frame.
 	 */
@@ -126,7 +135,7 @@ public class ConfigAuditReactive
 	 */
 	boolean isThreadNameMatch(String name)
 	{
-		if (histroryThreadName.add(name))
+		if (historyThreadName.add(name))
 			logger.debug("Thread \""+name+"\"");
 		return threadPattern.matcher(name).matches();
 	}
@@ -224,11 +233,25 @@ public class ConfigAuditReactive
 		return new Transaction();
 	}
 
-	public void logIfNew(Level level, Object msg)
+	public void logIfNew(Level level, CharSequence msg)
 	{
-		if (!history.isAlreadyLogged())
+		StackTraceElement[] stack = new Throwable().getStackTrace();
+		if (!history.isAlreadyLogged(stack))
 		{
-			logger.log(level, msg);
+			// Use a buffer then, an atomic print can be called.
+			StringBuilder buf=new StringBuilder(msg.length()*2);
+			buf.append(msg)
+			   .append(System.lineSeparator());
+			for (StackTraceElement caller : stack)
+			{
+				if (!caller.getClassName().startsWith(auditPackageName)
+					|| caller.getClassName().endsWith("Test")) // Pour les tests interne
+				{
+					buf.append(caller).append(System.lineSeparator());
+				}
+			}
+
+			logger.log(level, buf);
 		}
 	}
 

@@ -1,24 +1,15 @@
 package com.octo.reactive.audit;
 
 import static com.octo.reactive.audit.Logger.Level.*;
-import static com.octo.reactive.audit.Logger.Level.Error;
 
 /**
  * Created by pprados on 19/05/2014.
  */
 class Logger
 {
-	private static final String[] levelsString = new String[]
-			{
-					"",
-					"ERROR: ",
-					"WARN : ",
-					"INFO : ",
-					"DEBUG: "
-			};
-	DelegateLogger delegate =
-			(level, msg) -> System.err.println(levelsString[level.ordinal()] + msg);  // FIXME;
-	private Level logLevel = None;
+	DelegateLogger delegate = new StderrLogger();
+
+	private Level logLevel = NONE;
 
 	Level getLogLevel()
 	{
@@ -32,60 +23,66 @@ class Logger
 
 	public void error(Object msg)
 	{
-		log(Error, msg.toString());
+		log(ERROR, msg.toString());
 	}
 
 	public void error(String format, Object... args)
 	{
-		log(Error, String.format(format, args));
+		log(ERROR, String.format(format, args));
 	}
 
 	public void warn(Object msg)
 	{
-		log(Warn, msg.toString());
+		log(WARN, msg.toString());
 	}
 
 	public void warn(String format, Object... args)
 	{
-		log(Warn, String.format(format, args));
+		log(WARN, String.format(format, args));
 	}
 
 	public void info(Object msg)
 	{
-		log(Info, msg.toString());
+		log(INFO, msg.toString());
 	}
 
 	public void info(String format, Object... args)
 	{
-		log(Info, String.format(format, args));
+		log(INFO, String.format(format, args));
 	}
 
 	public void debug(Object msg)
 	{
-		log(Debug, msg.toString());
+		log(DEBUG, msg.toString());
 	}
 
 	public void debug(String format, Object... args)
 	{
-		log(Debug, String.format(format, args));
+		log(DEBUG, String.format(format, args));
 	}
 
-	void log(Level level, Object msg)
+	void log(Level level, CharSequence msg)
 	{
-		// TODO: filtre sur level ?
 		if (logLevel.compareTo(level) > 0)
 			delegate.log(level, msg);
 	}
 
 	enum Level
 	{
-		None, Error, Warn, Info, Debug
+		NONE, ERROR, WARN, INFO, DEBUG
 	}
 
 	@FunctionalInterface
 	public interface DelegateLogger
 	{
-		void log(Level level, Object msg);
+		void log(Level level, CharSequence msg);
 	}
-
+	static class StderrLogger implements DelegateLogger
+	{
+		@Override
+		public void log(Level level, CharSequence msg)
+		{
+			System.err.println(level.toString()+':'+msg); // FIXME: stdout ou file async ?
+		}
+	}
 }

@@ -1,14 +1,13 @@
 package com.octo.reactive.audit;
 
+import com.octo.reactive.audit.annotation.SuppressAuditReactive;
 import org.junit.Test;
 
 import java.io.File;
 
 import static com.octo.reactive.audit.Logger.Level;
 import static com.octo.reactive.audit.Logger.Level.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 /**
@@ -16,66 +15,69 @@ import static org.junit.Assert.assertTrue;
  */
 public class ConfigAuditReactiveTest
 {
+	// Because the Aspectj must use the config singleton,
+	// it's not possible to inject a specific config instance
+	private ConfigAuditReactive config=ConfigAuditReactive.config;
 
 	@Test
 	public void testCurrentThread_test()
 	{
-		assertTrue(ConfigAuditReactive.config.isThreadNameMatch(Thread.currentThread().getName()));
+		assertTrue(config.isThreadNameMatch(Thread.currentThread().getName()));
 	}
 	@Test
 	public void testCurrentThread_nothing()
 	{
-		ConfigAuditReactive.config.begin().threadPattern("(?!)").commit();
-		assertFalse(ConfigAuditReactive.config.isThreadNameMatch(Thread.currentThread().getName()));
+		config.begin().threadPattern("(?!)").commit();
+		assertFalse(config.isThreadNameMatch(Thread.currentThread().getName()));
 	}
 	@Test
 	public void setAllParams()
 	{
-		ConfigAuditReactive.config.begin()
-				.log(Info)
+		config.begin()
+				.log(INFO)
 				.throwExceptions(true)
 				.threadPattern("")
 				.bootStrapDelay(10)
 				.commit();
-		assertEquals(Info,ConfigAuditReactive.config.getLogLevel());
-		assertEquals(true,ConfigAuditReactive.config.isThrow());
-		assertEquals("",ConfigAuditReactive.config.getThreadPattern());
-		assertEquals(10,ConfigAuditReactive.config.getBootstrapDelay());
-		ConfigAuditReactive.config.begin()
-				.log(Warn)
+		assertEquals(INFO,config.getLogLevel());
+		assertEquals(true,config.isThrow());
+		assertEquals("",config.getThreadPattern());
+		assertEquals(10,config.getBootstrapDelay());
+		config.begin()
+				.log(WARN)
 				.throwExceptions(false)
 				.threadPattern("abc")
 				.bootStrapDelay(0)
 				.commit();
-		assertEquals(Warn,ConfigAuditReactive.config.getLogLevel());
-		assertEquals(false,ConfigAuditReactive.config.isThrow());
-		assertEquals("abc",ConfigAuditReactive.config.getThreadPattern());
-		assertEquals(0,ConfigAuditReactive.config.getBootstrapDelay());
+		assertEquals(WARN,config.getLogLevel());
+		assertEquals(false,config.isThrow());
+		assertEquals("abc",config.getThreadPattern());
+		assertEquals(0,config.getBootstrapDelay());
 	}
 	@Test(expected = IllegalArgumentException.class)
 	public void lockTransaction()
 	{
-		ConfigAuditReactive.config.begin()
+		config.begin()
 				.seal()
-				.log(Warn);
+				.log(WARN);
 	}
 
 	@Test
 	@SuppressAuditReactive // For accept join
 	public void logIfNewThread() throws InterruptedException
 	{
-		ConfigAuditReactive.config.begin()
+		config.begin()
 				.threadPattern(".*")
-				.log(Warn)
+				.log(WARN)
 				.throwExceptions(false)
 				.commit();
 		int[] log=new int[1];
-		ConfigAuditReactive.config.logger.delegate = new Logger.DelegateLogger()
+		config.logger.delegate = new Logger.DelegateLogger()
 		{
 			@Override
-			public void log(Level level, Object msg)
+			public void log(Level level, CharSequence msg)
 			{
-				if (level!=Debug)
+				if (level!= DEBUG)
 					++log[0];
 			}
 		};
@@ -160,23 +162,24 @@ public class ConfigAuditReactiveTest
 	@Test
 	public void logIfNewLoop()
 	{
-		ConfigAuditReactive.config.begin()
+		config.reset();
+		config.begin()
 				.threadPattern(".*")
-				.log(Warn)
+				.log(WARN)
 				.throwExceptions(false)
 				.commit();
 		int[] log = new int[1];
-		ConfigAuditReactive.config.logger.delegate = new Logger.DelegateLogger()
+		config.logger.delegate = new Logger.DelegateLogger()
 		{
 			@Override
-			public void log(Level level, Object msg)
+			public void log(Level level, CharSequence msg)
 			{
-				if (level!=Debug)
+				if (level!= DEBUG)
 					++log[0];
 			}
 		};
 
-		for (int i = 0; i < 10; ++i)
+		for (int i = 0; i < 5; ++i)
 		{
 			log[0] = 0;
 			latencyCall1();

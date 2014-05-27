@@ -3,19 +3,23 @@ package com.octo.reactive.audit;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.Properties;
-
-import static com.octo.reactive.audit.Logger.Level.*;
-import static com.octo.reactive.audit.Logger.Level.Error;
 
 /**
  * Created by pprados on 16/05/2014.
  */
 class LoadParams
 {
+	public static final String KEY_AUDIT_FILENAME="auditReactive";
+	private static final String PREFIX=KEY_AUDIT_FILENAME+'.';
+	public static final String KEY_THROW_EXCEPTIONS=PREFIX+"throwExceptions";
+	public static final String KEY_THREAD_PATTERN=PREFIX+"threadPattern";
+	public static final String KEY_BOOTSTRAP_DELAY=PREFIX+"bootstrapDelay";
+	public static final String KEY_LOG_LEVEL=PREFIX+"logLevel";
+
 	public static final String DEFAULT_FILENAME="testAuditReactive.properties";
-	private static final String PREFIX="auditReactive.";
 
 	private ConfigAuditReactive             config;
 	private ConfigAuditReactive.Transaction tx;
@@ -36,7 +40,8 @@ class LoadParams
 		{
 			try
 			{
-				filename = new File(propertiesFile).toURI().toURL();
+				URI uri = new File(propertiesFile).toURI();
+				filename = uri.toURL();
 			}
 			catch (MalformedURLException ee)
 			{
@@ -47,35 +52,26 @@ class LoadParams
 
 	private void parseThrowException(String param)
 	{
+		param=param.trim();
+		if (param.length()==0) return;
 		tx.throwExceptions(Boolean.parseBoolean(param));
 	}
 	private void parseBootstrapDelay(String param)
 	{
+		param=param.trim();
+		if (param.length()==0) return;
 		tx.bootStrapDelay(Long.parseLong(param));
 	}
 	private void parseLog(String param)
 	{
-		switch (param.toLowerCase())
-		{
-			case "error":
-				tx.log(Error);
-				break;
-			case "warn":
-				tx.log(Warn);
-				break;
-			case "info":
-				tx.log(Info);
-				break;
-			case "debug":
-				tx.log(Debug);
-				break;
-			default:
-				tx.log(None);
-				break;
-		}
+		param=param.trim();
+		if (param.length()==0) return;
+		tx.log(Logger.Level.valueOf(param.toUpperCase()));
 	}
 	private void parseThreadPattern(String param)
 	{
+		param=param.trim();
+		if (param.length()==0) return;
 		tx.threadPattern(param);
 	}
 	//throwExceptions=false
@@ -91,7 +87,7 @@ class LoadParams
 			if (filename!=null)
 			{
 				prop.load(filename.openStream());
-				applyProperties(prop, "");
+				applyProperties(prop);
 			}
 
 		}
@@ -100,34 +96,35 @@ class LoadParams
 			config.logger.info(filename + " not found");
 		}
 		// 3. Set from JVM -D
-		applyProperties(System.getProperties(), PREFIX);
+		applyProperties(System.getProperties());
 		tx.commit();
-		config.logger.debug("threadPattern  = " + config.getThreadPattern());
-		config.logger.debug("throwExceptions= "+config.isThrow());
-		config.logger.debug("bootstrapDelay = " + config.getBootstrapDelay());
+		config.logger.debug(KEY_THREAD_PATTERN+"  = " + config.getThreadPattern());
+		config.logger.debug(KEY_THROW_EXCEPTIONS+" = "+config.isThrow());
+		config.logger.debug(KEY_BOOTSTRAP_DELAY+" = " + config.getBootstrapDelay());
 	}
 	private void applyEnv(String prefix)
 	{
 		String param;
-		param=System.getenv(prefix+"throwExceptions");
-		if (param!=null) parseThrowException(param);
-		param=System.getenv(prefix+"threadPattern");
-		if (param!=null)parseThreadPattern(param);
-		param=System.getenv(prefix+"bootstrapDelay");
+		param=System.getenv(KEY_BOOTSTRAP_DELAY);
 		if (param!=null) parseBootstrapDelay(param);
-		param=System.getenv(prefix+"logLevel");
+		param=System.getenv(KEY_THROW_EXCEPTIONS);
+		if (param!=null) parseThrowException(param);
+		param=System.getenv(KEY_LOG_LEVEL);
 		if (param!=null) parseLog(param);
+		param=System.getenv(KEY_THREAD_PATTERN);
+		if (param!=null)parseThreadPattern(param);
 	}
-	private void applyProperties(Properties prop,String prefix)
+	private void applyProperties(Properties prop)
 	{
+		if (prop==null) return;
 		String param;
-		param=prop.getProperty(prefix + "throwExceptions");
-		if (param!=null) parseThrowException(param);
-		param=prop.getProperty(prefix + "threadPattern");
-		if (param!=null)parseThreadPattern(param);
-		param=prop.getProperty(prefix + "bootstrapDelay");
+		param=prop.getProperty(KEY_BOOTSTRAP_DELAY);
 		if (param!=null) parseBootstrapDelay(param);
-		param=prop.getProperty(prefix + "logLevel");
+		param=prop.getProperty(KEY_THROW_EXCEPTIONS);
+		if (param!=null) parseThrowException(param);
+		param=prop.getProperty(KEY_LOG_LEVEL);
 		if (param!=null) parseLog(param);
+		param=prop.getProperty(KEY_THREAD_PATTERN);
+		if (param!=null)parseThreadPattern(param);
 	}
 }

@@ -1,7 +1,10 @@
 package com.octo.reactive.audit;
 
-import static org.junit.Assert.*;
+import com.octo.reactive.audit.annotation.SuppressAuditReactive;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by pprados on 09/05/2014.

@@ -44,15 +44,15 @@ task wrapper(type: Wrapper) {
 test {
     // Juste pour afficher les logs dans les tests
     testLogging.showStandardStreams = true
-    beforeTest { descriptor ->
-        logger.lifecycle("Running test: " + descriptor)
-    }
+//    beforeTest { descriptor ->
+//        logger.lifecycle("Running test: " + descriptor)
+//    }
 
     include 'com/octo/reactive/audit/**'
 //    include 'com/octo/reactive/audit/java/lang/**'
 //    include 'com/octo/reactive/audit/java/io/**'
     def weaver="-javaagent:" +
         project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
-    def auditReactiveConf="-DauditReactive=testAuditReactive.properties"
+    def auditReactiveConf="-DauditReactive=src/test/resources/testAuditReactive.properties"
     jvmArgs = [weaver,auditReactiveConf]
 }

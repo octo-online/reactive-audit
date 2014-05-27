@@ -1,10 +1,11 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.AuditReactiveException;
-import com.octo.reactive.audit.ConfigAuditReactive;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.FilterOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import static com.octo.reactive.audit.TestTools.pop;
 import static com.octo.reactive.audit.TestTools.push;

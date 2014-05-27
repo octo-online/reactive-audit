@@ -1,8 +1,8 @@
 package com.octo.reactive.audit;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by pprados on 19/05/2014.
@@ -11,50 +11,24 @@ class HistoryStackElement
 {
 	static final String myPackage = HistoryStackElement.class.getPackage().getName();
 	private ConfigAuditReactive config;
-	private Set<StackTraceElement>          history = new HashSet<>();
-	private LinkedList<StackTraceElement[]> logged  = new LinkedList<>();
+	private List<StackTraceElement[]> logged = Collections.synchronizedList(new LinkedList<>());
 
 	HistoryStackElement(ConfigAuditReactive config)
 	{
 		this.config = config;
 	}
 
-	boolean addNewCaller(StackTraceElement stackElement)
+	void purge()
 	{
-		return history.add(stackElement);
+		logged.clear();
 	}
 
-	private void dumpStack(StackTraceElement[] stack)
+	/*FIXME:sync?*//*synchronized*/ boolean isAlreadyLogged(StackTraceElement[] stack)
 	{
-		System.err.println("STACK:");
-		for (StackTraceElement s : stack)
-		{
-			System.err.println(s);
-		}
-		System.err.println("");
-	}
-
-	boolean isAlreadyLogged()
-	{
-		StackTraceElement[] stack = new Throwable().getStackTrace();
-		StackTraceElement top=null;
-		if (true)
-		{
-			for (StackTraceElement caller : stack)
-			{
-				if (!caller.getClassName().startsWith(myPackage)
-						|| caller.getClassName().endsWith("Test")) // Pour les tests interne
-				{
-					top=caller;
-					break;
-				}
-			}
-		}
 		boolean alreadyLogged = searchStack(stack);
 		if (!alreadyLogged)
 		{
 			logged.add(stack);
-			System.err.println("ADD "+top);
 		}
 		return alreadyLogged;
 	}
@@ -74,7 +48,7 @@ class HistoryStackElement
 				for (int i = 0; i < stack.length; ++i)
 					if (!stack[i].equals(s[i]))
 					{
-						config.logger.debug("DIFFERENCE=" + stack[i] + " " + s[i]);
+						//logger.debug("DIFFERENCE=" + stack[i] + " " + s[i]);
 						find = false;
 						break;
 					}

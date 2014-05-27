@@ -1,6 +1,5 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.AuditReactiveException;
 import org.junit.Test;
 
 import java.io.*;

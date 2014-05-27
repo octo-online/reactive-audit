@@ -1,10 +1,9 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.AuditReactiveException;
-import com.octo.reactive.audit.FileAuditReactiveException;
+import com.octo.reactive.audit.annotation.AuditReactiveException;
+import com.octo.reactive.audit.annotation.FileAuditReactiveException;
 import org.junit.Test;
 
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;

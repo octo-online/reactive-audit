@@ -1,7 +1,7 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.AuditReactiveException;
 import com.octo.reactive.audit.Latency;
+import com.octo.reactive.audit.annotation.AuditReactiveException;
 import org.aspectj.lang.JoinPoint;
 
 import java.io.*;

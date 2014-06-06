@@ -1,7 +1,7 @@
 package com.octo.reactive.audit;
 
-import com.octo.reactive.audit.annotation.AuditReactiveException;
-import com.octo.reactive.audit.annotation.WithLatency;
+import com.octo.reactive.audit.lib.AuditReactiveException;
+import com.octo.reactive.audit.lib.WithLatency;
 import org.junit.Test;
 
 import static com.octo.reactive.audit.Latency.LOW;
@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class WithLatencyTest
 {
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected = AuditReactiveException.class)
 	public void invokeWithLatency()
 	{
 		ConfigAuditReactive.strict.commit();

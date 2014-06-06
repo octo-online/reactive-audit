@@ -1,54 +1,55 @@
 package com.octo.reactive.audit;
 
-import java.util.*;
-import java.util.regex.Pattern;
+import com.octo.reactive.audit.lib.AuditReactiveException;
 
-import static com.octo.reactive.audit.Logger.Level;
-import static com.octo.reactive.audit.Logger.Level.*;
+import java.io.IOException;
+import java.util.*;
+import java.util.logging.*;
+import java.util.regex.Pattern;
 
 /**
  * Created by pprados on 07/05/14.
  */
 public class ConfigAuditReactive
 {
-	private static final String              DEFAULT_THREAD_PATTERN = "^(ForkJoinPool-.*)";
 	/**
 	 * The singleton with the current parameters.
 	 */
-	public static final  ConfigAuditReactive config                 = new ConfigAuditReactive();
+	public static final ConfigAuditReactive config           = new ConfigAuditReactive();
 	/**
 	 * A transaction with 'strict' parameters.
 	 */
-	public static final  Transaction         strict                 =
+	public static final Transaction         strict           =
 			config.begin()
 					.throwExceptions(true)
-					.log(NONE)
+					.log(Level.OFF)
 					.threadPattern(".*")
 					.bootStrapDelay(0)
 					.seal();
 	/**
 	 * A transaction with 'log only' parameters.
 	 */
-	public static final  Transaction         logOnly                =
+	public static final Transaction         logOnly          =
 			config.begin()
 					.throwExceptions(false)
-					.log(WARN)
-					.threadPattern(DEFAULT_THREAD_PATTERN)
+					.log(Level.WARNING)
+					.threadPattern(LoadParams.DEFAULT_THREAD_PATTERN)
 					.bootStrapDelay(0)
 					.seal();
 	/**
 	 * A transaction with 'off' audit.
 	 */
-	public static final  Transaction         off                    =
+	public static final Transaction         off              =
 			config.begin()
 					.throwExceptions(false)
-					.log(ERROR)
+					.log(Level.SEVERE)
 					.threadPattern("(?!)")
 					.bootStrapDelay(0)
 					.seal();
 	// Help to rename the package
-	static final         String              auditPackageName       = ConfigAuditReactive.class.getPackage().getName();
-	Logger logger = new Logger();
+	public static final String              auditPackageName = ConfigAuditReactive.class.getPackage().getName();
+	final               Logger              logger           = Logger.getLogger(
+			ConfigAuditReactive.class.getPackage().getName());
 	private Pattern threadPattern;
 	private boolean throwExceptions = false;
 	private long    bootstrapStart  = 0L;
@@ -68,6 +69,14 @@ public class ConfigAuditReactive
 	private          HistoryStackElement  history           = new HistoryStackElement(this);
 	private          Set<String>          historyThreadName = Collections.synchronizedSet(new TreeSet<String>());
 
+	public static String getPropertiesURL()
+	{
+		String url = System.getenv(LoadParams.KEY_AUDIT_FILENAME);
+		if (url == null) url = LoadParams.DEFAULT_FILENAME;
+		url = System.getProperty(LoadParams.KEY_AUDIT_FILENAME, url);
+		return url.trim();
+	}
+
 	synchronized void startup()
 	{
 		if (!started)
@@ -75,9 +84,7 @@ public class ConfigAuditReactive
 			bootstrapStart = System.currentTimeMillis();
 			logOnly.commit();
 			Properties properties = new Properties();
-			String url = System.getenv(LoadParams.KEY_AUDIT_FILENAME);  // FIXME: costrante
-			if (url == null) url = LoadParams.DEFAULT_FILENAME;
-			url = System.getProperty(LoadParams.KEY_AUDIT_FILENAME, url);
+			String url = getPropertiesURL();
 			new LoadParams(this, url).commit();
 			started = true;
 			logger.info("Start audit");
@@ -86,9 +93,9 @@ public class ConfigAuditReactive
 
 	synchronized void shutdown()
 	{
+		logger.info("Shutdown audit");
 		if (started)
 		{
-			logger.info("Shutdown audit");
 			started = false;
 		}
 	}
@@ -136,7 +143,7 @@ public class ConfigAuditReactive
 	boolean isThreadNameMatch(String name)
 	{
 		if (historyThreadName.add(name))
-			logger.debug("Thread \""+name+"\"");
+			logger.fine("Thread \"" + name + "\"");
 		return threadPattern.matcher(name).matches();
 	}
 
@@ -192,7 +199,7 @@ public class ConfigAuditReactive
 
 	public Level getLogLevel()
 	{
-		return logger.getLogLevel();
+		return logger.getLevel();
 	}
 
 	/**
@@ -201,7 +208,7 @@ public class ConfigAuditReactive
 	private Transaction current()
 	{
 		return new Transaction()
-				.log(logger.getLogLevel())
+				.log(logger.getLevel())
 				.throwExceptions(throwExceptions)
 				.threadPattern(threadPattern.toString())
 				.bootStrapDelay(bootstrapDelay);
@@ -233,40 +240,40 @@ public class ConfigAuditReactive
 		return new Transaction();
 	}
 
-	public void logIfNew(Level level, CharSequence msg)
+	public void logIfNew(Latency latencyLevel, AuditReactiveException e)
 	{
-		StackTraceElement[] stack = new Throwable().getStackTrace();
-		if (!history.isAlreadyLogged(stack))
-		{
-			// Use a buffer then, an atomic print can be called.
-			StringBuilder buf=new StringBuilder(msg.length()*2);
-			buf.append(msg)
-			   .append(System.lineSeparator());
-			for (StackTraceElement caller : stack)
-			{
-				if (!caller.getClassName().startsWith(auditPackageName)
-					|| caller.getClassName().endsWith("Test")) // Pour les tests interne
-				{
-					buf.append(caller).append(System.lineSeparator());
-				}
-			}
 
-			logger.log(level, buf);
+		Level level;
+		switch (latencyLevel)
+		{
+			case LOW:
+				level = Level.INFO;
+				break;
+			case MEDIUM:
+				level = Level.WARNING;
+				break;
+			default:
+				level = Level.SEVERE;
+				break;
+		}
+		if (!history.isAlreadyLogged(e.getStackTrace()))
+		{
+			logger.log(level, latencyLevel.name() + " latency", e);
 		}
 	}
 
 	/**
-	 * A current transcation to modify the parameters.
+	 * A current transaction to modify the parameters.
 	 */
 	public class Transaction
 	{
-		private List<Runnable> cmds = new ArrayList<>();
+		private List<Runnable> commands = new ArrayList<>();
 		private boolean sealed;
 
 		private void add(Runnable cmd) throws IllegalArgumentException
 		{
 			if (sealed) throw new IllegalArgumentException("Sealed");
-			cmds.add(cmd);
+			commands.add(cmd);
 		}
 
 		/**
@@ -285,7 +292,7 @@ public class ConfigAuditReactive
 		 * May be apply after the commit().
 		 *
 		 * @param onOff true or fall
-		 * @return The current transcation.
+		 * @return The current transaction.
 		 */
 		public Transaction throwExceptions(boolean onOff)
 		{
@@ -298,11 +305,48 @@ public class ConfigAuditReactive
 		 * May be apply after the commit().
 		 *
 		 * @param level The logLevel.
-		 * @return The current transcation.
+		 * @return The current transaction.
 		 */
 		public Transaction log(Level level)
 		{
-			add(() -> logger.setLogLevel(level));
+			add(
+					() -> logger.setLevel(level));
+			return this;
+		}
+
+		/**
+		 * Select the trace logLevel.
+		 * May be apply after the commit().
+		 *
+		 * @param output pattern of "console" The logLevel.
+		 * @return The current transaction.
+		 */
+		public Transaction logOutput(String output, String format)
+		{
+			try
+			{
+				final Handler handler = ("console".equalsIgnoreCase(output))
+				                        ? new ConsoleHandler()
+				                        : new FileHandler(output, 50000, 1, false);
+				if (output.endsWith(".xml"))
+					handler.setFormatter(new java.util.logging.XMLFormatter());
+				else
+				{
+					handler.setFormatter(new AuditLogFormat(format));
+				}
+				add(() -> {
+					for (Handler h : logger.getHandlers())
+					{
+						logger.removeHandler(h);
+					}
+					logger.addHandler(handler);
+				});
+				logger.setUseParentHandlers(false);
+			}
+			catch (IOException e)
+			{
+				logger.severe("Log file error"); // FIXME: stacktrace ?
+			}
 			return this;
 		}
 
@@ -338,7 +382,7 @@ public class ConfigAuditReactive
 		 */
 		public synchronized void commit()
 		{
-			cmds.forEach(x -> x.run());
+			commands.forEach(x -> x.run());
 		}
 	}
 }

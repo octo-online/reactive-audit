@@ -1,12 +1,13 @@
-package com.octo.reactive.audit.annotation;
+package com.octo.reactive.audit.lib;
 
 import java.lang.annotation.*;
 
 /**
  * Annotation to accept to call a blocking API without log or exception.
  * All call from this method or from method called by this method was accepted without alert.
- * @authors Philippe Prados.
  *
+ * @authors Philippe Prados.
+ * <p>
  * TODO: documenter values
  */
 @Retention(RetentionPolicy.RUNTIME)

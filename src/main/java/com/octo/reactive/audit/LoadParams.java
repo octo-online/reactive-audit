@@ -6,35 +6,43 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.Properties;
+import java.util.logging.Level;
 
 /**
  * Created by pprados on 16/05/2014.
  */
-class LoadParams
+public class LoadParams
 {
-	public static final String KEY_AUDIT_FILENAME="auditReactive";
-	private static final String PREFIX=KEY_AUDIT_FILENAME+'.';
-	public static final String KEY_THROW_EXCEPTIONS=PREFIX+"throwExceptions";
-	public static final String KEY_THREAD_PATTERN=PREFIX+"threadPattern";
-	public static final String KEY_BOOTSTRAP_DELAY=PREFIX+"bootstrapDelay";
-	public static final String KEY_LOG_LEVEL=PREFIX+"logLevel";
+	public static final String DEFAULT_THREAD_PATTERN   = "^(ForkJoinPool-.*)";
+	public static final String DEFAULT_LOG_OUTPUT       = "%h/audit-reactive-%u.log";
+	public static final String DEFAULT_LOG_FORMAT       = "%4$-7s: %5$s%6$s%n";
+	public static final String DEFAULT_BOOTSTRAP_DELAY  = "0";
+	public static final String DEFAULT_THROW_EXCEPTIONS = "false";
 
-	public static final String DEFAULT_FILENAME="testAuditReactive.properties";
+	public static final String KEY_AUDIT_FILENAME   = "auditReactive";
+	public static final String PREFIX               = KEY_AUDIT_FILENAME + '.';
+	public static final String KEY_THROW_EXCEPTIONS = PREFIX + "throwExceptions";
+	public static final String KEY_THREAD_PATTERN   = PREFIX + "threadPattern";
+	public static final String KEY_BOOTSTRAP_DELAY  = PREFIX + "bootstrapDelay";
+	public static final String KEY_LOG_LEVEL        = PREFIX + "logLevel";
+	public static final String KEY_LOG_OUTPUT       = PREFIX + "logOutput";
+	public static final String KEY_LOG_FORMAT       = PREFIX + "logFormat";
+
+	public static final String DEFAULT_FILENAME = "testAuditReactive.properties";
 
 	private ConfigAuditReactive             config;
 	private ConfigAuditReactive.Transaction tx;
 	private URL filename;
 
-	public LoadParams(ConfigAuditReactive config,String propertiesFile)
+	public LoadParams(ConfigAuditReactive config, String propertiesFile)
 	{
-		propertiesFile=propertiesFile.trim();
 		this.config = config;
 		tx = config.begin();
-		if (propertiesFile==null || propertiesFile.length()==0)
+		if (propertiesFile == null || propertiesFile.length() == 0)
 			return;
 		try
 		{
-			filename=new URL(propertiesFile);
+			filename = new URL(propertiesFile);
 		}
 		catch (MalformedURLException e)
 		{
@@ -45,86 +53,56 @@ class LoadParams
 			}
 			catch (MalformedURLException ee)
 			{
-				config.logger.warn(propertiesFile+" malformed");
+				config.logger.warning(propertiesFile + " malformed");
 			}
 		}
 	}
 
-	private void parseThrowException(String param)
+	public static String getValue(String key, String def, Properties prop)
 	{
-		param=param.trim();
-		if (param.length()==0) return;
-		tx.throwExceptions(Boolean.parseBoolean(param));
+		String val = System.getenv(key);
+		String newVal = System.getProperty(key);
+		if (newVal != null) val = newVal;
+		if (prop != null)
+		{
+			newVal = prop.getProperty(key);
+			if (newVal != null)
+				val = newVal;
+		}
+		if (val == null)
+			val = def;
+		return val.trim();
 	}
-	private void parseBootstrapDelay(String param)
-	{
-		param=param.trim();
-		if (param.length()==0) return;
-		tx.bootStrapDelay(Long.parseLong(param));
-	}
-	private void parseLog(String param)
-	{
-		param=param.trim();
-		if (param.length()==0) return;
-		tx.log(Logger.Level.valueOf(param.toUpperCase()));
-	}
-	private void parseThreadPattern(String param)
-	{
-		param=param.trim();
-		if (param.length()==0) return;
-		tx.threadPattern(param);
-	}
-	//throwExceptions=false
+
 	void commit()
 	{
+		Properties prop = new Properties();
 		try
 		{
-			// 1. Set from system env.
-			applyEnv(PREFIX);
-
-			// 2. Set from file (set with -D${DEFAULT_FILENAME}
-			Properties prop=new Properties();
+			// Load from file (set with -D${DEFAULT_FILENAME}
 			if (filename!=null)
 			{
 				prop.load(filename.openStream());
-				applyProperties(prop);
 			}
-
 		}
 		catch (IOException e)
 		{
 			config.logger.info(filename + " not found");
 		}
-		// 3. Set from JVM -D
-		applyProperties(System.getProperties());
-		tx.commit();
-		config.logger.debug(KEY_THREAD_PATTERN+"  = " + config.getThreadPattern());
-		config.logger.debug(KEY_THROW_EXCEPTIONS+" = "+config.isThrow());
-		config.logger.debug(KEY_BOOTSTRAP_DELAY+" = " + config.getBootstrapDelay());
-	}
-	private void applyEnv(String prefix)
-	{
-		String param;
-		param=System.getenv(KEY_BOOTSTRAP_DELAY);
-		if (param!=null) parseBootstrapDelay(param);
-		param=System.getenv(KEY_THROW_EXCEPTIONS);
-		if (param!=null) parseThrowException(param);
-		param=System.getenv(KEY_LOG_LEVEL);
-		if (param!=null) parseLog(param);
-		param=System.getenv(KEY_THREAD_PATTERN);
-		if (param!=null)parseThreadPattern(param);
+		applyProperties(prop);
+		config.logger.fine(KEY_THREAD_PATTERN + "  = " + config.getThreadPattern());
+		config.logger.fine(KEY_THROW_EXCEPTIONS + " = " + config.isThrow());
+		config.logger.fine(KEY_BOOTSTRAP_DELAY + " = " + config.getBootstrapDelay());
 	}
 	private void applyProperties(Properties prop)
 	{
-		if (prop==null) return;
-		String param;
-		param=prop.getProperty(KEY_BOOTSTRAP_DELAY);
-		if (param!=null) parseBootstrapDelay(param);
-		param=prop.getProperty(KEY_THROW_EXCEPTIONS);
-		if (param!=null) parseThrowException(param);
-		param=prop.getProperty(KEY_LOG_LEVEL);
-		if (param!=null) parseLog(param);
-		param=prop.getProperty(KEY_THREAD_PATTERN);
-		if (param!=null)parseThreadPattern(param);
+		tx.bootStrapDelay(Long.parseLong(getValue(KEY_BOOTSTRAP_DELAY, DEFAULT_BOOTSTRAP_DELAY, prop)));
+		tx.throwExceptions(Boolean.parseBoolean(getValue(KEY_THROW_EXCEPTIONS, DEFAULT_THROW_EXCEPTIONS, prop)));
+		tx.log(Level.parse(getValue(KEY_LOG_LEVEL, Level.WARNING.getName(), prop).toUpperCase()));
+		tx.logOutput(getValue(KEY_LOG_OUTPUT, DEFAULT_LOG_OUTPUT, prop),
+		             getValue(KEY_LOG_FORMAT, DEFAULT_LOG_FORMAT, prop));
+		tx.threadPattern(getValue(KEY_THREAD_PATTERN, DEFAULT_THREAD_PATTERN, prop));
+		tx.commit();
 	}
+
 }

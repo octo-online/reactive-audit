@@ -1,7 +1,7 @@
 package com.octo.reactive.audit.java.lang;
 
 import com.octo.reactive.audit.ConfigAuditReactive;
-import com.octo.reactive.audit.annotation.AuditReactiveException;
+import com.octo.reactive.audit.lib.AuditReactiveException;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.io.IOException;
  */
 public class ProcessTest
 {
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected = AuditReactiveException.class)
 	public void waitFor() throws IOException, InterruptedException
 	{
 		ConfigAuditReactive.strict.commit();

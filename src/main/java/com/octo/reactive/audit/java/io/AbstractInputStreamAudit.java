@@ -4,73 +4,13 @@ import com.octo.reactive.audit.AbstractAudit;
 import com.octo.reactive.audit.Latency;
 import org.aspectj.lang.JoinPoint;
 
-import java.io.FileInputStream;
-import java.io.FilterInputStream;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.lang.reflect.Field;
 
 public class AbstractInputStreamAudit extends AbstractAudit
 {
-	static final Field fieldInFilterInputStream;
-	static final Field fieldBinObjectInputStream;
-	static final Field fieldInObjectInputStream;
-	static final Field fieldPeekObjectInputStream;
-
-
-	static
-	{
-		try
-		{
-			fieldInFilterInputStream = FilterInputStream.class.getDeclaredField("in");
-			fieldInFilterInputStream.setAccessible(true);
-			fieldBinObjectInputStream = ObjectInputStream.class.getDeclaredField("bin");
-			fieldBinObjectInputStream.setAccessible(true);
-			fieldInObjectInputStream = fieldBinObjectInputStream.getType().getDeclaredField("in");
-			fieldInObjectInputStream.setAccessible(true);
-			fieldPeekObjectInputStream = fieldInObjectInputStream.getType().getDeclaredField("in");
-			fieldPeekObjectInputStream.setAccessible(true);
-		}
-		catch (NoSuchFieldException e)
-		{
-			throw new Error(e);
-		}
-	}
-
-	protected boolean isLastInputStreamWithLatency(InputStream in)
-	{
-		while (in instanceof FilterInputStream
-				|| in instanceof ObjectInputStream)
-		{
-			try
-			{
-				if (in instanceof FilterInputStream)
-				{
-					FilterInputStream filter = (FilterInputStream) in;
-					in = (InputStream) fieldInFilterInputStream.get(filter);
-				}
-				else
-				{
-					ObjectInputStream objIn = (ObjectInputStream) in;
-					// Ok for Java8
-					in = (InputStream) fieldPeekObjectInputStream.get(
-							fieldInObjectInputStream.get(
-									fieldBinObjectInputStream.get(objIn)
-							)
-					);
-				}
-			}
-			catch (IllegalAccessException e)
-			{
-				throw new Error(e);
-			}
-		}
-		return (in instanceof FileInputStream);
-	}
-
 	protected void latency(Latency level, JoinPoint thisJoinPoint, InputStream in)
 	{
-		if (isLastInputStreamWithLatency(in))
+		if (FileTools.isLastInputStreamWithLatency(in))
 		{
 			super.latency(level, thisJoinPoint);
 		}

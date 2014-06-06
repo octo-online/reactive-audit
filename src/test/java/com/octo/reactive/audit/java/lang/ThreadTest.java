@@ -1,7 +1,7 @@
 package com.octo.reactive.audit.java.lang;
 
 import com.octo.reactive.audit.ConfigAuditReactive;
-import com.octo.reactive.audit.annotation.AuditReactiveException;
+import com.octo.reactive.audit.lib.AuditReactiveException;
 import org.junit.Test;
 
 /**
@@ -9,14 +9,15 @@ import org.junit.Test;
  */
 public class ThreadTest
 {
-	@Test(expected=AuditReactiveException.class)
+	@Test(expected = AuditReactiveException.class)
 	public void join() throws InterruptedException
 	{
 		ConfigAuditReactive.strict.commit();
-		Thread thread=new Thread();
+		Thread thread = new Thread();
 		thread.join();
 	}
-	@Test(expected=AuditReactiveException.class)
+
+	@Test(expected = AuditReactiveException.class)
 	public void sleep() throws InterruptedException
 	{
 		ConfigAuditReactive.strict.commit();

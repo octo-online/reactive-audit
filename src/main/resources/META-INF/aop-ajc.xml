@@ -11,6 +11,9 @@
         <aspect name="com.octo.reactive.audit.java.lang.ProcessAspect"/>
         <aspect name="com.octo.reactive.audit.java.lang.ThreadAspect"/>
 
+        <!-- java.util -->
+        <aspect name="com.octo.reactive.audit.java.util.PropertiesAspect"/>
+
         <!-- java.io -->
         <aspect name="com.octo.reactive.audit.java.io.FlushableAspect"/>
         <aspect name="com.octo.reactive.audit.java.io.FileAspect"/>

@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.annotation.FileAuditReactiveException;
+import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import org.junit.Test;
 
 import java.io.File;
@@ -23,22 +23,24 @@ public class FileInputStreamTest extends AuditedInputStreamTest
 	}
 
 	private File getFileIn() throws IOException
-    {
-        push();
-        File f=File.createTempFile("temp-file-name", ".tmp");
-        f.delete();
-        f.deleteOnExit();
-        f.createNewFile();
-	    pop();
-        return f;
-    }
+	{
+		push();
+		File f = File.createTempFile("temp-file-name", ".tmp");
+		f.delete();
+		f.deleteOnExit();
+		f.createNewFile();
+		pop();
+		return f;
+	}
+
 	@Override
-	@Test(expected=FileAuditReactiveException.class)
+	@Test(expected = FileAuditReactiveException.class)
 	public void New() throws IOException
 	{
 		super.New();
 	}
-	@Test(expected=FileAuditReactiveException.class)
+
+	@Test(expected = FileAuditReactiveException.class)
 	public void derived() throws IOException
 	{
 		class Derived extends FileInputStream
@@ -47,7 +49,8 @@ public class FileInputStreamTest extends AuditedInputStreamTest
 			{
 				super(getFileIn());
 			}
-		};
+		}
+		;
 		new Derived();
 	}
 

@@ -1,6 +1,6 @@
 package com.octo.reactive.audit;
 
-import com.octo.reactive.audit.annotation.SuppressAuditReactive;
+import com.octo.reactive.audit.lib.SuppressAuditReactive;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -15,40 +15,42 @@ public class SuppressAuditReactiveTest
 	@SuppressAuditReactive("Direct call")
 	public void directCall()
 	{
-		 assertTrue(ConfigAuditReactive.config.isSuppressAudit());
+		assertTrue(ConfigAuditReactive.config.isSuppressAudit());
 	}
+
 	@Test
 	@SuppressAuditReactive("Indirect call")
 	public void indirectCall()
 	{
-		Runnable r=new Runnable()
+		Runnable r = new Runnable()
 		{
 			@Override
 			public void run()
 			{
 				assertTrue(ConfigAuditReactive.config.isSuppressAudit());
-				assertEquals(1,ConfigAuditReactive.config.getSuppress());
+				assertEquals(1, ConfigAuditReactive.config.getSuppress());
 			}
 		};
 		r.run();
 		assertTrue(ConfigAuditReactive.config.isSuppressAudit());
-		assertEquals(1,ConfigAuditReactive.config.getSuppress());
+		assertEquals(1, ConfigAuditReactive.config.getSuppress());
 	}
+
 	@Test
 	@SuppressAuditReactive("Double call")
 	public void doubleCall()
 	{
-		Runnable r=new Runnable()
+		Runnable r = new Runnable()
 		{
 			@SuppressAuditReactive
 			@Override
 			public void run()
 			{
 				assertTrue(ConfigAuditReactive.config.isSuppressAudit());
-				assertEquals(2,ConfigAuditReactive.config.getSuppress());
+				assertEquals(2, ConfigAuditReactive.config.getSuppress());
 			}
 		};
 		r.run();
-		assertEquals(1,ConfigAuditReactive.config.getSuppress());
+		assertEquals(1, ConfigAuditReactive.config.getSuppress());
 	}
 }

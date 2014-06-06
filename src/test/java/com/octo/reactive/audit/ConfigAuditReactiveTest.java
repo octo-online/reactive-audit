@@ -1,12 +1,14 @@
 package com.octo.reactive.audit;
 
-import com.octo.reactive.audit.annotation.SuppressAuditReactive;
+import com.octo.reactive.audit.lib.AuditReactiveException;
+import com.octo.reactive.audit.lib.SuppressAuditReactive;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
-import static com.octo.reactive.audit.Logger.Level;
-import static com.octo.reactive.audit.Logger.Level.*;
 import static org.junit.Assert.*;
 
 
@@ -18,6 +20,28 @@ public class ConfigAuditReactiveTest
 	// Because the Aspectj must use the config singleton,
 	// it's not possible to inject a specific config instance
 	private ConfigAuditReactive config=ConfigAuditReactive.config;
+
+	private int[]   log     = new int[1];
+	private Handler handler = new Handler()
+	{
+		@Override
+		public void publish(LogRecord record)
+		{
+			if (record.getLevel() != Level.FINE)
+				++log[0];
+		}
+
+		@Override
+		public void flush()
+		{
+		}
+
+		@Override
+		public void close()
+		{
+		}
+	};
+
 
 	@Test
 	public void testCurrentThread_test()
@@ -34,22 +58,22 @@ public class ConfigAuditReactiveTest
 	public void setAllParams()
 	{
 		config.begin()
-				.log(INFO)
+				.log(Level.FINE)
 				.throwExceptions(true)
 				.threadPattern("")
 				.bootStrapDelay(10)
 				.commit();
-		assertEquals(INFO,config.getLogLevel());
+		assertEquals(Level.FINE, config.getLogLevel());
 		assertEquals(true,config.isThrow());
 		assertEquals("",config.getThreadPattern());
 		assertEquals(10,config.getBootstrapDelay());
 		config.begin()
-				.log(WARN)
+				.log(Level.WARNING)
 				.throwExceptions(false)
 				.threadPattern("abc")
 				.bootStrapDelay(0)
 				.commit();
-		assertEquals(WARN,config.getLogLevel());
+		assertEquals(Level.WARNING, config.getLogLevel());
 		assertEquals(false,config.isThrow());
 		assertEquals("abc",config.getThreadPattern());
 		assertEquals(0,config.getBootstrapDelay());
@@ -59,7 +83,7 @@ public class ConfigAuditReactiveTest
 	{
 		config.begin()
 				.seal()
-				.log(WARN);
+				.log(Level.WARNING);
 	}
 
 	@Test
@@ -68,19 +92,11 @@ public class ConfigAuditReactiveTest
 	{
 		config.begin()
 				.threadPattern(".*")
-				.log(WARN)
+				.log(Level.INFO)
 				.throwExceptions(false)
 				.commit();
-		int[] log=new int[1];
-		config.logger.delegate = new Logger.DelegateLogger()
-		{
-			@Override
-			public void log(Level level, CharSequence msg)
-			{
-				if (level!= DEBUG)
-					++log[0];
-			}
-		};
+		config.logger.addHandler(handler);
+
 		Thread t;
 
 		log[0] = 0;
@@ -157,6 +173,8 @@ public class ConfigAuditReactiveTest
 		t.start();
 		t.join();
 		assertEquals(0,log[0]);
+
+		removeHandler();
 	}
 
 	@Test
@@ -165,19 +183,10 @@ public class ConfigAuditReactiveTest
 		config.reset();
 		config.begin()
 				.threadPattern(".*")
-				.log(WARN)
+				.log(Level.INFO)
 				.throwExceptions(false)
 				.commit();
-		int[] log = new int[1];
-		config.logger.delegate = new Logger.DelegateLogger()
-		{
-			@Override
-			public void log(Level level, CharSequence msg)
-			{
-				if (level!= DEBUG)
-					++log[0];
-			}
-		};
+		addHandler();
 
 		for (int i = 0; i < 5; ++i)
 		{
@@ -187,6 +196,24 @@ public class ConfigAuditReactiveTest
 			else assertEquals(0,log[0]);
 
 		}
+		removeHandler();
+	}
+
+	private void removeHandler()
+	{
+		config.logger.removeHandler(handler);
+	}
+
+	private void addHandler()
+	{
+		if (true) // FIXME : supprime les traces console
+		{
+			for (Handler h : config.logger.getHandlers())
+			{
+				config.logger.removeHandler(h);
+			}
+		}
+		config.logger.addHandler(handler);
 	}
 
 	private void latencyCall1()
@@ -208,5 +235,26 @@ public class ConfigAuditReactiveTest
 	{
 		latencyCall1();
 		latencyCall2();
+	}
+
+	@Test
+	public void testPurgeStackTrace()
+	{
+		ConfigAuditReactive.strict.commit();
+
+		try
+		{
+			latencyCall1();
+			assertFalse(true);
+		}
+		catch (AuditReactiveException e)
+		{
+			StackTraceElement[] stack = e.getStackTrace();
+			for (StackTraceElement traceElement : stack)
+			{
+				assertFalse((traceElement.getClassName().startsWith(ConfigAuditReactive.auditPackageName)
+						&& !traceElement.getClassName().endsWith("Test"))); // For inner unit test
+			}
+		}
 	}
 }

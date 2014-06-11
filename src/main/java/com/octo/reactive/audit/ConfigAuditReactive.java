@@ -1,6 +1,7 @@
 package com.octo.reactive.audit;
 
 import com.octo.reactive.audit.lib.AuditReactiveException;
+import com.octo.reactive.audit.lib.Latency;
 
 import java.io.IOException;
 import java.util.*;
@@ -102,14 +103,15 @@ public class ConfigAuditReactive
 
 	void reset()
 	{
-		started=false;
-		afterBootstrap=false;
+		started = false;
+		afterBootstrap = false;
 		history.purge();
 		stack.clear();
 		historyThreadName.clear();
 		suppressAudit.set(0);
 		startup();
 	}
+
 	/**
 	 * Increment the thread local variable to suppress audit for the current frame.
 	 */
@@ -128,6 +130,7 @@ public class ConfigAuditReactive
 
 	/**
 	 * Return the current suppress counter. For unit test only.
+	 *
 	 * @return The local variable.
 	 */
 	int getSuppress()
@@ -137,6 +140,7 @@ public class ConfigAuditReactive
 
 	/**
 	 * Check if the current thread name match the pattern.
+	 *
 	 * @param name The thread name.
 	 * @return <code>true</code> if match.
 	 */
@@ -170,6 +174,7 @@ public class ConfigAuditReactive
 
 	/**
 	 * Return the current bootstrap delay before start the audit.
+	 *
 	 * @return The delay in MS after the startup.
 	 */
 	public long getBootstrapDelay()
@@ -179,6 +184,7 @@ public class ConfigAuditReactive
 
 	/**
 	 * Throw an exception if detect an error ?
+	 *
 	 * @return the current status.
 	 */
 	public boolean isThrow()
@@ -233,6 +239,7 @@ public class ConfigAuditReactive
 	/**
 	 * Begin a transaction to update the parameters.
 	 * Call commit() to apply.
+	 *
 	 * @return The transaction.
 	 */
 	public Transaction begin()

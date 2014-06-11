@@ -2,6 +2,7 @@ package com.octo.reactive.audit;
 
 import com.octo.reactive.audit.lib.AuditReactiveException;
 import com.octo.reactive.audit.lib.FileAuditReactiveException;
+import com.octo.reactive.audit.lib.Latency;
 import org.aspectj.lang.JoinPoint;
 
 /**
@@ -22,7 +23,8 @@ public class AbstractAudit
 		return isReactiveThread() && !config.isSuppressAudit();
 	}
 
-	protected void latency(Latency latencyLevel, JoinPoint thisJoinPoint) throws AuditReactiveException
+	protected void latency(Latency latencyLevel,
+	                       JoinPoint thisJoinPoint) throws AuditReactiveException
 	{
 		if (checkForAll())
 		{

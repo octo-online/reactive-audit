@@ -3,7 +3,7 @@ package com.octo.reactive.audit;
 /**
  * Created by pprados on 16/05/2014.
  */
-public class DetectionUtils
+class DetectionUtils
 {
 
 	public static String getFullJavaVersion()

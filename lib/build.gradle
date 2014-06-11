@@ -1,0 +1,22 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+//apply plugin: 'eclipse'
+//apply plugin: 'idea'
+
+group = "com.octo.reactive.audit"
+version = '0.0.1-SNAPSHOT'
+description= 'TODO'
+
+sourceCompatibility = '8'
+targetCompatibility = '8'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "javax.validation:validation-api:1.1.0.Final"
+
+//    testCompile group: 'junit', name: 'junit', version: '4.11'
+}

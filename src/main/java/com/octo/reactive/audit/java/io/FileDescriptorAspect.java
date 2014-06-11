@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Before;
 
 import java.io.OutputStream;
 
-import static com.octo.reactive.audit.Latency.MEDIUM;
+import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
 /**
  * Created by pprados on 19/05/2014.

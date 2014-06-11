@@ -5,7 +5,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
-import static com.octo.reactive.audit.Latency.LOW;
+import static com.octo.reactive.audit.lib.Latency.LOW;
 
 @Aspect
 public class FileInputStreamAspect extends AbstractInputStreamAudit

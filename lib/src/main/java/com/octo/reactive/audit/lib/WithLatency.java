@@ -1,10 +1,6 @@
 package com.octo.reactive.audit.lib;
 
-import com.octo.reactive.audit.Latency;
-
 import java.lang.annotation.*;
-
-import static com.octo.reactive.audit.Latency.HIGH;
 
 /**
  * Annotation to declare a specific method has latency.
@@ -22,7 +18,7 @@ import static com.octo.reactive.audit.Latency.HIGH;
 @Target(ElementType.METHOD)
 public @interface WithLatency
 {
-	Latency value() default HIGH;
+	Latency value() default Latency.HIGH;
 
 	String msg() default "This method can not be called with reactive thread.";
 }

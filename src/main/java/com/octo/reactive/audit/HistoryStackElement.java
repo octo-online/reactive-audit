@@ -35,6 +35,7 @@ class HistoryStackElement
 
 	/**
 	 * Search stack in history.
+	 *
 	 * @param stack
 	 * @return true if found the same stack
 	 */

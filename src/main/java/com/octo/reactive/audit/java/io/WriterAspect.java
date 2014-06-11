@@ -7,8 +7,8 @@ import org.aspectj.lang.annotation.Pointcut;
 
 import java.io.Writer;
 
-import static com.octo.reactive.audit.Latency.HIGH;
-import static com.octo.reactive.audit.Latency.MEDIUM;
+import static com.octo.reactive.audit.lib.Latency.HIGH;
+import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
 @Aspect
 public class WriterAspect extends AbstractWriterAudit

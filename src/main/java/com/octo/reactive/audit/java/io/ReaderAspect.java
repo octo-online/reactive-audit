@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Pointcut;
 
 import java.io.Reader;
 
-import static com.octo.reactive.audit.Latency.*;
+import static com.octo.reactive.audit.lib.Latency.*;
 
 @Aspect
 public class ReaderAspect extends AbstractReaderAudit

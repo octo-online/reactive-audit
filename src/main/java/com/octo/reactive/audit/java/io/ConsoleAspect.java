@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 
-import static com.octo.reactive.audit.Latency.HIGH;
+import static com.octo.reactive.audit.lib.Latency.HIGH;
 
 @Aspect
 public class ConsoleAspect extends AbstractAudit

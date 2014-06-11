@@ -32,7 +32,7 @@ public class LoadParams
 
 	private ConfigAuditReactive             config;
 	private ConfigAuditReactive.Transaction tx;
-	private URL filename;
+	private URL                             filename;
 
 	public LoadParams(ConfigAuditReactive config, String propertiesFile)
 	{
@@ -80,7 +80,7 @@ public class LoadParams
 		try
 		{
 			// Load from file (set with -D${DEFAULT_FILENAME}
-			if (filename!=null)
+			if (filename != null)
 			{
 				prop.load(filename.openStream());
 			}
@@ -94,6 +94,7 @@ public class LoadParams
 		config.logger.fine(KEY_THROW_EXCEPTIONS + " = " + config.isThrow());
 		config.logger.fine(KEY_BOOTSTRAP_DELAY + " = " + config.getBootstrapDelay());
 	}
+
 	private void applyProperties(Properties prop)
 	{
 		tx.bootStrapDelay(Long.parseLong(getValue(KEY_BOOTSTRAP_DELAY, DEFAULT_BOOTSTRAP_DELAY, prop)));

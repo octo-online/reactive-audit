@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Pointcut;
 
 import java.io.InputStream;
 
-import static com.octo.reactive.audit.Latency.*;
+import static com.octo.reactive.audit.lib.Latency.*;
 
 @Aspect
 public class InputStreamAspect extends AbstractInputStreamAudit

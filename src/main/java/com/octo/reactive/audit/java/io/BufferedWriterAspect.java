@@ -7,14 +7,16 @@ import org.aspectj.lang.annotation.Pointcut;
 
 import java.io.Writer;
 
-import static com.octo.reactive.audit.Latency.HIGH;
+import static com.octo.reactive.audit.lib.Latency.HIGH;
 
 @Aspect
 public class BufferedWriterAspect extends AbstractWriterAudit
 {
 	// FIXME : est-ce necessaire ?
 	@Pointcut("call(* java.io.BufferedWriter.newLine())")
-	public void newLine() { }
+	public void newLine()
+	{
+	}
 
 	@Before("(newLine())")
 	public void advice_high(JoinPoint thisJoinPoint)

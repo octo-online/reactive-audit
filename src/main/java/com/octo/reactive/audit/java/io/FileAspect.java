@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 
-import static com.octo.reactive.audit.Latency.LOW;
+import static com.octo.reactive.audit.lib.Latency.LOW;
 
 /**
  * Created by pprados on 19/05/2014.

@@ -17,6 +17,7 @@
         <!-- java.io -->
         <aspect name="com.octo.reactive.audit.java.io.FlushableAspect"/>
         <aspect name="com.octo.reactive.audit.java.io.FileAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.RandomAccessFileAspect"/>
 
         <!-- java.io.InputStream+ -->
         <aspect name="com.octo.reactive.audit.java.io.InputStreamAspect"/>
@@ -35,6 +36,16 @@
         <aspect name="com.octo.reactive.audit.java.io.FileWriterAspect"/>
         <aspect name="com.octo.reactive.audit.java.io.BufferedWriterAspect"/>
         <aspect name="com.octo.reactive.audit.java.io.PrintWriterAspect"/>
+
+
+        <!-- java.net -->
+        <aspect name="com.octo.reactive.audit.java.net.DatagramSocketAudit"/>
+        <aspect name="com.octo.reactive.audit.java.net.InetAddressAudit"/>
+        <aspect name="com.octo.reactive.audit.java.net.URLConnectionAudit"/>
+        <aspect name="com.octo.reactive.audit.java.net.HttpURLConnectionAudit"/>
+        <aspect name="com.octo.reactive.audit.java.net.ServerSocketAudit"/>
+        <aspect name="com.octo.reactive.audit.java.net.SocketAudit"/>
+        <aspect name="com.octo.reactive.audit.java.net.URLAudit"/>
     </aspects>
 </aspectj>
 

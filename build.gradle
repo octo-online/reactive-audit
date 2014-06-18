@@ -48,10 +48,11 @@ test {
 //        logger.lifecycle("Running test: " + descriptor)
 //    }
 
-    include 'com/octo/reactive/audit/**'
+//    include 'com/octo/reactive/audit/**'
 //    include 'com/octo/reactive/audit/java/lang/**'
 //    include 'com/octo/reactive/audit/java/util/**'
-//    include 'com/octo/reactive/audit/java/io/**'
+    include 'com/octo/reactive/audit/java/io/**'
+//    include 'com/octo/reactive/audit/java/net/**'
     def weaver = "-javaagent:" +
             project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
     def auditReactiveConf = "-DauditReactive=src/test/resources/testAuditReactive.properties"

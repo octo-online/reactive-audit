@@ -11,7 +11,7 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
  * Created by pprados on 09/05/2014.
  */
 @Aspect
-public class WithLatencyAspect extends AbstractAudit
+public class WithLatencyAspect extends DefaultAudit
 {
 	@Before("execution(@com.octo.reactive.audit.lib.WithLatency * *(..) )")
 	public void beforeSuppress(JoinPoint thisJoinPoint)

@@ -1,22 +1,22 @@
 package com.octo.reactive.audit;
 
 import com.octo.reactive.audit.lib.AuditReactiveException;
-import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import com.octo.reactive.audit.lib.Latency;
 import org.aspectj.lang.JoinPoint;
 
 /**
  * Created by pprados on 07/05/2014.
  */
-public class AbstractAudit
+public abstract class AbstractAudit
 {
 	protected ConfigAuditReactive config = ConfigAuditReactive.config;
 
 	protected static boolean isReactiveThread()
 	{
-		boolean reactiveThread = ConfigAuditReactive.config.isThreadNameMatch(Thread.currentThread().getName());
-		return reactiveThread;
+		return ConfigAuditReactive.config.isThreadNameMatch(Thread.currentThread().getName());
 	}
+
+	abstract protected AuditReactiveException newException(JoinPoint thisJoinPoint);
 
 	private boolean checkForAll()
 	{
@@ -24,17 +24,28 @@ public class AbstractAudit
 	}
 
 	protected void latency(Latency latencyLevel,
-	                       JoinPoint thisJoinPoint) throws AuditReactiveException
+	                       JoinPoint thisJoinPoint
+	) throws AuditReactiveException
+	{
+		if (checkForAll())
+		{
+			latency(latencyLevel, thisJoinPoint, newException(thisJoinPoint));
+		}
+	}
+
+	protected void latency(Latency latencyLevel,
+	                       JoinPoint thisJoinPoint, AuditReactiveException e) throws AuditReactiveException
 	{
 		if (checkForAll())
 		{
 			final ConfigAuditReactive config = ConfigAuditReactive.config;
 			if (!config.isAfterStartupDelay())
 				return;
-			AuditReactiveException e = new FileAuditReactiveException(thisJoinPoint.getSignature().toString());
 			config.logIfNew(latencyLevel, e);
 			if (config.isThrow())  // LOW, MEDIUM, HIGH ?
 				throw e;
 		}
 	}
+
+
 }

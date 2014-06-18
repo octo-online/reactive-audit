@@ -8,13 +8,12 @@ import org.aspectj.lang.annotation.Aspect;
  * Created by pprados on 09/05/2014.
  */
 @Aspect
-public class MainAspect extends AbstractAudit
+public class MainAspect extends DefaultAudit
 {
 	@Around("execution(public static void main(java.lang.String[]))")
 	public void startup(ProceedingJoinPoint thisJoinPoint)
 			throws Throwable
 	{
-		final Thread mainThread = Thread.currentThread();
 		Runtime.getRuntime().addShutdownHook(new Thread()
 		{
 			@Override

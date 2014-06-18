@@ -6,33 +6,16 @@ import java.lang.reflect.Field;
 /**
  * Created by pprados on 28/05/2014.
  */
-public class FileTools
+public final class FileTools
 {
+	public static final int NO_ERROR   = 0;
+	public static final int NET_ERROR  = -1;
+	public static final int FILE_ERROR = 1;
+
 	static final Field fieldInFilterInputStream;
 	static final Field fieldBinObjectInputStream;
 	static final Field fieldInObjectInputStream;
 	static final Field fieldPeekObjectInputStream;
-
-
-	static
-	{
-		try
-		{
-			fieldInFilterInputStream = FilterInputStream.class.getDeclaredField("in");
-			fieldInFilterInputStream.setAccessible(true);
-			fieldBinObjectInputStream = ObjectInputStream.class.getDeclaredField("bin");
-			fieldBinObjectInputStream.setAccessible(true);
-			fieldInObjectInputStream = fieldBinObjectInputStream.getType().getDeclaredField("in");
-			fieldInObjectInputStream.setAccessible(true);
-			fieldPeekObjectInputStream = fieldInObjectInputStream.getType().getDeclaredField("in");
-			fieldPeekObjectInputStream.setAccessible(true);
-		}
-		catch (NoSuchFieldException e)
-		{
-			throw new Error(e);
-		}
-	}
-
 	static final Field fieldLockReader;
 	static final Field fieldInFilterReader;
 	static final Field fieldInBufferedReader;
@@ -55,7 +38,77 @@ public class FileTools
 		}
 	}
 
-	static public boolean isLastInputStreamWithLatency(InputStream in)
+	static final Field fieldOutFilterOutputStream;
+	static final Field fieldBoutObjectOutputStream;
+	static final Field fieldOutObjectOutputStream;
+
+	static
+	{
+		try
+		{
+			fieldOutFilterOutputStream = FilterOutputStream.class.getDeclaredField("out");
+			fieldOutFilterOutputStream.setAccessible(true);
+			fieldBoutObjectOutputStream = ObjectOutputStream.class.getDeclaredField("bout");
+			fieldBoutObjectOutputStream.setAccessible(true);
+			fieldOutObjectOutputStream = fieldBoutObjectOutputStream.getType().getDeclaredField("out");
+			fieldOutObjectOutputStream.setAccessible(true);
+		}
+		catch (NoSuchFieldException e)
+		{
+			throw new Error(e);
+		}
+	}
+
+	static final Field fieldLockWriter;
+	static final Field fieldOutFilterWriter;
+	static final Field fieldOutBufferedWriter;
+	static final Field fieldOutPrintWriter;
+
+	static
+	{
+		try
+		{
+			fieldLockWriter = Writer.class.getDeclaredField("lock");
+			fieldLockWriter.setAccessible(true);
+			fieldOutFilterWriter = FilterWriter.class.getDeclaredField("out");
+			fieldOutFilterWriter.setAccessible(true);
+			fieldOutBufferedWriter = BufferedWriter.class.getDeclaredField("out");
+			fieldOutBufferedWriter.setAccessible(true);
+			fieldOutPrintWriter = PrintWriter.class.getDeclaredField("out");
+			fieldOutPrintWriter.setAccessible(true);
+
+		}
+		catch (NoSuchFieldException e)
+		{
+			throw new Error(e);
+		}
+	}
+
+	private FileTools()
+	{
+
+	}
+
+	static
+	{
+		try
+		{
+			fieldInFilterInputStream = FilterInputStream.class.getDeclaredField("in");
+			fieldInFilterInputStream.setAccessible(true);
+			fieldBinObjectInputStream = ObjectInputStream.class.getDeclaredField("bin");
+			fieldBinObjectInputStream.setAccessible(true);
+			fieldInObjectInputStream = fieldBinObjectInputStream.getType().getDeclaredField("in");
+			fieldInObjectInputStream.setAccessible(true);
+			fieldPeekObjectInputStream = fieldInObjectInputStream.getType().getDeclaredField("in");
+			fieldPeekObjectInputStream.setAccessible(true);
+		}
+		catch (NoSuchFieldException e)
+		{
+			throw new Error(e);
+		}
+	}
+
+	static public int isLastInputStreamWithLatency(InputStream in)
 	{
 		while (in instanceof FilterInputStream
 				|| in instanceof ObjectInputStream)
@@ -83,10 +136,13 @@ public class FileTools
 				throw new Error(e);
 			}
 		}
-		return (in instanceof FileInputStream);
+		if (in.getClass().getName().equals("java.net.SocketInputStream")) return NET_ERROR;
+		if (in instanceof FileInputStream) return FILE_ERROR;
+		if (in.getClass().getName().startsWith("sun.net.www.")) return NET_ERROR;
+		return NO_ERROR;
 	}
 
-	public static boolean isLastInputStreamInReaderWithLatency(Reader reader)
+	public static int isLastInputStreamInReaderWithLatency(Reader reader)
 	{
 		try
 		{
@@ -108,12 +164,80 @@ public class FileTools
 				return isLastInputStreamWithLatency(in);
 			}
 			else
-				return false;
+				return NO_ERROR;
 		}
 		catch (IllegalAccessException e)
 		{
 			throw new Error(e);
 		}
 	}
+
+	public static int isLastOutputStreamWithLatency(OutputStream out)
+	{
+		while (out instanceof FilterOutputStream
+				|| out instanceof ObjectOutputStream)
+		{
+			try
+			{
+				if (out instanceof FilterOutputStream)
+				{
+					FilterOutputStream filter = (FilterOutputStream) out;
+					out = (OutputStream) fieldOutFilterOutputStream.get(filter);
+				}
+				else
+				{
+					ObjectOutputStream objIn = (ObjectOutputStream) out;
+					// Ok for Java8
+					out = (OutputStream) fieldOutObjectOutputStream.get(
+							fieldBoutObjectOutputStream.get(objIn)
+					);
+				}
+			}
+			catch (IllegalAccessException e)
+			{
+				throw new Error(e);
+			}
+		}
+		if (out.getClass().getName().equals("java.net.SocketOutputStream")) return NET_ERROR;
+		if (out instanceof FileOutputStream) return FILE_ERROR;
+		if (out.getClass().getName().startsWith("sun.net.www.")) return NET_ERROR;
+		return NO_ERROR;
+	}
+
+	public static int isLastOutputStreamFromWriterWithLatency(Writer writer)
+	{
+		try
+		{
+			while (writer instanceof FilterWriter
+					|| writer instanceof BufferedWriter
+					|| writer instanceof PrintWriter)
+			{
+				if (writer instanceof FilterWriter)
+				{
+					writer = (Writer) fieldOutFilterWriter.get(writer);
+				}
+				else if (writer instanceof PrintWriter)
+				{
+					writer = (Writer) fieldOutPrintWriter.get(writer);
+				}
+				else
+				{
+					writer = (Writer) fieldOutBufferedWriter.get(writer);
+				}
+			}
+			if (writer instanceof OutputStreamWriter)
+			{
+				OutputStream out = (OutputStream) fieldLockWriter.get(writer);
+				return isLastOutputStreamWithLatency(out);
+			}
+			else
+				return NO_ERROR;
+		}
+		catch (IllegalAccessException e)
+		{
+			throw new Error(e);
+		}
+	}
+
 
 }

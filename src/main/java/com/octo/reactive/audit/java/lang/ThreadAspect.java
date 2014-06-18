@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.lang;
 
-import com.octo.reactive.audit.AbstractAudit;
+import com.octo.reactive.audit.DefaultAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -13,7 +13,7 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
  */
 
 @Aspect
-public class ThreadAspect extends AbstractAudit
+public class ThreadAspect extends DefaultAudit
 {
 	@Pointcut("call(* java.lang.Thread.join(..))")
 	public void join()

@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.lang;
 
-import com.octo.reactive.audit.AbstractAudit;
+import com.octo.reactive.audit.DefaultAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -11,7 +11,7 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
  * Created by pprados on 19/05/2014.
  */
 @Aspect
-public class ObjectAspect extends AbstractAudit
+public class ObjectAspect extends DefaultAudit
 {
 	@Before("call(* java.lang.Object.wait(..))")
 	public void advice_high(JoinPoint thisJoinPoint)

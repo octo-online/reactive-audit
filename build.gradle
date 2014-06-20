@@ -18,12 +18,16 @@ project.ext {
     aspectjVersion = '1.8.0'
 }
 
-//apply plugin: 'java'
 apply plugin: 'aspectj'
+apply plugin: 'maven'
 
 sourceCompatibility = '8'
 targetCompatibility = '8'
-version = '1.0'
+
+group = "com.octo.reactive.audit"
+version = '0.0.1-SNAPSHOT'
+description = 'JVM Agent to detect blocking IO call'
+
 
 dependencies {
     compile project(":lib")

@@ -7,6 +7,9 @@ import org.junit.Test;
 import java.io.IOException;
 import java.net.URL;
 
+import static com.octo.reactive.audit.IOTestTools.HOST;
+import static com.octo.reactive.audit.IOTestTools.PORT;
+
 /**
  * Created by pprados on 06/05/14.
  */
@@ -16,7 +19,7 @@ public class URLTest
 	public void openStream() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();
-		URL url = new URL("http://www.google.fr");
+		URL url = new URL("http://" + HOST + ":" + PORT);
 		url.openStream();
 	}
 }

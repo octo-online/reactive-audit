@@ -206,7 +206,7 @@ public class ConfigAuditReactiveTest
 
 	private void addHandler()
 	{
-		if (true) // FIXME : supprime les traces console
+		if (true) // FIXME : remove log on console
 		{
 			for (Handler h : config.logger.getHandlers())
 			{
@@ -245,7 +245,7 @@ public class ConfigAuditReactiveTest
 		try
 		{
 			latencyCall1();
-			assertFalse(true);
+			fail();
 		}
 		catch (AuditReactiveException e)
 		{

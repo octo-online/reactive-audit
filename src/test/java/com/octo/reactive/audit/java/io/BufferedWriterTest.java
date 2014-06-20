@@ -1,5 +1,6 @@
 package com.octo.reactive.audit.java.io;
 
+import com.octo.reactive.audit.IOTestTools;
 import org.junit.Test;
 
 import java.io.*;
@@ -16,16 +17,18 @@ public class BufferedWriterTest extends FileWriterTest
 	protected Writer newWriter() throws IOException
 	{
 		push();
-		FileOutputStream out = new FileOutputStream(getFileOut());
-		Writer writer=new OutputStreamWriter(out);
+		FileOutputStream out = new FileOutputStream(IOTestTools.getTempFile());
+		Writer writer = new OutputStreamWriter(out);
 		pop();
 		return new BufferedWriter(writer);
 	}
+
 	@Test
 	public void New() throws IOException
 	{
 		super.New();
 	}
+
 	@Test
 	public void derived()
 	{
@@ -35,7 +38,8 @@ public class BufferedWriterTest extends FileWriterTest
 			{
 				super(new StringWriter(10));
 			}
-		};
+		}
+		;
 		new Derived();
 	}
 }

@@ -10,19 +10,18 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import static com.octo.reactive.audit.IOTestTools.HOST;
+import static com.octo.reactive.audit.IOTestTools.PORT;
+
 /**
  * Created by pprados on 06/05/14.
  */
 public abstract class URLConnectionTest
 {
-	// TODO: start et stop un pseudo serveur HTTP
-	protected static final String host = "www.google.com";
-	protected static final int    PORT = 80;
-
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void connect() throws IOException
 	{
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		conn.connect();
 	}
 
@@ -30,7 +29,7 @@ public abstract class URLConnectionTest
 	public void getContent() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getContent();
 	}
@@ -38,7 +37,7 @@ public abstract class URLConnectionTest
 	@Test
 	public void getContent_2() throws IOException
 	{
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.off.commit();
 		conn.connect();
 		ConfigAuditReactive.strict.commit();
@@ -49,7 +48,7 @@ public abstract class URLConnectionTest
 	public void getContent_AClass() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getContent(new Class[]{String.class});
 	}
@@ -58,7 +57,7 @@ public abstract class URLConnectionTest
 	public void getContentEncoding() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getContentEncoding();
 	}
@@ -67,7 +66,7 @@ public abstract class URLConnectionTest
 	public void getContentLength() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getContentLength();
 	}
@@ -76,7 +75,7 @@ public abstract class URLConnectionTest
 	public void getContentLengthLong() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getContentLengthLong();
 	}
@@ -85,7 +84,7 @@ public abstract class URLConnectionTest
 	public void getContentType() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getContentType();
 	}
@@ -94,7 +93,7 @@ public abstract class URLConnectionTest
 	public void getDate() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getDate();
 	}
@@ -103,7 +102,7 @@ public abstract class URLConnectionTest
 	public void getExpiration() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getExpiration();
 	}
@@ -112,7 +111,7 @@ public abstract class URLConnectionTest
 	public void getHeaderField_i() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getHeaderField(0);
 	}
@@ -121,7 +120,7 @@ public abstract class URLConnectionTest
 	public void getHeaderField() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getHeaderField("mime/type");
 	}
@@ -130,7 +129,7 @@ public abstract class URLConnectionTest
 	public void getHeaderFieldDate() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getHeaderFieldDate("expiration", 0);
 	}
@@ -139,7 +138,7 @@ public abstract class URLConnectionTest
 	public void getHeaderFieldInt() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getHeaderFieldInt("expiration", 0);
 	}
@@ -148,7 +147,7 @@ public abstract class URLConnectionTest
 	public void getHeaderFieldKey() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getHeaderFieldKey(0);
 	}
@@ -157,7 +156,7 @@ public abstract class URLConnectionTest
 	public void getHeaderFieldLong() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getHeaderFieldLong("expiration", 0);
 	}
@@ -166,7 +165,7 @@ public abstract class URLConnectionTest
 	public void getHeaderFields() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getHeaderFields();
 	}
@@ -175,7 +174,7 @@ public abstract class URLConnectionTest
 	public void getIfModifiedSince() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getIfModifiedSince();
 	}
@@ -184,7 +183,7 @@ public abstract class URLConnectionTest
 	public void getInputStream() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getInputStream();
 	}
@@ -193,7 +192,7 @@ public abstract class URLConnectionTest
 	public void getInputStream_use() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		InputStream in = conn.getInputStream();
 		ConfigAuditReactive.strict.commit();
 		in.read();
@@ -203,7 +202,7 @@ public abstract class URLConnectionTest
 	public void getLastModified() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getLastModified();
 	}
@@ -212,7 +211,7 @@ public abstract class URLConnectionTest
 	public void getOutputStream() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		conn.setDoOutput(true);
 		ConfigAuditReactive.strict.commit();
 		conn.getOutputStream();
@@ -222,7 +221,7 @@ public abstract class URLConnectionTest
 	public void getOutputStream_use() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		URLConnection conn = new URL("http://" + host + ":" + PORT).openConnection();
+		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		conn.setDoOutput(true);
 		OutputStream out = conn.getOutputStream();
 		ConfigAuditReactive.strict.commit();

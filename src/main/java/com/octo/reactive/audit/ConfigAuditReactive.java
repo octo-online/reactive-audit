@@ -352,7 +352,7 @@ public class ConfigAuditReactive
 			}
 			catch (IOException e)
 			{
-				logger.severe("Log file error"); // FIXME: stacktrace ?
+				logger.severe("Log file error (" + e.getMessage() + ")");
 			}
 			return this;
 		}

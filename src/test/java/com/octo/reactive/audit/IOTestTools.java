@@ -1,0 +1,209 @@
+package com.octo.reactive.audit;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
+import java.net.ServerSocket;
+import java.nio.channels.*;
+import java.util.Enumeration;
+
+import static com.octo.reactive.audit.TestTools.pop;
+import static com.octo.reactive.audit.TestTools.push;
+import static java.net.InetAddress.getByName;
+import static org.junit.Assert.fail;
+
+/**
+ * Created by pprados on 20/06/2014.
+ *
+ * @author Philippe PRADOS
+ */
+public class IOTestTools
+{
+	public static final String HOST     = "www.google.com";
+	public static final int    PORT     = 80;
+	//public static final String HOST="192.168.0.50";  // FIXME
+	//public static final int PORT=5000;
+	public static final int    UDP_PORT = 5000;
+
+	public static File getTempFile()
+	{
+		File f = null;
+		push();
+		try
+		{
+			f = File.createTempFile("temp-file-name", ".tmp");
+			f.delete();
+			f.deleteOnExit();
+			f.createNewFile();
+		}
+		catch (IOException e)
+		{
+			fail(e.getMessage());
+			e.printStackTrace();
+		}
+		pop();
+		return f;
+	}
+
+	public static FileInputStream getTempFileInputStream()
+	{
+		try
+		{
+			push();
+			return new FileInputStream(getTempFile());
+		}
+		catch (IOException e)
+		{
+			fail(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+		finally
+		{
+			pop();
+		}
+	}
+
+	public static FileOutputStream getTempFileOutputStream()
+	{
+		try
+		{
+			push();
+			return new FileOutputStream(getTempFile());
+		}
+		catch (IOException e)
+		{
+			fail(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+		finally
+		{
+			pop();
+		}
+	}
+
+	public static DatagramChannel getDatagramChannel()
+	{
+		try
+		{
+			push();
+			DatagramChannel channel = DatagramChannel.open();
+			channel.socket().bind(new InetSocketAddress(UDP_PORT));
+			//channel.connect(new InetSocketAddress(HOST,PORT));
+			return channel;
+		}
+		catch (IOException e)
+		{
+			fail(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+		finally
+		{
+			pop();
+		}
+	}
+
+	public static FileChannel getOutputFileChannel()
+	{
+		return getTempFileOutputStream().getChannel();
+	}
+
+	public static FileChannel getInputFileChannel()
+	{
+		return getTempFileInputStream().getChannel();
+	}
+
+	public static SocketChannel getSocketChannel()
+	{
+		try
+		{
+			push();
+			InetAddress target = getByName(HOST);
+			return SocketChannel.open(new InetSocketAddress(target, PORT));
+		}
+		catch (IOException e)
+		{
+			fail(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+		finally
+		{
+			pop();
+		}
+	}
+
+	public static ServerSocketChannel getServerSocketChannel()
+	{
+		try
+		{
+			push();
+			return new ServerSocket().getChannel();
+		}
+		catch (IOException e)
+		{
+			fail(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+		finally
+		{
+			pop();
+		}
+	}
+
+	public static SelectableChannel getSelectableChannel()
+	{
+		try
+		{
+			push();
+			Selector selector = Selector.open();
+			SelectableChannel channel = getSocketChannel();
+			channel.configureBlocking(false);
+			channel.register(selector, SelectionKey.OP_READ);
+			return channel;
+		}
+		catch (IOException e)
+		{
+			fail(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+		finally
+		{
+			pop();
+		}
+	}
+
+	public static NetworkInterface getNetworkInterface()
+	{
+		try
+		{
+			NetworkInterface ni = null;
+			for (Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
+			     e.hasMoreElements(); )
+			{
+				NetworkInterface n = e.nextElement();
+				if (n.isUp() && !n.isLoopback())
+				{
+					ni = n;
+					break;
+				}
+			}
+			assert ni != null : "no active network";
+			return ni;
+		}
+		catch (IOException e)
+		{
+			fail(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+	}
+}

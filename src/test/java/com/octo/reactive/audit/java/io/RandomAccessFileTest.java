@@ -1,42 +1,28 @@
 package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-
-import static com.octo.reactive.audit.TestTools.pop;
-import static com.octo.reactive.audit.TestTools.push;
 
 /**
  * Created by pprados on 06/05/14.
  */
 public class RandomAccessFileTest
 {
-	// FIXME: monter de classe ?
-	protected File getFileOut() throws IOException
-	{
-		push();
-		File f = File.createTempFile("temp-file-name", ".tmp");
-		f.delete();
-		f.deleteOnExit();
-		pop();
-		return f;
-	}
-
 	protected RandomAccessFile newRandomAccessFile() throws IOException
 	{
-		return new RandomAccessFile(getFileOut(), "rw");
+		return new RandomAccessFile(IOTestTools.getTempFile(), "rw");
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
 	public void new_file() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();
-		try (RandomAccessFile rw = new RandomAccessFile(getFileOut(), "rw"))
+		try (RandomAccessFile rw = new RandomAccessFile(IOTestTools.getTempFile(), "rw"))
 		{
 			ConfigAuditReactive.off.commit();
 		}
@@ -47,7 +33,7 @@ public class RandomAccessFileTest
 	public void new_string() throws IOException
 	{
 		ConfigAuditReactive.strict.commit();
-		try (RandomAccessFile rw = new RandomAccessFile(getFileOut().getAbsoluteFile(), "rw"))
+		try (RandomAccessFile rw = new RandomAccessFile(IOTestTools.getTempFile().getAbsoluteFile(), "rw"))
 		{
 			ConfigAuditReactive.off.commit();
 		}

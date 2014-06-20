@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static com.octo.reactive.audit.IOTestTools.HOST;
+import static com.octo.reactive.audit.IOTestTools.PORT;
+
 /**
  * Created by pprados on 06/05/14.
  */
@@ -17,7 +20,7 @@ public class HttpURLConnectionTest extends URLConnectionTest
 	public void getResponseCode() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		HttpURLConnection conn = (HttpURLConnection) new URL("http://" + host + ":" + PORT).openConnection();
+		HttpURLConnection conn = (HttpURLConnection) new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getResponseCode();
 	}
@@ -26,7 +29,7 @@ public class HttpURLConnectionTest extends URLConnectionTest
 	public void getResponseMessage() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		HttpURLConnection conn = (HttpURLConnection) new URL("http://" + host + ":" + PORT).openConnection();
+		HttpURLConnection conn = (HttpURLConnection) new URL("http://" + HOST + ":" + PORT).openConnection();
 		ConfigAuditReactive.strict.commit();
 		conn.getResponseMessage();
 	}

@@ -1,6 +1,7 @@
 package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import org.junit.Test;
 
@@ -18,20 +19,9 @@ public class InputStreamReaderTest extends AuditedReaderTest
 	protected Reader newReader() throws IOException
 	{
 		push();
-		InputStream in = new FileInputStream(getFileIn());
+		InputStream in = new FileInputStream(IOTestTools.getTempFile());
 		pop();
 		return new InputStreamReader(in);
-	}
-
-	protected File getFileIn() throws IOException
-	{
-		push();
-		File f = File.createTempFile("temp-file-name", ".tmp");
-		f.delete();
-		f.deleteOnExit();
-		f.createNewFile();
-		pop();
-		return f;
 	}
 
 	// FIXME: est-ce ncessaire ?
@@ -39,7 +29,7 @@ public class InputStreamReaderTest extends AuditedReaderTest
 	public void read_with_FilterInputStream() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		try (Reader in = new InputStreamReader(new BufferedInputStream(new FileInputStream(getFileIn()))))
+		try (Reader in = new InputStreamReader(new BufferedInputStream(new FileInputStream(IOTestTools.getTempFile()))))
 		{
 			ConfigAuditReactive.strict.commit();
 			in.read();

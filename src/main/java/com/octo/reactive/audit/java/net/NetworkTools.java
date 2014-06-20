@@ -32,7 +32,7 @@ public final class NetworkTools
 	{
 		try
 		{
-			return (Boolean) fieldConnected.get(conn));
+			return (Boolean) fieldConnected.get(conn);
 		}
 		catch (IllegalAccessException e)
 		{

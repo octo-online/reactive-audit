@@ -5,7 +5,7 @@ import com.octo.reactive.audit.lib.WithLatency;
 import org.junit.Test;
 
 import static com.octo.reactive.audit.lib.Latency.LOW;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Created by pprados on 09/05/2014.
@@ -21,7 +21,7 @@ public class WithLatencyTest
 			@WithLatency(LOW)
 			public void directCall()
 			{
-				assertTrue(false);
+				fail();
 			}
 		}
 		new Test().directCall();

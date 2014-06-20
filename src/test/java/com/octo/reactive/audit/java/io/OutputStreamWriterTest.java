@@ -1,5 +1,6 @@
 package com.octo.reactive.audit.java.io;
 
+import com.octo.reactive.audit.IOTestTools;
 import org.junit.Test;
 
 import java.io.*;
@@ -16,21 +17,12 @@ public class OutputStreamWriterTest extends AuditedWriterTest
 	protected Writer newWriter() throws IOException
 	{
 		push();
-		OutputStream out=new FileOutputStream(getFileOut());
+		OutputStream out = new FileOutputStream(IOTestTools.getTempFile());
 		pop();
 		return new OutputStreamWriter(out);
 
 	}
-	// FIXME: monter de classe ?
-	protected File getFileOut() throws IOException
-	{
-		push();
-		File f=File.createTempFile("temp-file-name", ".tmp");
-		f.delete();
-		f.deleteOnExit();
-		pop();
-		return f;
-	}
+
 	@Test
 	public void derived() throws IOException
 	{
@@ -40,7 +32,8 @@ public class OutputStreamWriterTest extends AuditedWriterTest
 			{
 				super(new ByteArrayOutputStream(10));
 			}
-		};
+		}
+		;
 		new Derived();
 	}
 }

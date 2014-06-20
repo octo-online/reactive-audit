@@ -23,7 +23,8 @@ class HistoryStackElement
 		logged.clear();
 	}
 
-	/*FIXME:sync?*//*synchronized*/ boolean isAlreadyLogged(StackTraceElement[] stack)
+	// WARNING : use synchronized. Is it possible to reduce the blocking part ?
+	synchronized boolean isAlreadyLogged(StackTraceElement[] stack)
 	{
 		boolean alreadyLogged = searchStack(stack);
 		if (!alreadyLogged)

@@ -10,6 +10,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
+import static com.octo.reactive.audit.IOTestTools.HOST;
 import static java.net.InetAddress.getByName;
 
 /**
@@ -34,7 +35,7 @@ public class SocketTest
 	public void new_2() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		InetAddress target = getByName("www.google.fr");
+		InetAddress target = getByName(HOST);
 		ConfigAuditReactive.strict.commit();
 		try (Socket socket = new Socket(target, PORT))
 		{
@@ -46,7 +47,7 @@ public class SocketTest
 	public void new_3() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		InetAddress target = getByName("www.google.fr");
+		InetAddress target = getByName(HOST);
 		ConfigAuditReactive.strict.commit();
 		try (Socket socket = new Socket(target, PORT, false))
 		{
@@ -58,7 +59,7 @@ public class SocketTest
 	public void new_4() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		InetAddress target = getByName("www.google.fr");
+		InetAddress target = getByName(HOST);
 		ConfigAuditReactive.strict.commit();
 		try (Socket socket = new Socket(target, PORT, null, 0))
 		{
@@ -71,7 +72,7 @@ public class SocketTest
 	{
 		ConfigAuditReactive.off.commit();
 		ConfigAuditReactive.strict.commit();
-		try (Socket socket = new Socket("www.google.fr", PORT))
+		try (Socket socket = new Socket(HOST, PORT))
 		{
 			socket.isConnected();
 		}
@@ -82,7 +83,7 @@ public class SocketTest
 	{
 		ConfigAuditReactive.off.commit();
 		ConfigAuditReactive.strict.commit();
-		try (Socket socket = new Socket("www.google.fr", PORT))
+		try (Socket socket = new Socket(HOST, PORT))
 		{
 			socket.isConnected();
 		}
@@ -93,7 +94,7 @@ public class SocketTest
 	{
 		ConfigAuditReactive.off.commit();
 		ConfigAuditReactive.strict.commit();
-		try (Socket socket = new Socket("www.google.fr", PORT, null, 0))
+		try (Socket socket = new Socket(HOST, PORT, null, 0))
 		{
 			socket.isConnected();
 		}
@@ -105,7 +106,7 @@ public class SocketTest
 		ConfigAuditReactive.off.commit();
 		try (Socket socket = new Socket())
 		{
-			SocketAddress add = new InetSocketAddress("www.google.com", PORT);
+			SocketAddress add = new InetSocketAddress(HOST, PORT);
 			ConfigAuditReactive.strict.commit();
 			socket.connect(add);
 		}
@@ -115,7 +116,7 @@ public class SocketTest
 	public void getInputStream() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		try (Socket socket = new Socket("www.google.com", PORT))
+		try (Socket socket = new Socket(HOST, PORT))
 		{
 			ConfigAuditReactive.strict.commit();
 			socket.getInputStream();
@@ -126,7 +127,7 @@ public class SocketTest
 	public void getInputStream_use() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		try (Socket socket = new Socket("www.google.com", PORT))
+		try (Socket socket = new Socket(HOST, PORT))
 		{
 			ConfigAuditReactive.strict.commit();
 			socket.getInputStream().read();
@@ -137,7 +138,7 @@ public class SocketTest
 	public void getOutputStream() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		try (Socket socket = new Socket("www.google.com", PORT))
+		try (Socket socket = new Socket(HOST, PORT))
 		{
 			ConfigAuditReactive.strict.commit();
 			socket.getOutputStream();
@@ -148,7 +149,7 @@ public class SocketTest
 	public void getOutputStream_use() throws IOException
 	{
 		ConfigAuditReactive.off.commit();
-		try (Socket socket = new Socket("www.google.com", PORT))
+		try (Socket socket = new Socket(HOST, PORT))
 		{
 			ConfigAuditReactive.strict.commit();
 			socket.getOutputStream().write(new byte[1]);

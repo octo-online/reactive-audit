@@ -1,5 +1,6 @@
 package com.octo.reactive.audit.java.io;
 
+import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.lib.AuditReactiveException;
 import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import org.junit.Test;
@@ -16,7 +17,7 @@ public class FileWriterTest extends OutputStreamWriterTest
 	@Override
 	protected Writer newWriter() throws IOException
 	{
-		return new FileWriter(getFileOut());
+		return new FileWriter(IOTestTools.getTempFile());
 	}
 
 	@Test(expected = AuditReactiveException.class)
@@ -32,7 +33,7 @@ public class FileWriterTest extends OutputStreamWriterTest
 		{
 			Derived() throws IOException
 			{
-				super(getFileOut());
+				super(IOTestTools.getTempFile());
 			}
 		}
 		;

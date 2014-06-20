@@ -37,7 +37,6 @@
         <aspect name="com.octo.reactive.audit.java.io.BufferedWriterAspect"/>
         <aspect name="com.octo.reactive.audit.java.io.PrintWriterAspect"/>
 
-
         <!-- java.net -->
         <aspect name="com.octo.reactive.audit.java.net.DatagramSocketAudit"/>
         <aspect name="com.octo.reactive.audit.java.net.InetAddressAudit"/>
@@ -46,6 +45,22 @@
         <aspect name="com.octo.reactive.audit.java.net.ServerSocketAudit"/>
         <aspect name="com.octo.reactive.audit.java.net.SocketAudit"/>
         <aspect name="com.octo.reactive.audit.java.net.URLAudit"/>
+
+        <!-- java.nio.channel -->
+        <aspect name="com.octo.reactive.audit.java.nio.channels.DatagramChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.FileChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.GatheringByteChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.MulticastChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.NetworkChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.ReadableByteChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.ScatteringByteChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.SeekableByteChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.SelectableChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.SelectorAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.WritableByteChannelAudit"/>
+
+        <!-- java.nio.file-->
+        <aspect name="com.octo.reactive.audit.java.nio.file.FilesAudit"/>
     </aspects>
 </aspectj>
 

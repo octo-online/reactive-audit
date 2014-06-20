@@ -1,6 +1,7 @@
 package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 	protected PrintWriter newWriter() throws IOException
 	{
 		push();
-		FileOutputStream out = new FileOutputStream(getFileOut());
+		FileOutputStream out = new FileOutputStream(IOTestTools.getTempFile());
 		Writer writer = new OutputStreamWriter(out);
 		pop();
 		return new PrintWriter(writer);

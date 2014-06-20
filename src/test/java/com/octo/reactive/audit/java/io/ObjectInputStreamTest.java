@@ -1,10 +1,12 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.IOTestTools;
 import org.junit.Test;
 
 import java.io.*;
-import static com.octo.reactive.audit.TestTools.*;
+
+import static com.octo.reactive.audit.TestTools.pop;
+import static com.octo.reactive.audit.TestTools.push;
 
 /**
  * Created by pprados on 06/05/14.
@@ -16,34 +18,27 @@ public class ObjectInputStreamTest extends AuditedInputStreamTest
 	protected InputStream newInputStream() throws IOException
 	{
 		push();
-		FileInputStream in = new FileInputStream(getFileIn()); // FIXME: super ?
+		File f = IOTestTools.getTempFile();
+		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(f));
+		os.writeObject("");
+		os.close();
+		FileInputStream in = new FileInputStream(f);
 		pop();
 		return new ObjectInputStream(in);
 	}
-	private File getFileIn() throws IOException
-	{
-		push();
-		File f=File.createTempFile("temp-file-name", ".tmp");
-		f.delete();
-		f.deleteOnExit();
-		f.createNewFile();
-		ObjectOutputStream out=new ObjectOutputStream(new FileOutputStream(f));
-		out.writeObject("");
-		out.close();
-		pop();
-		return f;
-	}
+
 	@Override
 	@Test
 	public void New() throws IOException
 	{
 		super.New();
 	}
+
 	@Test
 	public void derived() throws IOException
 	{
-		ByteArrayOutputStream buf=new ByteArrayOutputStream(100);
-		ObjectOutputStream obj=new ObjectOutputStream(buf);
+		ByteArrayOutputStream buf = new ByteArrayOutputStream(100);
+		ObjectOutputStream obj = new ObjectOutputStream(buf);
 		obj.writeObject("");
 		obj.close();
 		class Derived extends ObjectInputStream
@@ -52,7 +47,8 @@ public class ObjectInputStreamTest extends AuditedInputStreamTest
 			{
 				super(new ByteArrayInputStream(buf.toByteArray()));
 			}
-		};
+		}
+		;
 		new Derived();
 	}
 

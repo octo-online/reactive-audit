@@ -21,7 +21,6 @@ public class LoadParamsTest
 	@Test
 	public void setSystemParams() throws IOException
 	{
-		// TODO: tester les envs avec les key avec '.'
 		System.setProperty(KEY_LOG_LEVEL, Level.INFO.getName());
 		System.setProperty(KEY_LOG_OUTPUT, "console");
 		System.setProperty(KEY_LOG_FORMAT, "format");

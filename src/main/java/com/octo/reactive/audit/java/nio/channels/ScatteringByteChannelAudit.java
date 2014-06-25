@@ -12,7 +12,7 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
 @Aspect
 public class ScatteringByteChannelAudit extends AbstractChannelsAudit
 {
-	@Before("call(long java.nio.channels.ScatteringByteChannel.read(..))")
+	@Before("call(long java.nio.channels.ScatteringByteChannel+.read(..))")
 	public void read(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);

@@ -47,15 +47,17 @@
         <aspect name="com.octo.reactive.audit.java.net.URLAudit"/>
 
         <!-- java.nio.channel -->
+        <aspect name="com.octo.reactive.audit.java.nio.channels.AbstractInterruptibleChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.AsynchronousChannelGroupAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.ChannelAudit"/>
         <aspect name="com.octo.reactive.audit.java.nio.channels.DatagramChannelAudit"/>
         <aspect name="com.octo.reactive.audit.java.nio.channels.FileChannelAudit"/>
         <aspect name="com.octo.reactive.audit.java.nio.channels.GatheringByteChannelAudit"/>
-        <aspect name="com.octo.reactive.audit.java.nio.channels.MulticastChannelAudit"/>
-        <aspect name="com.octo.reactive.audit.java.nio.channels.NetworkChannelAudit"/>
         <aspect name="com.octo.reactive.audit.java.nio.channels.ReadableByteChannelAudit"/>
         <aspect name="com.octo.reactive.audit.java.nio.channels.ScatteringByteChannelAudit"/>
         <aspect name="com.octo.reactive.audit.java.nio.channels.SeekableByteChannelAudit"/>
-        <aspect name="com.octo.reactive.audit.java.nio.channels.SelectableChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.ServerSocketChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.SocketChannelAudit"/>
         <aspect name="com.octo.reactive.audit.java.nio.channels.SelectorAudit"/>
         <aspect name="com.octo.reactive.audit.java.nio.channels.WritableByteChannelAudit"/>
 

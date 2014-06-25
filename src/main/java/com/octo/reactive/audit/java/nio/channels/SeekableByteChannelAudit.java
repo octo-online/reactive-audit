@@ -12,7 +12,7 @@ import static com.octo.reactive.audit.lib.Latency.LOW;
 @Aspect
 public class SeekableByteChannelAudit extends AbstractChannelsAudit
 {
-	@Before("call(* java.nio.channels.SeekableByteChannel.position(long))")
+	@Before("call(* java.nio.channels.SeekableByteChannel.position(..))")
 	public void position(JoinPoint thisJoinPoint)
 	{
 		latency(LOW, thisJoinPoint);
@@ -23,14 +23,4 @@ public class SeekableByteChannelAudit extends AbstractChannelsAudit
 	{
 		latency(LOW, thisJoinPoint);
 	}
-//	@Before("call(* java.nio.channels.SeekableByteChannel.read(java.nio.ByteBuffer))")
-//	public void read(JoinPoint thisJoinPoint)
-//	{
-//		latency(HIGH, thisJoinPoint);
-//	}
-//	@Before("call(* java.nio.channels.SeekableByteChannel.write(java.nio.ByteBuffer))")
-//	public void write(JoinPoint thisJoinPoint)
-//	{
-//		latency(HIGH, thisJoinPoint);
-//	}
 }

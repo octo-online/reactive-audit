@@ -20,11 +20,11 @@ import java.util.function.Supplier;
 @RunWith(Parameterized.class)
 public class ScatteringByteChannelTest
 {
-	Supplier<ScatteringByteChannel> scatteringChannel;
+	Supplier<ScatteringByteChannel> channel;
 
-	public ScatteringByteChannelTest(Supplier<ScatteringByteChannel> scatteringChannel)
+	public ScatteringByteChannelTest(Supplier<ScatteringByteChannel> channel)
 	{
-		this.scatteringChannel = scatteringChannel;
+		this.channel = channel;
 	}
 
 	@Parameterized.Parameters
@@ -42,7 +42,7 @@ public class ScatteringByteChannelTest
 	public void read() throws IOException
 	{
 		ByteBuffer buf = ByteBuffer.allocate(10);
-		try (ScatteringByteChannel r = scatteringChannel.get())
+		try (ScatteringByteChannel r = channel.get())
 		{
 			ConfigAuditReactive.strict.commit();
 			ByteBuffer[] srcs = {buf};
@@ -54,7 +54,7 @@ public class ScatteringByteChannelTest
 	public void read_ii() throws IOException
 	{
 		ByteBuffer buf = ByteBuffer.allocate(10);
-		try (ScatteringByteChannel r = scatteringChannel.get())
+		try (ScatteringByteChannel r = channel.get())
 		{
 			ConfigAuditReactive.strict.commit();
 			ByteBuffer[] srcs = {buf};

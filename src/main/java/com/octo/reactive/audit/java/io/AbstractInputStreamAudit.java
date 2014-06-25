@@ -10,7 +10,7 @@ import java.io.InputStream;
 import static com.octo.reactive.audit.java.io.FileTools.FILE_ERROR;
 import static com.octo.reactive.audit.java.io.FileTools.NET_ERROR;
 
-public class AbstractInputStreamAudit extends FileAudit
+class AbstractInputStreamAudit extends FileAudit
 {
 	protected void latency(Latency level, JoinPoint thisJoinPoint, InputStream in)
 	{

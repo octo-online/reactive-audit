@@ -12,8 +12,7 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
 @Aspect
 public class GatheringByteChannelAudit extends AbstractChannelsAudit
 {
-	@Before("call(long java.nio.channels.GatheringByteChannel.write(java.nio.ByteBuffer[],..))")
-//	@Before("call(long java.nio.channels.GatheringByteChannel.write(..)) && target(java.nio.channels.GatheringByteChannel)")
+	@Before("call(long java.nio.channels.GatheringByteChannel+.write(java.nio.ByteBuffer[],..))")
 	public void write(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);

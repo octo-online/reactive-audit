@@ -9,7 +9,7 @@ import java.io.OutputStream;
 
 import static com.octo.reactive.audit.java.io.FileTools.*;
 
-public class AbstractOutputStreamAudit extends FileAudit
+class AbstractOutputStreamAudit extends FileAudit
 {
 	protected void latency(Latency level, JoinPoint thisJoinPoint, OutputStream out)
 	{

@@ -21,11 +21,11 @@ import java.util.function.Supplier;
 @RunWith(Parameterized.class)
 public class ReadableByteChannelTest
 {
-	Supplier<ReadableByteChannel> readableByteChannel;
+	Supplier<ReadableByteChannel> channel;
 
-	public ReadableByteChannelTest(Supplier<ReadableByteChannel> readableByteChannel)
+	public ReadableByteChannelTest(Supplier<ReadableByteChannel> channel)
 	{
-		this.readableByteChannel = readableByteChannel;
+		this.channel = channel;
 	}
 
 	@Parameters
@@ -43,7 +43,7 @@ public class ReadableByteChannelTest
 	public void read() throws IOException
 	{
 		ByteBuffer buf = ByteBuffer.allocate(10);
-		try (ReadableByteChannel r = readableByteChannel.get())
+		try (ReadableByteChannel r = channel.get())
 		{
 			ConfigAuditReactive.strict.commit();
 			r.read(buf);

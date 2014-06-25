@@ -29,24 +29,24 @@ public class FilesAudit extends FileAudit
 	@Before("call(byte[] java.nio.file.Files.readAllBytes(..))")
 	public void readAllBytes(JoinPoint thisJoinPoint)
 	{
-		latency(LOW, thisJoinPoint);
+		latency(HIGH, thisJoinPoint);
 	}
 
 	@Before("call(java.util.List<String> java.nio.file.Files.readAllLines(..))")
 	public void readAllLines(JoinPoint thisJoinPoint)
 	{
-		latency(LOW, thisJoinPoint);
+		latency(HIGH, thisJoinPoint);
 	}
 
 	@Before("call(java.nio.file.Path java.nio.file.Files.walkFileTree(..))")
 	public void walkFileTree(JoinPoint thisJoinPoint)
 	{
-		latency(LOW, thisJoinPoint);
+		latency(HIGH, thisJoinPoint);
 	}
 
 	@Before("call(java.nio.file.Path java.nio.file.Files.write(..))")
 	public void write(JoinPoint thisJoinPoint)
 	{
-		latency(LOW, thisJoinPoint);
+		latency(HIGH, thisJoinPoint);
 	}
 }

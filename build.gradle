@@ -20,6 +20,8 @@ project.ext {
 
 apply plugin: 'aspectj'
 apply plugin: 'maven'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
 
 sourceCompatibility = '8'
 targetCompatibility = '8'

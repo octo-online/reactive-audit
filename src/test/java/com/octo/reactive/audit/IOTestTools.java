@@ -4,16 +4,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
-import java.net.ServerSocket;
 import java.nio.channels.*;
+import java.nio.file.Path;
 import java.util.Enumeration;
 
 import static com.octo.reactive.audit.TestTools.pop;
 import static com.octo.reactive.audit.TestTools.push;
-import static java.net.InetAddress.getByName;
 import static org.junit.Assert.fail;
 
 /**
@@ -47,6 +45,11 @@ public class IOTestTools
 		}
 		pop();
 		return f;
+	}
+
+	public static Path getTempPath()
+	{
+		return getTempFile().toPath();
 	}
 
 	public static FileInputStream getTempFileInputStream()
@@ -124,8 +127,7 @@ public class IOTestTools
 		try
 		{
 			push();
-			InetAddress target = getByName(HOST);
-			return SocketChannel.open(new InetSocketAddress(target, PORT));
+			return SocketChannel.open(new InetSocketAddress(HOST, PORT));
 		}
 		catch (IOException e)
 		{
@@ -144,7 +146,7 @@ public class IOTestTools
 		try
 		{
 			push();
-			return new ServerSocket().getChannel();
+			return ServerSocketChannel.open();
 		}
 		catch (IOException e)
 		{

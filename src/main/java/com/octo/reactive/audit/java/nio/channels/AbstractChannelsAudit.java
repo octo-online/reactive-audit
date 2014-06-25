@@ -9,7 +9,7 @@ import org.aspectj.lang.JoinPoint;
 
 import java.nio.channels.FileChannel;
 
-public class AbstractChannelsAudit extends AbstractAudit
+class AbstractChannelsAudit extends AbstractAudit
 {
 	protected void latency(Latency level, JoinPoint thisJoinPoint)
 	{

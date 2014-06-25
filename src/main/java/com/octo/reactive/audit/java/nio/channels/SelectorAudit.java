@@ -12,7 +12,7 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
 @Aspect
 public class SelectorAudit extends AbstractChannelsAudit
 {
-	@Before("call(* java.nio.channels.Selector.select(..))")
+	@Before("call(int java.nio.channels.Selector.select(..))")
 	public void select(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);

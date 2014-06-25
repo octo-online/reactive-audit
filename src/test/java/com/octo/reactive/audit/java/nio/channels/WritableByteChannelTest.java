@@ -20,11 +20,11 @@ import java.util.function.Supplier;
 @RunWith(Parameterized.class)
 public class WritableByteChannelTest
 {
-	Supplier<WritableByteChannel> writableByteChannel;
+	Supplier<WritableByteChannel> channel;
 
-	public WritableByteChannelTest(Supplier<WritableByteChannel> writableByteChannel)
+	public WritableByteChannelTest(Supplier<WritableByteChannel> channel)
 	{
-		this.writableByteChannel = writableByteChannel;
+		this.channel = channel;
 	}
 
 	@Parameterized.Parameters
@@ -42,7 +42,7 @@ public class WritableByteChannelTest
 	public void write() throws IOException
 	{
 		ByteBuffer buf = ByteBuffer.allocate(10);
-		try (WritableByteChannel w = writableByteChannel.get())
+		try (WritableByteChannel w = channel.get())
 		{
 			ConfigAuditReactive.strict.commit();
 			w.write(buf);

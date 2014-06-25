@@ -9,7 +9,7 @@ import java.io.Reader;
 import static com.octo.reactive.audit.java.io.FileTools.FILE_ERROR;
 import static com.octo.reactive.audit.java.io.FileTools.NET_ERROR;
 
-public class AbstractReaderAudit extends AbstractInputStreamAudit
+class AbstractReaderAudit extends AbstractInputStreamAudit
 {
 
 	protected void latency(Latency level, JoinPoint thisJoinPoint, Reader reader)

@@ -5,6 +5,7 @@ import com.octo.reactive.audit.lib.SuppressAuditReactive;
 import org.junit.Test;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -19,7 +20,7 @@ public class ConfigAuditReactiveTest
 {
 	// Because the Aspectj must use the config singleton,
 	// it's not possible to inject a specific config instance
-	private ConfigAuditReactive config=ConfigAuditReactive.config;
+	private ConfigAuditReactive config = ConfigAuditReactive.config;
 
 	private int[]   log     = new int[1];
 	private Handler handler = new Handler()
@@ -48,12 +49,14 @@ public class ConfigAuditReactiveTest
 	{
 		assertTrue(config.isThreadNameMatch(Thread.currentThread().getName()));
 	}
+
 	@Test
 	public void testCurrentThread_nothing()
 	{
 		config.begin().threadPattern("(?!)").commit();
 		assertFalse(config.isThreadNameMatch(Thread.currentThread().getName()));
 	}
+
 	@Test
 	public void setAllParams()
 	{
@@ -64,9 +67,9 @@ public class ConfigAuditReactiveTest
 				.bootStrapDelay(10)
 				.commit();
 		assertEquals(Level.FINE, config.getLogLevel());
-		assertEquals(true,config.isThrow());
-		assertEquals("",config.getThreadPattern());
-		assertEquals(10,config.getBootstrapDelay());
+		assertEquals(true, config.isThrow());
+		assertEquals("", config.getThreadPattern());
+		assertEquals(10, config.getBootstrapDelay());
 		config.begin()
 				.log(Level.WARNING)
 				.throwExceptions(false)
@@ -74,10 +77,11 @@ public class ConfigAuditReactiveTest
 				.bootStrapDelay(0)
 				.commit();
 		assertEquals(Level.WARNING, config.getLogLevel());
-		assertEquals(false,config.isThrow());
-		assertEquals("abc",config.getThreadPattern());
-		assertEquals(0,config.getBootstrapDelay());
+		assertEquals(false, config.isThrow());
+		assertEquals("abc", config.getThreadPattern());
+		assertEquals(0, config.getBootstrapDelay());
 	}
+
 	@Test(expected = IllegalArgumentException.class)
 	public void lockTransaction()
 	{
@@ -112,9 +116,9 @@ public class ConfigAuditReactiveTest
 		t = new Thread(rctx1);
 		t.start();
 		t.join();
-		assertEquals(1,log[0]);
+		assertEquals(1, log[0]);
 
-		log[0]=0;
+		log[0] = 0;
 		Runnable rctx2 = new Runnable()
 		{
 			@Override
@@ -126,15 +130,15 @@ public class ConfigAuditReactiveTest
 		t = new Thread(rctx2);
 		t.start();
 		t.join();
-		assertEquals(1,log[0]);
+		assertEquals(1, log[0]);
 
-		log[0]=0;
+		log[0] = 0;
 		t = new Thread(rctx1);
 		t.start();
 		t.join();
-		assertEquals(0,log[0]);
+		assertEquals(0, log[0]);
 
-		log[0]=0;
+		log[0] = 0;
 		Runnable rctx3 = new Runnable()
 		{
 			@Override
@@ -146,9 +150,9 @@ public class ConfigAuditReactiveTest
 		t = new Thread(rctx3);
 		t.start();
 		t.join();
-		assertEquals(1,log[0]);
+		assertEquals(1, log[0]);
 
-		log[0]=0;
+		log[0] = 0;
 		Runnable rctx4 = new Runnable()
 		{
 			@Override
@@ -160,19 +164,19 @@ public class ConfigAuditReactiveTest
 		t = new Thread(rctx4);
 		t.start();
 		t.join();
-		assertEquals(2,log[0]);
+		assertEquals(2, log[0]);
 
-		log[0]=0;
+		log[0] = 0;
 		t = new Thread(rctx3);
 		t.start();
 		t.join();
-		assertEquals(0,log[0]);
+		assertEquals(0, log[0]);
 
-		log[0]=0;
+		log[0] = 0;
 		t = new Thread(rctx4);
 		t.start();
 		t.join();
-		assertEquals(0,log[0]);
+		assertEquals(0, log[0]);
 
 		removeHandler();
 	}
@@ -192,8 +196,8 @@ public class ConfigAuditReactiveTest
 		{
 			log[0] = 0;
 			latencyCall1();
-			if (i == 0) assertEquals(1,log[0]);
-			else assertEquals(0,log[0]);
+			if (i == 0) assertEquals(1, log[0]);
+			else assertEquals(0, log[0]);
 
 		}
 		removeHandler();
@@ -238,8 +242,12 @@ public class ConfigAuditReactiveTest
 	}
 
 	@Test
-	public void testPurgeStackTrace()
+	public void testPurgeStackTrace() throws NoSuchFieldException, IllegalAccessException
 	{
+		// If debug mode, test nothing
+		Field field = AuditReactiveException.class.getDeclaredField("debug");
+		field.setAccessible(true);
+		if (((Boolean) field.get(null)) == true) return;
 		ConfigAuditReactive.strict.commit();
 
 		try

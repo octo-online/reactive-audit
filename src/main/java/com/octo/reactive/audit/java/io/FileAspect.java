@@ -4,7 +4,6 @@ import com.octo.reactive.audit.FileAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
 
 import static com.octo.reactive.audit.lib.Latency.LOW;
 
@@ -14,72 +13,74 @@ import static com.octo.reactive.audit.lib.Latency.LOW;
 @Aspect
 public class FileAspect extends FileAudit
 {
-	@Pointcut("call(* java.io.File+.createNewFile())")
-	public void createNewFile()
+	@Before("call(* java.io.File+.createNewFile())")
+	public void createNewFile(JoinPoint thisJoinPoint)
 	{
+		latency(LOW, thisJoinPoint);
 	}
 
-	@Pointcut("call(* java.io.File+.createTempFile(..))")
-	public void createTempFile()
+	@Before("call(* java.io.File+.createTempFile(..))")
+	public void createTempFile(JoinPoint thisJoinPoint)
 	{
+		latency(LOW, thisJoinPoint);
 	}
 
-	@Pointcut("call(* java.io.File+.delete(..))")
-	public void delete()
+	@Before("call(* java.io.File+.delete(..))")
+	public void delete(JoinPoint thisJoinPoint)
 	{
+		latency(LOW, thisJoinPoint);
 	}
 
-	@Pointcut("call(* java.io.File+.exists(..))")
-	public void exists()
+	@Before("call(* java.io.File+.exists(..))")
+	public void exists(JoinPoint thisJoinPoint)
 	{
+		latency(LOW, thisJoinPoint);
 	}
 
-	@Pointcut("call(* java.io.File+.getFreeSpace(..))")
-	public void getFreeSpace()
+	@Before("call(* java.io.File+.getFreeSpace(..))")
+	public void getFreeSpace(JoinPoint thisJoinPoint)
 	{
+		latency(LOW, thisJoinPoint);
 	}
 
-	@Pointcut("call(* java.io.File+.getTotalSpace(..))")
-	public void getTotalSpace()
+	@Before("call(* java.io.File+.getTotalSpace(..))")
+	public void getTotalSpace(JoinPoint thisJoinPoint)
 	{
+		latency(LOW, thisJoinPoint);
 	}
 
-	@Pointcut("call(* java.io.File+.getUsableSpace(..))")
-	public void getUsableSpace()
+	@Before("call(* java.io.File+.getUsableSpace(..))")
+	public void getUsableSpace(JoinPoint thisJoinPoint)
 	{
+		latency(LOW, thisJoinPoint);
 	}
 
-	@Pointcut("call(* java.io.File+.list(..))")
-	public void list()
+	@Before("call(* java.io.File+.list(..))")
+	public void list(JoinPoint thisJoinPoint)
 	{
+		latency(LOW, thisJoinPoint);
 	}
 
-	@Pointcut("call(* java.io.File+.listFiles(..))")
-	public void listFiles()
+	@Before("call(* java.io.File+.listFiles(..))")
+	public void listFiles(JoinPoint thisJoinPoint)
 	{
+		latency(LOW, thisJoinPoint);
 	}
 
-	@Pointcut("call(* java.io.File+.mkdir*(..))")
-	public void mkdir()
+	@Before("call(* java.io.File+.mkdir*(..))")
+	public void mkdir(JoinPoint thisJoinPoint)
 	{
+		latency(LOW, thisJoinPoint);
 	}
 
-	@Pointcut("call(* java.io.File+.renameTo(..))")
-	public void renameTo()
+	@Before("call(* java.io.File+.renameTo(..))")
+	public void renameTo(JoinPoint thisJoinPoint)
 	{
+		latency(LOW, thisJoinPoint);
 	}
 
-	@Pointcut("call(* java.io.File+.set*(..))")
-	public void setX()
-	{
-	}
-
-	@Before("(createNewFile() || createTempFile() || delete() || exists() " +
-			        "|| getFreeSpace() || getTotalSpace() || getUsableSpace() " +
-			        "|| list() || listFiles() " +
-			        "|| mkdir() || renameTo() " +
-			        "|| setX())")
-	public void advice_low(JoinPoint thisJoinPoint)
+	@Before("call(* java.io.File+.set*(..))")
+	public void setX(JoinPoint thisJoinPoint)
 	{
 		latency(LOW, thisJoinPoint);
 	}

@@ -1,7 +1,8 @@
 package com.octo.reactive.audit.java.io;
 
+import com.octo.reactive.audit.FactoryException;
+import com.octo.reactive.audit.lib.AuditReactiveException;
 import com.octo.reactive.audit.lib.Latency;
-import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.aspectj.lang.JoinPoint;
 
 import java.io.Reader;
@@ -14,18 +15,17 @@ class AbstractReaderAudit extends AbstractInputStreamAudit
 
 	protected void latency(Latency level, JoinPoint thisJoinPoint, Reader reader)
 	{
+		AuditReactiveException ex = null;
 		switch (FileTools.isLastInputStreamInReaderWithLatency(reader))
 		{
 			case NET_ERROR:
-				super.latency(level, thisJoinPoint,
-				              new NetworkAuditReactiveException(thisJoinPoint.getSignature().toString()));
+				ex = FactoryException.newNetwork(thisJoinPoint);
 				break;
 			case FILE_ERROR:
-				super.latency(level, thisJoinPoint);
+				ex = FactoryException.newFile(thisJoinPoint);
 				break;
-			default:
-				// Nothing
 
 		}
+		if (ex != null) super.latency(level, thisJoinPoint, ex);
 	}
 }

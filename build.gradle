@@ -65,4 +65,5 @@ test {
     def auditReactiveConf = "-DauditReactive=src/test/resources/testAuditReactive.properties"
     def logConfig = "-Djava.util.logging.config.file=src/test/resources/testLogging.properties"
     jvmArgs = [weaver, auditReactiveConf, logConfig]
+    println jvmArgs
 }

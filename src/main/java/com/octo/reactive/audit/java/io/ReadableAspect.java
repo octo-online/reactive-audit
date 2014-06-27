@@ -6,18 +6,11 @@ import org.aspectj.lang.annotation.Before;
 
 import java.io.Reader;
 
-import static com.octo.reactive.audit.lib.Latency.HIGH;
 import static com.octo.reactive.audit.lib.Latency.LOW;
 
 @Aspect
-public class ReaderAspect extends AbstractReaderAudit
+public class ReadableAspect extends AbstractReaderAudit
 {
-	@Before("call(* java.io.Reader+.read(..))")
-	public void read(JoinPoint thisJoinPoint)
-	{
-		latency(HIGH, thisJoinPoint, (Reader) thisJoinPoint.getTarget());
-	}
-
 	@Before("call(* java.io.Reader+.skip(..))")
 	public void skip(JoinPoint thisJoinPoint)
 	{

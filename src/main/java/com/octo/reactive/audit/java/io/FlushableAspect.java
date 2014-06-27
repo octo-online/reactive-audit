@@ -13,11 +13,10 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
 @Aspect
 public class FlushableAspect extends FileAudit
 {
-	@Before("call(* java.io.Flushable.flush()) " +
-			        "&& !target(java.io.ByteArrayOutputStream) " +
-			        "&& !target(java.io.CharArrayWriter)" +
-			        "&& !target(java.io.StringWriter)")
-	public void advice_high(JoinPoint thisJoinPoint)
+	@Before("call(* java.io.Flushable.flush())" +
+			        "&& target(java.io.FileOutputStream+) " +
+			        "|| target(java.net.SocketOutputStream+)")
+	public void flush(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);
 	}

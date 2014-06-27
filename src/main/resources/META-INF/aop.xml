@@ -1,0 +1,7 @@
+<aspectj>
+
+    <!--<weaver options="-verbose ">-->
+    <weaver options="-Xset:weaveJavaxPackages=true -warn:none -Xlint:ignore">
+    </weaver>
+
+</aspectj>

@@ -32,7 +32,7 @@ public class SocketAudit extends NetworkAudit
 	}
 
 	@Before("call(void java.net.Socket.connect(..))")
-	public void advice_low(JoinPoint thisJoinPoint)
+	public void connect(JoinPoint thisJoinPoint)
 	{
 		Socket socket = (Socket) thisJoinPoint.getTarget();
 		if (!socket.isConnected())

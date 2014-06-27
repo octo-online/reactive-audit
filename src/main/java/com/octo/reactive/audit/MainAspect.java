@@ -10,7 +10,7 @@ import org.aspectj.lang.annotation.Aspect;
 @Aspect
 public class MainAspect extends DefaultAudit
 {
-	@Around("execution(public static void main(java.lang.String[]))")
+	@Around("execution(public static void *.main(..))")
 	public void startup(ProceedingJoinPoint thisJoinPoint)
 			throws Throwable
 	{

@@ -45,12 +45,13 @@ public class RandomAccessFileAspect extends FileAudit
 		latency(HIGH, thisJoinPoint);
 	}
 
-	@Before("call(* java.io.RandomAccessFile.close())")
-	public void close(JoinPoint thisJoinPoint)
-	{
-		latency(LOW, thisJoinPoint);
-	}
+//	@Before("call(* java.io.RandomAccessFile.close())")
+//	public void close(JoinPoint thisJoinPoint)
+//	{
+//		latency(LOW, thisJoinPoint);
+//	}
 
+	// FIXME
 	@Pointcut("call(* java.io.RandomAccessFile.format(..))")
 	public void format()
 	{

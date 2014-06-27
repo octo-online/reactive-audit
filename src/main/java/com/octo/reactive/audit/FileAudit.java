@@ -1,7 +1,6 @@
 package com.octo.reactive.audit;
 
 import com.octo.reactive.audit.lib.AuditReactiveException;
-import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import org.aspectj.lang.JoinPoint;
 
 /**
@@ -12,6 +11,6 @@ public class FileAudit extends AbstractAudit
 	@Override
 	protected AuditReactiveException newException(JoinPoint thisJoinPoint)
 	{
-		return new FileAuditReactiveException(thisJoinPoint.getSignature().toString());
+		return FactoryException.newFile(thisJoinPoint);
 	}
 }

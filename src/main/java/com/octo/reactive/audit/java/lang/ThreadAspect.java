@@ -4,7 +4,6 @@ import com.octo.reactive.audit.DefaultAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
 
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
@@ -15,20 +14,15 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
 @Aspect
 public class ThreadAspect extends DefaultAudit
 {
-	@Pointcut("call(* java.lang.Thread.join(..))")
-	public void join()
-	{
-	}
-
-	@Pointcut("call(* java.lang.Thread.sleep(..))")
-	public void sleep()
-	{
-	}
-
-	@Before("(join() || sleep())")
-	public void advice_high(JoinPoint thisJoinPoint)
+	@Before("call(* java.lang.Thread.join(..))")
+	public void join(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);
 	}
 
+	@Before("call(* java.lang.Thread.sleep(..))")
+	public void sleep(JoinPoint thisJoinPoint)
+	{
+		latency(HIGH, thisJoinPoint);
+	}
 }

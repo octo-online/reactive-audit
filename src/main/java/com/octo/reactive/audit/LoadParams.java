@@ -13,11 +13,13 @@ import java.util.logging.Level;
  */
 public class LoadParams
 {
-	public static final String DEFAULT_THREAD_PATTERN   = "^(ForkJoinPool-.*)";
+	public static final String DEFAULT_THREAD_PATTERN   = "^(ForkJoinPool-.*)"; // FIXME "(?!^main$)(^.*$)"
+	public static final String DEFAULT_LOG_LEVEL        = Level.WARNING.getName();
 	public static final String DEFAULT_LOG_OUTPUT       = "%h/audit-reactive-%u.log";
 	public static final String DEFAULT_LOG_FORMAT       = "%4$-7s: %5$s%6$s%n";
 	public static final String DEFAULT_BOOTSTRAP_DELAY  = "0";
 	public static final String DEFAULT_THROW_EXCEPTIONS = "false";
+	public static final String DEFAULT_DEBUG            = "false";
 
 	public static final String KEY_AUDIT_FILENAME   = "auditReactive";
 	public static final String PREFIX               = KEY_AUDIT_FILENAME + '.';
@@ -27,8 +29,9 @@ public class LoadParams
 	public static final String KEY_LOG_LEVEL        = PREFIX + "logLevel";
 	public static final String KEY_LOG_OUTPUT       = PREFIX + "logOutput";
 	public static final String KEY_LOG_FORMAT       = PREFIX + "logFormat";
+	public static final String KEY_DEBUG            = PREFIX + "debug";
 
-	public static final String DEFAULT_FILENAME = "testAuditReactive.properties";
+	public static final String DEFAULT_FILENAME = "auditReactive.properties";
 
 	private ConfigAuditReactive             config;
 	private ConfigAuditReactive.Transaction tx;
@@ -61,17 +64,18 @@ public class LoadParams
 	public static String getValue(String key, String def, Properties prop)
 	{
 		String val = System.getenv(key);
-		String newVal = System.getProperty(key);
-		if (newVal != null) val = newVal;
+		String newVal = null;
 		if (prop != null)
 		{
 			newVal = prop.getProperty(key);
 			if (newVal != null)
 				val = newVal;
 		}
+		newVal = System.getProperty(key);
+		if (newVal != null) val = newVal;
 		if (val == null)
 			val = def;
-		return val.trim();
+		return (val != null) ? val.trim() : null;
 	}
 
 	void commit()
@@ -87,22 +91,27 @@ public class LoadParams
 		}
 		catch (IOException e)
 		{
-			config.logger.info(filename + " not found");
+			config.logger.config(filename + " not found");
 		}
 		applyProperties(prop);
-		config.logger.fine(KEY_THREAD_PATTERN + "  = " + config.getThreadPattern());
-		config.logger.fine(KEY_THROW_EXCEPTIONS + " = " + config.isThrow());
-		config.logger.fine(KEY_BOOTSTRAP_DELAY + " = " + config.getBootstrapDelay());
+		config.logger.config(KEY_THREAD_PATTERN + "  = " + config.getThreadPattern());
+		config.logger.config(KEY_THROW_EXCEPTIONS + " = " + config.isThrow());
+		config.logger.config(KEY_BOOTSTRAP_DELAY + " = " + config.getBootstrapDelay());
 	}
 
 	private void applyProperties(Properties prop)
 	{
+		Boolean debug = Boolean.parseBoolean(getValue(KEY_DEBUG, DEFAULT_DEBUG, prop));
+		if (debug) tx.debug(debug);
 		tx.bootStrapDelay(Long.parseLong(getValue(KEY_BOOTSTRAP_DELAY, DEFAULT_BOOTSTRAP_DELAY, prop)));
 		tx.throwExceptions(Boolean.parseBoolean(getValue(KEY_THROW_EXCEPTIONS, DEFAULT_THROW_EXCEPTIONS, prop)));
-		tx.log(Level.parse(getValue(KEY_LOG_LEVEL, Level.WARNING.getName(), prop).toUpperCase()));
+		tx.log(Level.parse(getValue(KEY_LOG_LEVEL, DEFAULT_LOG_LEVEL, prop).toUpperCase()));
 		tx.logOutput(getValue(KEY_LOG_OUTPUT, DEFAULT_LOG_OUTPUT, prop),
 		             getValue(KEY_LOG_FORMAT, DEFAULT_LOG_FORMAT, prop));
-		tx.threadPattern(getValue(KEY_THREAD_PATTERN, DEFAULT_THREAD_PATTERN, prop));
+		String threadPattern = getValue(KEY_THREAD_PATTERN, DEFAULT_THREAD_PATTERN, prop);
+		if (threadPattern.length() == 0)  // Empty is not allowed
+			threadPattern = "(^.*$)";
+		tx.threadPattern(threadPattern);
 		tx.commit();
 	}
 

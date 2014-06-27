@@ -9,8 +9,9 @@ package com.octo.reactive.audit.lib;
 
 public class AuditReactiveException extends AssertionError
 {
-	private static final String auditPackageName =
+	private static final String  auditPackageName =
 			AuditReactiveException.class.getPackage().getName().replaceFirst("\\.[^.]+$", "");
+	static               boolean debug            = false;
 	private String threadName;
 
 	public AuditReactiveException(String message)
@@ -38,21 +39,24 @@ public class AuditReactiveException extends AssertionError
 	 */
 	private void updateStackTraceElements()
 	{
-		// Filter stack trace
-		StackTraceElement[] stack = getStackTrace();
-		int pos = 0;
-		for (StackTraceElement traceElement : stack)
+		if (!debug)
 		{
-			if (!traceElement.getClassName().startsWith(auditPackageName)
-					|| traceElement.getClassName().endsWith("Test")) // For inner unit test
+			// Filter stack trace
+			StackTraceElement[] stack = getStackTrace();
+			int pos = 0;
+			for (StackTraceElement traceElement : stack)
 			{
-				break;
+				if (!traceElement.getClassName().startsWith(auditPackageName)
+						|| traceElement.getClassName().endsWith("Test")) // For inner unit test
+				{
+					break;
+				}
+				++pos;
 			}
-			++pos;
+			StackTraceElement[] newStack = new StackTraceElement[stack.length - pos];
+			System.arraycopy(stack, pos, newStack, 0, newStack.length);
+			setStackTrace(newStack);
 		}
-		StackTraceElement[] newStack = new StackTraceElement[stack.length - pos];
-		System.arraycopy(stack, pos, newStack, 0, newStack.length);
-		setStackTrace(newStack);
 	}
 
 }

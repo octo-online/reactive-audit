@@ -12,7 +12,7 @@ public class URLAudit extends NetworkAudit
 {
 
 	@Before("call(java.io.InputStream java.net.URL.openStream())")
-	public void advice_low(JoinPoint thisJoinPoint)
+	public void openStream(JoinPoint thisJoinPoint)
 	{
 		latency(MEDIUM, thisJoinPoint);
 	}

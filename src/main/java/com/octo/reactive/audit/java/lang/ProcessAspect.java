@@ -14,7 +14,7 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
 public class ProcessAspect extends DefaultAudit
 {
 	@Before("call(* java.lang.Process.waitFor(..))")
-	public void advice_high(JoinPoint thisJoinPoint)
+	public void waitFor(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);
 	}

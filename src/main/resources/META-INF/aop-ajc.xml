@@ -15,9 +15,12 @@
         <aspect name="com.octo.reactive.audit.java.util.PropertiesAspect"/>
 
         <!-- java.io -->
+        <aspect name="com.octo.reactive.audit.java.io.AppendableAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.CloseableAspect"/>
         <aspect name="com.octo.reactive.audit.java.io.FlushableAspect"/>
         <aspect name="com.octo.reactive.audit.java.io.FileAspect"/>
         <aspect name="com.octo.reactive.audit.java.io.RandomAccessFileAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.ReadableAspect"/>
 
         <!-- java.io.InputStream+ -->
         <aspect name="com.octo.reactive.audit.java.io.InputStreamAspect"/>

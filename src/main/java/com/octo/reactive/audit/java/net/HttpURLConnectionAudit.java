@@ -1,10 +1,11 @@
 package com.octo.reactive.audit.java.net;
 
 import com.octo.reactive.audit.NetworkAudit;
+import com.octo.reactive.audit.lib.AuditReactiveException;
+import com.octo.reactive.audit.lib.Latency;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
 
 import java.net.URLConnection;
 
@@ -14,28 +15,28 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
 public class HttpURLConnectionAudit extends NetworkAudit
 {
 
-	@Pointcut("call(int java.net.HttpURLConnection.getResponseCode())")
-	public void getResponseCode()
+	@Before("call(int java.net.HttpURLConnection.getResponseCode())")
+	public void getResponseCode(JoinPoint thisJoinPoint)
 	{
+		latency(HIGH, thisJoinPoint);
 	}
 
-	@Pointcut("call(String java.net.HttpURLConnection.getResponseMessage())")
-	public void getResponseMessage()
+	@Before("call(String java.net.HttpURLConnection.getResponseMessage())")
+	public void getResponseMessage(JoinPoint thisJoinPoint)
 	{
+		latency(HIGH, thisJoinPoint);
 	}
 
-	@Pointcut("call(java.io.InputStream java.net.HttpURLConnection.getErrorStream())")
-	public void getErrorStream()
+	@Before("call(java.io.InputStream java.net.HttpURLConnection.getErrorStream())")
+	public void getErrorStream(JoinPoint thisJoinPoint)
 	{
+		latency(HIGH, thisJoinPoint);
 	}
 
-
-	@Before("(getResponseCode() || getResponseMessage() || getErrorStream())")
-	public void advice_high(JoinPoint thisJoinPoint)
+	@Override
+	protected void latency(Latency latencyLevel, JoinPoint thisJoinPoint) throws AuditReactiveException
 	{
-		final URLConnection conn = (URLConnection) thisJoinPoint.getTarget();
-		if (!NetworkTools.isURLConnected(conn))
-			latency(HIGH, thisJoinPoint);
+		if (!NetworkTools.isURLConnected((URLConnection) thisJoinPoint.getTarget()))
+			super.latency(HIGH, thisJoinPoint);
 	}
-
 }

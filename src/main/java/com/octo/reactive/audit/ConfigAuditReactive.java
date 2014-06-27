@@ -4,6 +4,7 @@ import com.octo.reactive.audit.lib.AuditReactiveException;
 import com.octo.reactive.audit.lib.Latency;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.logging.*;
 import java.util.regex.Pattern;
@@ -56,6 +57,7 @@ public class ConfigAuditReactive
 	private long    bootstrapStart  = 0L;
 	private long    bootstrapDelay  = 0L;
 	private boolean afterBootstrap  = false;
+	private boolean debug           = false;
 
 	private volatile boolean              started           = false;
 	private          ThreadLocal<Integer> suppressAudit     = new ThreadLocal()
@@ -80,6 +82,7 @@ public class ConfigAuditReactive
 
 	synchronized void startup()
 	{
+		System.err.println("STARTUP"); //FIXME
 		if (!started)
 		{
 			bootstrapStart = System.currentTimeMillis();
@@ -110,6 +113,22 @@ public class ConfigAuditReactive
 		historyThreadName.clear();
 		suppressAudit.set(0);
 		startup();
+	}
+
+	void setDebug(boolean debug)
+	{
+		this.debug = debug;
+		try
+		{
+			Field field = AuditReactiveException.class.getDeclaredField("debug");
+			field.setAccessible(true);
+			field.set(null, debug);
+		}
+		catch (Exception e)
+		{
+			// Ignore
+			logger.fine("You detect a bug " + e.getMessage());
+		}
 	}
 
 	/**
@@ -147,7 +166,7 @@ public class ConfigAuditReactive
 	boolean isThreadNameMatch(String name)
 	{
 		if (historyThreadName.add(name))
-			logger.fine("Thread \"" + name + "\"");
+			if (debug) logger.fine("Detect thread \"" + name + "\"");
 		return threadPattern.matcher(name).matches();
 	}
 
@@ -269,6 +288,23 @@ public class ConfigAuditReactive
 		}
 	}
 
+	public void debug(Object s)
+	{
+		logger.fine(String.valueOf(s));
+	}
+
+	public void dumpTarget(Object obj)
+	{
+		debug("DUMP TARGET: " + obj);
+		Class<?> cl = obj.getClass();
+		debug(cl.getName() + " extends " + cl.getSuperclass());
+		for (Class<?> c : cl.getInterfaces())
+		{
+			ConfigAuditReactive.config.debug("implements " + c);
+		}
+
+	}
+
 	/**
 	 * A current transaction to modify the parameters.
 	 */
@@ -316,8 +352,7 @@ public class ConfigAuditReactive
 		 */
 		public Transaction log(Level level)
 		{
-			add(
-					() -> logger.setLevel(level));
+			add(() -> logger.setLevel(level));
 			return this;
 		}
 
@@ -380,6 +415,20 @@ public class ConfigAuditReactive
 		public Transaction bootStrapDelay(long delay)
 		{
 			add(() -> bootstrapDelay = delay);
+			return this;
+		}
+
+		/**
+		 * Set the debug mode.
+		 * With debug mode, the exception was not clean with the aspect.
+		 * May be apply after the commit().
+		 *
+		 * @param aDebug The debug mode.
+		 * @return The current transaction.
+		 */
+		public Transaction debug(boolean aDebug)
+		{
+			add(() -> setDebug(aDebug));
 			return this;
 		}
 

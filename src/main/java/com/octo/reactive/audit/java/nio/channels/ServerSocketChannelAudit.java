@@ -17,8 +17,11 @@ public class ServerSocketChannelAudit extends AbstractChannelsAudit
 	@Before("call(java.nio.channels.SocketChannel java.nio.channels.ServerSocketChannel.accept())")
 	public void accept(JoinPoint thisJoinPoint)
 	{
-		SelectableChannel asc = (SelectableChannel) thisJoinPoint.getTarget();
-		if (asc.isBlocking())
-			latency(HIGH, thisJoinPoint);
+		if (config.isDebug())
+		{
+			SelectableChannel asc = (SelectableChannel) thisJoinPoint.getTarget();
+			if (asc.isBlocking())
+				latency(HIGH, thisJoinPoint);
+		}
 	}
 }

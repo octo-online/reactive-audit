@@ -15,6 +15,7 @@ public class SelectorTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void select() throws IOException
 	{
+		ConfigAuditReactive.config.begin().debug(true).commit();
 		try (Selector r = Selector.open())
 		{
 			ConfigAuditReactive.strict.commit();
@@ -25,6 +26,7 @@ public class SelectorTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void select_l() throws IOException
 	{
+		ConfigAuditReactive.config.begin().debug(true).commit();
 		try (Selector r = Selector.open())
 		{
 			ConfigAuditReactive.strict.commit();

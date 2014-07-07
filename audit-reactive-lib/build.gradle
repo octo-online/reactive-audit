@@ -7,7 +7,7 @@ sourceCompatibility = '8'
 targetCompatibility = '8'
 
 group = "com.octo.reactive.audit"
-//name = "audit-reactive-lib"
+//artifactId = "audit-reactive-lib"
 version = '0.0.1-SNAPSHOT'
 description = 'TODO'
 

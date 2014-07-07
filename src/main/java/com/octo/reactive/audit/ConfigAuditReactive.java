@@ -6,6 +6,7 @@ import com.octo.reactive.audit.lib.Latency;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.logging.*;
 import java.util.regex.Pattern;
 
@@ -50,14 +51,17 @@ public class ConfigAuditReactive
 					.seal();
 	// Help to rename the package
 	public static final String              auditPackageName = ConfigAuditReactive.class.getPackage().getName();
-	final               Logger              logger           = Logger.getLogger(
+	public final Logger logger = Logger.getLogger(
 			ConfigAuditReactive.class.getPackage().getName());
 	private Pattern threadPattern;
-	private boolean throwExceptions = false;
-	private long    bootstrapStart  = 0L;
-	private long    bootstrapDelay  = 0L;
-	private boolean afterBootstrap  = false;
-	private boolean debug           = false;
+	private boolean   throwExceptions = false;
+	private long      bootstrapStart  = 0L;
+	private long      bootstrapDelay  = 0L;
+	private boolean   afterBootstrap  = false;
+	private boolean   debug           = false;
+	private LongAdder statLow         = new LongAdder();
+	private LongAdder statMedium      = new LongAdder();
+	private LongAdder statHigh        = new LongAdder();
 
 	private volatile boolean              started           = false;
 	private          ThreadLocal<Integer> suppressAudit     = new ThreadLocal()
@@ -82,7 +86,6 @@ public class ConfigAuditReactive
 
 	synchronized void startup()
 	{
-		System.err.println("STARTUP"); //FIXME
 		if (!started)
 		{
 			bootstrapStart = System.currentTimeMillis();
@@ -98,6 +101,12 @@ public class ConfigAuditReactive
 	synchronized void shutdown()
 	{
 		logger.info("Shutdown audit");
+		long low = statLow.sum();
+		long medium = statMedium.sum();
+		long high = statHigh.sum();
+		logger.info("  Total low=" + low);
+		logger.info("  Total medium=" + medium);
+		logger.info("  Total high=" + high);
 		if (started)
 		{
 			started = false;
@@ -113,6 +122,11 @@ public class ConfigAuditReactive
 		historyThreadName.clear();
 		suppressAudit.set(0);
 		startup();
+	}
+
+	public boolean isDebug()
+	{
+		return debug;
 	}
 
 	void setDebug(boolean debug)
@@ -269,21 +283,25 @@ public class ConfigAuditReactive
 	public void logIfNew(Latency latencyLevel, AuditReactiveException e)
 	{
 
-		Level level;
-		switch (latencyLevel)
-		{
-			case LOW:
-				level = Level.INFO;
-				break;
-			case MEDIUM:
-				level = Level.WARNING;
-				break;
-			default:
-				level = Level.SEVERE;
-				break;
-		}
 		if (!history.isAlreadyLogged(e.getStackTrace()))
 		{
+			Level level;
+			switch (latencyLevel)
+			{
+				case LOW:
+					level = Level.INFO;
+					statLow.add(1);
+					break;
+				case MEDIUM:
+					level = Level.WARNING;
+					statMedium.add(1);
+					break;
+				default:
+					level = Level.SEVERE;
+					statHigh.add(1);
+					break;
+			}
+
 			logger.log(level, latencyLevel.name() + " latency", e);
 		}
 	}
@@ -369,7 +387,7 @@ public class ConfigAuditReactive
 			{
 				final Handler handler = ("console".equalsIgnoreCase(output))
 				                        ? new ConsoleHandler()
-				                        : new FileHandler(output, 50000, 1, false);
+				                        : new FileHandler(output, 100000, 1, false);
 				if (output.endsWith(".xml"))
 					handler.setFormatter(new java.util.logging.XMLFormatter());
 				else
@@ -439,6 +457,9 @@ public class ConfigAuditReactive
 		public synchronized void commit()
 		{
 			commands.forEach(x -> x.run());
+			statLow.reset();
+			statMedium.reset();
+			statLow.reset();
 		}
 	}
 }

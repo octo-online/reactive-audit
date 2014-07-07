@@ -14,6 +14,11 @@ public class WriterAspect extends AbstractWriterAudit
 	@Before("call(* java.io.Writer.write(..))")
 	public void write(JoinPoint thisJoinPoint)
 	{
+		if (config.isDebug())
+		{
+			config.logger.finest(
+					thisJoinPoint.toLongString() + "  with " + thisJoinPoint.getTarget().getClass().getName());
+		}
 		latency(HIGH, thisJoinPoint, (Writer) thisJoinPoint.getTarget());
 	}
 

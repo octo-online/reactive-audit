@@ -15,12 +15,15 @@ public class GatheringByteChannelAudit extends AbstractChannelsAudit
 	@Before("call(long java.nio.channels.GatheringByteChannel+.write(java.nio.ByteBuffer[],..)) && args(buffers)")
 	public void write(JoinPoint thisJoinPoint, java.nio.ByteBuffer[] buffers)
 	{
-		for (int i = 0; i < buffers.length; ++i)
+		if (buffers != null)
 		{
-			if (!buffers[i].isDirect())
+			for (int i = 0; i < buffers.length; ++i)
 			{
-				latency(HIGH, thisJoinPoint);
-				return;
+				if (!buffers[i].isDirect())
+				{
+					latency(HIGH, thisJoinPoint);
+					return;
+				}
 			}
 		}
 	}

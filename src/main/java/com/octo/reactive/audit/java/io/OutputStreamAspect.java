@@ -14,6 +14,11 @@ public class OutputStreamAspect extends AbstractOutputStreamAudit
 	@Before("call(* java.io.OutputStream.write(..))")
 	public void write(JoinPoint thisJoinPoint)
 	{
+		if (config.isDebug())
+		{
+			config.logger.finest(
+					thisJoinPoint.toLongString() + "  with " + thisJoinPoint.getTarget().getClass().getName());
+		}
 		latency(HIGH, thisJoinPoint, (OutputStream) thisJoinPoint.getTarget());
 	}
 

@@ -32,12 +32,11 @@ description = 'JVM Agent to detect blocking IO call'
 
 
 dependencies {
-    compile project(":lib")
+    compile project(":audit-reactive-lib")
     compile "org.aspectj:aspectjrt:${aspectjVersion}"
     compile "org.aspectj:aspectjtools:${aspectjVersion}"
+
     testCompile group: 'junit', name: 'junit', version: '4.11'
-    //testCompile "org.aspectj:aspectjrt:${aspectjVersion}"
-    //testcompile "org.aspectj:aspectjtools:${aspectjVersion}"
     testRuntime "org.aspectj:aspectjweaver:${aspectjVersion}"
     testRuntime "org.aspectj:aspectjrt:${aspectjVersion}"
 

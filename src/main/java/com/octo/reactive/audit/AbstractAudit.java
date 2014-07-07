@@ -27,10 +27,7 @@ public abstract class AbstractAudit
 	                       JoinPoint thisJoinPoint
 	) throws AuditReactiveException
 	{
-		if (checkForAll())
-		{
-			latency(latencyLevel, thisJoinPoint, newException(thisJoinPoint));
-		}
+		latency(latencyLevel, thisJoinPoint, newException(thisJoinPoint));
 	}
 
 	protected void latency(Latency latencyLevel,

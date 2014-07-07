@@ -1,5 +1,7 @@
 package com.octo.reactive.audit.java.io;
 
+import com.octo.reactive.audit.ConfigAuditReactive;
+
 import java.io.*;
 import java.lang.reflect.Field;
 
@@ -110,6 +112,8 @@ public final class FileTools
 
 	static public int isLastInputStreamWithLatency(InputStream in)
 	{
+		if (in == null)
+			return NO_ERROR;
 		while (in instanceof FilterInputStream
 				|| in instanceof ObjectInputStream)
 		{
@@ -136,9 +140,12 @@ public final class FileTools
 				throw new Error(e);
 			}
 		}
-		if (in.getClass().getName().equals("java.net.SocketInputStream")) return NET_ERROR;
-		if (in instanceof FileInputStream) return FILE_ERROR;
-		if (in.getClass().getName().startsWith("sun.net.www.")) return NET_ERROR;
+		if (in != null)
+		{
+			if (in.getClass().getName().equals("java.net.SocketInputStream")) return NET_ERROR;
+			if (in instanceof FileInputStream) return FILE_ERROR;
+			if (in.getClass().getName().startsWith("sun.net.www.")) return NET_ERROR;
+		}
 		return NO_ERROR;
 	}
 
@@ -179,6 +186,7 @@ public final class FileTools
 		{
 			try
 			{
+				//if (out!=null) ConfigAuditReactive.config.debug("OUT:"+out.getClass());
 				if (out instanceof FilterOutputStream)
 				{
 					FilterOutputStream filter = (FilterOutputStream) out;
@@ -197,7 +205,9 @@ public final class FileTools
 			{
 				throw new Error(e);
 			}
+			//if (out!=null) ConfigAuditReactive.config.debug("NEXT OUT:"+out.getClass());
 		}
+		if (out != null) ConfigAuditReactive.config.debug("FINAL OUT:" + out.getClass());
 		if (out.getClass().getName().equals("java.net.SocketOutputStream")) return NET_ERROR;
 		if (out instanceof FileOutputStream) return FILE_ERROR;
 		if (out.getClass().getName().startsWith("sun.net.www.")) return NET_ERROR;
@@ -208,6 +218,7 @@ public final class FileTools
 	{
 		try
 		{
+			//if (writer!=null) ConfigAuditReactive.config.debug("writer instanceof "+writer.getClass());
 			while (writer instanceof FilterWriter
 					|| writer instanceof BufferedWriter
 					|| writer instanceof PrintWriter)
@@ -224,10 +235,14 @@ public final class FileTools
 				{
 					writer = (Writer) fieldOutBufferedWriter.get(writer);
 				}
+				//if (writer!=null) ConfigAuditReactive.config.debug("next writer instanceof "+writer.getClass());
+				//if ( (writer!=null) && "org.eclipse.jetty.server.HttpWriter".equals(writer.getClass().getSuperclass()))
+				//	ConfigAuditReactive.config.debug("SUPER is httpwriter");
 			}
 			if (writer instanceof OutputStreamWriter)
 			{
 				OutputStream out = (OutputStream) fieldLockWriter.get(writer);
+				//if (out!=null) ConfigAuditReactive.config.debug("outpustream writerinstanceof "+out.getClass());
 				return isLastOutputStreamWithLatency(out);
 			}
 			else

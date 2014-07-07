@@ -21,6 +21,7 @@ public class ServerSocketTest
 		try (ServerSocket socket = new ServerSocket(PORT))
 		{
 			ConfigAuditReactive.strict.commit();
+			ConfigAuditReactive.config.begin().debug(true).commit();
 			socket.accept();
 		}
 	}

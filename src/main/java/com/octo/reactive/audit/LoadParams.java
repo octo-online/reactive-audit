@@ -51,12 +51,28 @@ public class LoadParams
 		{
 			try
 			{
-				URI uri = new File(propertiesFile).toURI();
+				URI uri = new File(propertiesFile).getCanonicalFile().toURI();
 				filename = uri.toURL();
 			}
 			catch (MalformedURLException ee)
 			{
 				config.logger.warning(propertiesFile + " malformed");
+			}
+			catch (IOException e1)
+			{
+				config.logger.warning(propertiesFile + " malformed");
+			}
+		}
+		// @See bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=438989
+		if ((filename != null) && !filename.getPath().endsWith(".properties"))
+		{
+			try
+			{
+				filename = new URL(filename.toExternalForm() + ".properties");
+			}
+			catch (MalformedURLException e)
+			{
+				config.logger.warning(filename + " malformed");
 			}
 		}
 	}
@@ -91,7 +107,7 @@ public class LoadParams
 		}
 		catch (IOException e)
 		{
-			config.logger.config(filename + " not found");
+			config.logger.warning(filename + " not found");
 		}
 		applyProperties(prop);
 		config.logger.config(KEY_THREAD_PATTERN + "  = " + config.getThreadPattern());

@@ -5,3 +5,6 @@ Voir : http://blog.xebia.fr/2008/05/02/java-agent-instrumentez-vos-classes/
 Faire un mode debug qui affiche tous les threads names
 
 Voir javax.image.InputInputStream etc.
+
+Voir http://stackoverflow.com/questions/24199884/java8-how-discover-the-class-and-method-name-in-visitmethodinvocation/24577343#24577343
+http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#installation

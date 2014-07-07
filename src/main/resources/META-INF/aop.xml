@@ -1,7 +1,80 @@
 <aspectj>
 
     <!--<weaver options="-verbose ">-->
+    <!-- -verbose -showWeaveInfo  -->
+    <!--<weaver options="-Xset:weaveJavaxPackages=true -verbose">-->
     <weaver options="-Xset:weaveJavaxPackages=true -warn:none -Xlint:ignore">
+        <!--<include within="**"/>-->
     </weaver>
 
+    <aspects>
+        <aspect name="com.octo.reactive.audit.DebugAspect"/>
+
+        <!-- Global -->
+        <!--<aspect name="com.octo.reactive.audit.DumpJoinPoint"/>-->
+        <aspect name="com.octo.reactive.audit.MainAspect"/>
+        <aspect name="com.octo.reactive.audit.SuppressAuditReactiveAspect"/>
+        <aspect name="com.octo.reactive.audit.WithLatencyAspect"/>
+
+        <!-- java.lang -->
+        <aspect name="com.octo.reactive.audit.java.lang.ObjectAspect"/>
+        <aspect name="com.octo.reactive.audit.java.lang.ProcessAspect"/>
+        <aspect name="com.octo.reactive.audit.java.lang.ThreadAspect"/>
+
+        <!-- java.util -->
+        <aspect name="com.octo.reactive.audit.java.util.PropertiesAspect"/>
+
+        <!-- java.io -->
+        <aspect name="com.octo.reactive.audit.java.io.AppendableAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.CloseableAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.FlushableAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.FileAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.RandomAccessFileAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.ReadableAspect"/>
+
+        <!-- java.io.InputStream+ -->
+        <aspect name="com.octo.reactive.audit.java.io.InputStreamAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.FileInputStreamAspect"/>
+
+        <!-- java.io.OutputStream+ -->
+        <aspect name="com.octo.reactive.audit.java.io.OutputStreamAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.FileOutputStreamAspect"/>
+
+        <!-- java.io.Reader+ -->
+        <aspect name="com.octo.reactive.audit.java.io.ReaderAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.FileReaderAspect"/>
+
+        <!-- java.io.Writer+ -->
+        <aspect name="com.octo.reactive.audit.java.io.WriterAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.FileWriterAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.BufferedWriterAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.PrintWriterAspect"/>
+
+        <!-- java.net -->
+        <aspect name="com.octo.reactive.audit.java.net.DatagramSocketAudit"/>
+        <aspect name="com.octo.reactive.audit.java.net.InetAddressAudit"/>
+        <aspect name="com.octo.reactive.audit.java.net.URLConnectionAudit"/>
+        <aspect name="com.octo.reactive.audit.java.net.HttpURLConnectionAudit"/>
+        <aspect name="com.octo.reactive.audit.java.net.ServerSocketAudit"/>
+        <aspect name="com.octo.reactive.audit.java.net.SocketAudit"/>
+        <aspect name="com.octo.reactive.audit.java.net.URLAudit"/>
+
+        <!-- java.nio.channel -->
+        <aspect name="com.octo.reactive.audit.java.nio.channels.AbstractInterruptibleChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.AsynchronousChannelGroupAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.ChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.DatagramChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.FileChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.GatheringByteChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.ReadableByteChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.ScatteringByteChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.SeekableByteChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.ServerSocketChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.SocketChannelAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.SelectorAudit"/>
+        <aspect name="com.octo.reactive.audit.java.nio.channels.WritableByteChannelAudit"/>
+
+        <!-- java.nio.file-->
+        <aspect name="com.octo.reactive.audit.java.nio.file.FilesAudit"/>
+    </aspects>
 </aspectj>

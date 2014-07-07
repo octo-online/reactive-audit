@@ -27,6 +27,11 @@ public class InputStreamAspect extends AbstractInputStreamAudit
 	@Before("call(* java.io.InputStream+.read(..))")
 	public void read(JoinPoint thisJoinPoint)
 	{
+		if (config.isDebug())
+		{
+			config.logger.finest(
+					thisJoinPoint.toLongString() + "  with " + thisJoinPoint.getTarget().getClass().getName());
+		}
 		latency(HIGH, thisJoinPoint, (InputStream) thisJoinPoint.getTarget());
 	}
 

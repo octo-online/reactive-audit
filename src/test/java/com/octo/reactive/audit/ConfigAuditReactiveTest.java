@@ -113,11 +113,13 @@ public class ConfigAuditReactiveTest
 				latencyCall1();
 			}
 		};
+		// First turn, invoke log.
 		t = new Thread(rctx1);
 		t.start();
 		t.join();
 		assertEquals(1, log[0]);
 
+		// Second turn, invoke log.
 		log[0] = 0;
 		Runnable rctx2 = new Runnable()
 		{
@@ -132,6 +134,7 @@ public class ConfigAuditReactiveTest
 		t.join();
 		assertEquals(1, log[0]);
 
+		// Third turn, same context, no invoke log.
 		log[0] = 0;
 		t = new Thread(rctx1);
 		t.start();

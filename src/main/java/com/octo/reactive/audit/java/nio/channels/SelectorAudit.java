@@ -15,7 +15,10 @@ public class SelectorAudit extends AbstractChannelsAudit
 	@Before("call(int java.nio.channels.Selector.select(..))")
 	public void select(JoinPoint thisJoinPoint)
 	{
-		latency(HIGH, thisJoinPoint);
+		if (config.isDebug())
+		{
+			latency(HIGH, thisJoinPoint);
+		}
 	}
 
 }

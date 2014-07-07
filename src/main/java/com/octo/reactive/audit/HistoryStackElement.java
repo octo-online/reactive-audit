@@ -1,8 +1,8 @@
 package com.octo.reactive.audit;
 
 import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by pprados on 19/05/2014.
@@ -11,7 +11,7 @@ class HistoryStackElement
 {
 	static final String myPackage = HistoryStackElement.class.getPackage().getName();
 	private ConfigAuditReactive config;
-	private List<StackTraceElement[]> logged = Collections.synchronizedList(new LinkedList<>());
+	private Set<HashStackTraceElement> logged = Collections.synchronizedSet(new HashSet<>());
 
 	HistoryStackElement(ConfigAuditReactive config)
 	{
@@ -24,39 +24,43 @@ class HistoryStackElement
 	}
 
 	// WARNING : use synchronized. Is it possible to reduce the blocking part ?
-	synchronized boolean isAlreadyLogged(StackTraceElement[] stack)
+	boolean isAlreadyLogged(StackTraceElement[] stack)
 	{
-		boolean alreadyLogged = searchStack(stack);
-		if (!alreadyLogged)
+		HashStackTraceElement hse = new HashStackTraceElement(stack);
+		// Ok, it's block the code, but for a small period
+		synchronized (this)
 		{
-			logged.add(stack);
+			// Detect with the precalculated hash value
+			return !logged.add(hse);
 		}
-		return alreadyLogged;
 	}
 
-	/**
-	 * Search stack in history.
-	 *
-	 * @param stack
-	 * @return true if found the same stack
-	 */
-	private boolean searchStack(StackTraceElement[] stack)
+	static class HashStackTraceElement
 	{
-		for (StackTraceElement[] s : logged)
+		int                 hash;
+		StackTraceElement[] stack;
+
+		public HashStackTraceElement(StackTraceElement[] aStack)
 		{
-			if (stack.length == s.length)
-			{
-				boolean find = true;
-				for (int i = 0; i < stack.length; ++i)
-					if (!stack[i].equals(s[i]))
-					{
-						//logger.debug("DIFFERENCE=" + stack[i] + " " + s[i]);
-						find = false;
-						break;
-					}
-				if (find) return true;
-			}
+			stack = aStack;
+			int aHash = 0;
+			for (int i = 0; i < aStack.length; ++i)
+				aHash ^= aStack[i].hashCode();
+			hash = aHash;
 		}
-		return false;
+
+		@Override
+		public int hashCode()
+		{
+			return hash;
+		}
+
+		@Override
+		public boolean equals(Object obj)
+		{
+			// It's enough because the probability is very low to have 2 stack trace with the same hash value.
+			return hash == ((HashStackTraceElement) obj).hash;
+		}
 	}
+
 }

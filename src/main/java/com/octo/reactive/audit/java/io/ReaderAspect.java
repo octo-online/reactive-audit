@@ -15,6 +15,11 @@ public class ReaderAspect extends AbstractReaderAudit
 	@Before("call(* java.io.Reader+.read(..))")
 	public void read(JoinPoint thisJoinPoint)
 	{
+		if (config.isDebug())
+		{
+			config.logger.finest(
+					thisJoinPoint.toLongString() + "  with " + thisJoinPoint.getTarget().getClass().getName());
+		}
 		latency(HIGH, thisJoinPoint, (Reader) thisJoinPoint.getTarget());
 	}
 

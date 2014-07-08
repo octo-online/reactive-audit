@@ -1,32 +1,17 @@
-set AUDIT_REACTIVE_HOME=<home>
+To set the environment variables, use set-audit-reactive.
+This will set the variables AUDIT_REACTIVE_HOME with the home directory
+and AUDIT_OPTS with all the parameters to start a JVM.
 
-JETTY
-To start jetty with audit :
+You can add a framework name like "jetty" or "play".
 
-java -jar start.jar \
-  --exec \
-  -javaagent:%AUDIT_REACTIVE_HOME%/lib/aspectjweaver.jar \
-  --lib=%AUDIT_REACTIVE_HOME%/lib/audit-reactive.jar \
-  --lib=%AUDIT_REACTIVE_HOME%/lib/audit-reactive-lib.jar \
-  -DauditReactive=%AUDIT_REACTIVE_HOME%/etc/auditJetty
+To start jetty with audit:
+>set-audit-reactive jetty
+>java %AUDIT_OPTS% -jar start.jar
 
-Note: Do not add .properties for the parameter auditReactive. (See https://bugs.eclipse.org/bugs/show_bug.cgi?id=438989)
+To start play with audit:
+>set-audit-reactive play
+>activator run
 
-PLAY
-To start play with audit :
-Edit the sbt.bat. Add %ASPECTPATH%; in line
-"%_JAVACMD%" %_JAVA_OPTS% %SBT_OPTS% -cp "%ASPECTPATH%;%SBT_HOME%sbt-launch.jar" xsbt.boot.Boot %*
 
-Then set SBT_OPTS and ASPECTPATH.
-
-rem set ASPECTJ_OPTS=-Dorg.aspectj.tracing.messages=true -Dorg.aspectj.verbose=true -Daj.weaving.verbose=true
-set ASPECTPATH=\
-  %AUDIT_REACTIVE_HOME%/lib/audit-reactive*.jar:\
-  %AUDIT_REACTIVE_HOME%/lib/audit-reactive-lib*.jar
-set SBT_OPTS=\
-  -javaagent:%AUDIT_REACTIVE_HOME%/lib/aspectjweaver*.jar \
-  -DauditReactive=%AUDIT_REACTIVE_HOME%/etc/auditPlay.properties
-
-activator run
 
 

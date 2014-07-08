@@ -13,14 +13,14 @@ import java.util.logging.Level;
  */
 public class LoadParams
 {
-	public static final String DEFAULT_FILE_LATENCY    = "MEDIUM";
-	public static final String DEFAULT_NETWORK_LATENCY = "LOW";
-	public static final String DEFAULT_CPU_LATENCY     = "LOW";
+	public static final String DEFAULT_FILE_LATENCY     = "MEDIUM";
+	public static final String DEFAULT_NETWORK_LATENCY  = "LOW";
+	public static final String DEFAULT_CPU_LATENCY      = "LOW";
 	public static final String DEFAULT_THREAD_PATTERN   = "^(ForkJoinPool-.*)"; // FIXME "(?!^main$)(^.*$)"
 	public static final String DEFAULT_LOG_LEVEL        = Level.WARNING.getName();
 	public static final String DEFAULT_LOG_OUTPUT       = "%h/audit-reactive-%u.log";
 	public static final String DEFAULT_LOG_FORMAT       = "%4$-7s: %5$s%6$s%n";
-	public static final String DEFAULT_LOG_SIZE        = "10000";
+	public static final String DEFAULT_LOG_SIZE         = "20000";
 	public static final String DEFAULT_BOOTSTRAP_DELAY  = "0";
 	public static final String DEFAULT_THROW_EXCEPTIONS = "false";
 	public static final String DEFAULT_DEBUG            = "false";
@@ -30,13 +30,13 @@ public class LoadParams
 	public static final String KEY_THROW_EXCEPTIONS = PREFIX + "throwExceptions";
 	public static final String KEY_THREAD_PATTERN   = PREFIX + "threadPattern";
 	public static final String KEY_BOOTSTRAP_DELAY  = PREFIX + "bootstrapDelay";
-	public static final String KEY_FILE_LATENCY    = PREFIX + "file";
-	public static final String KEY_NETWORK_LATENCY = PREFIX + "network";
-	public static final String KEY_CPU_LATENCY     = PREFIX + "cpu";
+	public static final String KEY_FILE_LATENCY     = PREFIX + "file";
+	public static final String KEY_NETWORK_LATENCY  = PREFIX + "network";
+	public static final String KEY_CPU_LATENCY      = PREFIX + "cpu";
 	public static final String KEY_LOG_LEVEL        = PREFIX + "logLevel";
 	public static final String KEY_LOG_OUTPUT       = PREFIX + "logOutput";
 	public static final String KEY_LOG_FORMAT       = PREFIX + "logFormat";
-	public static final String KEY_LOG_SIZE        = PREFIX + "logSize";
+	public static final String KEY_LOG_SIZE         = PREFIX + "logSize";
 	public static final String KEY_DEBUG            = PREFIX + "debug";
 
 	public static final String DEFAULT_FILENAME = "auditReactive.properties";

@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# Uses uname to detect if we're in the odd cygwin environment.
+is_cygwin() {
+  local os=$(uname -s)
+  case "$os" in
+    CYGWIN*) return 0 ;;
+    *)  return 1 ;;
+  esac
+}
+
+# This can fix cygwin style /cygdrive paths so we get the
+# windows style paths.
+cygwinpath() {
+  local file="$1"
+  if is_cygwin; then
+    echo $(cygpath -w $file)
+  else
+    echo $file
+  fi
+}
+
+
+if [ -z "$AUDIT_REACTIVE_HOME" ]; then
+    AUDIT_REACTIVE_HOME=$(cygwinpath `dirname $0`)
+else
+    AUDIT_REACTIVE_HOME=$(cygwinpath $AUDIT_REACTIVE_HOME)
+fi
+if [ -z "$FRAMEWORK_HOME" ]; then
+    FRAMEWORK_HOME=$AUDIT_REACTIVE_HOME/etc
+else
+    FRAMEWORK_HOME=$(cygwinpath $FRAMEWORK_HOME)
+fi
+
+
+# Parse args
+while [ "$1" != "" ]; do
+    PARAM=$1
+    case $PARAM in
+        -s)
+            SILENT=true
+            ;;
+        *)
+            FRAMEWORK=$1
+            AUDIT_OPTS=-DauditReactive="$FRAMEWORK_HOME/$1.properties"
+            ;;
+    esac
+    shift
+done
+
+set AUDIT_OPTS=-javaagent:"$AUDIT_REACTIVE_HOME/lib/aspectjweaver.jar" -Djava.ext.dirs="$JAVA_HOME/jre/lib/ext:$AUDIT_REACTIVE_HOME%/lib" %AUDIT_OPTS%
+if [[ "$SILENT" != "true" ]]; then
+    echo Now you can use the environment variable AUDIT_OPTS for launch Java program.
+    if [ -z "$FRAMEWORK%" ]; then
+        echo "Add -DauditReactive=[yourfile].properties to select a specific configuration."
+    fi
+fi
+if [[ "$FRAMEWORK" == "play" ]]; then
+    set SBT_OPTS=%AUDIT_OPTS%
+    if [[ "$SILENT" != "true" ]]; then
+        echo SBT_OPTS was set. You can use TypeSafe activator.
+    fi
+fi
+if [[ "$FRAMEWORK" == "jetty" ]]; then
+    if [[ "$SILENT" != "true" ]]; then
+        echo Use: java \$AUDIT_OPTS -jar start.jar
+    fi
+fi
+
+export AUDIT_OPTS
+export AUDIT_REACTIVE_HOME
+

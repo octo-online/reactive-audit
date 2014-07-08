@@ -1,6 +1,8 @@
 package com.octo.reactive.audit;
 
 import com.octo.reactive.audit.lib.AuditReactiveException;
+import com.octo.reactive.audit.lib.FileAuditReactiveException;
+import com.octo.reactive.audit.lib.Latency;
 import com.octo.reactive.audit.lib.SuppressAuditReactive;
 import org.junit.Test;
 
@@ -10,6 +12,7 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
+import static com.octo.reactive.audit.lib.Latency.*;
 import static org.junit.Assert.*;
 
 
@@ -64,21 +67,33 @@ public class ConfigAuditReactiveTest
 				.log(Level.FINE)
 				.throwExceptions(true)
 				.threadPattern("")
+				.latencyFile("high")
+				.latencyNetwork("medium")
+				.latencyCPU("low")
 				.bootStrapDelay(10)
 				.commit();
 		assertEquals(Level.FINE, config.getLogLevel());
 		assertEquals(true, config.isThrow());
 		assertEquals("", config.getThreadPattern());
+		assertEquals(Latency.HIGH, config.getFileLatency());
+		assertEquals(Latency.MEDIUM, config.getNetworkLatency());
+		assertEquals(LOW, config.getCPULatency());
 		assertEquals(10, config.getBootstrapDelay());
 		config.begin()
 				.log(Level.WARNING)
 				.throwExceptions(false)
 				.threadPattern("abc")
+				.latencyFile("")
+				.latencyNetwork("")
+				.latencyCPU("")
 				.bootStrapDelay(0)
 				.commit();
 		assertEquals(Level.WARNING, config.getLogLevel());
 		assertEquals(false, config.isThrow());
 		assertEquals("abc", config.getThreadPattern());
+		assertNull(config.getFileLatency());
+		assertNull(config.getNetworkLatency());
+		assertNull(config.getCPULatency());
 		assertEquals(0, config.getBootstrapDelay());
 	}
 
@@ -204,6 +219,68 @@ public class ConfigAuditReactiveTest
 
 		}
 		removeHandler();
+	}
+
+	@Test
+	public void logIfLevel()
+	{
+		config.reset();
+		config.begin()
+				.latencyFile("")
+				.commit();
+		addHandler();
+		log[0] = 0;
+		config.logIfNew(LOW, new FileAuditReactiveException(LOW, ""));
+		assertEquals(0, log[0]);
+		log[0] = 0;
+		config.logIfNew(MEDIUM, new FileAuditReactiveException(MEDIUM, ""));
+		assertEquals(0, log[0]);
+		log[0] = 0;
+		config.logIfNew(HIGH, new FileAuditReactiveException(HIGH, ""));
+		assertEquals(0, log[0]);
+
+
+		config.begin()
+				.latencyFile("LOW")
+				.commit();
+		addHandler();
+		log[0] = 0;
+		config.logIfNew(LOW, new FileAuditReactiveException(LOW, ""));
+		assertEquals(1, log[0]);
+		log[0] = 0;
+		config.logIfNew(MEDIUM, new FileAuditReactiveException(MEDIUM, ""));
+		assertEquals(1, log[0]);
+		log[0] = 0;
+		config.logIfNew(HIGH, new FileAuditReactiveException(HIGH, ""));
+		assertEquals(1, log[0]);
+
+		config.begin()
+				.latencyFile("MEDIUM")
+				.commit();
+		addHandler();
+		log[0] = 0;
+		config.logIfNew(LOW, new FileAuditReactiveException(LOW, ""));
+		assertEquals(0, log[0]);
+		log[0] = 0;
+		config.logIfNew(MEDIUM, new FileAuditReactiveException(MEDIUM, ""));
+		assertEquals(1, log[0]);
+		log[0] = 0;
+		config.logIfNew(HIGH, new FileAuditReactiveException(HIGH, ""));
+		assertEquals(1, log[0]);
+
+		config.begin()
+				.latencyFile("HIGH")
+				.commit();
+		addHandler();
+		log[0] = 0;
+		config.logIfNew(LOW, new FileAuditReactiveException(LOW, ""));
+		assertEquals(0, log[0]);
+		log[0] = 0;
+		config.logIfNew(MEDIUM, new FileAuditReactiveException(MEDIUM, ""));
+		assertEquals(0, log[0]);
+		log[0] = 0;
+		config.logIfNew(HIGH, new FileAuditReactiveException(HIGH, ""));
+		assertEquals(1, log[0]);
 	}
 
 	private void removeHandler()

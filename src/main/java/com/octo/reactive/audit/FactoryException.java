@@ -1,6 +1,7 @@
 package com.octo.reactive.audit;
 
 import com.octo.reactive.audit.lib.FileAuditReactiveException;
+import com.octo.reactive.audit.lib.Latency;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.aspectj.lang.JoinPoint;
 
@@ -9,13 +10,13 @@ import org.aspectj.lang.JoinPoint;
  */
 public class FactoryException
 {
-	public static NetworkAuditReactiveException newNetwork(JoinPoint thisJoinPoint)
+	public static NetworkAuditReactiveException newNetwork(Latency latency, JoinPoint thisJoinPoint)
 	{
-		return new NetworkAuditReactiveException(thisJoinPoint.getSignature().toString());
+		return new NetworkAuditReactiveException(latency, thisJoinPoint.getSignature().toString());
 	}
 
-	public static FileAuditReactiveException newFile(JoinPoint thisJoinPoint)
+	public static FileAuditReactiveException newFile(Latency latency, JoinPoint thisJoinPoint)
 	{
-		return new FileAuditReactiveException(thisJoinPoint.getSignature().toString());
+		return new FileAuditReactiveException(latency, thisJoinPoint.getSignature().toString());
 	}
 }

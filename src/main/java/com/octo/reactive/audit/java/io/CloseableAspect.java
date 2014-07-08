@@ -21,7 +21,7 @@ public class CloseableAspect extends AbstractAudit
 	public void close(JoinPoint thisJoinPoint)
 	{
 		final Object target = thisJoinPoint.getTarget();
-		Latency level = LOW;
+		Latency latency = LOW;
 		AuditReactiveException ex = null;
 		if (target instanceof InterruptibleChannel)
 			return;
@@ -30,10 +30,10 @@ public class CloseableAspect extends AbstractAudit
 			switch (isLastInputStreamWithLatency((InputStream) target))
 			{
 				case NET_ERROR:
-					ex = FactoryException.newNetwork(thisJoinPoint);
+					ex = FactoryException.newNetwork(latency, thisJoinPoint);
 					break;
 				case FILE_ERROR:
-					ex = FactoryException.newFile(thisJoinPoint);
+					ex = FactoryException.newFile(latency, thisJoinPoint);
 					break;
 			}
 		}
@@ -42,10 +42,10 @@ public class CloseableAspect extends AbstractAudit
 			switch (isLastOutputStreamWithLatency((OutputStream) target))
 			{
 				case NET_ERROR:
-					ex = FactoryException.newNetwork(thisJoinPoint);
+					ex = FactoryException.newNetwork(latency, thisJoinPoint);
 					break;
 				case FILE_ERROR:
-					ex = FactoryException.newFile(thisJoinPoint);
+					ex = FactoryException.newFile(latency, thisJoinPoint);
 					break;
 			}
 		}
@@ -54,10 +54,10 @@ public class CloseableAspect extends AbstractAudit
 			switch (isLastInputStreamInReaderWithLatency((Reader) target))
 			{
 				case NET_ERROR:
-					ex = FactoryException.newNetwork(thisJoinPoint);
+					ex = FactoryException.newNetwork(latency, thisJoinPoint);
 					break;
 				case FILE_ERROR:
-					ex = FactoryException.newFile(thisJoinPoint);
+					ex = FactoryException.newFile(latency, thisJoinPoint);
 					break;
 			}
 		}
@@ -66,22 +66,22 @@ public class CloseableAspect extends AbstractAudit
 			switch (isLastOutputStreamFromWriterWithLatency((Writer) target))
 			{
 				case NET_ERROR:
-					ex = FactoryException.newNetwork(thisJoinPoint);
+					ex = FactoryException.newNetwork(latency, thisJoinPoint);
 					break;
 				case FILE_ERROR:
-					ex = FactoryException.newFile(thisJoinPoint);
+					ex = FactoryException.newFile(latency, thisJoinPoint);
 					break;
 			}
 		}
 		else if (target instanceof RandomAccessFile)
 		{
-			ex = FactoryException.newFile(thisJoinPoint);
+			ex = FactoryException.newFile(latency, thisJoinPoint);
 		}
 		if (ex != null) latency(LOW, thisJoinPoint, ex);
 	}
 
 	@Override
-	protected AuditReactiveException newException(JoinPoint thisJoinPoint)
+	protected AuditReactiveException newException(Latency latency, JoinPoint thisJoinPoint)
 	{
 		return null;  // FIXME
 	}

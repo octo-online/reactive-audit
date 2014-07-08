@@ -16,21 +16,21 @@ public abstract class AbstractAudit
 		return ConfigAuditReactive.config.isThreadNameMatch(Thread.currentThread().getName());
 	}
 
-	abstract protected AuditReactiveException newException(JoinPoint thisJoinPoint);
+	abstract protected AuditReactiveException newException(Latency latency, JoinPoint thisJoinPoint);
 
 	private boolean checkForAll()
 	{
 		return isReactiveThread() && !config.isSuppressAudit();
 	}
 
-	protected void latency(Latency latencyLevel,
+	protected void latency(Latency latency,
 	                       JoinPoint thisJoinPoint
 	) throws AuditReactiveException
 	{
-		latency(latencyLevel, thisJoinPoint, newException(thisJoinPoint));
+		latency(latency, thisJoinPoint, newException(latency, thisJoinPoint));
 	}
 
-	protected void latency(Latency latencyLevel,
+	protected void latency(Latency latency,
 	                       JoinPoint thisJoinPoint, AuditReactiveException e) throws AuditReactiveException
 	{
 		if (checkForAll())
@@ -38,7 +38,7 @@ public abstract class AbstractAudit
 			final ConfigAuditReactive config = ConfigAuditReactive.config;
 			if (!config.isAfterStartupDelay())
 				return;
-			config.logIfNew(latencyLevel, e);
+			config.logIfNew(latency, e);
 			if (config.isThrow())  // LOW, MEDIUM, HIGH ?
 				throw e;
 		}

@@ -1,6 +1,8 @@
 package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.lib.AuditReactiveException;
+import com.octo.reactive.audit.lib.FileAuditReactiveException;
+import com.octo.reactive.audit.lib.Latency;
 import org.junit.Test;
 
 /**
@@ -14,7 +16,7 @@ public class ConsoleTest
 		if (System.console() != null)
 			System.console().readLine();
 		else
-			throw new AuditReactiveException("No console");
+			throw new FileAuditReactiveException(Latency.LOW, "No console");
 	}
 
 	@Test(expected = AuditReactiveException.class)
@@ -23,7 +25,7 @@ public class ConsoleTest
 		if (System.console() != null)
 			System.console().readLine("", "");
 		else
-			throw new AuditReactiveException("No console");
+			throw new FileAuditReactiveException(Latency.LOW, "No console");
 	}
 
 	@Test(expected = AuditReactiveException.class)
@@ -32,7 +34,7 @@ public class ConsoleTest
 		if (System.console() != null)
 			System.console().readPassword();
 		else
-			throw new AuditReactiveException("No console");
+			throw new FileAuditReactiveException(Latency.LOW, "No console");
 	}
 
 	@Test(expected = AuditReactiveException.class)
@@ -41,7 +43,7 @@ public class ConsoleTest
 		if (System.console() != null)
 			System.console().readPassword("", "");
 		else
-			throw new AuditReactiveException("No console");
+			throw new FileAuditReactiveException(Latency.LOW, "No console");
 	}
 
 }

@@ -7,25 +7,32 @@ package com.octo.reactive.audit.lib;
  * @author Philippe PRADOS
  */
 
-public class AuditReactiveException extends AssertionError
+public abstract class AuditReactiveException extends AssertionError
 {
 	private static final String  auditPackageName =
 			AuditReactiveException.class.getPackage().getName().replaceFirst("\\.[^.]+$", "");
 	static               boolean debug            = false;
-	private String threadName;
+	private String  threadName;
+	private Latency latency;
 
-	public AuditReactiveException(String message)
+	public AuditReactiveException(Latency latency, String message)
 	{
 		super(message);
 		threadName = Thread.currentThread().getName();
+		this.latency = latency;
 		updateStackTraceElements();
 	}
 
-	public AuditReactiveException(String format, Object... args)
+	public AuditReactiveException(Latency latency, String format, Object... args)
 	{
 		super(String.format(format, args));
 		threadName = Thread.currentThread().getName();
 		updateStackTraceElements();
+	}
+
+	public Latency getLatency()
+	{
+		return latency;
 	}
 
 	@Override

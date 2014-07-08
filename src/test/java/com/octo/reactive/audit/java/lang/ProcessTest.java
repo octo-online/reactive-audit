@@ -15,6 +15,6 @@ public class ProcessTest
 	public void waitFor() throws IOException, InterruptedException
 	{
 		ConfigAuditReactive.strict.commit();
-		Runtime.getRuntime().exec("echo").waitFor();
+		Runtime.getRuntime().exec("java -version").waitFor();
 	}
 }

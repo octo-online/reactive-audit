@@ -13,18 +13,18 @@ import static com.octo.reactive.audit.java.io.FileTools.NET_ERROR;
 
 class AbstractInputStreamAudit extends FileAudit
 {
-	protected void latency(Latency level, JoinPoint thisJoinPoint, InputStream in)
+	protected void latency(Latency latency, JoinPoint thisJoinPoint, InputStream in)
 	{
 		AuditReactiveException ex = null;
 		switch (FileTools.isLastInputStreamWithLatency(in))
 		{
 			case NET_ERROR:
-				ex = FactoryException.newNetwork(thisJoinPoint);
+				ex = FactoryException.newNetwork(latency, thisJoinPoint);
 				break;
 			case FILE_ERROR:
-				ex = FactoryException.newFile(thisJoinPoint);
+				ex = FactoryException.newFile(latency, thisJoinPoint);
 				break;
 		}
-		if (ex != null) super.latency(level, thisJoinPoint, ex);
+		if (ex != null) super.latency(latency, thisJoinPoint, ex);
 	}
 }

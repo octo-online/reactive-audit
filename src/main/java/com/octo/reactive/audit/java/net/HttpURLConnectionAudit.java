@@ -34,7 +34,7 @@ public class HttpURLConnectionAudit extends NetworkAudit
 	}
 
 	@Override
-	protected void latency(Latency latencyLevel, JoinPoint thisJoinPoint) throws AuditReactiveException
+	protected void latency(Latency latency, JoinPoint thisJoinPoint) throws AuditReactiveException
 	{
 		if (!NetworkTools.isURLConnected((URLConnection) thisJoinPoint.getTarget()))
 			super.latency(HIGH, thisJoinPoint);

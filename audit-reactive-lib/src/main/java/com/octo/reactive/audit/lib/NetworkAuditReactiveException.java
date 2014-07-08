@@ -9,13 +9,13 @@ package com.octo.reactive.audit.lib;
 
 public class NetworkAuditReactiveException extends AuditReactiveException
 {
-	public NetworkAuditReactiveException(String message)
+	public NetworkAuditReactiveException(Latency latency, String message)
 	{
-		super("Call method " + message);
+		super(latency, "Call method " + message);
 	}
 
-	public NetworkAuditReactiveException(String format, Object... args)
+	public NetworkAuditReactiveException(Latency latency, String format, Object... args)
 	{
-		super("Call method " + format, args);
+		super(latency, "Call method " + format, args);
 	}
 }

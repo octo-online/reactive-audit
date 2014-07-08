@@ -1,7 +1,6 @@
 package com.octo.reactive.audit;
 
-import com.octo.reactive.audit.lib.AuditReactiveException;
-import com.octo.reactive.audit.lib.Latency;
+import com.octo.reactive.audit.lib.*;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -58,6 +57,9 @@ public class ConfigAuditReactive
 	private long      bootstrapStart  = 0L;
 	private long      bootstrapDelay  = 0L;
 	private boolean   afterBootstrap  = false;
+	private Latency latencyFile    = Latency.LOW;
+	private Latency latencyNetwork = Latency.LOW;
+	private Latency latencyCPU     = Latency.LOW;
 	private boolean   debug           = false;
 	private LongAdder statLow         = new LongAdder();
 	private LongAdder statMedium      = new LongAdder();
@@ -215,6 +217,20 @@ public class ConfigAuditReactive
 		return bootstrapDelay;
 	}
 
+	public Latency getFileLatency()
+	{
+		return latencyFile;
+	}
+
+	public Latency getNetworkLatency()
+	{
+		return latencyNetwork;
+	}
+
+	public Latency getCPULatency()
+	{
+		return latencyCPU;
+	}
 	/**
 	 * Throw an exception if detect an error ?
 	 *
@@ -282,6 +298,16 @@ public class ConfigAuditReactive
 
 	public void logIfNew(Latency latencyLevel, AuditReactiveException e)
 	{
+		Latency baseLatency = null;
+		if (e instanceof FileAuditReactiveException)
+			baseLatency = latencyFile;
+		else if (e instanceof NetworkAuditReactiveException)
+			baseLatency = latencyNetwork;
+		else if (e instanceof CPUAuditReactiveException)
+			baseLatency = latencyCPU;
+		if (baseLatency == null) return;
+		if (e.getLatency().ordinal() < baseLatency.ordinal())
+			return;
 
 		if (!history.isAlreadyLogged(e.getStackTrace()))
 		{
@@ -374,6 +400,26 @@ public class ConfigAuditReactive
 			return this;
 		}
 
+		public Transaction latencyFile(String level)
+		{
+			final Latency latency = (level.length()) == 0 ? null : Latency.valueOf(level.toUpperCase());
+			add(() -> latencyFile = latency);
+			return this;
+		}
+
+		public Transaction latencyNetwork(String level)
+		{
+			final Latency latency = (level.length()) == 0 ? null : Latency.valueOf(level.toUpperCase());
+			add(() -> latencyNetwork = latency);
+			return this;
+		}
+
+		public Transaction latencyCPU(String level)
+		{
+			final Latency latency = (level.length()) == 0 ? null : Latency.valueOf(level.toUpperCase());
+			add(() -> latencyCPU = latency);
+			return this;
+		}
 		/**
 		 * Select the trace logLevel.
 		 * May be apply after the commit().
@@ -381,13 +427,13 @@ public class ConfigAuditReactive
 		 * @param output pattern of "console" The logLevel.
 		 * @return The current transaction.
 		 */
-		public Transaction logOutput(String output, String format)
+		public Transaction logOutput(String output, String format, String size)
 		{
 			try
 			{
 				final Handler handler = ("console".equalsIgnoreCase(output))
 				                        ? new ConsoleHandler()
-				                        : new FileHandler(output, 100000, 1, false);
+				                        : new FileHandler(output, Integer.parseInt(size), 1, false);
 				if (output.endsWith(".xml"))
 					handler.setFormatter(new java.util.logging.XMLFormatter());
 				else

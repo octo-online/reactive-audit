@@ -1,7 +1,5 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
-
 import java.io.*;
 import java.lang.reflect.Field;
 
@@ -186,7 +184,6 @@ public final class FileTools
 		{
 			try
 			{
-				//if (out!=null) ConfigAuditReactive.config.debug("OUT:"+out.getClass());
 				if (out instanceof FilterOutputStream)
 				{
 					FilterOutputStream filter = (FilterOutputStream) out;
@@ -205,9 +202,8 @@ public final class FileTools
 			{
 				throw new Error(e);
 			}
-			//if (out!=null) ConfigAuditReactive.config.debug("NEXT OUT:"+out.getClass());
 		}
-		if (out != null) ConfigAuditReactive.config.debug("FINAL OUT:" + out.getClass());
+		//if (out != null) ConfigAuditReactive.config.logger.finest("FINAL OUT:" + out.getClass()); // FIXME
 		if (out.getClass().getName().equals("java.net.SocketOutputStream")) return NET_ERROR;
 		if (out instanceof FileOutputStream) return FILE_ERROR;
 		if (out.getClass().getName().startsWith("sun.net.www.")) return NET_ERROR;
@@ -218,7 +214,6 @@ public final class FileTools
 	{
 		try
 		{
-			//if (writer!=null) ConfigAuditReactive.config.debug("writer instanceof "+writer.getClass());
 			while (writer instanceof FilterWriter
 					|| writer instanceof BufferedWriter
 					|| writer instanceof PrintWriter)
@@ -235,18 +230,19 @@ public final class FileTools
 				{
 					writer = (Writer) fieldOutBufferedWriter.get(writer);
 				}
-				//if (writer!=null) ConfigAuditReactive.config.debug("next writer instanceof "+writer.getClass());
-				//if ( (writer!=null) && "org.eclipse.jetty.server.HttpWriter".equals(writer.getClass().getSuperclass()))
-				//	ConfigAuditReactive.config.debug("SUPER is httpwriter");
+				//if (writer!=null) ConfigAuditReactive.config.logger.finest("next writer instanceof "+writer.getClass());
 			}
 			if (writer instanceof OutputStreamWriter)
 			{
 				OutputStream out = (OutputStream) fieldLockWriter.get(writer);
-				//if (out!=null) ConfigAuditReactive.config.debug("outpustream writerinstanceof "+out.getClass());
+				//if (out!=null) ConfigAuditReactive.config.debug("Delegate to output stream "+out.getClass());
 				return isLastOutputStreamWithLatency(out);
 			}
 			else
+			{
+				//if (out!=null) ConfigAuditReactive.config.debug("Without delegate to output stream");
 				return NO_ERROR;
+			}
 		}
 		catch (IllegalAccessException e)
 		{

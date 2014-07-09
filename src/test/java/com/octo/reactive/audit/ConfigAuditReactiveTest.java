@@ -111,6 +111,7 @@ public class ConfigAuditReactiveTest
 	{
 		config.begin()
 				.threadPattern(".*")
+				.latencyFile("LOW")
 				.log(Level.INFO)
 				.throwExceptions(false)
 				.commit();
@@ -205,6 +206,7 @@ public class ConfigAuditReactiveTest
 		config.reset();
 		config.begin()
 				.threadPattern(".*")
+				.latencyFile("LOW")
 				.log(Level.INFO)
 				.throwExceptions(false)
 				.commit();

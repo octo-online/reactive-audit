@@ -16,8 +16,9 @@ public class OutputStreamAspect extends AbstractOutputStreamAudit
 	{
 		if (config.isDebug())
 		{
+			OutputStream out = (OutputStream) thisJoinPoint.getTarget();
 			config.logger.finest(
-					thisJoinPoint.toString() + "  with " + thisJoinPoint.getTarget().getClass().getName());
+					thisJoinPoint.toString() + "  with " + FileTools.dumpChain(out));
 		}
 		latency(HIGH, thisJoinPoint, (OutputStream) thisJoinPoint.getTarget());
 	}

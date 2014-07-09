@@ -50,16 +50,16 @@ public class ConfigAuditReactive
 					.seal();
 	// Help to rename the package
 	public static final String              auditPackageName = ConfigAuditReactive.class.getPackage().getName();
-	public final Logger logger = Logger.getLogger(
+	public final        Logger              logger           = Logger.getLogger(
 			ConfigAuditReactive.class.getPackage().getName());
 	private Pattern threadPattern;
 	private boolean   throwExceptions = false;
 	private long      bootstrapStart  = 0L;
 	private long      bootstrapDelay  = 0L;
 	private boolean   afterBootstrap  = false;
-	private Latency latencyFile    = Latency.LOW;
-	private Latency latencyNetwork = Latency.LOW;
-	private Latency latencyCPU     = Latency.LOW;
+	private Latency   latencyFile     = Latency.LOW;
+	private Latency   latencyNetwork  = Latency.LOW;
+	private Latency   latencyCPU      = Latency.LOW;
 	private boolean   debug           = false;
 	private LongAdder statLow         = new LongAdder();
 	private LongAdder statMedium      = new LongAdder();
@@ -231,6 +231,7 @@ public class ConfigAuditReactive
 	{
 		return latencyCPU;
 	}
+
 	/**
 	 * Throw an exception if detect an error ?
 	 *
@@ -298,6 +299,7 @@ public class ConfigAuditReactive
 
 	public void logIfNew(Latency latencyLevel, AuditReactiveException e)
 	{
+		// TODO : demangling scala name. See scala.reflect.NameTransformer
 		Latency baseLatency = null;
 		if (e instanceof FileAuditReactiveException)
 			baseLatency = latencyFile;
@@ -420,6 +422,7 @@ public class ConfigAuditReactive
 			add(() -> latencyCPU = latency);
 			return this;
 		}
+
 		/**
 		 * Select the trace logLevel.
 		 * May be apply after the commit().
@@ -433,7 +436,7 @@ public class ConfigAuditReactive
 			{
 				final Handler handler = ("console".equalsIgnoreCase(output))
 				                        ? new ConsoleHandler()
-				                        : new FileHandler(output, Integer.parseInt(size), 1, false);
+				                        : new FileHandler(output, Integer.parseInt(size), 5, false);
 				if (output.endsWith(".xml"))
 					handler.setFormatter(new java.util.logging.XMLFormatter());
 				else

@@ -15,14 +15,17 @@ class AbstractReaderAudit extends AbstractInputStreamAudit
 
 	protected void latency(Latency latency, JoinPoint thisJoinPoint, Reader reader)
 	{
+		CharSequence msg = null;
+		if (config.isDebug())
+			msg = FileTools.dumpChain(reader);
 		AuditReactiveException ex = null;
-		switch (FileTools.isLastInputStreamInReaderWithLatency(reader))
+		switch (FileTools.isLastReaderWithLatency(reader))
 		{
 			case NET_ERROR:
-				ex = FactoryException.newNetwork(latency, thisJoinPoint);
+				ex = FactoryException.newNetwork(latency, thisJoinPoint, msg);
 				break;
 			case FILE_ERROR:
-				ex = FactoryException.newFile(latency, thisJoinPoint);
+				ex = FactoryException.newFile(latency, thisJoinPoint, msg);
 				break;
 
 		}

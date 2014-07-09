@@ -17,8 +17,9 @@ public class ReaderAspect extends AbstractReaderAudit
 	{
 		if (config.isDebug())
 		{
+			Reader reader = (Reader) thisJoinPoint.getTarget();
 			config.logger.finest(
-					thisJoinPoint.toString() + "  with " + thisJoinPoint.getTarget().getClass().getName());
+					thisJoinPoint.toString() + "  with " + FileTools.dumpChain(reader));
 		}
 		latency(HIGH, thisJoinPoint, (Reader) thisJoinPoint.getTarget());
 	}

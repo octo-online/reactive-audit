@@ -11,7 +11,12 @@ public abstract class AuditReactiveException extends AssertionError
 {
 	private static final String  auditPackageName =
 			AuditReactiveException.class.getPackage().getName().replaceFirst("\\.[^.]+$", "");
-	static               boolean debug            = false;
+	/* If debug, use a limited stack trace. */
+	private static final int     MAX_STACK_SIZE   = 10;
+	/* This variable was set by the javaagent, via introspection.
+	   Then, it is not declared public.
+	 */
+	static  /*package*/  boolean debug            = false;
 	private String  threadName;
 	private Latency latency;
 
@@ -62,6 +67,14 @@ public abstract class AuditReactiveException extends AssertionError
 			}
 			StackTraceElement[] newStack = new StackTraceElement[stack.length - pos];
 			System.arraycopy(stack, pos, newStack, 0, newStack.length);
+			setStackTrace(newStack);
+		}
+		else
+		{
+			StackTraceElement[] stack = getStackTrace();
+			int newSize = Math.min(stack.length, MAX_STACK_SIZE);
+			StackTraceElement[] newStack = new StackTraceElement[newSize];
+			System.arraycopy(stack, 0, newStack, 0, newSize);
 			setStackTrace(newStack);
 		}
 	}

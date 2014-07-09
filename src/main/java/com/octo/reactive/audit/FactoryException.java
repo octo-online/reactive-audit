@@ -12,11 +12,26 @@ public class FactoryException
 {
 	public static NetworkAuditReactiveException newNetwork(Latency latency, JoinPoint thisJoinPoint)
 	{
-		return new NetworkAuditReactiveException(latency, thisJoinPoint.getSignature().toString());
+		return newNetwork(latency, thisJoinPoint, null);
+	}
+
+	public static NetworkAuditReactiveException newNetwork(Latency latency, JoinPoint thisJoinPoint, CharSequence msg)
+	{
+		return new NetworkAuditReactiveException(latency,
+		                                         (msg == null)
+		                                         ? thisJoinPoint.getSignature().toString()
+		                                         : thisJoinPoint.getSignature().toString() + " " + msg);
 	}
 
 	public static FileAuditReactiveException newFile(Latency latency, JoinPoint thisJoinPoint)
 	{
-		return new FileAuditReactiveException(latency, thisJoinPoint.getSignature().toString());
+		return newFile(latency, thisJoinPoint, null);
+	}
+
+	public static FileAuditReactiveException newFile(Latency latency, JoinPoint thisJoinPoint, CharSequence msg)
+	{
+		return new FileAuditReactiveException(latency, (msg == null)
+		                                               ? thisJoinPoint.getSignature().toString()
+		                                               : thisJoinPoint.getSignature().toString() + " " + msg);
 	}
 }

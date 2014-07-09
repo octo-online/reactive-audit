@@ -147,7 +147,7 @@ public final class FileTools
 		return NO_ERROR;
 	}
 
-	public static int isLastInputStreamInReaderWithLatency(Reader reader)
+	public static int isLastReaderWithLatency(Reader reader)
 	{
 		try
 		{
@@ -250,5 +250,155 @@ public final class FileTools
 		}
 	}
 
+	public static CharSequence dumpChain(OutputStream out)
+	{
+		return dumpChain(out, new StringBuilder());
+	}
+
+	private static CharSequence dumpChain(OutputStream out, StringBuilder buf)
+	{
+		if (out == null) return buf;
+		buf.append(out.getClass().getName());
+		while (out instanceof FilterOutputStream
+				|| out instanceof ObjectOutputStream)
+		{
+			try
+			{
+				if (out instanceof FilterOutputStream)
+				{
+					FilterOutputStream filter = (FilterOutputStream) out;
+					out = (OutputStream) fieldOutFilterOutputStream.get(filter);
+				}
+				else
+				{
+					ObjectOutputStream objIn = (ObjectOutputStream) out;
+					// Ok for Java8
+					out = (OutputStream) fieldOutObjectOutputStream.get(
+							fieldBoutObjectOutputStream.get(objIn)
+					);
+				}
+				buf.append(" -> " + out.getClass().getName());
+			}
+			catch (IllegalAccessException e)
+			{
+				throw new Error(e);
+			}
+		}
+		return buf;
+	}
+
+	public static CharSequence dumpChain(Writer writer)
+	{
+		StringBuilder buf = new StringBuilder();
+		if (writer == null) return buf;
+		try
+		{
+			buf.append(writer.getClass().getName());
+			while (writer instanceof FilterWriter
+					|| writer instanceof BufferedWriter
+					|| writer instanceof PrintWriter)
+			{
+				if (writer instanceof FilterWriter)
+				{
+					writer = (Writer) fieldOutFilterWriter.get(writer);
+				}
+				else if (writer instanceof PrintWriter)
+				{
+					writer = (Writer) fieldOutPrintWriter.get(writer);
+				}
+				else
+				{
+					writer = (Writer) fieldOutBufferedWriter.get(writer);
+				}
+				buf.append(" -> " + writer.getClass().getName());
+			}
+			if (writer instanceof OutputStreamWriter)
+			{
+				OutputStream out = (OutputStream) fieldLockWriter.get(writer);
+				return dumpChain(out, buf.append(" -> "));
+			}
+			else
+			{
+				//if (out!=null) ConfigAuditReactive.config.debug("Without delegate to output stream");
+				return buf;
+			}
+		}
+		catch (IllegalAccessException e)
+		{
+			throw new Error(e);
+		}
+	}
+
+	static public CharSequence dumpChain(InputStream in)
+	{
+		return dumpChain(in, new StringBuilder());
+	}
+
+	static private CharSequence dumpChain(InputStream in, StringBuilder buf)
+	{
+		if (in == null) return buf;
+		buf.append(in.getClass().getName());
+		while (in instanceof FilterInputStream
+				|| in instanceof ObjectInputStream)
+		{
+			try
+			{
+				if (in instanceof FilterInputStream)
+				{
+					FilterInputStream filter = (FilterInputStream) in;
+					in = (InputStream) fieldInFilterInputStream.get(filter);
+				}
+				else
+				{
+					ObjectInputStream objIn = (ObjectInputStream) in;
+					// Ok for Java8
+					in = (InputStream) fieldPeekObjectInputStream.get(
+							fieldInObjectInputStream.get(
+									fieldBinObjectInputStream.get(objIn)
+							)
+					);
+				}
+				buf.append(" -> " + in.getClass().getName());
+			}
+			catch (IllegalAccessException e)
+			{
+				throw new Error(e);
+			}
+		}
+		return buf;
+	}
+
+	public static CharSequence dumpChain(Reader reader)
+	{
+		StringBuilder buf = new StringBuilder();
+		if (reader == null) return buf;
+		buf.append(reader.getClass().getName());
+		try
+		{
+			while (reader instanceof FilterReader
+					|| reader instanceof BufferedReader)
+			{
+				if (reader instanceof FilterReader)
+				{
+					reader = (Reader) fieldInFilterReader.get(reader);
+				}
+				else
+				{
+					reader = (Reader) fieldInBufferedReader.get(reader);
+				}
+				buf.append(" -> " + reader.getClass().getName());
+			}
+			if (reader instanceof InputStreamReader)
+			{
+				InputStream in = (InputStream) fieldLockReader.get(reader);
+				return dumpChain(in, buf.append(" -> "));
+			}
+			return buf;
+		}
+		catch (IllegalAccessException e)
+		{
+			throw new Error(e);
+		}
+	}
 
 }

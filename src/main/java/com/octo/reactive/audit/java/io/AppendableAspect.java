@@ -51,7 +51,7 @@ public class AppendableAspect extends AbstractAudit
 		}
 		else if (target instanceof Reader)
 		{
-			switch (isLastInputStreamInReaderWithLatency((Reader) target))
+			switch (isLastReaderWithLatency((Reader) target))
 			{
 				case NET_ERROR:
 					ex = FactoryException.newNetwork(latency, thisJoinPoint);

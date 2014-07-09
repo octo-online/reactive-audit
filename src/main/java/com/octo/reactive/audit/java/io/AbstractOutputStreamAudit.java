@@ -14,14 +14,17 @@ class AbstractOutputStreamAudit extends FileAudit
 {
 	protected void latency(Latency latency, JoinPoint thisJoinPoint, OutputStream out)
 	{
+		CharSequence msg = null;
+		if (config.isDebug())
+			msg = FileTools.dumpChain(out);
 		AuditReactiveException ex = null;
 		switch (isLastOutputStreamWithLatency(out))
 		{
 			case NET_ERROR:
-				ex = FactoryException.newNetwork(latency, thisJoinPoint);
+				ex = FactoryException.newNetwork(latency, thisJoinPoint, msg);
 				break;
 			case FILE_ERROR:
-				ex = FactoryException.newFile(latency, thisJoinPoint);
+				ex = FactoryException.newFile(latency, thisJoinPoint, msg);
 				break;
 		}
 		if (ex != null) super.latency(latency, thisJoinPoint, ex);

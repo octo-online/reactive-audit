@@ -20,7 +20,7 @@ public class LoadParams
 	public static final String DEFAULT_LOG_LEVEL        = Level.WARNING.getName();
 	public static final String DEFAULT_LOG_OUTPUT       = "%h/audit-reactive-%u.log";
 	public static final String DEFAULT_LOG_FORMAT       = "%4$-7s: %5$s%6$s%n";
-	public static final String DEFAULT_LOG_SIZE         = "20000";
+	public static final String DEFAULT_LOG_SIZE         = "0"; // No limit
 	public static final String DEFAULT_BOOTSTRAP_DELAY  = "0";
 	public static final String DEFAULT_THROW_EXCEPTIONS = "false";
 	public static final String DEFAULT_DEBUG            = "false";

@@ -27,7 +27,7 @@ public class PropertiesAspect extends FileAudit
 	@Before("call(* java.util.Properties.load(java.io.Reader)) && args(in)")
 	public void advice_high(JoinPoint thisJoinPoint, Reader in)
 	{
-		if (FileTools.isLastInputStreamInReaderWithLatency(in) != 0)
+		if (FileTools.isLastReaderWithLatency(in) != 0)
 			latency(HIGH, thisJoinPoint);
 	}
 }

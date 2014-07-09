@@ -16,8 +16,9 @@ public class WriterAspect extends AbstractWriterAudit
 	{
 		if (config.isDebug())
 		{
+			Writer writer = (Writer) thisJoinPoint.getTarget();
 			config.logger.finest(
-					thisJoinPoint.toString() + "  with " + thisJoinPoint.getTarget().getClass().getName());
+					thisJoinPoint.toString() + "  with " + FileTools.dumpChain(writer));
 		}
 		latency(HIGH, thisJoinPoint, (Writer) thisJoinPoint.getTarget());
 	}

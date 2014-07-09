@@ -52,6 +52,5 @@ if "%FRAMEWORK%" == "jetty" (
         echo "Use: java %%AUDIT_OPTS%% -jar start.jar
     )
 )
-set AUDIT_OPTS=
 set SILENT=
 set FRAMEWORK=

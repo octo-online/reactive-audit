@@ -5,7 +5,7 @@
 @REM
 @REM Parameters:
 @REM -s          : Silent mode
-@REM <framework> : Framework name. Must be "jetty" or "play"
+@REM <framework> : Framework name. Must be "jetty", "catalina" or "play"
 @REM
 @REM Set:
 @REM AUDIT_OPTS  - JVM options for audit
@@ -44,13 +44,21 @@ if not "%SILENT%"=="true" (
 if "%FRAMEWORK%" == "play" (
     set SBT_OPTS=%AUDIT_OPTS%
     if not "%SILENT%"=="true" (
-        echo SBT_OPTS was set. You can use TypeSafe activator.
+        echo SBT_OPTS was set. You can use TypeSafe 'activator run'.
     )
 )
 if "%FRAMEWORK%" == "jetty" (
     if not "%SILENT%"=="true" (
-        echo "Use: java %%AUDIT_OPTS%% -jar start.jar
+        echo "Use: 'java %%AUDIT_OPTS%% -jar start.jar'
     )
 )
+
+if "%FRAMEWORK%" == "catalina" (
+    set CATALINA_OPTS=%AUDIT_OPTS%
+    if not "%SILENT%"=="true" (
+        echo CATALINA_OPTS was set. You can use 'catalina run'.
+    )
+)
+
 set SILENT=
 set FRAMEWORK=

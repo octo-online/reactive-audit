@@ -1,26 +1,37 @@
 package com.octo.reactive.audit.lib;
 
 /**
- * Exception throw by the jvm agent if a blocking API is used.
- * This exception is throw only if the throwExceptions parameter is true.
+ * Exception throw by the JVM agent if a blocking API is used.
+ * This exception is throw only if the auditReactive.throwExceptions parameter is true.
  *
  * @author Philippe PRADOS
+ * @since 1.0
  */
 
 public abstract class AuditReactiveException extends AssertionError
 {
-	private static final String  auditPackageName =
+	/* Calculate the package name of the project. */
+	private static final String  auditPackageName          =
 			AuditReactiveException.class.getPackage().getName().replaceFirst("\\.[^.]+$", "");
 	/* If debug, use a limited stack trace. */
-	private static final int     MAX_STACK_SIZE   = 10;
+	private static final int     LIMIT_STACK_SIZE_IF_DEBUG = 10;
 	/* This variable was set by the javaagent, via introspection.
 	   Then, it is not declared public.
 	 */
-	static  /*package*/  boolean debug            = false;
+	static  /*package*/  boolean debug                     = false;
+
+	/* The threadname with the exception was create. */
 	private String  threadName;
+	/* The latency of this exception. */
 	private Latency latency;
 
-	public AuditReactiveException(Latency latency, String message)
+	/**
+	 * Create an {@link AssertionError} with {@link Latency}, thread name and message.
+	 *
+	 * @param latency The latency for this exception.
+	 * @param message The message associated with this exception.
+	 */
+	protected AuditReactiveException(Latency latency, String message)
 	{
 		super(message);
 		threadName = Thread.currentThread().getName();
@@ -28,18 +39,31 @@ public abstract class AuditReactiveException extends AssertionError
 		updateStackTraceElements();
 	}
 
-	public AuditReactiveException(Latency latency, String format, Object... args)
+	/**
+	 * Create an {@link AssertionError} with {@link Latency}, thread name and formatted message.
+	 *
+	 * @param latency The latency for this exception.
+	 * @param format The format message associated with this exception.
+	 * @param args The arguments to generate the message with the format.
+	 */
+	protected AuditReactiveException(Latency latency, String format, Object... args)
 	{
 		super(String.format(format, args));
 		threadName = Thread.currentThread().getName();
 		updateStackTraceElements();
 	}
 
+	/**
+	 * @return The latency associated with this exception.
+	 */
 	public Latency getLatency()
 	{
 		return latency;
 	}
 
+	/**
+	 * @return a String with "&lt;message&gt; at thread &lt;thread name&gt;"
+	 */
 	@Override
 	public String toString()
 	{
@@ -47,7 +71,7 @@ public abstract class AuditReactiveException extends AssertionError
 	}
 
 	/**
-	 * Remove all the audit layout in the stack trace.
+	 * If not debug, remove all the audit layout in the stack trace.
 	 */
 	private void updateStackTraceElements()
 	{
@@ -72,7 +96,7 @@ public abstract class AuditReactiveException extends AssertionError
 		else
 		{
 			StackTraceElement[] stack = getStackTrace();
-			int newSize = Math.min(stack.length, MAX_STACK_SIZE);
+			int newSize = Math.min(stack.length, LIMIT_STACK_SIZE_IF_DEBUG);
 			StackTraceElement[] newStack = new StackTraceElement[newSize];
 			System.arraycopy(stack, 0, newStack, 0, newSize);
 			setStackTrace(newStack);

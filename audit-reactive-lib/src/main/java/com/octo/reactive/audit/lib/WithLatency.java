@@ -4,13 +4,11 @@ import java.lang.annotation.*;
 
 /**
  * Annotation to declare a specific method has latency.
- * A call of this method can generate a log or throw an AuditReactiveException
- * if the agent is used.
- * This lib can detect a latency call in a higger level.
- * <p>
- * TODO: documenter values
+ * A call of this method can generate a log or throw an {@link AuditReactiveException}
+ * if the audit agent is used.
  *
  * @author Philippe PRADOS
+ * @since 1.0
  */
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -18,7 +16,11 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 public @interface WithLatency
 {
+	/**
+	 * The latency level for this method.
+	 * @return The current latency specified for this method.
+	 */
 	Latency value() default Latency.HIGH;
 
-	String msg() default "This method can not be called with reactive thread.";
+	String msg() default "This method can not be called with a reactive thread.";
 }

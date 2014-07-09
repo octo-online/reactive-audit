@@ -3,8 +3,10 @@ package com.octo.reactive.audit;
 import com.octo.reactive.audit.lib.*;
 
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.logging.*;
 import java.util.regex.Pattern;
@@ -53,17 +55,19 @@ public class ConfigAuditReactive
 	public final        Logger              logger           = Logger.getLogger(
 			ConfigAuditReactive.class.getPackage().getName());
 	private Pattern threadPattern;
-	private boolean   throwExceptions = false;
-	private long      bootstrapStart  = 0L;
-	private long      bootstrapDelay  = 0L;
-	private boolean   afterBootstrap  = false;
-	private Latency   latencyFile     = Latency.LOW;
-	private Latency   latencyNetwork  = Latency.LOW;
-	private Latency   latencyCPU      = Latency.LOW;
-	private boolean   debug           = false;
-	private LongAdder statLow         = new LongAdder();
-	private LongAdder statMedium      = new LongAdder();
-	private LongAdder statHigh        = new LongAdder();
+	private boolean       throwExceptions = false;
+	private long          bootstrapStart  = 0L;
+	private long          bootstrapDelay  = 0L;
+	private boolean       afterBootstrap  = false;
+	private Latency       latencyFile     = Latency.LOW;
+	private Latency       latencyNetwork  = Latency.LOW;
+	private Latency       latencyCPU      = Latency.LOW;
+	private boolean       debug           = false;
+	private LongAdder     statLow         = new LongAdder();
+	private LongAdder     statMedium      = new LongAdder();
+	private LongAdder     statHigh        = new LongAdder();
+	private AtomicInteger statMaxThread   = new AtomicInteger(0);
+	private Handler logHandler;
 
 	private volatile boolean              started           = false;
 	private          ThreadLocal<Integer> suppressAudit     = new ThreadLocal()
@@ -109,6 +113,9 @@ public class ConfigAuditReactive
 		logger.info("  Total low=" + low);
 		logger.info("  Total medium=" + medium);
 		logger.info("  Total high=" + high);
+		logger.info("  Maximum threads=" + statMaxThread.get() +
+				            " (Good value:" + Runtime.getRuntime().availableProcessors() + ")");
+		if (logHandler != null) logHandler.close();
 		if (started)
 		{
 			started = false;
@@ -182,7 +189,23 @@ public class ConfigAuditReactive
 	boolean isThreadNameMatch(String name)
 	{
 		if (historyThreadName.add(name))
-			if (debug) logger.fine("Detect thread \"" + name + "\"");
+		{
+			int now = ManagementFactory.getThreadMXBean().getThreadCount();
+			int old;
+			for (; ; )
+			{
+				old = statMaxThread.get();
+				if (now > old)
+				{
+					if (statMaxThread.compareAndSet(old, now))
+						break;
+				}
+				else
+					break;
+				Thread.yield();
+			}
+			if (debug) logger.fine("Detect thread name \"" + name + "\"");
+		}
 		return threadPattern.matcher(name).matches();
 	}
 
@@ -299,7 +322,6 @@ public class ConfigAuditReactive
 
 	public void logIfNew(Latency latencyLevel, AuditReactiveException e)
 	{
-		// TODO : demangling scala name. See scala.reflect.NameTransformer
 		Latency baseLatency = null;
 		if (e instanceof FileAuditReactiveException)
 			baseLatency = latencyFile;
@@ -434,9 +456,11 @@ public class ConfigAuditReactive
 		{
 			try
 			{
+				final int isize = Integer.parseInt(size);
 				final Handler handler = ("console".equalsIgnoreCase(output))
 				                        ? new ConsoleHandler()
-				                        : new FileHandler(output, Integer.parseInt(size), 5, false);
+				                        : new FileHandler(output, isize,
+				                                          (isize == 0) ? 1 : 5, false);
 				if (output.endsWith(".xml"))
 					handler.setFormatter(new java.util.logging.XMLFormatter());
 				else
@@ -448,6 +472,7 @@ public class ConfigAuditReactive
 					{
 						logger.removeHandler(h);
 					}
+					logHandler = handler;
 					logger.addHandler(handler);
 				});
 				logger.setUseParentHandlers(false);

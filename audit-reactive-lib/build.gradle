@@ -3,11 +3,10 @@ apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-sourceCompatibility = '8'
-targetCompatibility = '8'
+sourceCompatibility = '7'
+targetCompatibility = '7'
 
 group = "com.octo.reactive.audit"
-//artifactId = "audit-reactive-lib"
 version = '0.0.1-SNAPSHOT'
 description = 'TODO'
 
@@ -17,7 +16,5 @@ repositories {
 }
 
 dependencies {
-    compile "javax.validation:validation-api:1.1.0.Final"
-
 //    testCompile group: 'junit', name: 'junit', version: '4.11'
 }

@@ -19,6 +19,7 @@ project.ext {
 }
 
 apply plugin: 'aspectj'
+apply plugin: 'distribution'
 apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -39,6 +40,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testRuntime "org.aspectj:aspectjweaver:${aspectjVersion}"
     testRuntime "org.aspectj:aspectjrt:${aspectjVersion}"
+    testRuntime "org.scala-lang:scala-library:2.11.1"
 
 }
 
@@ -64,5 +66,25 @@ test {
     def auditReactiveConf = "-DauditReactive=src/test/resources/testAuditReactive.properties"
     def logConfig = "-Djava.util.logging.config.file=src/test/resources/testLogging.properties"
     jvmArgs = [weaver, auditReactiveConf, logConfig]
-    println jvmArgs
+}
+
+distributions {
+    main {
+        contents {
+            into('bin') {
+                from { 'src/main/dist/bin' }
+                fileMode = 0755
+            }
+            into('lib') {
+                from project(':audit-reactive-lib').jar
+                from jar
+                rename { it.substring(0, it.indexOf(version) - 1) + it.substring(it.lastIndexOf("."), it.size()) }
+            }
+
+            into('lib') {
+                from project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
+                rename { "aspectjweaver.jar" }
+            }
+        }
+    }
 }

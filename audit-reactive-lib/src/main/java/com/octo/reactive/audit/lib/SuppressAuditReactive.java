@@ -6,9 +6,8 @@ import java.lang.annotation.*;
  * Annotation to accept to call a blocking API without log or exception.
  * All call from this method or from method called by this method was accepted without alert.
  *
- * @authors Philippe PRADOS
- * <p>
- * TODO: documenter values
+ * @author Philippe PRADOS
+ * @since 1.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

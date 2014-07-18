@@ -31,7 +31,9 @@ public abstract class AbstractAudit
 	}
 
 	protected void latency(Latency latency,
-	                       JoinPoint thisJoinPoint, AuditReactiveException e) throws AuditReactiveException
+	                       JoinPoint thisJoinPoint,
+	                       AuditReactiveException e) // TODO: Use lazy approach
+			throws AuditReactiveException
 	{
 		if (checkForAll())
 		{

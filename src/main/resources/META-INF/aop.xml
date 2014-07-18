@@ -2,13 +2,17 @@
 
     <!--<weaver options="-verbose ">-->
     <!-- -verbose -showWeaveInfo  -->
-    <!--<weaver options="-Xset:weaveJavaxPackages=true -verbose">-->
-    <weaver options="-Xset:weaveJavaxPackages=true -warn:none -Xlint:ignore">
+    <!--<weaver options="-Xset:weaveJavaxPackages=true -verbose -Xlint:ignore">-->
+    <weaver options="
+        -Xset:weaveJavaxPackages=true
+        -Xset:org.aspectj.tracing.enabled=false
+        -warn:none
+        -Xlint:ignore">
         <!--<include within="**"/>-->
     </weaver>
 
     <aspects>
-        <aspect name="com.octo.reactive.audit.DebugAspect"/>
+        <!--<aspect name="com.octo.reactive.audit.DebugAspect"/>-->
 
         <!-- Global -->
         <!--<aspect name="com.octo.reactive.audit.DumpJoinPoint"/>-->

@@ -26,10 +26,10 @@ if [ -z "$AUDIT_REACTIVE_HOME" ]; then
 else
     AUDIT_REACTIVE_HOME=$(cygwinpath $AUDIT_REACTIVE_HOME)
 fi
-if [ -z "$FRAMEWORK_HOME" ]; then
-    FRAMEWORK_HOME=$AUDIT_REACTIVE_HOME/etc
+if [ -z "$FRAMEWORKS_HOME" ]; then
+    FRAMEWORKS_HOME=$AUDIT_REACTIVE_HOME/etc
 else
-    FRAMEWORK_HOME=$(cygwinpath $FRAMEWORK_HOME)
+    FRAMEWORKS_HOME=$(cygwinpath $FRAMEWORKS_HOME)
 fi
 
 
@@ -42,7 +42,7 @@ while [ "$1" != "" ]; do
             ;;
         *)
             FRAMEWORK=$1
-            AUDIT_OPTS=-DauditReactive="$FRAMEWORK_HOME/$1.properties"
+            AUDIT_OPTS=-DauditReactive="$FRAMEWORKS_HOME/$1.properties"
             ;;
     esac
     shift

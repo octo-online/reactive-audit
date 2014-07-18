@@ -7,7 +7,7 @@ sourceCompatibility = '7'
 targetCompatibility = '7'
 
 group = "com.octo.reactive.audit"
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 description = 'TODO'
 
 

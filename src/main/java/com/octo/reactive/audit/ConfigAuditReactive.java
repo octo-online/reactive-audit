@@ -52,9 +52,14 @@ public class ConfigAuditReactive
 					.seal();
 	// Help to rename the package
 	public static final String              auditPackageName = ConfigAuditReactive.class.getPackage().getName();
-	public final        Logger              logger           = Logger.getLogger(
-			ConfigAuditReactive.class.getPackage().getName());
-	private Pattern threadPattern;
+	// FIXME avec jboss
+//	public final        Logger              logger           =
+//			Logger.getLogger(ConfigAuditReactive.class.getPackage().getName());
+	//public final Logger logger=new EmptyLogger("",null);
+	// FIXME : Fake logger to test Jboss
+	public final        FakeLogger          logger           = new FakeLogger();
+	/*package*/ volatile boolean started = false;
+	private Pattern       threadPattern   = Pattern.compile(LoadParams.DEFAULT_THREAD_PATTERN);
 	private boolean       throwExceptions = false;
 	private long          bootstrapStart  = 0L;
 	private long          bootstrapDelay  = 0L;
@@ -68,9 +73,7 @@ public class ConfigAuditReactive
 	private LongAdder     statHigh        = new LongAdder();
 	private AtomicInteger statMaxThread   = new AtomicInteger(0);
 	private Handler logHandler;
-
-	private volatile boolean              started           = false;
-	private          ThreadLocal<Integer> suppressAudit     = new ThreadLocal()
+	private ThreadLocal<Integer> suppressAudit     = new ThreadLocal()
 	{
 		@Override
 		protected Integer initialValue()
@@ -78,9 +81,9 @@ public class ConfigAuditReactive
 			return 0;
 		}
 	};
-	private          Stack<Transaction>   stack             = new Stack<Transaction>();
-	private          HistoryStackElement  history           = new HistoryStackElement(this);
-	private          Set<String>          historyThreadName = Collections.synchronizedSet(new TreeSet<String>());
+	private Stack<Transaction>   stack             = new Stack<Transaction>();
+	private HistoryStackElement  history           = new HistoryStackElement(this);
+	private Set<String>          historyThreadName = Collections.synchronizedSet(new TreeSet<String>());
 
 	public static String getPropertiesURL()
 	{
@@ -94,18 +97,23 @@ public class ConfigAuditReactive
 	{
 		if (!started)
 		{
+			started = true;
 			bootstrapStart = System.currentTimeMillis();
 			logOnly.commit();
 			Properties properties = new Properties();
 			String url = getPropertiesURL();
+			Logger log = Logger.getLogger(auditPackageName);
+			log.info("Use audit-reactive (@see https://github.com/pprados/audit-reactive)");
+			log.info("with " + url);
 			new LoadParams(this, url).commit();
-			started = true;
-			logger.info("Start audit");
+			logger.info("Start audit reactive");
 		}
 	}
 
 	synchronized void shutdown()
 	{
+		if (!started) return;
+		started = false;
 		logger.info("Shutdown audit");
 		long low = statLow.sum();
 		long medium = statMedium.sum();
@@ -113,13 +121,9 @@ public class ConfigAuditReactive
 		logger.info("  Total low=" + low);
 		logger.info("  Total medium=" + medium);
 		logger.info("  Total high=" + high);
-		logger.info("  Maximum threads=" + statMaxThread.get() +
+		logger.info("  Maximum concurrent threads=" + statMaxThread.get() +
 				            " (Good value:" + Runtime.getRuntime().availableProcessors() + ")");
 		if (logHandler != null) logHandler.close();
-		if (started)
-		{
-			started = false;
-		}
 	}
 
 	void reset()
@@ -188,6 +192,13 @@ public class ConfigAuditReactive
 	 */
 	boolean isThreadNameMatch(String name)
 	{
+		if (name == null) return false;
+		if (threadPattern == null)
+		{
+			System.err.println("isThreadNameMatch=" + name + " threadPattern=" + threadPattern); // FIXME
+			System.err.println("********************************** threadPattern not init !"); // FIXME
+			return false;
+		}
 		if (historyThreadName.add(name))
 		{
 			int now = ManagementFactory.getThreadMXBean().getThreadCount();
@@ -371,6 +382,87 @@ public class ConfigAuditReactive
 			ConfigAuditReactive.config.debug("implements " + c);
 		}
 
+	}
+
+	public class FakeLogger //extends Logger
+	{
+		public Handler[] getHandlers()
+		{
+			return new Handler[0];
+		}
+
+		public void addHandler(Handler handler) throws SecurityException
+		{
+			//super.addHandler(handler);
+		}
+
+		public void removeHandler(Handler handler) throws SecurityException
+		{
+			//super.removeHandler(handler);
+		}
+
+		public void setUseParentHandlers(boolean b)
+		{
+		}
+
+		public Logger getParent()
+		{
+			return null;
+		}
+
+		public void log(Level level, String msg)
+		{
+
+		}
+
+		public void info(String msg)
+		{
+			System.err.println("INFO " + msg);
+		}
+
+		public void config(String msg)
+		{
+			System.err.println("CONFIG " + msg);
+
+		}
+
+		public void fine(String msg)
+		{
+			System.err.println("FINE " + msg);
+		}
+
+		public void finest(String msg)
+		{
+			System.err.println("FINEST " + msg);
+		}
+
+		public void severe(String msg)
+		{
+			System.err.println("SEVERE " + msg);
+		}
+
+		public void warning(String msg)
+		{
+			System.err.println("WARNING " + msg);
+		}
+
+		public void log(Level level, String msg, Object param1)
+		{
+			fine(msg);
+		}
+
+		public Level getLevel()
+		{
+			return Level.FINE;
+		}
+
+		public void setLevel(Level level)
+		{
+		}
+//		protected EmptyLogger(String name, String resourceBundleName)
+//		{
+//			super(name, resourceBundleName);
+//		}
 	}
 
 	/**

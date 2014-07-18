@@ -2,9 +2,12 @@ package com.octo.reactive.audit;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -40,6 +43,26 @@ public class LoadParams
 	public static final String KEY_DEBUG            = PREFIX + "debug";
 
 	public static final String DEFAULT_FILENAME = "auditReactive.properties";
+	private static final Properties env; // FIXME
+	private static final Properties allEnv;
+
+	static
+	{
+		env = new Properties();
+		allEnv = new Properties(); // FIXME
+		// First: Java properties
+		for (Map.Entry<Object, Object> entry : System.getProperties().entrySet())
+		{
+			allEnv.put(entry.getKey(), entry.getValue());
+		}
+		// Second: overflow with ENV
+		Map<String, String> map = System.getenv();
+		for (Map.Entry<String, String> entry : map.entrySet())
+		{
+			env.put(entry.getKey(), entry.getValue());
+			allEnv.put(entry.getKey(), entry.getValue());
+		}
+	}
 
 	private ConfigAuditReactive             config;
 	private ConfigAuditReactive.Transaction tx;
@@ -87,7 +110,7 @@ public class LoadParams
 
 	public static String getValue(String key, String def, Properties prop)
 	{
-		String val = System.getenv(key);
+		String val = allEnv.getProperty(key);
 		String newVal = null;
 		if (prop != null)
 		{
@@ -95,7 +118,6 @@ public class LoadParams
 			if (newVal != null)
 				val = newVal;
 		}
-		newVal = System.getProperty(key);
 		if (newVal != null) val = newVal;
 		if (val == null)
 			val = def;
@@ -104,13 +126,15 @@ public class LoadParams
 
 	void commit()
 	{
-		Properties prop = new Properties();
+		Properties prop = new VariablesProperties(allEnv);
 		try
 		{
-			// Load from file (set with -D${DEFAULT_FILENAME}
 			if (filename != null)
 			{
-				prop.load(filename.openStream());
+				try (Reader reader = new InputStreamReader(filename.openStream()))
+				{
+					prop.load(reader);
+				}
 			}
 		}
 		catch (IOException e)
@@ -121,6 +145,9 @@ public class LoadParams
 		config.logger.config(KEY_THREAD_PATTERN + "  = " + config.getThreadPattern());
 		config.logger.config(KEY_THROW_EXCEPTIONS + " = " + config.isThrow());
 		config.logger.config(KEY_BOOTSTRAP_DELAY + " = " + config.getBootstrapDelay());
+		config.logger.config(KEY_FILE_LATENCY + " = " + config.getFileLatency());
+		config.logger.config(KEY_NETWORK_LATENCY + " = " + config.getNetworkLatency());
+		config.logger.config(KEY_CPU_LATENCY + " = " + config.getCPULatency());
 	}
 
 	private void applyProperties(Properties prop)

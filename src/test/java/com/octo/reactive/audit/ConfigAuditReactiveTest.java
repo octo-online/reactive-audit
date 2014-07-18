@@ -61,6 +61,14 @@ public class ConfigAuditReactiveTest
 	}
 
 	@Test
+	public void variableProperties()
+	{
+		String url = getClass().getResource("/testEnv.properties").toExternalForm();
+		new LoadParams(config, url).commit();
+		assertEquals(config.getThreadPattern().toString(), System.getProperty("os.name"));
+	}
+
+	@Test
 	public void setAllParams()
 	{
 		config.begin()

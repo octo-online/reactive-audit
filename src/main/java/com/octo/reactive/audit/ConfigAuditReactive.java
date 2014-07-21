@@ -52,12 +52,10 @@ public class ConfigAuditReactive
 					.seal();
 	// Help to rename the package
 	public static final String              auditPackageName = ConfigAuditReactive.class.getPackage().getName();
-	// FIXME avec jboss
-//	public final        Logger              logger           =
-//			Logger.getLogger(ConfigAuditReactive.class.getPackage().getName());
-	//public final Logger logger=new EmptyLogger("",null);
+	public final        Logger              logger           =
+			Logger.getLogger(ConfigAuditReactive.class.getPackage().getName());
 	// FIXME : Fake logger to test Jboss
-	public final        FakeLogger          logger           = new FakeLogger();
+//	public final        FakeLogger          logger           = new FakeLogger();
 	/*package*/ volatile boolean started = false;
 	private Pattern       threadPattern   = Pattern.compile(LoadParams.DEFAULT_THREAD_PATTERN);
 	private boolean       throwExceptions = false;

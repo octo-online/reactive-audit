@@ -21,6 +21,7 @@ public class LoadParamsTest
 	@Test
 	public void setSystemParams() throws IOException
 	{
+		LoadParams.resetAllEnv();
 		System.setProperty(KEY_LOG_LEVEL, Level.INFO.getName());
 		System.setProperty(KEY_LOG_OUTPUT, "console");
 		System.setProperty(KEY_LOG_FORMAT, "format");
@@ -39,6 +40,7 @@ public class LoadParamsTest
 	@Test
 	public void loadNotFoundFile()
 	{
+		LoadParams.resetAllEnv();
 		System.setProperty(KEY_LOG_LEVEL, "FINE");
 		new LoadParams(config, "XXX").commit();
 	}
@@ -52,6 +54,7 @@ public class LoadParamsTest
 	@Test(expected = IllegalArgumentException.class)
 	public void badLogLevel()
 	{
+		LoadParams.resetAllEnv();
 		System.setProperty(KEY_LOG_LEVEL, "XXX");
 		new LoadParams(ConfigAuditReactive.config, DEFAULT_FILENAME).commit();
 	}

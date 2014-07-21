@@ -15,6 +15,7 @@
         <!--<aspect name="com.octo.reactive.audit.DebugAspect"/>-->
 
         <!-- Global -->
+        <aspect name="com.octo.reactive.audit.DebugAspect"/>
         <!--<aspect name="com.octo.reactive.audit.DumpJoinPoint"/>-->
         <aspect name="com.octo.reactive.audit.MainAspect"/>
         <aspect name="com.octo.reactive.audit.SuppressAuditReactiveAspect"/>
@@ -80,5 +81,16 @@
 
         <!-- java.nio.file-->
         <aspect name="com.octo.reactive.audit.java.nio.file.FilesAudit"/>
+
+        <!-- java.sql-->
+        <aspect name="com.octo.reactive.audit.java.sql.ConnectionAudit"/>
+        <aspect name="com.octo.reactive.audit.java.sql.DriverAudit"/>
+        <aspect name="com.octo.reactive.audit.java.sql.DriverManagerAudit"/>
+        <aspect name="com.octo.reactive.audit.java.sql.PreparedStatementAudit"/>
+        <aspect name="com.octo.reactive.audit.java.sql.ResultSetAudit"/>
+        <aspect name="com.octo.reactive.audit.java.sql.SQLDataAudit"/>
+        <aspect name="com.octo.reactive.audit.java.sql.SQLInputAudit"/>
+        <aspect name="com.octo.reactive.audit.java.sql.SQLOutputAudit"/>
+        <aspect name="com.octo.reactive.audit.java.sql.StatementAudit"/>
     </aspects>
 </aspectj>

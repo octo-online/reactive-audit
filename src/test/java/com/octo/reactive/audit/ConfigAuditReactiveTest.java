@@ -48,13 +48,14 @@ public class ConfigAuditReactiveTest
 
 
 	@Test
-	public void testCurrentThread_test()
+	public void currentThread_test()
 	{
+		ConfigAuditReactive.strict.commit();
 		assertTrue(config.isThreadNameMatch(Thread.currentThread().getName()));
 	}
 
 	@Test
-	public void testCurrentThread_nothing()
+	public void currentThread_nothing()
 	{
 		config.begin().threadPattern("(?!)").commit();
 		assertFalse(config.isThreadNameMatch(Thread.currentThread().getName()));

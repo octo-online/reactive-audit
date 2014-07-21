@@ -43,30 +43,10 @@ public class LoadParams
 	public static final String KEY_DEBUG            = PREFIX + "debug";
 
 	public static final String DEFAULT_FILENAME = "auditReactive.properties";
-	private static final Properties env; // FIXME
-	private static final Properties allEnv;
-
-	static
-	{
-		env = new Properties();
-		allEnv = new Properties(); // FIXME
-		// First: Java properties
-		for (Map.Entry<Object, Object> entry : System.getProperties().entrySet())
-		{
-			allEnv.put(entry.getKey(), entry.getValue());
-		}
-		// Second: overflow with ENV
-		Map<String, String> map = System.getenv();
-		for (Map.Entry<String, String> entry : map.entrySet())
-		{
-			env.put(entry.getKey(), entry.getValue());
-			allEnv.put(entry.getKey(), entry.getValue());
-		}
-	}
-
-	private ConfigAuditReactive             config;
-	private ConfigAuditReactive.Transaction tx;
-	private URL                             filename;
+	private static Properties                      allEnv;
+	private        ConfigAuditReactive             config;
+	private        ConfigAuditReactive.Transaction tx;
+	private        URL                             filename;
 
 	public LoadParams(ConfigAuditReactive config, String propertiesFile)
 	{
@@ -108,9 +88,36 @@ public class LoadParams
 		}
 	}
 
+	/*package*/
+	static void resetAllEnv()
+	{
+		allEnv = null;
+	}
+
+	protected static Properties getAllEnv()
+	{
+		if (allEnv == null)
+		{
+			Properties tempAllEnv = new Properties(); // FIXME
+			// First: Java properties
+			for (Map.Entry<Object, Object> entry : System.getProperties().entrySet())
+			{
+				tempAllEnv.put(entry.getKey(), entry.getValue());
+			}
+			// Second: overflow with ENV
+			Map<String, String> map = System.getenv();
+			for (Map.Entry<String, String> entry : map.entrySet())
+			{
+				tempAllEnv.put(entry.getKey(), entry.getValue());
+			}
+			allEnv = tempAllEnv;
+		}
+		return allEnv;
+	}
+
 	public static String getValue(String key, String def, Properties prop)
 	{
-		String val = allEnv.getProperty(key);
+		String val = getAllEnv().getProperty(key);
 		String newVal = null;
 		if (prop != null)
 		{
@@ -126,7 +133,7 @@ public class LoadParams
 
 	void commit()
 	{
-		Properties prop = new VariablesProperties(allEnv);
+		Properties prop = new VariablesProperties(getAllEnv());
 		try
 		{
 			if (filename != null)

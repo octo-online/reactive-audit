@@ -2,12 +2,12 @@
 This audit tool aims to provide help to the use of *[Reactive architecture](http://www.reactivemanifesto.org/)* in project implementations.
 For reminder, when applying this approach the application must use only **non-blocking APIs** and,
 as soon as possible, return the current thread to a pool, limited by the number of CPU cores.
-The code msut also use Java 8 concurrency utility classes `Future<>` and `CompletableFuture<>` everywhere.
+The code must also use Java 8 concurrency utility classes `Future<>` and `CompletableFuture<>` everywhere.
 
 # How it works
 To detect where the application uses a blocking API, this tool injects some
 checks using a JVM agent (using [Aspectj](https://www.eclipse.org/aspectj/)).
-We choose to use the load-time-wearing in ordder to not modify the compiled code.
+We chose to use the load-time-weaving in order not to modify the compiled code.
 Thus, it is easier to add or remove the audit.
 
 The agent tries to detect all the invocations of blocking APIs *at runtime*.
@@ -15,14 +15,14 @@ It is not possible to detect them *at compile time*, because it is depending on 
 instance. For example, the `Writer.write(..)` can be used for a byte array in memory
 or for a socket.
 
-Some threads can invoke a blocking API, others can not. It is possible
+Some threads can invoke a blocking API, others cannot. It is possible
 to select for which thread the agent must detect a call to a blocking API.
 
 At the application startup, it is common to use some blocking API to load parameters from file, etc.
 Therefore, it is possible to shift the audit start time to a few seconds after the application startup.
 
 Some blocking APIs are used to manage files. If the file system uses a SSD,
-the latency is low. But if the file system is on a NAS or on the Cloud, the latency is important.
+the latency is low. But if the file system is on a NAS or on the Cloud, the latency is high.
 Therefore, it is possible to select the acceptable level of latency for all the file API.
 By default, only the medium and high file latency API generates an alert, because it is not possible
 to suggest an alternative for the low file latency API.

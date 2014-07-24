@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.net;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
@@ -20,11 +20,11 @@ public class DatagramSocketTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void connect() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (DatagramSocket socket = new DatagramSocket())
 		{
 			InetSocketAddress localhost = new InetSocketAddress("localhost", PORT);
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			socket.connect(localhost);
 		}
 	}
@@ -32,11 +32,11 @@ public class DatagramSocketTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void receive() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (DatagramSocket socket = new DatagramSocket())
 		{
 			InetSocketAddress localhost = new InetSocketAddress("localhost", PORT);
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			DatagramPacket packet = new DatagramPacket(new byte[10], 10);
 			socket.receive(packet);
 		}
@@ -45,11 +45,11 @@ public class DatagramSocketTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void send() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (DatagramSocket socket = new DatagramSocket())
 		{
 			InetSocketAddress localhost = new InetSocketAddress("localhost", PORT);
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			DatagramPacket packet = new DatagramPacket(new byte[10], 10);
 			socket.send(packet);
 		}

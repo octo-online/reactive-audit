@@ -20,6 +20,8 @@ cygwinpath() {
   fi
 }
 
+echo XXXX=`cygwinpath a/b`
+echo YYYY=`cygwinpath a\\b`
 
 if [ -z "$AUDIT_REACTIVE_HOME" ]; then
     AUDIT_REACTIVE_HOME=$(cygwinpath `dirname $0`)
@@ -40,31 +42,49 @@ while [ "$1" != "" ]; do
         -s)
             SILENT=true
             ;;
+        -d)
+            DEBUG=true
+            ;;
         *)
-            FRAMEWORK=$1
-            AUDIT_OPTS=-DauditReactive="$FRAMEWORKS_HOME/$1.properties"
+            FRAMEWORK="$1"
+            CONF="-DauditReactive=$FRAMEWORKS_HOME/$1.properties"
             ;;
     esac
     shift
 done
 
-set AUDIT_OPTS=-javaagent:"$AUDIT_REACTIVE_HOME/lib/aspectjweaver.jar" -Djava.ext.dirs="$JAVA_HOME/jre/lib/ext:$AUDIT_REACTIVE_HOME%/lib" %AUDIT_OPTS%
-if [[ "$SILENT" != "true" ]]; then
-    echo Now you can use the environment variable AUDIT_OPTS for launch Java program.
-    if [ -z "$FRAMEWORK%" ]; then
-        echo "Add -DauditReactive=[yourfile].properties to select a specific configuration."
-    fi
+WEAVER="-javaagent:${HOME}/lib/aspectjweaver.jar"
+XBOOT="-Xbootclasspath/p:${HOME}/lib/audit-reactive.jar;${HOME}/lib/audit-reactive-lib.jar"
+AUDIT_OPTS="${CONF} ${WEAVER} ${XBOOT}"
+
+if [[ "$FRAMEWORK" == "" && "$SILENT" != "true" ]]; then
+    echo 'Now you can use the environment variable AUDIT_OPTS for launch Java program.'
+    echo ' set JAVA_OPTS=$AUDIT_OPTS}'
+    echo 'Add -DauditReactive=<yourfile>.properties to select a specific configuration.'
 fi
+
 if [[ "$FRAMEWORK" == "play" ]]; then
-    set SBT_OPTS=%AUDIT_OPTS%
+    export SBT_OPTS=${AUDIT_OPTS}
     if [[ "$SILENT" != "true" ]]; then
-        echo SBT_OPTS was set. You can use TypeSafe activator.
+        echo 'SBT_OPTS was set. You can use TypeSafe activator.'
     fi
 fi
+
 if [[ "$FRAMEWORK" == "jetty" ]]; then
     if [[ "$SILENT" != "true" ]]; then
-        echo Use: java \$AUDIT_OPTS -jar start.jar
+        echo 'Use: java ${AUDIT_OPTS} -jar start.jar'
     fi
+fi
+
+if [[ "$FRAMEWORK" == "catalina" ]]; then
+    export CATALINA_OPTS=${AUDIT_OPTS}
+    if [[ "$SILENT" != "true" ]]; then
+        echo 'CATALINA_OPTS was set. You can use "catalina run."'
+    fi
+fi
+
+if [[ "$DEBUG" == "true" ]]; then
+    echo AUDIT_OPTS=${AUDIT_OPTS}
 fi
 
 export AUDIT_OPTS

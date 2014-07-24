@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.nio.channels;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.IOTestTools;
 import org.junit.Test;
 
@@ -20,7 +20,7 @@ public class ChannelTest
 	{
 		try (Channel w = channel.get())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			w.close();
 		}
 	}

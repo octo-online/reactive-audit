@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import org.junit.Test;
@@ -16,7 +16,7 @@ public class FlushableTest
 	@Test
 	public void flush_1() throws IOException
 	{
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		new Flushable()
 		{
 			@Override
@@ -30,7 +30,7 @@ public class FlushableTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void flush_2() throws IOException
 	{
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		IOTestTools.getTempFileOutputStream().flush();
 	}
 }

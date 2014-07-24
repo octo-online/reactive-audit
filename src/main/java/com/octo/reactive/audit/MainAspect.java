@@ -19,9 +19,9 @@ public class MainAspect extends DefaultAudit
 			@Override
 			public void run()
 			{
-				ConfigAuditReactive.config.shutdown();
+				AuditReactive.config.shutdown();
 			}
 		});
-		ConfigAuditReactive.config.startup();
+		AuditReactive.config.startup();
 	}
 }

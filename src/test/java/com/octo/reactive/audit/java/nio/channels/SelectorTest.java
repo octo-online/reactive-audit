@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.nio.channels;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
@@ -15,10 +15,10 @@ public class SelectorTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void select() throws IOException
 	{
-		ConfigAuditReactive.config.begin().debug(true).commit();
+		AuditReactive.config.begin().debug(true).commit();
 		try (Selector r = Selector.open())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			r.select();
 		}
 	}
@@ -26,10 +26,10 @@ public class SelectorTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void select_l() throws IOException
 	{
-		ConfigAuditReactive.config.begin().debug(true).commit();
+		AuditReactive.config.begin().debug(true).commit();
 		try (Selector r = Selector.open())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			r.select(100);
 		}
 	}

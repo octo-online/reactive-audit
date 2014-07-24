@@ -15,12 +15,12 @@ public class SuppressAuditReactiveAspect
 	@Before("execution(@com.octo.reactive.audit.lib.SuppressAuditReactive * *(..) )")
 	public void beforeSuppress(JoinPoint thisJoinPoint) throws AuditReactiveException
 	{
-		ConfigAuditReactive.config.incSuppress();
+		AuditReactive.config.incSuppress();
 	}
 
 	@After("execution(@com.octo.reactive.audit.lib.SuppressAuditReactive * *(..))")
 	public void afterSuppress(JoinPoint thisJoinPoint) throws AuditReactiveException
 	{
-		ConfigAuditReactive.config.decSuppress();
+		AuditReactive.config.decSuppress();
 	}
 }

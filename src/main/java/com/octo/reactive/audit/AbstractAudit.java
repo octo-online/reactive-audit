@@ -9,11 +9,11 @@ import org.aspectj.lang.JoinPoint;
  */
 public abstract class AbstractAudit
 {
-	protected ConfigAuditReactive config = ConfigAuditReactive.config;
+	protected AuditReactive config = AuditReactive.config;
 
 	protected static boolean isReactiveThread()
 	{
-		return ConfigAuditReactive.config.isThreadNameMatch(Thread.currentThread().getName());
+		return AuditReactive.config.isThreadNameMatch(Thread.currentThread().getName());
 	}
 
 	abstract protected AuditReactiveException newException(Latency latency, JoinPoint thisJoinPoint);
@@ -37,7 +37,7 @@ public abstract class AbstractAudit
 	{
 		if (checkForAll())
 		{
-			final ConfigAuditReactive config = ConfigAuditReactive.config;
+			final AuditReactive config = AuditReactive.config;
 			if (!config.isAfterStartupDelay())
 				return;
 			config.logIfNew(latency, e);

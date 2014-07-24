@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.sql;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
@@ -15,7 +15,7 @@ public class DriverManagerTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void getConnection() throws InterruptedException, ClassNotFoundException, SQLException
 	{
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		DriverManager.getConnection("jdbc:derby:derbyDB;create=true");
 	}
 }

@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.net;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
@@ -17,11 +17,11 @@ public class ServerSocketTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void accept() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (ServerSocket socket = new ServerSocket(PORT))
 		{
-			ConfigAuditReactive.strict.commit();
-			ConfigAuditReactive.config.begin().debug(true).commit();
+			AuditReactive.strict.commit();
+			AuditReactive.config.begin().debug(true).commit();
 			socket.accept();
 		}
 	}

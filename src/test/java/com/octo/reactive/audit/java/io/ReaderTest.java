@@ -1,11 +1,10 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.io.Writer;
 
 /**
  * Created by pprados on 06/05/14.
@@ -17,50 +16,50 @@ public abstract class ReaderTest
 	@Test
 	public void New() throws IOException
 	{
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		try (Reader reader=newReader())
 		{
-			ConfigAuditReactive.off.commit();
+			AuditReactive.off.commit();
 		}
 
 	}
 	@Test
 	public void close() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (Reader in= newReader())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			in.close();
 		}
 	}
 	@Test
 	public void read() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (Reader in= newReader())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			in.read();
 		}
 	}
 	@Test
 	public void read_C() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (Reader in= newReader())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			in.read(new char[1]);
 		}
 	}
 	@Test
 	public void read_Cii() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (Reader in= newReader())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			in.read(new char[1], 0, 1);
 		}
 	}
@@ -78,10 +77,10 @@ public abstract class ReaderTest
 	@Test
 	public void skip() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (Reader in= newReader())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			in.skip(0);
 		}
 	}

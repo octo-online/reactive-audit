@@ -1,5 +1,6 @@
 package com.octo.reactive.audit.java.io;
 
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.FactoryException;
 import com.octo.reactive.audit.FileAudit;
 import com.octo.reactive.audit.lib.AuditReactiveException;
@@ -10,9 +11,14 @@ import java.io.Writer;
 
 import static com.octo.reactive.audit.java.io.FileTools.*;
 
-class AbstractWriterAudit extends FileAudit
+public class AbstractWriterAudit extends FileAudit
 {
 	protected void latency(Latency latency, JoinPoint thisJoinPoint, Writer writer) throws AuditReactiveException
+	{
+		AuditReactiveException ex=latencyWriter(config, latency, thisJoinPoint, writer);
+		if (ex != null) super.latency(latency, thisJoinPoint, ex);
+	}
+	public static AuditReactiveException latencyWriter(AuditReactive config,Latency latency, JoinPoint thisJoinPoint, Writer writer) throws AuditReactiveException
 	{
 		AuditReactiveException ex = null;
 		CharSequence msg = null;
@@ -27,6 +33,6 @@ class AbstractWriterAudit extends FileAudit
 				ex = FactoryException.newFile(latency, thisJoinPoint, msg);
 				break;
 		}
-		if (ex != null) super.latency(latency, thisJoinPoint, ex);
+		return ex;
 	}
 }

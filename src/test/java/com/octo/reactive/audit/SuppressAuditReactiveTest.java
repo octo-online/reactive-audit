@@ -15,7 +15,7 @@ public class SuppressAuditReactiveTest
 	@SuppressAuditReactive("Direct call")
 	public void directCall()
 	{
-		assertTrue(ConfigAuditReactive.config.isSuppressAudit());
+		assertTrue(AuditReactive.config.isSuppressAudit());
 	}
 
 	@Test
@@ -27,13 +27,13 @@ public class SuppressAuditReactiveTest
 			@Override
 			public void run()
 			{
-				assertTrue(ConfigAuditReactive.config.isSuppressAudit());
-				assertEquals(1, ConfigAuditReactive.config.getSuppress());
+				assertTrue(AuditReactive.config.isSuppressAudit());
+				assertEquals(1, AuditReactive.config.getSuppress());
 			}
 		};
 		r.run();
-		assertTrue(ConfigAuditReactive.config.isSuppressAudit());
-		assertEquals(1, ConfigAuditReactive.config.getSuppress());
+		assertTrue(AuditReactive.config.isSuppressAudit());
+		assertEquals(1, AuditReactive.config.getSuppress());
 	}
 
 	@Test
@@ -46,11 +46,11 @@ public class SuppressAuditReactiveTest
 			@Override
 			public void run()
 			{
-				assertTrue(ConfigAuditReactive.config.isSuppressAudit());
-				assertEquals(2, ConfigAuditReactive.config.getSuppress());
+				assertTrue(AuditReactive.config.isSuppressAudit());
+				assertEquals(2, AuditReactive.config.getSuppress());
 			}
 		};
 		r.run();
-		assertEquals(1, ConfigAuditReactive.config.getSuppress());
+		assertEquals(1, AuditReactive.config.getSuppress());
 	}
 }

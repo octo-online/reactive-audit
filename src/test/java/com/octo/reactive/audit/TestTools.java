@@ -8,11 +8,11 @@ public class TestTools
 {
 	public static void push()
 	{
-		ConfigAuditReactive.config.push();
-		ConfigAuditReactive.off.commit();
+		AuditReactive.config.push();
+		AuditReactive.off.commit();
 	}
 	public static void pop()
 	{
-		ConfigAuditReactive.config.pop();
+		AuditReactive.config.pop();
 	}
 }

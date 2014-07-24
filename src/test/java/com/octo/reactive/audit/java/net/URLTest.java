@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.net;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class URLTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void openStream_network() throws IOException
 	{
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		URL url = new URL("http://" + HOST + ":" + PORT);
 		url.openStream();
 	}
@@ -27,7 +27,7 @@ public class URLTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void openStream_file() throws IOException
 	{
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		URL url = new URL("file://" + HOST + ":" + PORT);
 		url.openStream();
 	}
@@ -35,7 +35,7 @@ public class URLTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void openStream_jarfile() throws IOException
 	{
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		URL url = new URL("JAR:file:///toto!/toto" + HOST + ":" + PORT);
 		url.openStream();
 	}

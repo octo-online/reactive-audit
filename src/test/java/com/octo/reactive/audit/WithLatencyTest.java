@@ -15,7 +15,7 @@ public class WithLatencyTest
 	@Test(expected = AuditReactiveException.class)
 	public void invokeWithLatency()
 	{
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		class Test
 		{
 			@WithLatency(LOW)

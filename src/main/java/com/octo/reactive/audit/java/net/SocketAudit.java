@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.net;
 
-import com.octo.reactive.audit.NetworkAudit;
+import com.octo.reactive.audit.AbstractNetworkAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -10,7 +10,7 @@ import java.net.Socket;
 import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
 @Aspect
-public class SocketAudit extends NetworkAudit
+public class SocketAudit extends AbstractNetworkAudit
 {
 
 	@Before("call(java.net.Socket+.new(java.net.InetAddress,..))")

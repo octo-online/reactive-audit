@@ -9,7 +9,7 @@ import java.io.Writer;
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
 @Aspect
-public class BufferedWriterAspect extends AbstractWriterAudit
+public class BufferedWriterAudit extends AbstractWriterAudit
 {
 	// FIXME : est-ce necessaire ?
 	@Before("call(* java.io.BufferedWriter.newLine())")

@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.net;
 
-import com.octo.reactive.audit.NetworkAudit;
+import com.octo.reactive.audit.AbstractNetworkAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -8,7 +8,7 @@ import org.aspectj.lang.annotation.Before;
 import static com.octo.reactive.audit.lib.Latency.LOW;
 
 @Aspect
-public class InetAddressAudit extends NetworkAudit
+public class InetAddressAudit extends AbstractNetworkAudit
 {
 
 	@Before("call(static java.net.InetAddress[] java.net.InetAddress.getAllByName(String))")

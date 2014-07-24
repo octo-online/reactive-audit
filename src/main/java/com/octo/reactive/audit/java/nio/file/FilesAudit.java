@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.nio.file;
 
-import com.octo.reactive.audit.FileAudit;
+import com.octo.reactive.audit.AbstractFileAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -12,7 +12,7 @@ import static com.octo.reactive.audit.lib.Latency.LOW;
  * Created by pprados on 18/06/2014.
  */
 @Aspect
-public class FilesAudit extends FileAudit
+public class FilesAudit extends AbstractFileAudit
 {
 	@Before("call(* java.nio.file.Files.copy(..))")
 	public void copy(JoinPoint thisJoinPoint)

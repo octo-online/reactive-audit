@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.FileAudit;
+import com.octo.reactive.audit.AbstractFileAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -11,7 +11,7 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
  * Created by pprados on 19/05/2014.
  */
 @Aspect
-public class FlushableAspect extends FileAudit
+public class FlushableAudit extends AbstractFileAudit
 {
 	@Before("call(* java.io.Flushable.flush())" +
 			        "&& target(java.io.FileOutputStream+) " +

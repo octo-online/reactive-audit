@@ -4,17 +4,14 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
-import java.io.Reader;
-
 import static com.octo.reactive.audit.lib.Latency.LOW;
 
 @Aspect
-public class ReadableAspect extends AbstractReaderAudit
+public class FileOutputStreamAudit extends AbstractOutputStreamAudit
 {
-	@Before("call(* java.io.Reader+.skip(..))")
-	public void skip(JoinPoint thisJoinPoint)
+	@Before("call(java.io.FileOutputStream+.new(..))")
+	public void new_(JoinPoint thisJoinPoint)
 	{
-		latency(LOW, thisJoinPoint, (Reader) thisJoinPoint.getTarget());
+		latency(LOW, thisJoinPoint);
 	}
-
 }

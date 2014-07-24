@@ -11,11 +11,11 @@ import org.aspectj.lang.annotation.Before;
 import java.io.*;
 import java.nio.channels.InterruptibleChannel;
 
-import static com.octo.reactive.audit.java.io.FileTools.*;
+import static com.octo.reactive.audit.FileTools.*;
 import static com.octo.reactive.audit.lib.Latency.LOW;
 
 @Aspect
-public class CloseableAspect extends AbstractAudit
+public class CloseableAudit extends AbstractAudit
 {
 	@Before("call(* java.io.Closeable.close())")
 	public void close(JoinPoint thisJoinPoint)

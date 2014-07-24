@@ -11,11 +11,11 @@ import org.aspectj.lang.annotation.Before;
 import java.io.*;
 import java.nio.channels.InterruptibleChannel;
 
-import static com.octo.reactive.audit.java.io.FileTools.*;
+import static com.octo.reactive.audit.FileTools.*;
 import static com.octo.reactive.audit.lib.Latency.LOW;
 
 @Aspect
-public class AppendableAspect extends AbstractAudit
+public class AppendableAudit extends AbstractAudit
 {
 	@Before("call(* java.io.Appendable.append(..)) && target(java.io.Writer)")
 	public void append(JoinPoint thisJoinPoint)

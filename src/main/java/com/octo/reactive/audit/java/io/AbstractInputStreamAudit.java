@@ -1,25 +1,21 @@
 package com.octo.reactive.audit.java.io;
 
+import com.octo.reactive.audit.AbstractFileAudit;
 import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.FactoryException;
-import com.octo.reactive.audit.FileAudit;
+import com.octo.reactive.audit.FileTools;
 import com.octo.reactive.audit.lib.AuditReactiveException;
 import com.octo.reactive.audit.lib.Latency;
 import org.aspectj.lang.JoinPoint;
 
 import java.io.InputStream;
 
-import static com.octo.reactive.audit.java.io.FileTools.FILE_ERROR;
-import static com.octo.reactive.audit.java.io.FileTools.NET_ERROR;
+import static com.octo.reactive.audit.FileTools.FILE_ERROR;
+import static com.octo.reactive.audit.FileTools.NET_ERROR;
 
-public class AbstractInputStreamAudit extends FileAudit
+public class AbstractInputStreamAudit extends AbstractFileAudit
 {
-	protected void latency(Latency latency, JoinPoint thisJoinPoint, InputStream in)
-	{
-		AuditReactiveException ex=latencyInputStream(config,latency,thisJoinPoint,in);
-		if (ex!=null) super.latency(latency,thisJoinPoint,ex);
-	}
-	static public AuditReactiveException latencyInputStream(AuditReactive config,Latency latency, JoinPoint thisJoinPoint, InputStream in)
+	static public AuditReactiveException latencyInputStream(AuditReactive config, Latency latency, JoinPoint thisJoinPoint, InputStream in)
 	{
 		CharSequence msg = null;
 		if (config.isDebug())
@@ -35,5 +31,11 @@ public class AbstractInputStreamAudit extends FileAudit
 				break;
 		}
 		return ex;
+	}
+
+	protected void latency(Latency latency, JoinPoint thisJoinPoint, InputStream in)
+	{
+		AuditReactiveException ex = latencyInputStream(config, latency, thisJoinPoint, in);
+		if (ex != null) super.latency(latency, thisJoinPoint, ex);
 	}
 }

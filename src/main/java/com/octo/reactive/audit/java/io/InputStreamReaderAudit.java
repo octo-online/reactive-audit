@@ -1,6 +1,5 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.FileAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -8,16 +7,11 @@ import org.aspectj.lang.annotation.Before;
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
 @Aspect
-public class ConsoleAspect extends FileAudit
+public class InputStreamReaderAudit extends AbstractReaderAudit
 {
-	@Before("call(* java.io.Console.readLine(..))")
+	// FIXME: c'est necessaire ?
+	@Before("call(* java.io.InputStreamReader.readLine())")
 	public void readLine(JoinPoint thisJoinPoint)
-	{
-		latency(HIGH, thisJoinPoint);
-	}
-
-	@Before("call(* java.io.Console.readPassword(..))")
-	public void readPassword(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);
 	}

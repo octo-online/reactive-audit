@@ -7,11 +7,11 @@ import org.aspectj.lang.JoinPoint;
 /**
  * Created by pprados on 13/06/2014.
  */
-public class FileAudit extends AbstractAudit
+public class AbstractNetworkAudit extends AbstractAudit
 {
 	@Override
 	protected AuditReactiveException newException(Latency latency, JoinPoint thisJoinPoint)
 	{
-		return FactoryException.newFile(latency, thisJoinPoint);
+		return FactoryException.newNetwork(latency, thisJoinPoint);
 	}
 }

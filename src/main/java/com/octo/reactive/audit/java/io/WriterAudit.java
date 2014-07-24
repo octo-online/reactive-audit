@@ -1,5 +1,6 @@
 package com.octo.reactive.audit.java.io;
 
+import com.octo.reactive.audit.FileTools;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -9,7 +10,7 @@ import java.io.Writer;
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
 @Aspect
-public class WriterAspect extends AbstractWriterAudit
+public class WriterAudit extends AbstractWriterAudit
 {
 	@Before("call(* java.io.Writer.write(..))")
 	public void write(JoinPoint thisJoinPoint)

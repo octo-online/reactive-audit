@@ -10,19 +10,13 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
 /**
  * Created by pprados on 19/05/2014.
  */
-
 @Aspect
-public class ThreadAspect extends DefaultAudit
+public class ProcessAudit extends DefaultAudit
 {
-	@Before("call(* java.lang.Thread.join(..))")
-	public void join(JoinPoint thisJoinPoint)
+	@Before("call(* java.lang.Process.waitFor(..))")
+	public void waitFor(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);
 	}
 
-	@Before("call(* java.lang.Thread.sleep(..))")
-	public void sleep(JoinPoint thisJoinPoint)
-	{
-		latency(HIGH, thisJoinPoint);
-	}
 }

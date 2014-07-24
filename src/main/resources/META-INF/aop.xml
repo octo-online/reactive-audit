@@ -22,31 +22,31 @@
         <aspect name="com.octo.reactive.audit.WithLatencyAspect"/>
 
         <!-- java.io -->
-        <aspect name="com.octo.reactive.audit.java.io.AppendableAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.BufferedWriterAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.CloseableAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.ConsoleAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.FileAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.FileDescriptorAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.FileInputStreamAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.FileOutputStreamAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.FileReaderAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.FileWriterAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.FlushableAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.InputStreamAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.InputStreamReaderAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.OutputStreamAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.PrintWriterAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.RandomAccessFileAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.ReadableAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.ReaderAspect"/>
-        <aspect name="com.octo.reactive.audit.java.io.WriterAspect"/>
+        <aspect name="com.octo.reactive.audit.java.io.AppendableAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.BufferedWriterAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.CloseableAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.ConsoleAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.FileAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.FileDescriptorAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.FileInputStreamAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.FileOutputStreamAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.FileReaderAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.FileWriterAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.FlushableAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.InputStreamAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.InputStreamReaderAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.OutputStreamAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.PrintWriterAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.RandomAccessFileAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.ReadableAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.ReaderAudit"/>
+        <aspect name="com.octo.reactive.audit.java.io.WriterAudit"/>
 
         <!-- java.lang -->
-        <aspect name="com.octo.reactive.audit.java.lang.ObjectAspect"/>
-        <aspect name="com.octo.reactive.audit.java.lang.ProcessAspect"/>
-        <aspect name="com.octo.reactive.audit.java.lang.ReadableAspect"/>
-        <aspect name="com.octo.reactive.audit.java.lang.ThreadAspect"/>
+        <aspect name="com.octo.reactive.audit.java.lang.ObjectAudit"/>
+        <aspect name="com.octo.reactive.audit.java.lang.ProcessAudit"/>
+        <aspect name="com.octo.reactive.audit.java.lang.ReadableAudit"/>
+        <aspect name="com.octo.reactive.audit.java.lang.ThreadAudit"/>
 
         <!-- java.net -->
         <aspect name="com.octo.reactive.audit.java.net.DatagramSocketAudit"/>
@@ -81,7 +81,7 @@
         <!-- java.rmi.server-->
         <aspect name="com.octo.reactive.audit.java.rmi.server.RemoteObjectInvocationHandlerAudit"/>
         <aspect name="com.octo.reactive.audit.java.rmi.server.RemoteRefAudit"/>
-        <aspect name="com.octo.reactive.audit.java.rmi.server.RMIClientSocketFactorAudit"/>
+        <aspect name="com.octo.reactive.audit.java.rmi.server.RMIClientSocketFactoryAudit"/>
         <aspect name="com.octo.reactive.audit.java.rmi.server.RMIServerSocketFactoryAudit"/>
         <aspect name="com.octo.reactive.audit.java.rmi.server.RMISocketFactoryAudit"/>
 
@@ -98,10 +98,6 @@
 
         <!-- java.util -->
         <aspect name="com.octo.reactive.audit.java.util.PropertiesAudit"/>
-
-        <!-- java.util.logging -->
-        <aspect name="com.octo.reactive.audit.java.util.logging.FileHandlerAudit"/>
-        <aspect name="com.octo.reactive.audit.java.util.logging.SocketHandlerAudit"/>
 
         <!-- java.util.zip -->
         <aspect name="com.octo.reactive.audit.java.util.zip.ZipFileAudit"/>

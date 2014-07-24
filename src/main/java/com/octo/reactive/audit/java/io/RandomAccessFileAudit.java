@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.FileAudit;
+import com.octo.reactive.audit.AbstractFileAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -13,7 +13,7 @@ import static com.octo.reactive.audit.lib.Latency.LOW;
  * Created by pprados on 18/06/2014.
  */
 @Aspect
-public class RandomAccessFileAspect extends FileAudit
+public class RandomAccessFileAudit extends AbstractFileAudit
 {
 	@Before("call(java.io.RandomAccessFile.new(..))")
 	public void new_(JoinPoint thisJoinPoint)

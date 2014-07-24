@@ -1,4 +1,4 @@
-package com.octo.reactive.audit.java.net;
+package com.octo.reactive.audit;
 
 import java.lang.reflect.Field;
 import java.net.URLConnection;

@@ -1,6 +1,7 @@
 package com.octo.reactive.audit.java.net;
 
-import com.octo.reactive.audit.NetworkAudit;
+import com.octo.reactive.audit.AbstractNetworkAudit;
+import com.octo.reactive.audit.NetworkTools;
 import com.octo.reactive.audit.lib.AuditReactiveException;
 import com.octo.reactive.audit.lib.Latency;
 import org.aspectj.lang.JoinPoint;
@@ -12,7 +13,7 @@ import java.net.URLConnection;
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
 @Aspect
-public class URLConnectionAudit extends NetworkAudit
+public class URLConnectionAudit extends AbstractNetworkAudit
 {
 
 	@Before("call(void java.net.URLConnection.connect())")

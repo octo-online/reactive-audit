@@ -8,12 +8,11 @@ import org.aspectj.lang.annotation.Before;
 import static com.octo.reactive.audit.lib.Latency.LOW;
 
 @Aspect
-public class FileReaderAspect extends AbstractReaderAudit
+public class FileInputStreamAudit extends AbstractInputStreamAudit
 {
-	@Before("call(java.io.FileReader+.new(..))")
+	@Before("call(java.io.FileInputStream+.new(..))")
 	public void new_(JoinPoint thisJoinPoint) throws AuditReactiveException
 	{
 		latency(LOW, thisJoinPoint);
 	}
-
 }

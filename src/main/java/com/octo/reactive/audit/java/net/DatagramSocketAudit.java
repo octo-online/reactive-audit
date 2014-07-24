@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.net;
 
-import com.octo.reactive.audit.NetworkAudit;
+import com.octo.reactive.audit.AbstractNetworkAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -8,7 +8,7 @@ import org.aspectj.lang.annotation.Before;
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
 @Aspect
-public class DatagramSocketAudit extends NetworkAudit
+public class DatagramSocketAudit extends AbstractNetworkAudit
 {
 	@Before("call(* java.net.DatagramSocket.connect(..))")
 	public void connect(JoinPoint thisJoinPoint)

@@ -1,4 +1,4 @@
-package com.octo.reactive.audit.java.io;
+package com.octo.reactive.audit;
 
 import java.io.*;
 import java.lang.reflect.Field;

@@ -1,7 +1,6 @@
 package com.octo.reactive.audit.java.lang;
 
 import com.octo.reactive.audit.DefaultAudit;
-import com.octo.reactive.audit.java.io.AbstractInputStreamAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -12,10 +11,10 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
  * Created by pprados on 19/05/2014.
  */
 @Aspect
-public class ReadableAspect extends AbstractInputStreamAudit
+public class ObjectAudit extends DefaultAudit
 {
-	@Before("call(int java.lang.Readable.read(java.nio.CharBuffer))")
-	public void read(JoinPoint thisJoinPoint)
+	@Before("call(* java.lang.Object.wait(..))")
+	public void wait(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);
 	}

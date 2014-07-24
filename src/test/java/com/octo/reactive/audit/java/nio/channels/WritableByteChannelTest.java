@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.nio.channels;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.lib.AuditReactiveException;
 import org.junit.Test;
@@ -44,7 +44,7 @@ public class WritableByteChannelTest
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (WritableByteChannel w = channel.get())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			w.write(buf);
 		}
 	}

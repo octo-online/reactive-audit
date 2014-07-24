@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import org.junit.Test;
@@ -28,10 +28,10 @@ public class InputStreamReaderTest extends AuditedReaderTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void read_with_FilterInputStream() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (Reader in = new InputStreamReader(new BufferedInputStream(new FileInputStream(IOTestTools.getTempFile()))))
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			in.read();
 		}
 	}

@@ -15,7 +15,7 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
  * Created by pprados on 19/05/2014.
  */
 @Aspect
-public class PropertiesAspect extends FileAudit
+public class PropertiesAudit extends FileAudit
 {
 	@Before("call(* java.util.Properties.load(java.io.InputStream)) && args(in)")
 	public void advice_high(JoinPoint thisJoinPoint, InputStream in)

@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.util;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.lib.AuditReactiveException;
 import org.junit.Test;
@@ -16,9 +16,9 @@ public class PropertiesTest
 	@Test(expected = AuditReactiveException.class)
 	public void load_FileInputStream() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		InputStream in = new FileInputStream(IOTestTools.getTempFile());
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		Properties prop = new Properties();
 		prop.load(in);
 	}
@@ -26,9 +26,9 @@ public class PropertiesTest
 	@Test(expected = AuditReactiveException.class)
 	public void load_FileReader() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		Reader in = new FileReader(IOTestTools.getTempFile());
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		Properties prop = new Properties();
 		prop.load(in);
 	}
@@ -36,9 +36,9 @@ public class PropertiesTest
 	@Test
 	public void load_InputStream() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		InputStream in = new ByteArrayInputStream(new byte[1]);
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		Properties prop = new Properties();
 		prop.load(in);
 	}
@@ -46,9 +46,9 @@ public class PropertiesTest
 	@Test
 	public void load_Reader() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		Reader in = new StringReader("");
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		Properties prop = new Properties();
 		prop.load(in);
 	}

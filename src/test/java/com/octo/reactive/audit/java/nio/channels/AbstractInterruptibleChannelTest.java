@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.nio.channels;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.lib.AuditReactiveException;
 import org.junit.Test;
 
@@ -15,7 +15,7 @@ public class AbstractInterruptibleChannelTest
 	@Test(expected = AuditReactiveException.class)
 	public void begin() throws IOException
 	{
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		class C extends AbstractInterruptibleChannel
 		{
 

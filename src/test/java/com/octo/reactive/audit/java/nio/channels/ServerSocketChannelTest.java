@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.nio.channels;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class ServerSocketChannelTest
 	{
 		try (ServerSocketChannel r = ServerSocketChannel.open())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			r.accept();
 		}
 	}

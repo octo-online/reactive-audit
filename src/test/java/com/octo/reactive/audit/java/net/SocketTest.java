@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.net;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class SocketTest
 	@Test
 	public void new_1() throws IOException
 	{
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		try (Socket socket = new Socket())
 		{
 			socket.isConnected();
@@ -34,9 +34,9 @@ public class SocketTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void new_2() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		InetAddress target = getByName(HOST);
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		try (Socket socket = new Socket(target, PORT))
 		{
 			socket.isConnected();
@@ -46,9 +46,9 @@ public class SocketTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void new_3() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		InetAddress target = getByName(HOST);
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		try (Socket socket = new Socket(target, PORT, false))
 		{
 			socket.isConnected();
@@ -58,9 +58,9 @@ public class SocketTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void new_4() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		InetAddress target = getByName(HOST);
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		try (Socket socket = new Socket(target, PORT, null, 0))
 		{
 			socket.isConnected();
@@ -70,8 +70,8 @@ public class SocketTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void new_5() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.off.commit();
+		AuditReactive.strict.commit();
 		try (Socket socket = new Socket(HOST, PORT))
 		{
 			socket.isConnected();
@@ -81,8 +81,8 @@ public class SocketTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void new_6() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.off.commit();
+		AuditReactive.strict.commit();
 		try (Socket socket = new Socket(HOST, PORT))
 		{
 			socket.isConnected();
@@ -92,8 +92,8 @@ public class SocketTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void new_7() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.off.commit();
+		AuditReactive.strict.commit();
 		try (Socket socket = new Socket(HOST, PORT, null, 0))
 		{
 			socket.isConnected();
@@ -103,11 +103,11 @@ public class SocketTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void connect() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (Socket socket = new Socket())
 		{
 			SocketAddress add = new InetSocketAddress(HOST, PORT);
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			socket.connect(add);
 		}
 	}
@@ -115,10 +115,10 @@ public class SocketTest
 	@Test
 	public void getInputStream() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (Socket socket = new Socket(HOST, PORT))
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			socket.getInputStream();
 		}
 	}
@@ -126,10 +126,10 @@ public class SocketTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void getInputStream_use() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (Socket socket = new Socket(HOST, PORT))
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			socket.getInputStream().read();
 		}
 	}
@@ -137,10 +137,10 @@ public class SocketTest
 	@Test
 	public void getOutputStream() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (Socket socket = new Socket(HOST, PORT))
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			socket.getOutputStream();
 		}
 	}
@@ -148,10 +148,10 @@ public class SocketTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void getOutputStream_use() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (Socket socket = new Socket(HOST, PORT))
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			socket.getOutputStream().write(new byte[1]);
 		}
 	}
@@ -159,10 +159,10 @@ public class SocketTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void sendUrgentData() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (Socket socket = new Socket("www.google.com", PORT))
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			socket.sendUrgentData(255);
 		}
 	}

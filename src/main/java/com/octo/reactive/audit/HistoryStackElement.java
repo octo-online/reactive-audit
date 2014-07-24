@@ -10,10 +10,10 @@ import java.util.Set;
 class HistoryStackElement
 {
 	static final String myPackage = HistoryStackElement.class.getPackage().getName();
-	private ConfigAuditReactive config;
+	private AuditReactive config;
 	private Set<HashStackTraceElement> logged = Collections.synchronizedSet(new HashSet<>());
 
-	HistoryStackElement(ConfigAuditReactive config)
+	HistoryStackElement(AuditReactive config)
 	{
 		this.config = config;
 	}

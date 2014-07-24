@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.nio.file;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import org.junit.Test;
 
@@ -34,34 +34,34 @@ public class FilesTest
 	{
 		Path path = getPath();
 		Files.delete(path);
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		Files.copy(new ByteArrayInputStream("abc".getBytes()), path);
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
 	public void readAllBytes() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		Files.readAllBytes(getPath());
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
 	public void readAllLines() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		Files.readAllLines(getPath());
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
 	public void walkFileTree() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		Path p = Paths.get(".", "");
 		Files.walkFileTree(p, null, 1, null);
 	}
@@ -69,9 +69,9 @@ public class FilesTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void write() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		Files.write(getPath(), new byte[1]);
 	}
 }

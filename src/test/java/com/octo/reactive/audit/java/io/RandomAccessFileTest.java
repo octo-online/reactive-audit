@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import org.junit.Test;
@@ -21,10 +21,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void new_file() throws IOException
 	{
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		try (RandomAccessFile rw = new RandomAccessFile(IOTestTools.getTempFile(), "rw"))
 		{
-			ConfigAuditReactive.off.commit();
+			AuditReactive.off.commit();
 		}
 
 	}
@@ -32,10 +32,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void new_string() throws IOException
 	{
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		try (RandomAccessFile rw = new RandomAccessFile(IOTestTools.getTempFile().getAbsoluteFile(), "rw"))
 		{
-			ConfigAuditReactive.off.commit();
+			AuditReactive.off.commit();
 		}
 
 	}
@@ -43,10 +43,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void read() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.read();
 		}
 
@@ -55,10 +55,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void read_B() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.read(new byte[1]);
 		}
 
@@ -67,10 +67,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void read_Bii() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.read(new byte[1], 0, 1);
 		}
 
@@ -79,10 +79,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void readLine() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.readLine();
 		}
 
@@ -91,10 +91,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void readBoolean() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.readBoolean();
 		}
 
@@ -103,10 +103,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void readByte() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.readByte();
 		}
 
@@ -115,10 +115,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void readChar() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.readChar();
 		}
 
@@ -127,10 +127,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void readDouble() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.readDouble();
 		}
 
@@ -139,10 +139,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void readFloat() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.readFloat();
 		}
 
@@ -151,10 +151,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void readFully() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.readFully(new byte[1]);
 		}
 
@@ -163,10 +163,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void readInt() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.readInt();
 		}
 
@@ -175,10 +175,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void readLong() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.readLong();
 		}
 
@@ -187,10 +187,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void readShort() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.readShort();
 		}
 
@@ -199,10 +199,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void readUnsignedByte() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.readUnsignedByte();
 		}
 
@@ -211,10 +211,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void readUnsignedShort() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.readUnsignedShort();
 		}
 
@@ -223,10 +223,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void readUTF() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.readUTF();
 		}
 
@@ -235,10 +235,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void write_B() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.write(new byte[1]);
 		}
 
@@ -247,10 +247,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void write_Bii() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.write(new byte[1], 0, 1);
 		}
 
@@ -259,10 +259,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void write_i() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.write(0);
 		}
 
@@ -271,10 +271,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void writeBoolean() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.writeBoolean(true);
 		}
 
@@ -283,10 +283,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void writeByte() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.writeByte(0);
 		}
 
@@ -295,10 +295,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void writeBytes() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.writeBytes("");
 		}
 
@@ -307,10 +307,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void writeChar() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.writeChar(0);
 		}
 
@@ -319,10 +319,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void writeChars() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.writeChars("");
 		}
 
@@ -331,10 +331,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void writeDouble() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.writeDouble(0);
 		}
 
@@ -343,10 +343,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void writeFloat() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.writeFloat(0);
 		}
 
@@ -355,10 +355,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void writeShort() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.writeShort(0);
 		}
 
@@ -367,10 +367,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void writeUTF() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.writeUTF("");
 		}
 
@@ -379,10 +379,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void seek() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.seek(0);
 		}
 
@@ -391,10 +391,10 @@ public class RandomAccessFileTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void close() throws IOException
 	{
-		ConfigAuditReactive.off.commit();
+		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			rw.close();
 		}
 

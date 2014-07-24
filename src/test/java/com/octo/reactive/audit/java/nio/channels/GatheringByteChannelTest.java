@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.nio.channels;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import org.junit.Test;
@@ -23,7 +23,7 @@ public class GatheringByteChannelTest
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (GatheringByteChannel w = channel.get())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			ByteBuffer[] srcs = {buf};
 			w.write(srcs);
 		}

@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class LoadParamsTest
 {
-	ConfigAuditReactive config = ConfigAuditReactive.config;
+	AuditReactive config = AuditReactive.config;
 
 	@Test
 	public void setSystemParams() throws IOException
@@ -28,7 +28,7 @@ public class LoadParamsTest
 		System.setProperty(KEY_THROW_EXCEPTIONS, "true");
 		System.setProperty(KEY_THREAD_PATTERN, "abc");
 		System.setProperty(KEY_BOOTSTRAP_DELAY, "10");
-		new LoadParams(ConfigAuditReactive.config, DEFAULT_FILENAME).commit();
+		new LoadParams(AuditReactive.config, DEFAULT_FILENAME).commit();
 		assertEquals(Level.INFO, config.getLogLevel());
 		assertTrue(config.logger.getHandlers()[0] instanceof ConsoleHandler);
 		assertEquals("format", ((AuditLogFormat) config.logger.getHandlers()[0].getFormatter()).getFormat());
@@ -56,6 +56,6 @@ public class LoadParamsTest
 	{
 		LoadParams.resetAllEnv();
 		System.setProperty(KEY_LOG_LEVEL, "XXX");
-		new LoadParams(ConfigAuditReactive.config, DEFAULT_FILENAME).commit();
+		new LoadParams(AuditReactive.config, DEFAULT_FILENAME).commit();
 	}
 }

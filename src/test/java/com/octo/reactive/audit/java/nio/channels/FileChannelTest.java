@@ -1,6 +1,6 @@
 package com.octo.reactive.audit.java.nio.channels;
 
-import com.octo.reactive.audit.ConfigAuditReactive;
+import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class FileChannelTest
 	@Test(expected = FileAuditReactiveException.class)
 	public void open() throws IOException
 	{
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		FileChannel.open(IOTestTools.getTempPath());
 	}
 
@@ -30,7 +30,7 @@ public class FileChannelTest
 		try (FileChannel s = readChannel.get();
 		     FileChannel d = writeChannel.get())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			d.transferFrom(s, 0, 1);
 		}
 	}
@@ -41,7 +41,7 @@ public class FileChannelTest
 		try (FileChannel s = readChannel.get();
 		     FileChannel d = writeChannel.get())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			s.transferTo(0, 1, d);
 		}
 	}
@@ -51,7 +51,7 @@ public class FileChannelTest
 	{
 		try (FileChannel s = readChannel.get())
 		{
-			ConfigAuditReactive.strict.commit();
+			AuditReactive.strict.commit();
 			s.lock();
 		}
 	}

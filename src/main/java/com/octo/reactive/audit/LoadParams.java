@@ -43,12 +43,12 @@ public class LoadParams
 	public static final String KEY_DEBUG            = PREFIX + "debug";
 
 	public static final String DEFAULT_FILENAME = "auditReactive.properties";
-	private static Properties                      allEnv;
-	private        ConfigAuditReactive             config;
-	private        ConfigAuditReactive.Transaction tx;
-	private        URL                             filename;
+	private static Properties                allEnv;
+	private        AuditReactive             config;
+	private        AuditReactive.Transaction tx;
+	private        URL                       filename;
 
-	public LoadParams(ConfigAuditReactive config, String propertiesFile)
+	public LoadParams(AuditReactive config, String propertiesFile)
 	{
 		this.config = config;
 		tx = config.begin();

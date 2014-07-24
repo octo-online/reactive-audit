@@ -14,16 +14,16 @@ import java.util.regex.Pattern;
 /**
  * Created by pprados on 07/05/14.
  */
-public class ConfigAuditReactive
+public class AuditReactive
 {
 	/**
 	 * The singleton with the current parameters.
 	 */
-	public static final ConfigAuditReactive config           = new ConfigAuditReactive();
+	public static final AuditReactive config           = new AuditReactive();
 	/**
 	 * A transaction with 'strict' parameters.
 	 */
-	public static final Transaction         strict           =
+	public static final Transaction   strict           =
 			config.begin()
 					.throwExceptions(true)
 					.log(Level.OFF)
@@ -33,7 +33,7 @@ public class ConfigAuditReactive
 	/**
 	 * A transaction with 'log only' parameters.
 	 */
-	public static final Transaction         logOnly          =
+	public static final Transaction   logOnly          =
 			config.begin()
 					.throwExceptions(false)
 					.log(Level.WARNING)
@@ -43,7 +43,7 @@ public class ConfigAuditReactive
 	/**
 	 * A transaction with 'off' audit.
 	 */
-	public static final Transaction         off              =
+	public static final Transaction   off              =
 			config.begin()
 					.throwExceptions(false)
 					.log(Level.SEVERE)
@@ -51,9 +51,9 @@ public class ConfigAuditReactive
 					.bootStrapDelay(0)
 					.seal();
 	// Help to rename the package
-	public static final String              auditPackageName = ConfigAuditReactive.class.getPackage().getName();
-	public final        Logger              logger           =
-			Logger.getLogger(ConfigAuditReactive.class.getPackage().getName());
+	public static final String        auditPackageName = AuditReactive.class.getPackage().getName();
+	public final        Logger        logger           =
+			Logger.getLogger(AuditReactive.class.getPackage().getName());
 	// FIXME : Fake logger to test Jboss
 //	public final        FakeLogger          logger           = new FakeLogger();
 	/*package*/ volatile boolean started = false;
@@ -377,7 +377,7 @@ public class ConfigAuditReactive
 		debug(cl.getName() + " extends " + cl.getSuperclass());
 		for (Class<?> c : cl.getInterfaces())
 		{
-			ConfigAuditReactive.config.debug("implements " + c);
+			AuditReactive.config.debug("implements " + c);
 		}
 
 	}

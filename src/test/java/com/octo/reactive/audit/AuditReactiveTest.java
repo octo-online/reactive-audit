@@ -19,11 +19,11 @@ import static org.junit.Assert.*;
 /**
  * Created by pprados on 07/05/2014.
  */
-public class ConfigAuditReactiveTest
+public class AuditReactiveTest
 {
 	// Because the Aspectj must use the config singleton,
 	// it's not possible to inject a specific config instance
-	private ConfigAuditReactive config = ConfigAuditReactive.config;
+	private AuditReactive config = AuditReactive.config;
 
 	private int[]   log     = new int[1];
 	private Handler handler = new Handler()
@@ -50,7 +50,7 @@ public class ConfigAuditReactiveTest
 	@Test
 	public void currentThread_test()
 	{
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 		assertTrue(config.isThreadNameMatch(Thread.currentThread().getName()));
 	}
 
@@ -339,7 +339,7 @@ public class ConfigAuditReactiveTest
 		Field field = AuditReactiveException.class.getDeclaredField("debug");
 		field.setAccessible(true);
 		if (((Boolean) field.get(null)) == true) return;
-		ConfigAuditReactive.strict.commit();
+		AuditReactive.strict.commit();
 
 		try
 		{
@@ -351,7 +351,7 @@ public class ConfigAuditReactiveTest
 			StackTraceElement[] stack = e.getStackTrace();
 			for (StackTraceElement traceElement : stack)
 			{
-				assertFalse((traceElement.getClassName().startsWith(ConfigAuditReactive.auditPackageName)
+				assertFalse((traceElement.getClassName().startsWith(AuditReactive.auditPackageName)
 						&& !traceElement.getClassName().endsWith("Test"))); // For inner unit test
 			}
 		}

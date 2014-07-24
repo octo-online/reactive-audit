@@ -79,7 +79,7 @@ REM FIXME : verifier JAVA_HOME si -Djava.ext.dirs
 set WEAVER=-javaagent:%HOME%\lib\aspectjweaver.jar
 @REM Add audit agent with bootclasspath
 set XBOOT=-Xbootclasspath/p:%HOME%\lib\aspectjweaver.jar;%HOME%\lib\audit-reactive.jar;%HOME%\lib\audit-reactive-lib.jar
-set AUDIT_OPTS=%AUDIT_OPTS% %CONF% %WEAVER% %XBOOT%
+set AUDIT_OPTS=%CONF% %WEAVER% %XBOOT%
 
 @REM Add audit agent with java.ext.dirs
 rem set EXTDIR=-Djava.ext.dirs=%SJAVA_HOME%\jre\lib\ext;%HOME%\lib
@@ -126,14 +126,14 @@ if "%FRAMEWORK%" == "glassfish" (
     )
 )
 
-if "%FRAMEWORK%" == "geronimo" (
-    echo "Not implemented (Java 8)"
-    exit /B 1
-    set GERONIMO_OPTS=%AUDIT_OPTS%
-    if not "%SILENT%"=="true" (
-        echo "GERONIMO_OPTS was set. You can use 'geronimo run'."
-    )
-)
+rem if "%FRAMEWORK%" == "geronimo" (
+rem     echo "Not implemented (Java 8)"
+rem     exit /B 1
+rem     set GERONIMO_OPTS=%AUDIT_OPTS%
+rem     if not "%SILENT%"=="true" (
+rem        echo "GERONIMO_OPTS was set. You can use 'geronimo run'."
+rem    )
+rem )
 rem if "%FRAMEWORK%" == "websphere" (
 rem     set JVM_ARGS=%AUDIT_OPTS%
 rem     if not "%SILENT%"=="true" (

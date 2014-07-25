@@ -30,14 +30,6 @@ the latency is low. But if the file system is on a NAS or on the Cloud,
 the latency is important. Therefore, it is possible to select the
 acceptable level of latency for all the file API. By default, only the
 medium and high file latency API generates an alert, because it is not possible
-to suggest an alternative for the low file latency API.
-
-This is the same for the network API: it is possible to select the level for the network API.
-By default, all the API can generate an alert.
-
-Sometimes, the code blocks due to the synchronization mechanism proposed by java.
-For example, it is not a good idea to call `Thread.sleep(..)` in a thread
-coming from the thread pool. It is thus possible to select the level for the CPU 
 blocking API.
 
 # Usage

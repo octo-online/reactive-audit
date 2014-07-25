@@ -7,9 +7,7 @@ import org.aspectj.lang.annotation.Before;
 
 import static com.octo.reactive.audit.lib.Latency.LOW;
 
-/**
- * Created by pprados on 19/05/2014.
- */
+// Nb methods : 24
 @Aspect
 public class FileAudit extends AbstractFileAudit
 {
@@ -31,7 +29,7 @@ public class FileAudit extends AbstractFileAudit
 		latency(LOW, thisJoinPoint);
 	}
 
-	@Before("call(* java.io.File+.exists(..))")
+	@Before("call(* java.io.File+.exists())")
 	public void exists(JoinPoint thisJoinPoint)
 	{
 		latency(LOW, thisJoinPoint);

@@ -8,9 +8,7 @@ import org.aspectj.lang.annotation.Before;
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
-/**
- * Created by pprados on 19/05/2014.
- */
+// Nb methods : 4
 @Aspect
 public class ConnectionAudit extends AbstractNetworkAudit
 {

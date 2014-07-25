@@ -9,6 +9,7 @@ import java.io.OutputStream;
 
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
+// Nb methods : 3
 @Aspect
 public class OutputStreamAudit extends AbstractOutputStreamAudit
 {

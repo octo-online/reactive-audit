@@ -10,6 +10,7 @@ import java.io.Reader;
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 import static com.octo.reactive.audit.lib.Latency.LOW;
 
+// Nb methods : 5
 @Aspect
 public class ReaderAudit extends AbstractReaderAudit
 {

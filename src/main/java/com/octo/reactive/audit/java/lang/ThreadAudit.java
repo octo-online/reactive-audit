@@ -1,18 +1,15 @@
 package com.octo.reactive.audit.java.lang;
 
-import com.octo.reactive.audit.DefaultAudit;
+import com.octo.reactive.audit.AbstractDefaultAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
-/**
- * Created by pprados on 19/05/2014.
- */
-
+// Nb methods : 5
 @Aspect
-public class ThreadAudit extends DefaultAudit
+public class ThreadAudit extends AbstractDefaultAudit
 {
 	@Before("call(* java.lang.Thread.join(..))")
 	public void join(JoinPoint thisJoinPoint)

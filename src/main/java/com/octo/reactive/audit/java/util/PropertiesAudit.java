@@ -11,9 +11,7 @@ import java.io.Reader;
 
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
-/**
- * Created by pprados on 19/05/2014.
- */
+// Nb methods : 2
 @Aspect
 public class PropertiesAudit extends AbstractFileAudit
 {

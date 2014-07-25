@@ -14,6 +14,7 @@ import java.nio.channels.InterruptibleChannel;
 import static com.octo.reactive.audit.FileTools.*;
 import static com.octo.reactive.audit.lib.Latency.LOW;
 
+// Nb methods : 3
 @Aspect
 public class AppendableAudit extends AbstractAudit
 {

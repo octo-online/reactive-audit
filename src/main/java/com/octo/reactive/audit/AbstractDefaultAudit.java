@@ -8,7 +8,7 @@ import org.aspectj.lang.JoinPoint;
 /**
  * Created by pprados on 13/06/2014.
  */
-public class DefaultAudit extends AbstractAudit
+abstract public class AbstractDefaultAudit extends AbstractAudit
 {
 	@Override
 	protected AuditReactiveException newException(Latency latency, JoinPoint thisJoinPoint)

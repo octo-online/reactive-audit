@@ -9,9 +9,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 import static com.octo.reactive.audit.lib.Latency.LOW;
 
-/**
- * Created by pprados on 18/06/2014.
- */
+// Nb methods : 35
 @Aspect
 public class RandomAccessFileAudit extends AbstractFileAudit
 {
@@ -45,11 +43,11 @@ public class RandomAccessFileAudit extends AbstractFileAudit
 		latency(HIGH, thisJoinPoint);
 	}
 
-//	@Before("call(* java.io.RandomAccessFile.close())")
-//	public void close(JoinPoint thisJoinPoint)
-//	{
-//		latency(LOW, thisJoinPoint);
-//	}
+	@Before("call(* java.io.RandomAccessFile.close())")
+	public void close(JoinPoint thisJoinPoint)
+	{
+		latency(LOW, thisJoinPoint);
+	}
 
 	// FIXME
 	@Pointcut("call(* java.io.RandomAccessFile.format(..))")

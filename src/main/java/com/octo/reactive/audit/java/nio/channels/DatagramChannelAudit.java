@@ -9,9 +9,7 @@ import java.nio.channels.SelectableChannel;
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
-/**
- * Created by pprados on 18/06/2014.
- */
+// Nb methods : 3
 @Aspect
 public class DatagramChannelAudit extends AbstractChannelsAudit
 {

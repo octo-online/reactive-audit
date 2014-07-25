@@ -8,9 +8,7 @@ import org.aspectj.lang.annotation.Before;
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
-/**
- * Created by pprados on 19/05/2014.
- */
+// Nb methods : 10
 @Aspect
 public class ResultSetAudit extends AbstractNetworkAudit
 {
@@ -68,7 +66,7 @@ public class ResultSetAudit extends AbstractNetworkAudit
 		latency(HIGH, thisJoinPoint);
 	}
 
-	@Before("call(boolean java.sql.ResultSet.relative(int ))")
+	@Before("call(boolean java.sql.ResultSet.relative(int))")
 	public void relative(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);

@@ -8,9 +8,7 @@ import java.nio.channels.SelectableChannel;
 
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
-/**
- * Created by pprados on 18/06/2014.
- */
+// Nb methods : 1
 @Aspect
 public class ServerSocketChannelAudit extends AbstractChannelsAudit
 {

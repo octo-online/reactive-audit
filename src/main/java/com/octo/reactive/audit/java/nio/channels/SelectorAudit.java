@@ -6,9 +6,7 @@ import org.aspectj.lang.annotation.Before;
 
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
-/**
- * Created by pprados on 18/06/2014.
- */
+// Nb methods : 2
 @Aspect
 public class SelectorAudit extends AbstractChannelsAudit
 {

@@ -9,6 +9,7 @@ import java.net.Socket;
 
 import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
+// Nb methods : 9
 @Aspect
 public class SocketAudit extends AbstractNetworkAudit
 {

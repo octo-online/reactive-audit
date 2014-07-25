@@ -5,6 +5,7 @@ as soon as possible, return the current thread to a pool, limited by the number 
 The code must also use Java 8 concurrency utility classes `Future<>` and `CompletableFuture<>` everywhere.
 
 **WARNING:** This is an alpha version, works only with JRE 8 !
+Now, only 345 blocking methods was detected
 
 # How it works
 To detect where the application uses a blocking API, this tool injects some

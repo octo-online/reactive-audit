@@ -8,10 +8,7 @@ import java.io.OutputStream;
 
 import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
-/**
- * Created by pprados on 19/05/2014.
- */
-//TODO: Test
+// Nb methods : 2
 @Aspect
 public class FileDescriptorAudit extends AbstractOutputStreamAudit
 {

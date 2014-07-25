@@ -7,10 +7,10 @@ import org.aspectj.lang.annotation.Before;
 
 import static com.octo.reactive.audit.lib.Latency.LOW;
 
+// Nb methods : 4
 @Aspect
 public class InetAddressAudit extends AbstractNetworkAudit
 {
-
 	@Before("call(static java.net.InetAddress[] java.net.InetAddress.getAllByName(String))")
 	public void getAllByName(JoinPoint thisJoinPoint)
 	{

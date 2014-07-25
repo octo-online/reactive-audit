@@ -5,8 +5,9 @@ import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import static com.octo.reactive.audit.java.sql.DriverManagerTest.getDBConnection;
 
 /**
  * Created by pprados on 19/05/2014.
@@ -17,7 +18,7 @@ public class ConnectionTest
 	public void close() throws SQLException
 	{
 		AuditReactive.off.commit();
-		Connection c = DriverManager.getConnection("jdbc:derby:derbyDB;create=true");
+		Connection c = getDBConnection();
 		AuditReactive.strict.commit();
 		c.close();
 	}
@@ -26,7 +27,7 @@ public class ConnectionTest
 	public void commit() throws SQLException
 	{
 		AuditReactive.off.commit();
-		Connection c = DriverManager.getConnection("jdbc:derby:derbyDB;create=true");
+		Connection c = getDBConnection();
 		AuditReactive.strict.commit();
 		c.commit();
 	}
@@ -35,7 +36,7 @@ public class ConnectionTest
 	public void rollback() throws SQLException
 	{
 		AuditReactive.off.commit();
-		Connection c = DriverManager.getConnection("jdbc:derby:derbyDB;create=true");
+		Connection c = getDBConnection();
 		AuditReactive.strict.commit();
 		c.rollback();
 	}

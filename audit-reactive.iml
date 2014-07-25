@@ -20,6 +20,7 @@
     <orderEntry type="module" module-name="audit-reactive-lib" exported="" />
     <orderEntry type="library" scope="TEST" name="Gradle: scala-library-2.11.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: derby-10.10.2.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: hsqldb-1.8.0.10" level="project" />
   </component>
 </module>
 

@@ -15,7 +15,7 @@ public class DriverTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void connect() throws SQLException
 	{
-		Driver d = DriverManager.getDriver("jdbc:derby:derbyDB;create=true");
+		Driver d = DriverManager.getDriver(DriverManagerTest.DB);
 		d.connect("", null);
 	}
 }

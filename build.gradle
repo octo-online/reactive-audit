@@ -42,7 +42,6 @@ dependencies {
     testRuntime "org.aspectj:aspectjrt:${aspectjVersion}"
     testRuntime "org.scala-lang:scala-library:2.11.1"
     testRuntime "org.apache.derby:derby:10.10.2.0"
-
 }
 
 task wrapper(type: Wrapper) {

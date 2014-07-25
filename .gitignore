@@ -5,3 +5,5 @@ out/
 home/
 sampleweb/
 annotations/
+/derbyDB
+/derby.log

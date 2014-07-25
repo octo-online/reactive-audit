@@ -22,7 +22,6 @@
         <aspect name="com.octo.reactive.audit.WithLatencyAspect"/>
 
         <!-- java.io -->
-        <aspect name="com.octo.reactive.audit.java.io.AppendableAudit"/>
         <aspect name="com.octo.reactive.audit.java.io.BufferedWriterAudit"/>
         <aspect name="com.octo.reactive.audit.java.io.CloseableAudit"/>
         <aspect name="com.octo.reactive.audit.java.io.ConsoleAudit"/>
@@ -43,6 +42,7 @@
         <aspect name="com.octo.reactive.audit.java.io.WriterAudit"/>
 
         <!-- java.lang -->
+        <aspect name="com.octo.reactive.audit.java.lang.AppendableAudit"/>
         <aspect name="com.octo.reactive.audit.java.lang.ObjectAudit"/>
         <aspect name="com.octo.reactive.audit.java.lang.ProcessAudit"/>
         <aspect name="com.octo.reactive.audit.java.lang.ReadableAudit"/>

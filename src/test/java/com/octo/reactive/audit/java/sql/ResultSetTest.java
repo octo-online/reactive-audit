@@ -5,7 +5,6 @@ import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -17,7 +16,7 @@ public class ResultSetTest
 	private ResultSet getResultSet() throws SQLException
 	{
 		TestTools.push();
-		Connection c = DriverManager.getConnection("jdbc:derby:derbyDB;create=true");
+		Connection c = DriverManagerTest.getDBConnection();
 		ResultSet rs = c.prepareStatement("select * FROM sys.systables where 2=1").executeQuery();
 		TestTools.pop();
 		return rs;

@@ -13,7 +13,7 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
 @Aspect
 public class SQLOutputAudit extends AbstractNetworkAudit
 {
-	@Before("call(void java.sql.SQLInput.write*(..))")
+	@Before("call(* java.sql.SQLOutput.write*(..))")
 	public void readSQL(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);

@@ -5,7 +5,6 @@ import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
@@ -17,7 +16,7 @@ public class PreparedStatementTest
 	public void execute() throws InterruptedException, ClassNotFoundException, SQLException
 	{
 		AuditReactive.off.commit();
-		Connection c = DriverManager.getConnection("jdbc:derby:derbyDB;create=true");
+		Connection c = DriverManagerTest.getDBConnection();
 		AuditReactive.strict.commit();
 		c.prepareStatement("select * FROM sys.systables where 2=1").execute();
 	}

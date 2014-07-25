@@ -13,7 +13,7 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
 @Aspect
 public class RegistryAudit extends AbstractNetworkAudit
 {
-	@Before("call(java.rmi.Remote java.lang.rmi.registry.Registry.lookup(String))")
+	@Before("call(java.rmi.Remote java.rmi.registry.Registry.lookup(String))")
 	public void lookup(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);

@@ -12,7 +12,7 @@ import java.io.Reader;
 import static com.octo.reactive.audit.FileTools.FILE_ERROR;
 import static com.octo.reactive.audit.FileTools.NET_ERROR;
 
-public class AbstractReaderAudit extends AbstractInputStreamAudit
+public abstract class AbstractReaderAudit extends AbstractInputStreamAudit
 {
 
 	public static AuditReactiveException latencyReader(AuditReactive config, Latency latency, JoinPoint thisJoinPoint, Reader reader)

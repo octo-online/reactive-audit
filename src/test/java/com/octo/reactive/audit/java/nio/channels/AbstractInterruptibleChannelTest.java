@@ -10,7 +10,7 @@ import java.nio.channels.spi.AbstractInterruptibleChannel;
 /**
  * Created by pprados on 18/06/2014.
  */
-public class AbstractInterruptibleChannelTest
+abstract class AbstractInterruptibleChannelTest
 {
 	@Test(expected = AuditReactiveException.class)
 	public void begin() throws IOException

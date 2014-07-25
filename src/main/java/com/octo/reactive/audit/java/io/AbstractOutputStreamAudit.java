@@ -12,7 +12,7 @@ import java.io.OutputStream;
 
 import static com.octo.reactive.audit.FileTools.*;
 
-public class AbstractOutputStreamAudit extends AbstractFileAudit
+public abstract class AbstractOutputStreamAudit extends AbstractFileAudit
 {
 	public static AuditReactiveException latencyOutputStream(AuditReactive config, Latency latency, JoinPoint thisJoinPoint, OutputStream out)
 	{

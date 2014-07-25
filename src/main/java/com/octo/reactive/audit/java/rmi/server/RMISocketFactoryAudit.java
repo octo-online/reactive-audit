@@ -13,13 +13,13 @@ import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 @Aspect
 public class RMISocketFactoryAudit extends AbstractNetworkAudit
 {
-	@Before("call(java.net.Socket java.lang.rmi.server.RMISocketFactory.createServerSocket(int))")
+	@Before("call(java.net.Socket java.rmi.server.RMISocketFactory.createServerSocket(int))")
 	public void createServerSocket(JoinPoint thisJoinPoint)
 	{
 		latency(MEDIUM, thisJoinPoint);
 	}
 
-	@Before("call(java.net.Socket java.lang.rmi.server.RMISocketFactory.createSocket(String,int))")
+	@Before("call(java.net.Socket java.rmi.server.RMISocketFactory.createSocket(String,int))")
 	public void createSocket(JoinPoint thisJoinPoint)
 	{
 		latency(MEDIUM, thisJoinPoint);

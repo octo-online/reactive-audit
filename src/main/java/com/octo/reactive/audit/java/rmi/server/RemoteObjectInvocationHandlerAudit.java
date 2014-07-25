@@ -13,7 +13,7 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
 @Aspect
 public class RemoteObjectInvocationHandlerAudit extends AbstractNetworkAudit
 {
-	@Before("call(java.net.Socket java.lang.rmi.server.RemoteObjectInvocationHandler.invoke(String,int))")
+	@Before("call(Object java.rmi.server.RemoteObjectInvocationHandler.invoke(..))")
 	public void invoke(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);

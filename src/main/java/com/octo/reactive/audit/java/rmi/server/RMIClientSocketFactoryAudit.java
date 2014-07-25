@@ -13,7 +13,7 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
 @Aspect
 public class RMIClientSocketFactoryAudit extends AbstractNetworkAudit
 {
-	@Before("call(java.net.Socket java.lang.rmi.server.RMIClientSocketFactory.createSocket(String,int))")
+	@Before("call(java.net.Socket java.rmi.server.RMIClientSocketFactory.createSocket(String,int))")
 	public void createSocket(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);

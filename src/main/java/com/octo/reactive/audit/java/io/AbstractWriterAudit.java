@@ -12,7 +12,7 @@ import java.io.Writer;
 
 import static com.octo.reactive.audit.FileTools.*;
 
-public class AbstractWriterAudit extends AbstractFileAudit
+public abstract class AbstractWriterAudit extends AbstractFileAudit
 {
 	public static AuditReactiveException latencyWriter(AuditReactive config, Latency latency, JoinPoint thisJoinPoint, Writer writer)
 			throws AuditReactiveException

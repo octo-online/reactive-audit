@@ -18,7 +18,6 @@ import static com.octo.reactive.audit.lib.Latency.LOW;
 @Aspect
 public class AppendableAudit extends AbstractAudit
 {
-	// TODO: TU
 	@Before("call(* java.lang.Appendable.append(..)) && target(java.io.Writer)")
 	public void append(JoinPoint thisJoinPoint)
 	{

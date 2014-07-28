@@ -2,11 +2,10 @@ package com.octo.reactive.audit.java.io;
 
 import org.junit.Test;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public class StringReaderTest extends ReaderTest
 {
 	@Override
@@ -14,6 +13,7 @@ public class StringReaderTest extends ReaderTest
 	{
 		return new StringReader("hello");
 	}
+
 	@Test
 	public void derived() throws IOException
 	{
@@ -23,7 +23,8 @@ public class StringReaderTest extends ReaderTest
 			{
 				super("abc");
 			}
-		};
+		}
+		;
 		new Derived();
 	}
 }

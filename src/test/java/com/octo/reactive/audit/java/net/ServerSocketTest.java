@@ -7,9 +7,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public class ServerSocketTest
 {
 	private static final int PORT = 12345;

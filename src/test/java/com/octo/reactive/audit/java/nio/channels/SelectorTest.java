@@ -7,9 +7,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.channels.Selector;
 
-/**
- * Created by pprados on 18/06/2014.
- */
 public class SelectorTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)

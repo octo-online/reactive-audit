@@ -2,11 +2,10 @@ package com.octo.reactive.audit.java.io;
 
 import org.junit.Test;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public class ByteArrayOutputStreamTest extends OutputStreamTest
 {
 	@Override
@@ -24,7 +23,8 @@ public class ByteArrayOutputStreamTest extends OutputStreamTest
 			{
 				super(10);
 			}
-		};
+		}
+		;
 		new Derived();
 	}
 }

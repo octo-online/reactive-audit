@@ -2,16 +2,16 @@ package com.octo.reactive.audit.java.io;
 
 import org.junit.Test;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.LineNumberInputStream;
 
 import static com.octo.reactive.audit.TestTools.pop;
 import static com.octo.reactive.audit.TestTools.push;
 
-/**
- * Created by pprados on 06/05/14.
- */
 @Deprecated
-@SuppressWarnings( "deprecation" )
+@SuppressWarnings("deprecation")
 public class LineNumberInputStreamTest extends FileInputStreamTest
 {
 	@Override
@@ -29,6 +29,7 @@ public class LineNumberInputStreamTest extends FileInputStreamTest
 	{
 		super.New();
 	}
+
 	@Test
 	public void derived() throws IOException
 	{
@@ -38,7 +39,8 @@ public class LineNumberInputStreamTest extends FileInputStreamTest
 			{
 				super(new ByteArrayInputStream(new byte[10]));
 			}
-		};
+		}
+		;
 		new Derived();
 	}
 }

@@ -13,9 +13,6 @@ import java.nio.file.Paths;
 import static com.octo.reactive.audit.TestTools.pop;
 import static com.octo.reactive.audit.TestTools.push;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class FilesTest
 {
 	private Path getPath() throws IOException

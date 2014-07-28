@@ -9,9 +9,6 @@ import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.ForkJoinPool.commonPool;
 
-/**
- * Created by pprados on 18/06/2014.
- */
 public class AsynchronousChannelGroupTest
 {
 

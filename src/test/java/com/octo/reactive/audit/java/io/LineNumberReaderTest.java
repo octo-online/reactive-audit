@@ -2,14 +2,14 @@ package com.octo.reactive.audit.java.io;
 
 import org.junit.Test;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.Reader;
+import java.io.StringReader;
 
 import static com.octo.reactive.audit.TestTools.pop;
 import static com.octo.reactive.audit.TestTools.push;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public class LineNumberReaderTest extends FileReaderTest
 {
 	@Override
@@ -20,6 +20,7 @@ public class LineNumberReaderTest extends FileReaderTest
 		pop();
 		return new LineNumberReader(in);
 	}
+
 	@Test
 	public void derived() throws IOException
 	{
@@ -29,7 +30,8 @@ public class LineNumberReaderTest extends FileReaderTest
 			{
 				super(new StringReader("abc"));
 			}
-		};
+		}
+		;
 		new Derived();
 	}
 }

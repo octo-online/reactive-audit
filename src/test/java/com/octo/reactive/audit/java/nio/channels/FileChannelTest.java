@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.function.Supplier;
 
-/**
- * Created by pprados on 18/06/2014.
- */
 public class FileChannelTest
 {
 	Supplier<FileChannel> readChannel  = IOTestTools::getInputFileChannel;

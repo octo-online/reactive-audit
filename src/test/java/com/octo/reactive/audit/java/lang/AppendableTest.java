@@ -8,9 +8,6 @@ import org.junit.Test;
 import java.io.FileWriter;
 import java.io.IOException;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class AppendableTest
 {
 	@Test(expected = AuditReactiveException.class)

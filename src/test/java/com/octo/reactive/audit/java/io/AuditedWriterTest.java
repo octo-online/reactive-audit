@@ -6,9 +6,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.Writer;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public abstract class AuditedWriterTest extends WriterTest
 {
 	@Override

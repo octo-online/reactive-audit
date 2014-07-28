@@ -11,9 +11,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
-/**
- * Created by pprados on 16/05/2014.
- */
 public class LoadParams
 {
 	public static final String DEFAULT_FILE_LATENCY     = "MEDIUM";

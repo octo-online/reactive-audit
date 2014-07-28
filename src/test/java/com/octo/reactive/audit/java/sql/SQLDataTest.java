@@ -9,9 +9,6 @@ import java.sql.SQLException;
 import java.sql.SQLInput;
 import java.sql.SQLOutput;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class SQLDataTest
 {
 	SQLData data = new SQLData()

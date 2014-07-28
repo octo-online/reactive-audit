@@ -2,14 +2,14 @@ package com.octo.reactive.audit.java.io;
 
 import org.junit.Test;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 
 import static com.octo.reactive.audit.TestTools.pop;
 import static com.octo.reactive.audit.TestTools.push;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public class PrintStreamTest extends FilterOutputStreamTest
 {
 	@Override
@@ -30,7 +30,8 @@ public class PrintStreamTest extends FilterOutputStreamTest
 			{
 				super(new ByteArrayOutputStream(10));
 			}
-		};
+		}
+		;
 		new Derived();
 	}
 }

@@ -13,9 +13,6 @@ import java.net.URLConnection;
 import static com.octo.reactive.audit.IOTestTools.HOST;
 import static com.octo.reactive.audit.IOTestTools.PORT;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public abstract class URLConnectionTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)

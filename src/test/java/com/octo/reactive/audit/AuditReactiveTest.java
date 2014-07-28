@@ -16,9 +16,6 @@ import static com.octo.reactive.audit.lib.Latency.*;
 import static org.junit.Assert.*;
 
 
-/**
- * Created by pprados on 07/05/2014.
- */
 public class AuditReactiveTest
 {
 	// Because the Aspectj must use the config singleton,

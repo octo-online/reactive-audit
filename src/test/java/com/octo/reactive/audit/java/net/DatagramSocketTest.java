@@ -9,9 +9,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public class DatagramSocketTest
 {
 

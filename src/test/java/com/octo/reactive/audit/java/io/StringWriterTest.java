@@ -2,11 +2,10 @@ package com.octo.reactive.audit.java.io;
 
 import org.junit.Test;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public class StringWriterTest extends WriterTest
 {
 	@Override
@@ -14,6 +13,7 @@ public class StringWriterTest extends WriterTest
 	{
 		return new StringWriter(10);
 	}
+
 	@Test
 	public void derived() throws IOException
 	{
@@ -23,7 +23,8 @@ public class StringWriterTest extends WriterTest
 			{
 				super(10);
 			}
-		};
+		}
+		;
 		new Derived();
 	}
 }

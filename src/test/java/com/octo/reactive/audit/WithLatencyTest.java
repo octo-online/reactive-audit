@@ -7,9 +7,6 @@ import org.junit.Test;
 import static com.octo.reactive.audit.lib.Latency.LOW;
 import static org.junit.Assert.fail;
 
-/**
- * Created by pprados on 09/05/2014.
- */
 public class WithLatencyTest
 {
 	@Test(expected = AuditReactiveException.class)

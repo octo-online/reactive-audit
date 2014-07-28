@@ -11,9 +11,6 @@ import java.net.URL;
 import static com.octo.reactive.audit.IOTestTools.HOST;
 import static com.octo.reactive.audit.IOTestTools.PORT;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public class HttpURLConnectionTest extends URLConnectionTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)

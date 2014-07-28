@@ -8,9 +8,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.rmi.server.RMIClientSocketFactory;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class RMIClientSocketFactoryTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)

@@ -4,9 +4,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 class HistoryStackElement
 {
 	static final String myPackage = HistoryStackElement.class.getPackage().getName();

@@ -15,9 +15,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Supplier;
 
-/**
- * Created by pprados on 18/06/2014.
- */
 @RunWith(Parameterized.class)
 public class ReadableByteChannelTest
 {

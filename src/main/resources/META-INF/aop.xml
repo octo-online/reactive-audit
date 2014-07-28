@@ -2,14 +2,12 @@
 
     <!--<weaver options="-verbose ">-->
     <!-- -verbose -showWeaveInfo  -->
-    <!--<weaver options="-Xset:weaveJavaxPackages=true -verbose -Xlint:ignore">-->
+    <!--<weaver options="-Xset:weaveJavaxPackages=true -verbose -Xlint:ignore"/>-->
     <weaver options="
         -Xset:weaveJavaxPackages=true
         -Xset:org.aspectj.tracing.enabled=false
         -warn:none
-        -Xlint:ignore">
-        <!--<include within="**"/>-->
-    </weaver>
+        -Xlint:ignore"/>
 
     <aspects>
         <!--<aspect name="com.octo.reactive.audit.DebugAspect"/>-->
@@ -37,7 +35,6 @@
         <aspect name="com.octo.reactive.audit.java.io.OutputStreamAudit"/>
         <aspect name="com.octo.reactive.audit.java.io.PrintWriterAudit"/>
         <aspect name="com.octo.reactive.audit.java.io.RandomAccessFileAudit"/>
-        <aspect name="com.octo.reactive.audit.java.io.ReadableAudit"/>
         <aspect name="com.octo.reactive.audit.java.io.ReaderAudit"/>
         <aspect name="com.octo.reactive.audit.java.io.WriterAudit"/>
 
@@ -97,7 +94,33 @@
         <aspect name="com.octo.reactive.audit.java.sql.StatementAudit"/>
 
         <!-- java.util -->
+        <aspect name="com.octo.reactive.audit.java.util.RandomAudit"/>
         <aspect name="com.octo.reactive.audit.java.util.PropertiesAudit"/>
+
+        <!-- java.util.concurrent -->
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.BlockingDequeAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.BlockingQueueAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.CompletableFutureAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.CompletionServiceAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.CountDownLatchAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.CyclicBarrierAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.ExchangerAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.ExecutorServiceAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.ForkJoinPoolAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.ForkJoinTaskAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.FutureAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.ForkJoinPoolManagedBlockerAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.PhaserAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.SemaphoreAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.TransferQueueAudit"/>
+
+        <!-- java.util.concurrent.locks -->
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.locks.AbstractQueuedLongSynchronizerAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.locks.AbstractQueuedSynchronizerAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.locks.ConditionAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.locks.LockAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.locks.ReadWriteLockAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.locks.StampedLockAudit"/>
 
         <!-- java.util.zip -->
         <aspect name="com.octo.reactive.audit.java.util.zip.ZipFileAudit"/>

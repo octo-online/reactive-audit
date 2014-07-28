@@ -10,9 +10,6 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.*;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class SQLOutputTest
 {
 	SQLOutput output = new SQLOutput()

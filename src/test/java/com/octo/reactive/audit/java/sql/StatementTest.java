@@ -6,9 +6,6 @@ import org.junit.Test;
 
 import java.sql.*;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class StatementTest
 {
 	Statement statement = new Statement()

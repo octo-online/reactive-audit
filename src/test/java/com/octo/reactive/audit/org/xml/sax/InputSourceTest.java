@@ -10,9 +10,6 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class InputSourceTest
 {
 	@Test(expected = FileAuditReactiveException.class)

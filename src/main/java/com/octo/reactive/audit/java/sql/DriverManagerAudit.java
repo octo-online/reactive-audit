@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Before;
 
 import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
-// Nb methods : 3
+// Nb methods: 3
 @Aspect
 public class DriverManagerAudit extends AbstractNetworkAudit
 {

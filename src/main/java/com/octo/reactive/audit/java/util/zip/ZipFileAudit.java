@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Before;
 
 import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
-// Nb methods : 6
+// Nb methods: 6
 @Aspect
 public class ZipFileAudit extends AbstractFileAudit
 {

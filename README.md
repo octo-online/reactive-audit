@@ -110,3 +110,7 @@ or
 
 You can set all the parameters described in `<audit home>/etc/default.properties`.
 
+# Compile
+use
+    gradlew build
+

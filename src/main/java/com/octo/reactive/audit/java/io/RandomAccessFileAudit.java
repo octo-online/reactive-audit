@@ -9,7 +9,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 import static com.octo.reactive.audit.lib.Latency.LOW;
 
-// Nb methods : 35
+// Nb methods: 35
 @Aspect
 public class RandomAccessFileAudit extends AbstractFileAudit
 {

@@ -1,11 +1,12 @@
 package com.octo.reactive.audit.java.io;
 
-import java.io.*;
-import static com.octo.reactive.audit.TestTools.*;
+import java.io.FilterWriter;
+import java.io.IOException;
+import java.io.Writer;
 
-/**
- * Created by pprados on 06/05/14.
- */
+import static com.octo.reactive.audit.TestTools.pop;
+import static com.octo.reactive.audit.TestTools.push;
+
 public class FilterWriterTest extends OutputStreamWriterTest
 {
 	@Override
@@ -20,7 +21,8 @@ public class FilterWriterTest extends OutputStreamWriterTest
 			{
 				super(outWriter);
 			}
-		};
+		}
+		;
 		return new ExFilter();
 	}
 }

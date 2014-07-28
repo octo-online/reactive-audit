@@ -8,9 +8,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class DriverManagerTest
 {
 	public static final String DB = "jdbc:derby:memory:myDB;create=true";

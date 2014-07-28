@@ -4,9 +4,6 @@ import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.lib.AuditReactiveException;
 import org.junit.Test;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class ThreadTest
 {
 	@Test(expected = AuditReactiveException.class)

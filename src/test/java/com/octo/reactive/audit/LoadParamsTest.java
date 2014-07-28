@@ -11,9 +11,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
-/**
- * Created by pprados on 16/05/2014.
- */
 public class LoadParamsTest
 {
 	AuditReactive config = AuditReactive.config;

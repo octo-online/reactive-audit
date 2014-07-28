@@ -8,9 +8,6 @@ import org.junit.Test;
 import java.io.Flushable;
 import java.io.IOException;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public class FlushableTest
 {
 	@Test

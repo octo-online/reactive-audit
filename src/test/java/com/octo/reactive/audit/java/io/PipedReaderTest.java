@@ -2,11 +2,11 @@ package com.octo.reactive.audit.java.io;
 
 import org.junit.Test;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
 
-/**
- * Created by pprados on 06/05/14.
- */
 // FIXME
 public class PipedReaderTest //extends ReaderTest
 {
@@ -22,6 +22,7 @@ public class PipedReaderTest //extends ReaderTest
 //		ConfigAuditReactive.config.pop();
 //		return new BufferedReader(reader);
 	}
+
 	@Test
 	public void derived() throws IOException
 	{
@@ -31,7 +32,8 @@ public class PipedReaderTest //extends ReaderTest
 			{
 				super(new ByteArrayOutputStream(10));
 			}
-		};
+		}
+		;
 		new Derived();
 	}
 }

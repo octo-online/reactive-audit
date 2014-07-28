@@ -1,18 +1,19 @@
 package com.octo.reactive.audit.java.io;
 
-import java.io.*;
-import static com.octo.reactive.audit.TestTools.*;
+import java.io.IOException;
+import java.io.PushbackReader;
+import java.io.Reader;
 
-/**
- * Created by pprados on 06/05/14.
- */
+import static com.octo.reactive.audit.TestTools.pop;
+import static com.octo.reactive.audit.TestTools.push;
+
 public class PushbackReaderTest extends FilterReaderTest
 {
 	@Override
 	protected Reader newReader() throws IOException
 	{
 		push();
-		Reader reader=super.newReader();
+		Reader reader = super.newReader();
 		pop();
 		return new PushbackReader(reader);
 	}

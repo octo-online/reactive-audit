@@ -8,9 +8,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public class FileInputStreamTest extends AuditedInputStreamTest
 {
 	@Override

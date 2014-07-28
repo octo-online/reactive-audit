@@ -7,9 +7,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.channels.spi.AbstractInterruptibleChannel;
 
-/**
- * Created by pprados on 18/06/2014.
- */
 abstract class AbstractInterruptibleChannelTest
 {
 	@Test(expected = AuditReactiveException.class)

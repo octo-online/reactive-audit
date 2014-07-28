@@ -15,9 +15,6 @@ import java.rmi.server.RemoteCall;
 import java.rmi.server.RemoteObject;
 import java.rmi.server.RemoteRef;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class RemoteRefTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)

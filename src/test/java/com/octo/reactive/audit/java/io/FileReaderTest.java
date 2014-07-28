@@ -13,9 +13,6 @@ import java.io.Reader;
 import static com.octo.reactive.audit.TestTools.pop;
 import static com.octo.reactive.audit.TestTools.push;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public class FileReaderTest extends InputStreamReaderTest
 {
 	//@Override

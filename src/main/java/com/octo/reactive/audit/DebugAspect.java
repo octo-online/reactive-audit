@@ -4,9 +4,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
-/**
- * Created by pprados on 07/07/2014.
- */
 @Aspect
 public class DebugAspect
 {

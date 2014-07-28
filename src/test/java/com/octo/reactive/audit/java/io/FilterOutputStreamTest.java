@@ -10,9 +10,6 @@ import java.io.OutputStream;
 import static com.octo.reactive.audit.TestTools.pop;
 import static com.octo.reactive.audit.TestTools.push;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public class FilterOutputStreamTest extends FileOutputStreamTest
 {
 	@Override
@@ -23,6 +20,7 @@ public class FilterOutputStreamTest extends FileOutputStreamTest
 		pop();
 		return new BufferedOutputStream(out);
 	}
+
 	@Override
 	@Test
 	public void New() throws IOException
@@ -40,7 +38,8 @@ public class FilterOutputStreamTest extends FileOutputStreamTest
 			{
 				super(newOutputStream());
 			}
-		};
+		}
+		;
 		new Derived();
 	}
 

@@ -9,7 +9,7 @@ import java.io.Writer;
 
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
-// Nb methods : 23
+// Nb methods: 23
 @Aspect
 public class PrintWriterAudit extends AbstractWriterAudit
 {

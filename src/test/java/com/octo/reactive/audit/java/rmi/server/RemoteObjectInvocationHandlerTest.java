@@ -12,9 +12,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.*;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class RemoteObjectInvocationHandlerTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)

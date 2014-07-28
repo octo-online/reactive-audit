@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Before;
 
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
-// Nb methods : 1
+// Nb methods: 1
 @Aspect
 public class ServerSocketAudit extends AbstractNetworkAudit
 {

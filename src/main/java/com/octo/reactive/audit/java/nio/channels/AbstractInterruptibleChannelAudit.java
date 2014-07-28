@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Before;
 
 import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
-// Nb methods : 1
+// Nb methods: 1
 @Aspect
 public class AbstractInterruptibleChannelAudit extends AbstractChannelsAudit
 {

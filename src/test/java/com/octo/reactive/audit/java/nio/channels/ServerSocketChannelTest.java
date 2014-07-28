@@ -7,9 +7,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.channels.ServerSocketChannel;
 
-/**
- * Created by pprados on 18/06/2014.
- */
 public class ServerSocketChannelTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)

@@ -7,11 +7,8 @@ import org.aspectj.lang.annotation.Before;
 
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
-/**
- * Created by pprados on 09/05/2014.
- */
 @Aspect
-public class WithLatencyAspect extends AbstractDefaultAudit
+public class WithLatencyAspect extends AbstractCPUAudit
 {
 	@Before("execution(@com.octo.reactive.audit.lib.WithLatency * *(..) )")
 	public void beforeSuppress(JoinPoint thisJoinPoint)

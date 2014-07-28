@@ -6,9 +6,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class ProcessTest
 {
 	@Test(expected = AuditReactiveException.class)

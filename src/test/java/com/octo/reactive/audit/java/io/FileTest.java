@@ -8,9 +8,6 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class FileTest
 {
 	@Test(expected = FileAuditReactiveException.class)

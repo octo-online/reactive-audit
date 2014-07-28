@@ -3,9 +3,6 @@ package com.octo.reactive.audit;
 import java.io.*;
 import java.lang.reflect.Field;
 
-/**
- * Created by pprados on 28/05/2014.
- */
 public final class FileTools
 {
 	public static final int NO_ERROR   = 0;

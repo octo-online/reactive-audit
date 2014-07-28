@@ -4,9 +4,6 @@ import com.octo.reactive.audit.lib.AuditReactiveException;
 import com.octo.reactive.audit.lib.Latency;
 import org.aspectj.lang.JoinPoint;
 
-/**
- * Created by pprados on 07/05/2014.
- */
 public abstract class AbstractAudit
 {
 	protected AuditReactive config = AuditReactive.config;

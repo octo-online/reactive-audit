@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Before;
 
 import static com.octo.reactive.audit.lib.Latency.LOW;
 
-// Nb methods : 3
+// Nb methods: 3
 @Aspect
 public class FileReaderAudit extends AbstractReaderAudit
 {

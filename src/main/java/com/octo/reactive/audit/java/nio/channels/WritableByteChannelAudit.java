@@ -8,7 +8,7 @@ import java.nio.channels.SelectableChannel;
 
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
-// Nb methods : 1
+// Nb methods: 1
 @Aspect
 public class WritableByteChannelAudit extends AbstractChannelsAudit
 {

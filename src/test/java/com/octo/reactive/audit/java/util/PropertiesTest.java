@@ -8,9 +8,6 @@ import org.junit.Test;
 import java.io.*;
 import java.util.Properties;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class PropertiesTest
 {
 	@Test(expected = AuditReactiveException.class)

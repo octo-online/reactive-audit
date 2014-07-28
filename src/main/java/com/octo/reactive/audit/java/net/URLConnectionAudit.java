@@ -12,7 +12,7 @@ import java.net.URLConnection;
 
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
-// Nb methods : 20
+// Nb methods: 20
 @Aspect
 public class URLConnectionAudit extends AbstractNetworkAudit
 {

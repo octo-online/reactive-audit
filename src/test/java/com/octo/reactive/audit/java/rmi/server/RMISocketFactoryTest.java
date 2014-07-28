@@ -9,9 +9,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.server.RMISocketFactory;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class RMISocketFactoryTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)

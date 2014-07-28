@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Before;
 
 import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
-// Nb methods : 2
+// Nb methods: 2
 @Aspect
 public class RMISocketFactoryAudit extends AbstractNetworkAudit
 {

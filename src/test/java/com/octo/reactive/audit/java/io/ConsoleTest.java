@@ -5,9 +5,6 @@ import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import com.octo.reactive.audit.lib.Latency;
 import org.junit.Test;
 
-/**
- * Created by pprados on 14/05/2014.
- */
 public class ConsoleTest
 {
 	@Test(expected = AuditReactiveException.class)

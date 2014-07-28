@@ -13,7 +13,7 @@ import java.io.Reader;
 
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
-// Nb methods : 2
+// Nb methods: 2
 @Aspect
 public class InputSourceAudit extends AbstractFileAudit
 {

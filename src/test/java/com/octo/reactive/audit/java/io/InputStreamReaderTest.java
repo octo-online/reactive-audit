@@ -10,9 +10,6 @@ import java.io.*;
 import static com.octo.reactive.audit.TestTools.pop;
 import static com.octo.reactive.audit.TestTools.push;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public class InputStreamReaderTest extends AuditedReaderTest
 {
 	@Override

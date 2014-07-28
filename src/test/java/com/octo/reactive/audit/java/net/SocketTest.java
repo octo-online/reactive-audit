@@ -13,9 +13,6 @@ import java.net.SocketAddress;
 import static com.octo.reactive.audit.IOTestTools.HOST;
 import static java.net.InetAddress.getByName;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public class SocketTest
 {
 

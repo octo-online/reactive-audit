@@ -8,9 +8,6 @@ import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
-/**
- * Created by pprados on 05/06/2014.
- */
 public class AuditLogFormat extends Formatter
 {
 

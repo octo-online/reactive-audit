@@ -12,9 +12,6 @@ import java.nio.channels.SocketChannel;
 import static com.octo.reactive.audit.IOTestTools.HOST;
 import static com.octo.reactive.audit.IOTestTools.PORT;
 
-/**
- * Created by pprados on 18/06/2014.
- */
 public class SocketChannelTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)

@@ -8,9 +8,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.CharBuffer;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class ReadableTest
 {
 	@Test(expected = AuditReactiveException.class)

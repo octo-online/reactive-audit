@@ -8,9 +8,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public class RandomAccessFileTest
 {
 	protected RandomAccessFile newRandomAccessFile() throws IOException

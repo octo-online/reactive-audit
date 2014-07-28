@@ -1,10 +1,8 @@
 package com.octo.reactive.audit.java.io;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.Writer;
 
-/**
- * Created by pprados on 06/05/14.
- */
 // FIXME
 public class PipedWriterTest //extends WriterTest
 {

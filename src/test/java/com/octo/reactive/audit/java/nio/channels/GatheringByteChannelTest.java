@@ -10,9 +10,6 @@ import java.nio.ByteBuffer;
 import java.nio.channels.GatheringByteChannel;
 import java.util.function.Supplier;
 
-/**
- * Created by pprados on 18/06/2014.
- */
 public class GatheringByteChannelTest
 {
 	Supplier<GatheringByteChannel> channel = IOTestTools::getOutputFileChannel;

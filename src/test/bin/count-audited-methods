@@ -1,2 +1,2 @@
 #!/bin/bash
-grep -shr "Nb methods" . | awk '{ s+=$5 }END{print s}'
+grep -shr "Nb methods" . | awk '{ s+=$4 }END{print s}'

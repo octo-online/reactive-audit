@@ -11,9 +11,6 @@ import java.util.concurrent.atomic.LongAdder;
 import java.util.logging.*;
 import java.util.regex.Pattern;
 
-/**
- * Created by pprados on 07/05/14.
- */
 public class AuditReactive
 {
 	/**

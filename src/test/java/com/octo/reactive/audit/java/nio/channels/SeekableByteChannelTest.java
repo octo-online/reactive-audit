@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.nio.channels.SeekableByteChannel;
 import java.util.function.Supplier;
 
-/**
- * Created by pprados on 18/06/2014.
- */
 public class SeekableByteChannelTest
 {
 	Supplier<SeekableByteChannel> channel = IOTestTools::getInputFileChannel;

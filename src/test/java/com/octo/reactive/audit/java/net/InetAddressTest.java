@@ -6,9 +6,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.net.InetAddress;
 
-/**
- * Created by pprados on 06/05/14.
- */
 public class InetAddressTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)

@@ -8,9 +8,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
-/**
- * Created by pprados on 19/05/2014.
- */
 public class RegistryTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)

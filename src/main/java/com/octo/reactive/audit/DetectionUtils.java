@@ -1,8 +1,5 @@
 package com.octo.reactive.audit;
 
-/**
- * Created by pprados on 16/05/2014.
- */
 class DetectionUtils
 {
 

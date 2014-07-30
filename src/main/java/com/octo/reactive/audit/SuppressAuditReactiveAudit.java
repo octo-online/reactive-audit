@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
 @Aspect
-public class SuppressAuditReactiveAspect
+public class SuppressAuditReactiveAudit
 {
 	@Before("execution(@com.octo.reactive.audit.lib.SuppressAuditReactive * *(..) )")
 	public void beforeSuppress(JoinPoint thisJoinPoint) throws AuditReactiveException

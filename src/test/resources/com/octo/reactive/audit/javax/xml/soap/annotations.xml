@@ -1,0 +1,12 @@
+<root>
+    <item name='com.octo.reactive.audit.javax.xml.soap.SOAPConnectionAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.javax.xml.soap.SOAPConnectionFactoryAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+</root>

@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Before;
 @Aspect
 public class DebugAspect
 {
-	protected AuditReactive config = AuditReactive.config;
+	final protected AuditReactive config = AuditReactive.config;
 
 	/*
 		@Before("call(java.nio.channel.SocketChannel.new(..))")

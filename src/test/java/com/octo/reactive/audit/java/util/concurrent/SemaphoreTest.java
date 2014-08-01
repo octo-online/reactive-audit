@@ -9,7 +9,7 @@ import java.util.concurrent.Semaphore;
 
 public class SemaphoreTest
 {
-	Semaphore p = new Semaphore(1);
+	private final Semaphore p = new Semaphore(1);
 
 	@Test(expected = CPUAuditReactiveException.class)
 	public void acquire() throws InterruptedException, ExecutionException

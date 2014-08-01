@@ -11,7 +11,7 @@ import java.util.concurrent.TimeoutException;
 
 public class FutureTest
 {
-	Future<Object> f = new Future<Object>()
+	private final Future<Object> f = new Future<Object>()
 	{
 
 		@Override

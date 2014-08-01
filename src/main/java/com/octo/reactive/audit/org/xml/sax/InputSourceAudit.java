@@ -21,13 +21,13 @@ public class InputSourceAudit extends AbstractFileAudit
 	public void read(JoinPoint thisJoinPoint, InputStream in)
 	{
 		AuditReactiveException ex = AbstractInputStreamAudit.latencyInputStream(config, HIGH, thisJoinPoint, in);
-		if (ex != null) super.latency(HIGH, thisJoinPoint, ex);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
 	}
 
 	@Before("call(org.xml.sax.InputSource.new(java.io.Reader)) && args(in)")
 	public void read(JoinPoint thisJoinPoint, Reader in)
 	{
 		AuditReactiveException ex = AbstractReaderAudit.latencyReader(config, HIGH, thisJoinPoint, in);
-		if (ex != null) super.latency(HIGH, thisJoinPoint, ex);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
 	}
 }

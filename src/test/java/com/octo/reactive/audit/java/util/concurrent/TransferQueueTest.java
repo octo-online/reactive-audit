@@ -11,7 +11,7 @@ import java.util.concurrent.TransferQueue;
 
 public class TransferQueueTest
 {
-	TransferQueue<Object> t = new TransferQueue<Object>()
+	private final TransferQueue<Object> t = new TransferQueue<Object>()
 	{
 
 		@Override

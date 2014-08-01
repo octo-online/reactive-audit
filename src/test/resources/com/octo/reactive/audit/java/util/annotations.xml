@@ -4,6 +4,11 @@
             <val val="&quot;WeakerAccess&quot;"/>
         </annotation>
     </item>
+    <item name='com.octo.reactive.audit.java.util.PropertiesTest'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;MismatchedQueryAndUpdateOfCollection&quot;"/>
+        </annotation>
+    </item>
     <item name='com.octo.reactive.audit.java.util.RandomAudit'>
         <annotation name='java.lang.SuppressWarnings'>
             <val val="&quot;WeakerAccess&quot;"/>

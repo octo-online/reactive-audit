@@ -8,7 +8,7 @@ import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
 
 public class AbstractQueuedLongSynchronizerTest
 {
-	AbstractQueuedLongSynchronizer c = new AbstractQueuedLongSynchronizer()
+	private final AbstractQueuedLongSynchronizer c = new AbstractQueuedLongSynchronizer()
 	{
 
 	};

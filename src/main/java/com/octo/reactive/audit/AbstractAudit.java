@@ -6,9 +6,9 @@ import org.aspectj.lang.JoinPoint;
 
 public abstract class AbstractAudit
 {
-	protected AuditReactive config = AuditReactive.config;
+	protected final AuditReactive config = AuditReactive.config;
 
-	protected static boolean isReactiveThread()
+	private static boolean isReactiveThread()
 	{
 		return AuditReactive.config.isThreadNameMatch(Thread.currentThread().getName());
 	}
@@ -24,12 +24,12 @@ public abstract class AbstractAudit
 	                       JoinPoint thisJoinPoint
 	) throws AuditReactiveException
 	{
-		latency(latency, thisJoinPoint, newException(latency, thisJoinPoint));
+		logLatency(latency, thisJoinPoint, newException(latency, thisJoinPoint));
 	}
 
-	protected void latency(Latency latency,
-	                       JoinPoint thisJoinPoint,
-	                       AuditReactiveException e) // TODO: Use lazy approach
+	protected void logLatency(Latency latency,
+	                          JoinPoint thisJoinPoint,
+	                          AuditReactiveException e) // TODO: Use lazy approach
 			throws AuditReactiveException
 	{
 		if (checkForAll())

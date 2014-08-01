@@ -8,7 +8,7 @@ import java.util.concurrent.locks.StampedLock;
 
 public class StampedLockTest
 {
-	StampedLock c = new StampedLock();
+	private final StampedLock c = new StampedLock();
 
 	@Test(expected = CPUAuditReactiveException.class)
 	public void readLock() throws InterruptedException

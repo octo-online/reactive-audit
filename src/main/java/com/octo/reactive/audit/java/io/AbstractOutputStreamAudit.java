@@ -32,9 +32,9 @@ public abstract class AbstractOutputStreamAudit extends AbstractFileAudit
 		return ex;
 	}
 
-	protected void latency(Latency latency, JoinPoint thisJoinPoint, OutputStream out)
+	/*package*/ void latency(Latency latency, JoinPoint thisJoinPoint, OutputStream out)
 	{
 		AuditReactiveException ex = latencyOutputStream(config, latency, thisJoinPoint, out);
-		if (ex != null) super.latency(latency, thisJoinPoint, ex);
+		if (ex != null) super.logLatency(latency, thisJoinPoint, ex);
 	}
 }

@@ -24,7 +24,6 @@ public class ByteArrayOutputStreamTest extends OutputStreamTest
 				super(10);
 			}
 		}
-		;
 		new Derived();
 	}
 }

@@ -5,7 +5,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
-import static com.octo.reactive.audit.lib.Latency.MEDIUM;
+import static com.octo.reactive.audit.lib.Latency.LOW;
 
 // Nb methods: 4
 @Aspect
@@ -14,12 +14,12 @@ public class StampedLockAudit extends AbstractCPUAudit
 	@Before("call(* java.util.concurrent.locks.StampedLock.readLock*(..))")
 	public void readLock(JoinPoint thisJoinPoint)
 	{
-		latency(MEDIUM, thisJoinPoint);
+		latency(LOW, thisJoinPoint);
 	}
 
 	@Before("call(* java.util.concurrent.locks.StampedLock.writeLock*(..))")
 	public void writeLock(JoinPoint thisJoinPoint)
 	{
-		latency(MEDIUM, thisJoinPoint);
+		latency(LOW, thisJoinPoint);
 	}
 }

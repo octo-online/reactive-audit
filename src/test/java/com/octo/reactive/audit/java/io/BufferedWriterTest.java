@@ -36,7 +36,6 @@ public class BufferedWriterTest extends FileWriterTest
 				super(new StringWriter(10));
 			}
 		}
-		;
 		new Derived();
 	}
 }

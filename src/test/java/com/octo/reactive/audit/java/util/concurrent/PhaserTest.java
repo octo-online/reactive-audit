@@ -9,7 +9,7 @@ import java.util.concurrent.Phaser;
 
 public class PhaserTest
 {
-	Phaser p = new Phaser();
+	private final Phaser p = new Phaser();
 
 	@Test(expected = CPUAuditReactiveException.class)
 	public void arriveAndAwaitAdvance() throws InterruptedException, ExecutionException

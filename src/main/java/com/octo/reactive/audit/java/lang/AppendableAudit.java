@@ -18,6 +18,7 @@ import static com.octo.reactive.audit.lib.Latency.LOW;
 @Aspect
 public class AppendableAudit extends AbstractAudit
 {
+	@SuppressWarnings("ChainOfInstanceofChecks")
 	@Before("call(* java.lang.Appendable.append(..)) && target(java.io.Writer)")
 	public void append(JoinPoint thisJoinPoint)
 	{
@@ -78,7 +79,7 @@ public class AppendableAudit extends AbstractAudit
 		{
 			ex = FactoryException.newFile(latency, thisJoinPoint);
 		}
-		if (ex != null) latency(LOW, thisJoinPoint, ex);
+		if (ex != null) logLatency(LOW, thisJoinPoint, ex);
 	}
 
 	@Override

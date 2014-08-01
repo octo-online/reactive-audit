@@ -11,7 +11,6 @@ import static com.octo.reactive.audit.TestTools.pop;
 import static com.octo.reactive.audit.TestTools.push;
 
 @Deprecated
-@SuppressWarnings("deprecation")
 public class LineNumberInputStreamTest extends FileInputStreamTest
 {
 	@Override
@@ -35,12 +34,11 @@ public class LineNumberInputStreamTest extends FileInputStreamTest
 	{
 		class Derived extends LineNumberInputStream
 		{
-			Derived() throws IOException
+			Derived()
 			{
 				super(new ByteArrayInputStream(new byte[10]));
 			}
 		}
-		;
 		new Derived();
 	}
 }

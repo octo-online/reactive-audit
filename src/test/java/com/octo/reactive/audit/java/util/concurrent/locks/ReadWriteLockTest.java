@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 
 public class ReadWriteLockTest
 {
-	ReadWriteLock c = new ReadWriteLock()
+	private final ReadWriteLock c = new ReadWriteLock()
 	{
 
 		@Override

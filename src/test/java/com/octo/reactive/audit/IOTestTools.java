@@ -1,9 +1,6 @@
 package com.octo.reactive.audit;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
 import java.nio.channels.*;
@@ -14,13 +11,17 @@ import static com.octo.reactive.audit.TestTools.pop;
 import static com.octo.reactive.audit.TestTools.push;
 import static org.junit.Assert.fail;
 
-public class IOTestTools
+public final class IOTestTools
 {
-	public static final String HOST     = "www.google.com";
-	public static final int    PORT     = 80;
+	public static final  String HOST     = "www.google.com";
+	public static final  int    PORT     = 80;
 	//public static final String HOST="192.168.0.50";  // FIXME
 	//public static final int PORT=5000;
-	public static final int    UDP_PORT = 5000;
+	private static final int    UDP_PORT = 5000;
+
+	private IOTestTools()
+	{
+	}
 
 	public static File getTempFile()
 	{
@@ -66,12 +67,50 @@ public class IOTestTools
 		}
 	}
 
+	public static FileReader getTempFileReader()
+	{
+		try
+		{
+			push();
+			return new FileReader(getTempFile());
+		}
+		catch (IOException e)
+		{
+			fail(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+		finally
+		{
+			pop();
+		}
+	}
+
 	public static FileOutputStream getTempFileOutputStream()
 	{
 		try
 		{
 			push();
 			return new FileOutputStream(getTempFile());
+		}
+		catch (IOException e)
+		{
+			fail(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+		finally
+		{
+			pop();
+		}
+	}
+
+	public static FileWriter getTempFileWriter()
+	{
+		try
+		{
+			push();
+			return new FileWriter(getTempFile());
 		}
 		catch (IOException e)
 		{

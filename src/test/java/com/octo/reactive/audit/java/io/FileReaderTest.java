@@ -15,14 +15,13 @@ import static com.octo.reactive.audit.TestTools.push;
 
 public class FileReaderTest extends InputStreamReaderTest
 {
-	//@Override
+	@Override
 	protected Reader newReader() throws IOException
 	{
 		push();
 		File fileIn = IOTestTools.getTempFile();
 		pop();
-		Reader in = new FileReader(fileIn);
-		return in;
+		return new FileReader(fileIn);
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
@@ -56,7 +55,6 @@ public class FileReaderTest extends InputStreamReaderTest
 				super(IOTestTools.getTempFile().getName());
 			}
 		}
-		;
 		new Derived();
 	}
 }

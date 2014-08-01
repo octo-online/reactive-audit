@@ -34,7 +34,6 @@ else
     FRAMEWORKS_HOME=$(cygwinpath $FRAMEWORKS_HOME)
 fi
 
-
 # Parse args
 while [ "$1" != "" ]; do
     PARAM=$1

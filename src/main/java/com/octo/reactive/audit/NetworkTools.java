@@ -5,7 +5,7 @@ import java.net.URLConnection;
 
 public final class NetworkTools
 {
-	static final Field fieldConnected;
+	private static final Field fieldConnected;
 
 	private NetworkTools()
 	{

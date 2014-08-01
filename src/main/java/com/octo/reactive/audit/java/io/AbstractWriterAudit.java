@@ -36,6 +36,6 @@ public abstract class AbstractWriterAudit extends AbstractFileAudit
 	protected void latency(Latency latency, JoinPoint thisJoinPoint, Writer writer) throws AuditReactiveException
 	{
 		AuditReactiveException ex = latencyWriter(config, latency, thisJoinPoint, writer);
-		if (ex != null) super.latency(latency, thisJoinPoint, ex);
+		if (ex != null) super.logLatency(latency, thisJoinPoint, ex);
 	}
 }

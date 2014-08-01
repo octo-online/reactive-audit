@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 @RunWith(Parameterized.class)
 public class ReadableByteChannelTest
 {
-	Supplier<ReadableByteChannel> channel;
+	private final Supplier<ReadableByteChannel> channel;
 
 	public ReadableByteChannelTest(Supplier<ReadableByteChannel> channel)
 	{

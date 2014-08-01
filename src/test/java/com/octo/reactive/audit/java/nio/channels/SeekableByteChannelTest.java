@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 public class SeekableByteChannelTest
 {
-	Supplier<SeekableByteChannel> channel = IOTestTools::getInputFileChannel;
+	private final Supplier<SeekableByteChannel> channel = IOTestTools::getInputFileChannel;
 
 	@Test(expected = AuditReactiveException.class)
 	public void position() throws IOException

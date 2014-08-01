@@ -25,12 +25,11 @@ public class OutputStreamWriterTest extends AuditedWriterTest
 	{
 		class Derived extends OutputStreamWriter
 		{
-			Derived() throws IOException
+			Derived()
 			{
 				super(new ByteArrayOutputStream(10));
 			}
 		}
-		;
 		new Derived();
 	}
 }

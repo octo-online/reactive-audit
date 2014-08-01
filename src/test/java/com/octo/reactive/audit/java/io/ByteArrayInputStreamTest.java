@@ -24,7 +24,6 @@ public class ByteArrayInputStreamTest extends InputStreamTest
 				super(new byte[10]);
 			}
 		}
-		;
 		new Derived();
 	}
 }

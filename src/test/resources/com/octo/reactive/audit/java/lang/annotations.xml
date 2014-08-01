@@ -1,7 +1,0 @@
-<root>
-    <item name='com.octo.reactive.audit.java.lang.ObjectAudit'>
-        <annotation name='java.lang.SuppressWarnings'>
-            <val val="&quot;WeakerAccess&quot;"/>
-        </annotation>
-    </item>
-</root>

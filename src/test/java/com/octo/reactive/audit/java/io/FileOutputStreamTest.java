@@ -33,7 +33,6 @@ public class FileOutputStreamTest extends AuditOutputStreamTest
 				super(IOTestTools.getTempFile());
 			}
 		}
-		;
 		new Derived();
 	}
 }

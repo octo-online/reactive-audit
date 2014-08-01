@@ -9,7 +9,7 @@ import java.util.concurrent.*;
 
 public class ExecutorServiceTest
 {
-	ExecutorService e = Executors.newFixedThreadPool(1);
+	final private ExecutorService e = Executors.newFixedThreadPool(1);
 
 	@Test(expected = CPUAuditReactiveException.class)
 	public void awaitTermination() throws InterruptedException

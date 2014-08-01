@@ -15,9 +15,7 @@ import java.net.URL;
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 import static com.octo.reactive.audit.lib.Latency.LOW;
 
-/**
- * Created by pprados on 19/05/2014.
- */
+// Nb methods: 2
 @Aspect
 public class DocumentBuilderAudit extends AbstractFileAudit
 {
@@ -27,14 +25,14 @@ public class DocumentBuilderAudit extends AbstractFileAudit
 		latency(LOW, thisJoinPoint);
 	}
 
-	@Before("call(* javax.xml.bind.JAXB.parse(String)) && args(uri)")
+	@Before("call(* javax.xml.parsers.DocumentBuilder.parse(String)) && args(uri)")
 	public void parse(JoinPoint thisJoinPoint, String uri)
 	{
 		try
 		{
 			URL url = new URI(uri).toURL();
 			AuditReactiveException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-			if (ex != null) super.latency(HIGH, thisJoinPoint, ex);
+			if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
 		}
 		catch (URISyntaxException e)
 		{

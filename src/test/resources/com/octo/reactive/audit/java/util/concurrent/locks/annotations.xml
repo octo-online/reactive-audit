@@ -4,4 +4,29 @@
             <val val="&quot;EmptyClass&quot;"/>
         </annotation>
     </item>
+    <item name='com.octo.reactive.audit.java.util.concurrent.locks.AbstractQueuedSynchronizerTest'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="{&quot;EmptyClass&quot;, &quot;WeakerAccess&quot;}"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.util.concurrent.locks.ConditionAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.util.concurrent.locks.LockAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.util.concurrent.locks.ReadWriteLockAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.util.concurrent.locks.StampedLockAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
 </root>

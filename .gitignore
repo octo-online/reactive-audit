@@ -1,6 +1,7 @@
 .idea/
 .gradle/
 build/
+target/
 out/
 home/
 sampleweb/

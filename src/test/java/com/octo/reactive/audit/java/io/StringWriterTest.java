@@ -19,12 +19,11 @@ public class StringWriterTest extends WriterTest
 	{
 		class Derived extends StringWriter
 		{
-			Derived() throws IOException
+			Derived()
 			{
 				super(10);
 			}
 		}
-		;
 		new Derived();
 	}
 }

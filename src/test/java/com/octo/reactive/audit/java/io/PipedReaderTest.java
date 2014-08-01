@@ -11,7 +11,7 @@ import java.io.Reader;
 public class PipedReaderTest //extends ReaderTest
 {
 	//@Override
-	protected Reader newReader() throws IOException
+	protected Reader newReader()
 	{
 		// TODO Pipe
 		return null;
@@ -28,12 +28,11 @@ public class PipedReaderTest //extends ReaderTest
 	{
 		class Derived extends OutputStreamWriter
 		{
-			Derived() throws IOException
+			Derived()
 			{
 				super(new ByteArrayOutputStream(10));
 			}
 		}
-		;
 		new Derived();
 	}
 }

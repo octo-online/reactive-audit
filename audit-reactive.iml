@@ -4,6 +4,9 @@
     <output url="file://$MODULE_DIR$/build/classes/main" />
     <output-test url="file://$MODULE_DIR$/build/classes/test" />
     <exclude-output />
+    <annotation-paths>
+      <root url="file://$MODULE_DIR$/src/test/annotations" />
+    </annotation-paths>
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />

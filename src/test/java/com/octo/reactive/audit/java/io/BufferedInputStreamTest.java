@@ -38,7 +38,6 @@ public class BufferedInputStreamTest extends FileInputStreamTest
 				super(new ByteArrayInputStream(new byte[10]));
 			}
 		}
-		;
 		new Derived();
 	}
 }

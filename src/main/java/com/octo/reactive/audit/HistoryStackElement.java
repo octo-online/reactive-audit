@@ -6,14 +6,9 @@ import java.util.Set;
 
 class HistoryStackElement
 {
-	static final String myPackage = HistoryStackElement.class.getPackage().getName();
-	private AuditReactive config;
-	private Set<HashStackTraceElement> logged = Collections.synchronizedSet(new HashSet<>());
+	static final  String                     myPackage = HistoryStackElement.class.getPackage().getName();
+	private final Set<HashStackTraceElement> logged    = Collections.synchronizedSet(new HashSet<>());
 
-	HistoryStackElement(AuditReactive config)
-	{
-		this.config = config;
-	}
 
 	void purge()
 	{
@@ -34,8 +29,8 @@ class HistoryStackElement
 
 	static class HashStackTraceElement
 	{
-		int                 hash;
-		StackTraceElement[] stack;
+		final int                 hash;
+		final StackTraceElement[] stack;
 
 		public HashStackTraceElement(StackTraceElement[] aStack)
 		{

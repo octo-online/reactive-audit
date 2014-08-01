@@ -7,3 +7,9 @@ S'il y a un buffered dans la chaine, descent à low latency ? Je ne pense pas.
 
 Lazy pour exception
 Ajouter les conteneurs bloquant (synchonized)
+
+FIXME : http://aspectj.2085585.n4.nabble.com/org-aspectj-weaver-bcel-BcelWorld-Unable-to-find-class-td2084509.html
+FIXME : agréger un seul jar : http://forums.gradle.org/gradle/topics/how_to_depend_on_a_subprojects_sourceset
+
+Faire un "Ignore" dans les loggers ?
+

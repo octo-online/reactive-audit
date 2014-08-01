@@ -2,29 +2,49 @@ package com.octo.reactive.audit.javax.tools;
 
 import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.TestTools;
-import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
+import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import org.junit.Test;
 
-import javax.sql.ConnectionPoolDataSource;
-import java.io.*;
+import javax.tools.FileObject;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class FileObjectTest
 {
-	ConnectionPoolDataSource x = (ConnectionPoolDataSource) TestTools.createProxy(ConnectionPoolDataSource.class);
+	private final FileObject x = (FileObject) TestTools.createProxy(FileObject.class);
 
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void getPooledConnection() throws InterruptedException, IOException, SQLException
+	@Test(expected = FileAuditReactiveException.class)
+	public void delete()
 	{
 		AuditReactive.strict.commit();
-		x.getPooledConnection();
+		x.delete();
 	}
 
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void getPooledConnection_up() throws InterruptedException, IOException, SQLException
+	@Test(expected = FileAuditReactiveException.class)
+	public void openInputStream() throws IOException
 	{
 		AuditReactive.strict.commit();
-		x.getPooledConnection(null,null);
+		x.openInputStream();
 	}
 
+	@Test(expected = FileAuditReactiveException.class)
+	public void openOutputStream() throws InterruptedException, IOException, SQLException
+	{
+		AuditReactive.strict.commit();
+		x.openOutputStream();
+	}
+
+	@Test(expected = FileAuditReactiveException.class)
+	public void openReader() throws InterruptedException, IOException, SQLException
+	{
+		AuditReactive.strict.commit();
+		x.openReader(true);
+	}
+
+	@Test(expected = FileAuditReactiveException.class)
+	public void openWriter() throws InterruptedException, IOException, SQLException
+	{
+		AuditReactive.strict.commit();
+		x.openWriter();
+	}
 }

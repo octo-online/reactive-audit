@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter;
 public class PipedInputStreamTest //extends InputStreamTest
 {
 	//@Override
-	protected InputStream newInputStream() throws IOException
+	protected InputStream newInputStream()
 	{
 		return null; // TODO : Pipe
 	}
@@ -21,12 +21,11 @@ public class PipedInputStreamTest //extends InputStreamTest
 	{
 		class Derived extends OutputStreamWriter
 		{
-			Derived() throws IOException
+			Derived()
 			{
 				super(new ByteArrayOutputStream(10));
 			}
 		}
-		;
 		new Derived();
 	}
 }

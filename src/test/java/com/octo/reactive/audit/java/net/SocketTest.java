@@ -16,7 +16,7 @@ import static java.net.InetAddress.getByName;
 public class SocketTest
 {
 
-	public static final int PORT = 80;
+	private static final int PORT = 80;
 
 	@Test
 	public void new_1() throws IOException
@@ -156,11 +156,12 @@ public class SocketTest
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void sendUrgentData() throws IOException
 	{
+		final int DATA = 255;
 		AuditReactive.off.commit();
 		try (Socket socket = new Socket("www.google.com", PORT))
 		{
 			AuditReactive.strict.commit();
-			socket.sendUrgentData(255);
+			socket.sendUrgentData(DATA);
 		}
 	}
 }

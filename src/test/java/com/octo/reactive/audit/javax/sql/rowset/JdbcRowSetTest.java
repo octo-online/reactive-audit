@@ -5,43 +5,23 @@ import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
-import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.JdbcRowSet;
 import java.io.IOException;
 import java.sql.SQLException;
 
 public class JdbcRowSetTest
 {
-	CachedRowSet x = (CachedRowSet) TestTools.createProxy(CachedRowSet.class);
+	private final JdbcRowSet x = (JdbcRowSet) TestTools.createProxy(JdbcRowSet.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void acceptChanges() throws InterruptedException, IOException, SQLException
-	{
-		AuditReactive.strict.commit();
-		x.acceptChanges();
-	}
-
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void acceptChanges_Connection() throws InterruptedException, IOException, SQLException
-	{
-		AuditReactive.strict.commit();
-		x.acceptChanges(null);
-	}
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void commit() throws InterruptedException, IOException, SQLException
+	public void commit() throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.commit();
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void execute() throws InterruptedException, IOException, SQLException
-	{
-		AuditReactive.strict.commit();
-		x.execute(null);
-	}
-
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void rollback() throws InterruptedException, IOException, SQLException
+	public void rollback() throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.rollback();

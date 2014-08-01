@@ -5,7 +5,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
-import static com.octo.reactive.audit.lib.Latency.MEDIUM;
+import static com.octo.reactive.audit.lib.Latency.LOW;
 
 // Nb methods: 2
 @Aspect
@@ -14,6 +14,6 @@ public class LockAudit extends AbstractCPUAudit
 	@Before("call(* java.util.concurrent.locks.Lock.lock*(..))")
 	public void lock(JoinPoint thisJoinPoint)
 	{
-		latency(MEDIUM, thisJoinPoint);
+		latency(LOW, thisJoinPoint);
 	}
 }

@@ -33,7 +33,6 @@ public class FileInputStreamTest extends AuditedInputStreamTest
 				super(IOTestTools.getTempFile());
 			}
 		}
-		;
 		new Derived();
 	}
 

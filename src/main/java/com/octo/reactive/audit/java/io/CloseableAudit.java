@@ -78,7 +78,7 @@ public class CloseableAudit extends AbstractAudit
 		{
 			ex = FactoryException.newFile(latency, thisJoinPoint);
 		}
-		if (ex != null) latency(LOW, thisJoinPoint, ex);
+		if (ex != null) logLatency(LOW, thisJoinPoint, ex);
 	}
 
 	@Override

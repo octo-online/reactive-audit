@@ -1,17 +1,15 @@
 package com.octo.reactive.audit.javax.tools;
 
-import com.octo.reactive.audit.FileAudit;
+import com.octo.reactive.audit.AbstractFileAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
 import static com.octo.reactive.audit.lib.Latency.LOW;
 
-/**
- * Created by pprados on 19/05/2014.
- */
+// Nb methods: 4
 @Aspect
-public class FileObjectAudit extends FileAudit
+public class FileObjectAudit extends AbstractFileAudit
 {
 	@Before("call(* javax.tools.FileObject.delete())")
 	public void delete(JoinPoint thisJoinPoint)

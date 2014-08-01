@@ -33,7 +33,6 @@ public class FileWriterTest extends OutputStreamWriterTest
 				super(IOTestTools.getTempFile());
 			}
 		}
-		;
 		new Derived();
 	}
 }

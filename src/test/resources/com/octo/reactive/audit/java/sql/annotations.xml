@@ -4,4 +4,44 @@
             <val val="&quot;WeakerAccess&quot;"/>
         </annotation>
     </item>
+    <item name='com.octo.reactive.audit.java.sql.DriverAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.sql.DriverManagerAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.sql.PreparedStatementAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.sql.ResultSetAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.sql.SQLDataAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.sql.SQLInputAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.sql.SQLOutputAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.sql.StatementAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
 </root>

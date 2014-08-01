@@ -5,19 +5,18 @@ import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
-import javax.sql.PooledConnection;
-import java.io.IOException;
+import javax.sql.RowSet;
 import java.sql.SQLException;
 
 public class RowSetTest
 {
-	PooledConnection x = (PooledConnection) TestTools.createProxy(PooledConnection.class);
+	private final RowSet x = (RowSet) TestTools.createProxy(RowSet.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getConnection() throws InterruptedException, IOException, SQLException
+	public void execute() throws SQLException
 	{
 		AuditReactive.strict.commit();
-		x.getConnection();
+		x.execute();
 	}
 
 }

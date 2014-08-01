@@ -4,4 +4,14 @@
             <val val="&quot;WeakerAccess&quot;"/>
         </annotation>
     </item>
+    <item name='com.octo.reactive.audit.javax.sql.rowset.JdbcRowSetAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.javax.sql.rowset.WebRowSetAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
 </root>

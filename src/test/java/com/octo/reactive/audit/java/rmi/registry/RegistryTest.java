@@ -10,11 +10,13 @@ import java.rmi.registry.LocateRegistry;
 
 public class RegistryTest
 {
+	private static final int RMIPORT = 1099;
+
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void lookup() throws NotBoundException, RemoteException
 	{
 		AuditReactive.strict.commit();
-		LocateRegistry.createRegistry(1099);
+		LocateRegistry.createRegistry(RMIPORT);
 		LocateRegistry.getRegistry().lookup("abc");
 	}
 

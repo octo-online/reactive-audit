@@ -2,46 +2,78 @@ package com.octo.reactive.audit.javax.xml.parsers;
 
 import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.IOTestTools;
-import com.octo.reactive.audit.TestTools;
-import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
+import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import org.junit.Test;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
-import javax.transaction.xa.XAException;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.DocumentBuilder;
 import java.io.IOException;
 
 public class DocumentBuilderTest
 {
-	Unmarshaller x = (Unmarshaller) TestTools.createProxy(Unmarshaller.class);
+	final private DocumentBuilder x = new DocumentBuilder()
+	{
 
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void unmarshal_File() throws InterruptedException, IOException, XAException, JAXBException
+		@Override
+		public Document parse(InputSource inputSource) throws SAXException, IOException
+		{
+			return null;
+		}
+
+		@Override
+		public boolean isNamespaceAware()
+		{
+			return false;
+		}
+
+		@Override
+		public boolean isValidating()
+		{
+			return false;
+		}
+
+		@Override
+		public void setEntityResolver(EntityResolver entityResolver)
+		{
+
+		}
+
+		@Override
+		public void setErrorHandler(ErrorHandler errorHandler)
+		{
+
+		}
+
+		@Override
+		public Document newDocument()
+		{
+			return null;
+		}
+
+		@Override
+		public DOMImplementation getDOMImplementation()
+		{
+			return null;
+		}
+	};
+
+	@Test(expected = FileAuditReactiveException.class)
+	public void parse_File() throws IOException, SAXException
 	{
 		AuditReactive.strict.commit();
-		x.unmarshal(IOTestTools.getTempFile());
+		x.parse(IOTestTools.getTempFile());
 	}
 
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void unmarshal_InputStream() throws InterruptedException, IOException, XAException, JAXBException
+	@Test(expected = FileAuditReactiveException.class)
+	public void parse_String() throws IOException, SAXException
 	{
 		AuditReactive.strict.commit();
-		x.unmarshal(IOTestTools.getTempFileInputStream());
+		x.parse(IOTestTools.getTempFile().toURI().toString());
 	}
-
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void unmarshal_Reader() throws InterruptedException, IOException, XAException, JAXBException
-	{
-		AuditReactive.strict.commit();
-		x.unmarshal(IOTestTools.getTempFileReader());
-	}
-
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void unmarshal_URL() throws InterruptedException, IOException, XAException, JAXBException
-	{
-		AuditReactive.strict.commit();
-		x.unmarshal(IOTestTools.getTempFile().toURI().toURL());
-	}
-
 
 }

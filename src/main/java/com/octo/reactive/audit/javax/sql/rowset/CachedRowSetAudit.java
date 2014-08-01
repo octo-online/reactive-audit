@@ -7,31 +7,29 @@ import org.aspectj.lang.annotation.Before;
 
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 
-/**
- * Created by pprados on 19/05/2014.
- */
+// Nb methods: 6
 @Aspect
 public class CachedRowSetAudit extends AbstractNetworkAudit
 {
-	@Before("call(* javax.sql.rowset.ChachedRowSet.acceptChanges(..))")
+	@Before("call(* javax.sql.rowset.CachedRowSet.acceptChanges(..))")
 	public void acceptChanges(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);
 	}
 
-	@Before("call(* javax.sql.rowset.ChachedRowSet.commit(..))")
+	@Before("call(* javax.sql.rowset.CachedRowSet.commit(..))")
 	public void commit(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);
 	}
 
-	@Before("call(* javax.sql.rowset.ChachedRowSet.execute(..))")
+	@Before("call(* javax.sql.rowset.CachedRowSet.execute(..))")
 	public void execute(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);
 	}
 
-	@Before("call(* javax.sql.rowset.ChachedRowSet.rollback(..))")
+	@Before("call(* javax.sql.rowset.CachedRowSet.rollback(..))")
 	public void rollback(JoinPoint thisJoinPoint)
 	{
 		latency(HIGH, thisJoinPoint);

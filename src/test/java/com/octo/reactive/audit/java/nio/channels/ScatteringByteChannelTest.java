@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 @RunWith(Parameterized.class)
 public class ScatteringByteChannelTest
 {
-	Supplier<ScatteringByteChannel> channel;
+	private final Supplier<ScatteringByteChannel> channel;
 
 	public ScatteringByteChannelTest(Supplier<ScatteringByteChannel> channel)
 	{

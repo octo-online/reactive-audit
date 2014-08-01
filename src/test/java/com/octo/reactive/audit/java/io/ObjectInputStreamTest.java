@@ -45,7 +45,6 @@ public class ObjectInputStreamTest extends AuditedInputStreamTest
 				super(new ByteArrayInputStream(buf.toByteArray()));
 			}
 		}
-		;
 		new Derived();
 	}
 

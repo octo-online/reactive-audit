@@ -22,7 +22,6 @@ public class FilterWriterTest extends OutputStreamWriterTest
 				super(outWriter);
 			}
 		}
-		;
 		return new ExFilter();
 	}
 }

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CompletionServiceTest
 {
-	Executor e = new Executor()
+	private final Executor e = new Executor()
 	{
 
 		@Override

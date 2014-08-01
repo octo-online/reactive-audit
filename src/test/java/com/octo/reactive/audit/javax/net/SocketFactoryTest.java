@@ -1,44 +1,56 @@
 package com.octo.reactive.audit.javax.net;
 
 import com.octo.reactive.audit.AuditReactive;
-import com.octo.reactive.audit.IOTestTools;
-import com.octo.reactive.audit.lib.FileAuditReactiveException;
+import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
-import javax.imageio.ImageIO;
+import javax.net.SocketFactory;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
 
 public class SocketFactoryTest
 {
-	@Test(expected = FileAuditReactiveException.class)
-	public void read_File() throws InterruptedException, IOException
+	private final SocketFactory sf = new SocketFactory()
+	{
+
+		@Override
+		public Socket createSocket(String s, int i)
+		{
+			return null;
+		}
+
+		@Override
+		public Socket createSocket(String s, int i, InetAddress inetAddress, int i2)
+		{
+			return null;
+		}
+
+		@Override
+		public Socket createSocket(InetAddress inetAddress, int i) throws IOException
+		{
+			return null;
+		}
+
+		@Override
+		public Socket createSocket(InetAddress inetAddress, int i, InetAddress inetAddress2, int i2)
+				throws IOException
+		{
+			return null;
+		}
+	};
+
+	@Test(expected = NetworkAuditReactiveException.class)
+	public void createSocket() throws IOException
 	{
 		AuditReactive.strict.commit();
-		ImageIO.read(IOTestTools.getTempFile());
-	}
-	@Test(expected = FileAuditReactiveException.class)
-	public void read_InputStream() throws InterruptedException, IOException
-	{
-		AuditReactive.strict.commit();
-		ImageIO.read(IOTestTools.getTempFileInputStream());
-	}
-	@Test(expected = FileAuditReactiveException.class)
-	public void read_URL() throws InterruptedException, IOException
-	{
-		AuditReactive.strict.commit();
-		ImageIO.read(IOTestTools.getTempFile().toURI().toURL());
+		sf.createSocket();
 	}
 
-	@Test(expected = FileAuditReactiveException.class)
-	public void write_File() throws InterruptedException, IOException
+	@Test(expected = NetworkAuditReactiveException.class)
+	public void createSocket_InetAddressI() throws IOException
 	{
 		AuditReactive.strict.commit();
-		ImageIO.write(null,"",IOTestTools.getTempFile());
-	}
-	@Test(expected = FileAuditReactiveException.class)
-	public void write_OutputStream() throws InterruptedException, IOException
-	{
-		AuditReactive.strict.commit();
-		ImageIO.write(null, "", IOTestTools.getTempFileOutputStream());
+		sf.createSocket(InetAddress.getLocalHost(), 1);
 	}
 }

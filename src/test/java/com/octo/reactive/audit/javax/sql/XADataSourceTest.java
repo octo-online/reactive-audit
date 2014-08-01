@@ -5,19 +5,25 @@ import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
-import javax.sql.RowSetWriter;
-import java.io.IOException;
+import javax.sql.XADataSource;
 import java.sql.SQLException;
 
 public class XADataSourceTest
 {
-	RowSetWriter x = (RowSetWriter) TestTools.createProxy(RowSetWriter.class);
+	private final XADataSource x = (XADataSource) TestTools.createProxy(XADataSource.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void readData() throws InterruptedException, IOException, SQLException
+	public void getXAConnection() throws SQLException
 	{
 		AuditReactive.strict.commit();
-		x.writeData(null);
+		x.getXAConnection();
+	}
+
+	@Test(expected = NetworkAuditReactiveException.class)
+	public void getXAConnection_up() throws SQLException
+	{
+		AuditReactive.strict.commit();
+		x.getXAConnection(null, null);
 	}
 
 }

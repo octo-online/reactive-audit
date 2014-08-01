@@ -1,7 +1,7 @@
-rem @echo off
+@echo off
 setlocal
 set VERSION=0.0.2-SNAPSHOT
-if "%HOME%"=="" set "HOME=%~dp0"
+set "HOME=%~dp0"
 
 REM Reset
 if exist %HOME%\home\etc (

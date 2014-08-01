@@ -26,12 +26,11 @@ public class BufferedReaderTest extends FileReaderTest
 	{
 		class Derived extends BufferedReader
 		{
-			Derived() throws IOException
+			Derived()
 			{
 				super(new StringReader("abc"));
 			}
 		}
-		;
 		new Derived();
 	}
 }

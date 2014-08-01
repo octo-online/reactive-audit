@@ -26,12 +26,11 @@ public class PrintStreamTest extends FilterOutputStreamTest
 	{
 		class Derived extends PrintStream
 		{
-			Derived() throws IOException
+			Derived()
 			{
 				super(new ByteArrayOutputStream(10));
 			}
 		}
-		;
 		new Derived();
 	}
 }

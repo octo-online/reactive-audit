@@ -7,14 +7,6 @@ import java.io.IOException;
 
 public abstract class AuditedInputStreamTest extends InputStreamTest
 {
-// FIXME
-//	@Override
-//	@Test(expected=AuditReactiveException.class)
-//	public void New() throws IOException
-//	{
-//		super.New();
-//	}
-
 	@Override
 	@Test(expected = FileAuditReactiveException.class)
 	public void available() throws IOException

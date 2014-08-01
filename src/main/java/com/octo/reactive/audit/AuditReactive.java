@@ -16,11 +16,11 @@ public class AuditReactive
 	/**
 	 * The singleton with the current parameters.
 	 */
-	public static final AuditReactive config           = new AuditReactive();
+	public static final AuditReactive        config            = new AuditReactive();
 	/**
 	 * A transaction with 'strict' parameters.
 	 */
-	public static final Transaction   strict           =
+	public static final Transaction          strict            =
 			config.begin()
 					.throwExceptions(true)
 					.log(Level.OFF)
@@ -30,7 +30,7 @@ public class AuditReactive
 	/**
 	 * A transaction with 'log only' parameters.
 	 */
-	public static final Transaction   logOnly          =
+	public static final Transaction          logOnly           =
 			config.begin()
 					.throwExceptions(false)
 					.log(Level.WARNING)
@@ -40,7 +40,7 @@ public class AuditReactive
 	/**
 	 * A transaction with 'off' audit.
 	 */
-	public static final Transaction   off              =
+	public static final Transaction          off               =
 			config.begin()
 					.throwExceptions(false)
 					.log(Level.SEVERE)
@@ -48,27 +48,16 @@ public class AuditReactive
 					.bootStrapDelay(0)
 					.seal();
 	// Help to rename the package
-	public static final String        auditPackageName = AuditReactive.class.getPackage().getName();
-	public final        Logger        logger           =
+	public static final String               auditPackageName  = AuditReactive.class.getPackage().getName();
+	public final        Logger               logger            =
 			Logger.getLogger(AuditReactive.class.getPackage().getName());
 	// FIXME : Fake logger to test Jboss
 //	public final        FakeLogger          logger           = new FakeLogger();
-	/*package*/ volatile boolean started = false;
-	private Pattern       threadPattern   = Pattern.compile(LoadParams.DEFAULT_THREAD_PATTERN);
-	private boolean       throwExceptions = false;
-	private long          bootstrapStart  = 0L;
-	private long          bootstrapDelay  = 0L;
-	private boolean       afterBootstrap  = false;
-	private Latency       latencyFile     = Latency.LOW;
-	private Latency       latencyNetwork  = Latency.LOW;
-	private Latency       latencyCPU      = Latency.LOW;
-	private boolean       debug           = false;
-	private LongAdder     statLow         = new LongAdder();
-	private LongAdder     statMedium      = new LongAdder();
-	private LongAdder     statHigh        = new LongAdder();
-	private AtomicInteger statMaxThread   = new AtomicInteger(0);
-	private Handler logHandler;
-	private ThreadLocal<Integer> suppressAudit     = new ThreadLocal()
+	private final       LongAdder            statLow           = new LongAdder();
+	private final       LongAdder            statMedium        = new LongAdder();
+	private final       LongAdder            statHigh          = new LongAdder();
+	private final       AtomicInteger        statMaxThread     = new AtomicInteger(0);
+	private final       ThreadLocal<Integer> suppressAudit     = new ThreadLocal<Integer>()
 	{
 		@Override
 		protected Integer initialValue()
@@ -76,9 +65,20 @@ public class AuditReactive
 			return 0;
 		}
 	};
-	private Stack<Transaction>   stack             = new Stack<Transaction>();
-	private HistoryStackElement  history           = new HistoryStackElement(this);
-	private Set<String>          historyThreadName = Collections.synchronizedSet(new TreeSet<String>());
+	private final       Stack<Transaction>   stack             = new Stack<Transaction>();
+	private final       HistoryStackElement  history           = new HistoryStackElement();
+	private final       Set<String>          historyThreadName = Collections.synchronizedSet(new TreeSet<String>());
+	/*package*/ volatile boolean started = false;
+	private Pattern threadPattern   = Pattern.compile(LoadParams.DEFAULT_THREAD_PATTERN);
+	private boolean throwExceptions = false;
+	private long    bootstrapStart  = 0L;
+	private long    bootstrapDelay  = 0L;
+	private boolean afterBootstrap  = false;
+	private Latency latencyFile     = Latency.MEDIUM;
+	private Latency latencyNetwork  = Latency.LOW;
+	private Latency latencyCPU      = Latency.MEDIUM;
+	private boolean debug           = false;
+	private Handler logHandler;
 
 	public static String getPropertiesURL()
 	{
@@ -95,7 +95,6 @@ public class AuditReactive
 			started = true;
 			bootstrapStart = System.currentTimeMillis();
 			logOnly.commit();
-			Properties properties = new Properties();
 			String url = getPropertiesURL();
 			Logger log = Logger.getLogger(auditPackageName);
 			log.info("Use audit-reactive (@see https://github.com/pprados/audit-reactive)");
@@ -156,7 +155,7 @@ public class AuditReactive
 	/**
 	 * Increment the thread local variable to suppress audit for the current frame.
 	 */
-	void incSuppress()
+	public void incSuppress()
 	{
 		suppressAudit.set(suppressAudit.get() + 1);
 	}
@@ -164,7 +163,7 @@ public class AuditReactive
 	/**
 	 * Decrement the thread local variable to suppress audit for the current frame.
 	 */
-	void decSuppress()
+	public void decSuppress()
 	{
 		suppressAudit.set(suppressAudit.get() - 1);
 	}
@@ -326,6 +325,7 @@ public class AuditReactive
 		return new Transaction();
 	}
 
+	@SuppressWarnings({"ChainOfInstanceofChecks", "InstanceofInterfaces"})
 	public void logIfNew(Latency latencyLevel, AuditReactiveException e)
 	{
 		Latency baseLatency = null;
@@ -358,7 +358,7 @@ public class AuditReactive
 					break;
 			}
 
-			logger.log(level, latencyLevel.name() + " latency", e);
+			logger.log(level, latencyLevel.name().toLowerCase() + " latency", e);
 		}
 	}
 
@@ -465,7 +465,7 @@ public class AuditReactive
 	 */
 	public class Transaction
 	{
-		private List<Runnable> commands = new ArrayList<>();
+		private final List<Runnable> commands = new ArrayList<>();
 		private boolean sealed;
 
 		private void add(Runnable cmd) throws IllegalArgumentException

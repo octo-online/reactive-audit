@@ -1,23 +1,23 @@
 package com.octo.reactive.audit.javax.sql.rowset.spi;
 
 import com.octo.reactive.audit.AuditReactive;
+import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.TestTools;
-import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
+import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import org.junit.Test;
 
-import javax.sql.rowset.spi.XmlReader;
-import java.io.IOException;
+import javax.sql.rowset.spi.XmlWriter;
 import java.sql.SQLException;
 
 public class XmlWriterTest
 {
-	XmlReader x = (XmlReader)TestTools.createProxy(XmlReader.class);
+	private final XmlWriter x = (XmlWriter) TestTools.createProxy(XmlWriter.class);
 
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void readXML() throws InterruptedException, IOException, SQLException
+	@Test(expected = FileAuditReactiveException.class)
+	public void writeXML() throws SQLException
 	{
 		AuditReactive.strict.commit();
-		x.readXML(null,null);
+		x.writeXML(null, IOTestTools.getTempFileWriter());
 	}
 
 }

@@ -27,12 +27,11 @@ public class SequenceInputStreamTest extends ByteArrayInputStreamTest
 	{
 		class Derived extends SequenceInputStream
 		{
-			Derived() throws IOException
+			Derived()
 			{
 				super(new ByteArrayInputStream(new byte[10]), new ByteArrayInputStream(new byte[10]));
 			}
 		}
-		;
 		new Derived();
 	}
 }

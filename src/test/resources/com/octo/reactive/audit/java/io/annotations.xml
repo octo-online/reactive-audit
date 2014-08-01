@@ -1,5 +1,148 @@
 <root>
+    <item name='com.octo.reactive.audit.java.io.AbstractReaderAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
     <item name='com.octo.reactive.audit.java.io.AbstractWriterAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.AuditOutputStreamTest'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;EmptyMethod&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.AuditedInputStreamTest'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;EmptyMethod&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.AuditedReaderTest'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;EmptyMethod&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.AuditedWriterTest'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;EmptyMethod&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.BufferedWriterAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.CloseableAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;ChainOfInstanceofChecks&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.ConsoleAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.FileAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.FileDescriptorAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.FileInputStreamAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.FileInputStreamTest'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;EmptyMethod&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.FileOutputStreamAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.FileOutputStreamTest'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;EmptyMethod&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.FileReaderAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.FileTest'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;ResultOfMethodCallIgnored&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.FileWriterAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.FileWriterTest'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;EmptyMethod&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.FlushableAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.InputStreamAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.InputStreamReaderAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.InputStreamTest'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;ResultOfMethodCallIgnored&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.LineNumberInputStreamTest$1Derived'>
+        <annotation name='java.lang.annotation.Deprecated'/>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.ObjectInputStreamTest'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;EmptyMethod&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.OutputStreamAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.PrintWriterAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.RandomAccessFileAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.ReaderAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.java.io.WriterAudit'>
         <annotation name='java.lang.SuppressWarnings'>
             <val val="&quot;WeakerAccess&quot;"/>
         </annotation>

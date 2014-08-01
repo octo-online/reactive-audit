@@ -3,38 +3,12 @@ package com.octo.reactive.audit;
 import java.io.*;
 import java.lang.reflect.Field;
 
+@SuppressWarnings({"FinalClass", "UtilityClass"})
 public final class FileTools
 {
 	public static final int NO_ERROR   = 0;
 	public static final int NET_ERROR  = -1;
 	public static final int FILE_ERROR = 1;
-
-	static final Field fieldInFilterInputStream;
-	static final Field fieldBinObjectInputStream;
-	static final Field fieldInObjectInputStream;
-	static final Field fieldPeekObjectInputStream;
-	static final Field fieldLockReader;
-	static final Field fieldInFilterReader;
-	static final Field fieldInBufferedReader;
-
-	static
-	{
-		try
-		{
-			fieldLockReader = Reader.class.getDeclaredField("lock");
-			fieldLockReader.setAccessible(true);
-			fieldInFilterReader = FilterReader.class.getDeclaredField("in");
-			fieldInFilterReader.setAccessible(true);
-			fieldInBufferedReader = BufferedReader.class.getDeclaredField("in");
-			fieldInBufferedReader.setAccessible(true);
-
-		}
-		catch (NoSuchFieldException e)
-		{
-			throw new Error(e);
-		}
-	}
-
 	static final Field fieldOutFilterOutputStream;
 	static final Field fieldBoutObjectOutputStream;
 	static final Field fieldOutObjectOutputStream;
@@ -56,10 +30,38 @@ public final class FileTools
 		}
 	}
 
-	static final Field fieldLockWriter;
-	static final Field fieldOutFilterWriter;
-	static final Field fieldOutBufferedWriter;
-	static final Field fieldOutPrintWriter;
+	private static final Field fieldInFilterInputStream;
+	private static final Field fieldBinObjectInputStream;
+	private static final Field fieldInObjectInputStream;
+	private static final Field fieldPeekObjectInputStream;
+	private static final Field fieldPathOutputStream;
+	private static final Field fieldPathInputStream;
+	private static final Field fieldLockReader;
+	private static final Field fieldInFilterReader;
+	private static final Field fieldInBufferedReader;
+
+	static
+	{
+		try
+		{
+			fieldLockReader = Reader.class.getDeclaredField("lock");
+			fieldLockReader.setAccessible(true);
+			fieldInFilterReader = FilterReader.class.getDeclaredField("in");
+			fieldInFilterReader.setAccessible(true);
+			fieldInBufferedReader = BufferedReader.class.getDeclaredField("in");
+			fieldInBufferedReader.setAccessible(true);
+
+		}
+		catch (NoSuchFieldException e)
+		{
+			throw new Error(e);
+		}
+	}
+
+	private static final Field fieldLockWriter;
+	private static final Field fieldOutFilterWriter;
+	private static final Field fieldOutBufferedWriter;
+	private static final Field fieldOutPrintWriter;
 
 	static
 	{
@@ -98,6 +100,10 @@ public final class FileTools
 			fieldInObjectInputStream.setAccessible(true);
 			fieldPeekObjectInputStream = fieldInObjectInputStream.getType().getDeclaredField("in");
 			fieldPeekObjectInputStream.setAccessible(true);
+			fieldPathOutputStream = FileOutputStream.class.getDeclaredField("path");
+			fieldPathOutputStream.setAccessible(true);
+			fieldPathInputStream = FileInputStream.class.getDeclaredField("path");
+			fieldPathInputStream.setAccessible(true);
 		}
 		catch (NoSuchFieldException e)
 		{
@@ -207,6 +213,7 @@ public final class FileTools
 		return NO_ERROR;
 	}
 
+	@SuppressWarnings("ChainOfInstanceofChecks")
 	public static int isLastOutputStreamFromWriterWithLatency(Writer writer)
 	{
 		try
@@ -274,16 +281,62 @@ public final class FileTools
 							fieldBoutObjectOutputStream.get(objIn)
 					);
 				}
-				buf.append(" -> " + out.getClass().getName());
+				buf.append(" -> ").append(out.getClass().getName());
 			}
 			catch (IllegalAccessException e)
 			{
 				throw new Error(e);
 			}
 		}
+		if (out instanceof FileOutputStream)
+		{
+			String path = null;
+			try
+			{
+				path = (String) fieldPathOutputStream.get(out);
+				if (path != null)
+					buf.append(" -> ").append(path);
+				else
+				{
+					buf.append("-> NO NAME"); // FIXME : COnsole ?
+					// Essai de détection de console, mais StackOverflow
+					// Il faut faire de même pour le inputStream
+					// et voir s'il faut le faire hors des dumps
+					// A faire en ajoutant debug dans play.properties
+//					try
+//					{
+//						AuditReactive.config.incSuppress();
+//						Field f=FileOutputStream.class.getDeclaredField("fd");
+//						f.setAccessible(true);
+//						FileDescriptor fd=(FileDescriptor)f.get(out);
+//						Field ff=FileDescriptor.class.getDeclaredField("fd");
+//						ff.setAccessible(true);
+//						int i =(Integer)ff.get(fd);
+//						System.err.println("FD="+i);
+//					}
+//					catch (NoSuchFieldException e)
+//					{
+//						e.printStackTrace();
+//					}
+//					finally
+//					{
+//						AuditReactive.config.decSuppress();
+//					}
+				}
+			}
+			catch (IllegalAccessException e)
+			{
+				// Ignore
+			}
+		}
+		else
+		{
+			buf.append(" -> ").append(out.getClass().getSimpleName());
+		}
 		return buf;
 	}
 
+	@SuppressWarnings("ChainOfInstanceofChecks")
 	public static CharSequence dumpChain(Writer writer)
 	{
 		StringBuilder buf = new StringBuilder();
@@ -307,7 +360,7 @@ public final class FileTools
 				{
 					writer = (Writer) fieldOutBufferedWriter.get(writer);
 				}
-				buf.append(" -> " + writer.getClass().getName());
+				buf.append(" -> ").append(writer.getClass().getName());
 			}
 			if (writer instanceof OutputStreamWriter)
 			{
@@ -355,12 +408,31 @@ public final class FileTools
 							)
 					);
 				}
-				buf.append(" -> " + in.getClass().getName());
+				buf.append(" -> ").append(in.getClass().getName());
 			}
 			catch (IllegalAccessException e)
 			{
 				throw new Error(e);
 			}
+		}
+		if (in instanceof FileInputStream)
+		{
+			String path = null;
+			try
+			{
+				path = (String) fieldPathInputStream.get(in);
+				if (path != null)
+					buf.append(" -> ").append(path);
+				else buf.append("-> NO NAME"); // FIXME : COnsole ?
+			}
+			catch (IllegalAccessException e)
+			{
+				// Ignore
+			}
+		}
+		else
+		{
+			buf.append(" -> ").append(in.getClass().getSimpleName());
 		}
 		return buf;
 	}
@@ -383,7 +455,7 @@ public final class FileTools
 				{
 					reader = (Reader) fieldInBufferedReader.get(reader);
 				}
-				buf.append(" -> " + reader.getClass().getName());
+				buf.append(" -> ").append(reader.getClass().getName());
 			}
 			if (reader instanceof InputStreamReader)
 			{

@@ -5,15 +5,16 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
-import static com.octo.reactive.audit.lib.Latency.MEDIUM;
+import static com.octo.reactive.audit.lib.Latency.HIGH;
 
 // Nb methods: 4
+@SuppressWarnings("WeakerAccess")
 @Aspect
 public class AbstractQueuedSynchronizerAudit extends AbstractCPUAudit
 {
 	@Before("call(* java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire*(..))")
 	public void await(JoinPoint thisJoinPoint)
 	{
-		latency(MEDIUM, thisJoinPoint);
+		latency(HIGH, thisJoinPoint);
 	}
 }

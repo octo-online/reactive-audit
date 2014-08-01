@@ -5,7 +5,8 @@ as soon as possible, return the current thread to a pool, limited by the number 
 The code must also use Java 8 concurrency utility classes `Future<>` and `CompletableFuture<>` everywhere.
 
 **WARNING:** This is an alpha version, works only with JRE 8 !
-Now, only 345 blocking methods was detected
+
+Now, 517 blocking methods was detected.
 
 # How it works
 To detect where the application uses a blocking API, this tool injects some
@@ -37,6 +38,9 @@ blocking API.
 To set the environment variables, use `bin/init-audit-reactive`.
 This will set the variables `AUDIT_REACTIVE_HOME` to the reactive audit tool home directory
 and `AUDIT_OPTS` to all the parameters to start a JVM.
+
+_Note: The application startup can be *SLOW*. Each class to load must be inspected
+to *detect* and *inject* each audits rules._
 
 You can add a framework name as a parameter of this command, such as
 `catalina`, `jetty` or `play`.

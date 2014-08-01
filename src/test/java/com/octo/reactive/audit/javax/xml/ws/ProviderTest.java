@@ -6,14 +6,13 @@ import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
 import javax.xml.ws.Dispatch;
-import java.lang.reflect.InvocationTargetException;
 
 public class ProviderTest
 {
-	Dispatch x = (Dispatch) TestTools.createProxy(Dispatch.class);
+	private final Dispatch<?> x = (Dispatch) TestTools.createProxy(Dispatch.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void invoke() throws InvocationTargetException, IllegalAccessException
+	public void invoke()
 	{
 		AuditReactive.strict.commit();
 		x.invoke(null);

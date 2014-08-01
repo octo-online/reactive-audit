@@ -11,8 +11,8 @@ import java.util.function.Supplier;
 
 public class FileChannelTest
 {
-	Supplier<FileChannel> readChannel  = IOTestTools::getInputFileChannel;
-	Supplier<FileChannel> writeChannel = IOTestTools::getOutputFileChannel;
+	private final Supplier<FileChannel> readChannel  = IOTestTools::getInputFileChannel;
+	private final Supplier<FileChannel> writeChannel = IOTestTools::getOutputFileChannel;
 
 	@Test(expected = FileAuditReactiveException.class)
 	public void open() throws IOException

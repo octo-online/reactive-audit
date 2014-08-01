@@ -7,13 +7,6 @@ import java.io.IOException;
 
 public abstract class AuditedReaderTest extends ReaderTest
 {
-	// FIXME
-//	@Override
-//	@Test(expected=AuditReactiveException.class)
-//	public void New() throws IOException
-//	{
-//		super.New();
-//	}
 	@Override
 	@Test(expected = FileAuditReactiveException.class)
 	public void close() throws IOException

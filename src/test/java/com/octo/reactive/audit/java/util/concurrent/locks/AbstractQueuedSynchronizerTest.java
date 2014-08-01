@@ -8,7 +8,7 @@ import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 
 public class AbstractQueuedSynchronizerTest
 {
-	AbstractQueuedSynchronizer c = new AbstractQueuedSynchronizer()
+	final AbstractQueuedSynchronizer c = new AbstractQueuedSynchronizer()
 	{
 
 	};

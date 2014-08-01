@@ -1,9 +1,12 @@
 package com.octo.reactive.audit;
 
-class DetectionUtils
+final class DetectionUtils
 {
+	private DetectionUtils()
+	{
+	}
 
-	public static String getFullJavaVersion()
+	private static String getFullJavaVersion()
 	{
 		String runtime = System.getProperty("java.version");
 		if (runtime == null)
@@ -19,7 +22,7 @@ class DetectionUtils
 		return getJavaRuntimeVersion(runtime);
 	}
 
-	public static double getJavaRuntimeVersion(String runtime)
+	private static double getJavaRuntimeVersion(String runtime)
 	{
 		int majorVersionPos = runtime.indexOf('.');
 		int minorVersionPos = runtime.indexOf('.', majorVersionPos + 1);

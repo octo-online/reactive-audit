@@ -10,7 +10,7 @@ import java.util.concurrent.locks.Condition;
 
 public class ConditionTest
 {
-	Condition c = new Condition()
+	private final Condition c = new Condition()
 	{
 
 		@Override

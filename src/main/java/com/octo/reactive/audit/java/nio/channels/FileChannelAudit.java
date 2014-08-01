@@ -15,7 +15,7 @@ public class FileChannelAudit extends AbstractChannelsAudit
 	@Before("call(java.nio.channels.FileChannel java.nio.channels.FileChannel.open(..))")
 	public void open(JoinPoint thisJoinPoint)
 	{
-		latency(MEDIUM, thisJoinPoint, FactoryException.newFile(MEDIUM, thisJoinPoint));
+		logLatency(MEDIUM, thisJoinPoint, FactoryException.newFile(MEDIUM, thisJoinPoint));
 	}
 
 	@Before("call(long java.nio.channels.FileChannel.transferFrom(java.nio.channels.ReadableByteChannel,long,long))")

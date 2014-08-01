@@ -2,7 +2,7 @@ package com.octo.reactive.audit;
 
 import java.util.Properties;
 
-public class VariablesProperties extends Properties
+class VariablesProperties extends Properties
 {
 
 
@@ -12,7 +12,7 @@ public class VariablesProperties extends Properties
 	private static final String END_CONST   = "}";
 
 
-	final Properties variables;
+	private final Properties variables;
 
 	public VariablesProperties(Properties variables)
 	{

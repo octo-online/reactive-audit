@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutionException;
 
 public class CompletableFutureTest
 {
-	CompletableFuture<Object> f = new CompletableFuture<Object>();
+	private final CompletableFuture<Object> f = new CompletableFuture<Object>();
 
 	@Test(expected = CPUAuditReactiveException.class)
 	public void get() throws InterruptedException, ExecutionException

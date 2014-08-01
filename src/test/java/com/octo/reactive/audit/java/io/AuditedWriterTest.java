@@ -11,12 +11,6 @@ public abstract class AuditedWriterTest extends WriterTest
 	@Override
 	protected abstract Writer newWriter() throws IOException;
 
-	// FIXME
-//	@Test(expected=AuditReactiveException.class)
-//	public void New() throws IOException
-//	{
-//		super.New();
-//	}
 	@Test(expected = FileAuditReactiveException.class)
 	public void append_c() throws IOException
 	{

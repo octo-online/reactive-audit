@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 public class GatheringByteChannelTest
 {
-	Supplier<GatheringByteChannel> channel = IOTestTools::getOutputFileChannel;
+	private final Supplier<GatheringByteChannel> channel = IOTestTools::getOutputFileChannel;
 
 	@Test(expected = FileAuditReactiveException.class)
 	public void write() throws IOException

@@ -8,8 +8,12 @@ import java.net.URL;
 import static com.octo.reactive.audit.lib.Latency.LOW;
 import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
-public class URLTools
+public final class URLTools
 {
+	private URLTools()
+	{
+	}
+
 	public static AuditReactiveException latencyURL(AuditReactive config, JoinPoint thisJoinPoint, URL url)
 	{
 		AuditReactiveException e;
@@ -18,8 +22,8 @@ public class URLTools
 		if (config.isDebug())
 		{
 			config.logger.finest(
-					thisJoinPoint.toString() + "  with " + thisJoinPoint.getTarget());
-			msg = thisJoinPoint.getTarget().toString();
+					thisJoinPoint.toString() + "  with " + url);
+			msg = url.toString();
 		}
 		if (s.startsWith("jar:file:") || s.startsWith("file:"))
 			e = FactoryException.newFile(LOW, thisJoinPoint, msg);

@@ -10,7 +10,7 @@ import java.io.RandomAccessFile;
 
 public class RandomAccessFileTest
 {
-	protected RandomAccessFile newRandomAccessFile() throws IOException
+	private RandomAccessFile newRandomAccessFile() throws IOException
 	{
 		return new RandomAccessFile(IOTestTools.getTempFile(), "rw");
 	}

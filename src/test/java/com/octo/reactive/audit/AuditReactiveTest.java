@@ -16,14 +16,15 @@ import static com.octo.reactive.audit.lib.Latency.*;
 import static org.junit.Assert.*;
 
 
+@SuppressWarnings({"MethodOnlyUsedFromInnerClass", "ResultOfMethodCallIgnored"})
 public class AuditReactiveTest
 {
 	// Because the Aspectj must use the config singleton,
 	// it's not possible to inject a specific config instance
-	private AuditReactive config = AuditReactive.config;
+	private final AuditReactive config = AuditReactive.config;
 
-	private int[]   log     = new int[1];
-	private Handler handler = new Handler()
+	private final int[]   log     = new int[1];
+	private final Handler handler = new Handler()
 	{
 		@Override
 		public void publish(LogRecord record)
@@ -63,7 +64,7 @@ public class AuditReactiveTest
 	{
 		String url = getClass().getResource("/testEnv.properties").toExternalForm();
 		new LoadParams(config, url).commit();
-		assertEquals(config.getThreadPattern().toString(), System.getProperty("os.name"));
+		assertEquals(config.getThreadPattern(), System.getProperty("os.name"));
 	}
 
 	@Test
@@ -121,7 +122,7 @@ public class AuditReactiveTest
 				.log(Level.INFO)
 				.throwExceptions(false)
 				.commit();
-		config.logger.addHandler(handler);
+		addHandler();
 
 		Thread t;
 
@@ -137,6 +138,7 @@ public class AuditReactiveTest
 		};
 		// First turn, invoke log.
 		t = new Thread(rctx1);
+		t.setDaemon(true);
 		t.start();
 		t.join();
 		assertEquals(1, log[0]);
@@ -152,6 +154,7 @@ public class AuditReactiveTest
 			}
 		};
 		t = new Thread(rctx2);
+		t.setDaemon(true);
 		t.start();
 		t.join();
 		assertEquals(1, log[0]);
@@ -159,6 +162,7 @@ public class AuditReactiveTest
 		// Third turn, same context, no invoke log.
 		log[0] = 0;
 		t = new Thread(rctx1);
+		t.setDaemon(true);
 		t.start();
 		t.join();
 		assertEquals(0, log[0]);
@@ -173,6 +177,7 @@ public class AuditReactiveTest
 			}
 		};
 		t = new Thread(rctx3);
+		t.setDaemon(true);
 		t.start();
 		t.join();
 		assertEquals(1, log[0]);
@@ -187,18 +192,21 @@ public class AuditReactiveTest
 			}
 		};
 		t = new Thread(rctx4);
+		t.setDaemon(true);
 		t.start();
 		t.join();
 		assertEquals(2, log[0]);
 
 		log[0] = 0;
 		t = new Thread(rctx3);
+		t.setDaemon(true);
 		t.start();
 		t.join();
 		assertEquals(0, log[0]);
 
 		log[0] = 0;
 		t = new Thread(rctx4);
+		t.setDaemon(true);
 		t.start();
 		t.join();
 		assertEquals(0, log[0]);
@@ -246,6 +254,7 @@ public class AuditReactiveTest
 		log[0] = 0;
 		config.logIfNew(HIGH, new FileAuditReactiveException(HIGH, ""));
 		assertEquals(0, log[0]);
+		removeHandler();
 
 
 		config.begin()
@@ -261,6 +270,7 @@ public class AuditReactiveTest
 		log[0] = 0;
 		config.logIfNew(HIGH, new FileAuditReactiveException(HIGH, ""));
 		assertEquals(1, log[0]);
+		removeHandler();
 
 		config.begin()
 				.latencyFile("MEDIUM")
@@ -275,6 +285,7 @@ public class AuditReactiveTest
 		log[0] = 0;
 		config.logIfNew(HIGH, new FileAuditReactiveException(HIGH, ""));
 		assertEquals(1, log[0]);
+		removeHandler();
 
 		config.begin()
 				.latencyFile("HIGH")
@@ -289,6 +300,7 @@ public class AuditReactiveTest
 		log[0] = 0;
 		config.logIfNew(HIGH, new FileAuditReactiveException(HIGH, ""));
 		assertEquals(1, log[0]);
+		removeHandler();
 	}
 
 	private void removeHandler()
@@ -298,7 +310,8 @@ public class AuditReactiveTest
 
 	private void addHandler()
 	{
-		if (true) // FIXME : remove log on console
+		//noinspection ConstantIfStatement
+		if (false) // FIXME : remove log on console
 		{
 			for (Handler h : config.logger.getHandlers())
 			{
@@ -329,6 +342,7 @@ public class AuditReactiveTest
 		latencyCall2();
 	}
 
+	@SuppressWarnings("PointlessBooleanExpression")
 	@Test
 	public void testPurgeStackTrace() throws NoSuchFieldException, IllegalAccessException
 	{

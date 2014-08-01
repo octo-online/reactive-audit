@@ -4,4 +4,14 @@
             <val val="&quot;WeakerAccess&quot;"/>
         </annotation>
     </item>
+    <item name='com.octo.reactive.audit.javax.xml.ws.EndpointAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
+    <item name='com.octo.reactive.audit.javax.xml.ws.ProviderAudit'>
+        <annotation name='java.lang.SuppressWarnings'>
+            <val val="&quot;WeakerAccess&quot;"/>
+        </annotation>
+    </item>
 </root>

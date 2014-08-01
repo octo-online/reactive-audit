@@ -5,19 +5,53 @@ import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
-import javax.sql.rowset.spi.XmlWriter;
-import java.io.IOException;
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.spi.SyncProviderException;
 import java.sql.SQLException;
 
 public class CachedRowSetTest
 {
-	XmlWriter x = (XmlWriter) TestTools.createProxy(XmlWriter.class);
+	private final CachedRowSet x = (CachedRowSet) TestTools.createProxy(CachedRowSet.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void writeXML() throws InterruptedException, IOException, SQLException
+	public void acceptChanges() throws SyncProviderException
 	{
 		AuditReactive.strict.commit();
-		x.writeXML(null, null);
+		x.acceptChanges();
 	}
 
+	@Test(expected = NetworkAuditReactiveException.class)
+	public void acceptChanges_Connection() throws SyncProviderException
+	{
+		AuditReactive.strict.commit();
+		x.acceptChanges(null);
+	}
+
+	@Test(expected = NetworkAuditReactiveException.class)
+	public void commit() throws SQLException
+	{
+		AuditReactive.strict.commit();
+		x.commit();
+	}
+
+	@Test(expected = NetworkAuditReactiveException.class)
+	public void execute() throws SQLException
+	{
+		AuditReactive.strict.commit();
+		x.execute(null);
+	}
+
+	@Test(expected = NetworkAuditReactiveException.class)
+	public void rollback() throws SQLException
+	{
+		AuditReactive.strict.commit();
+		x.rollback();
+	}
+
+	@Test(expected = NetworkAuditReactiveException.class)
+	public void rollback_SavePoint() throws SQLException
+	{
+		AuditReactive.strict.commit();
+		x.rollback(null);
+	}
 }

@@ -1,17 +1,15 @@
 package com.octo.reactive.audit.javax.net;
 
-import com.octo.reactive.audit.NetworkAudit;
+import com.octo.reactive.audit.AbstractNetworkAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
 import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
-/**
- * Created by pprados on 19/05/2014.
- */
+// Nb methods: 5
 @Aspect
-public class SocketFactoryAudit extends NetworkAudit
+public class SocketFactoryAudit extends AbstractNetworkAudit
 {
 	@Before("call(* javax.net.SocketFactory.createSocket(..))")
 	public void createSocket(JoinPoint thisJoinPoint)

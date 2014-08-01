@@ -26,12 +26,11 @@ public class LineNumberReaderTest extends FileReaderTest
 	{
 		class Derived extends LineNumberReader
 		{
-			Derived() throws IOException
+			Derived()
 			{
 				super(new StringReader("abc"));
 			}
 		}
-		;
 		new Derived();
 	}
 }

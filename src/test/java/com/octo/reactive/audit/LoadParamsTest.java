@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 public class LoadParamsTest
 {
-	AuditReactive config = AuditReactive.config;
+	private final AuditReactive config = AuditReactive.config;
 
 	@Test
 	public void setSystemParams() throws IOException

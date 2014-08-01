@@ -5,44 +5,25 @@ import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
-import javax.tools.FileObject;
-import java.io.IOException;
-import java.sql.SQLException;
+import javax.transaction.xa.XAException;
+import javax.transaction.xa.XAResource;
 
 public class XAResourceTest
 {
-	FileObject x = (FileObject) TestTools.createProxy(FileObject.class);
+	private final XAResource x = (XAResource) TestTools.createProxy(XAResource.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void delete() throws InterruptedException, IOException, SQLException
+	public void commit() throws XAException
 	{
 		AuditReactive.strict.commit();
-		x.delete();
-	}
-
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void openInputStream() throws InterruptedException, IOException, SQLException
-	{
-		AuditReactive.strict.commit();
-		x.openInputStream();
+		x.commit(null, true);
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void openOutputStream() throws InterruptedException, IOException, SQLException
+	public void rollback() throws XAException
 	{
 		AuditReactive.strict.commit();
-		x.openOutputStream();
+		x.rollback(null);
 	}
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void openReader() throws InterruptedException, IOException, SQLException
-	{
-		AuditReactive.strict.commit();
-		x.openReader(true);
-	}
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void openWriter() throws InterruptedException, IOException, SQLException
-	{
-		AuditReactive.strict.commit();
-		x.openWriter();
-	}
+
 }

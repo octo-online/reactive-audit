@@ -116,12 +116,11 @@ public class PrintWriterTest extends OutputStreamWriterTest
 	{
 		class Derived extends PrintWriter
 		{
-			Derived() throws IOException
+			Derived()
 			{
 				super(new ByteArrayOutputStream(10));
 			}
 		}
-		;
 		new Derived();
 	}
 }

@@ -19,12 +19,11 @@ public class StringReaderTest extends ReaderTest
 	{
 		class Derived extends StringReader
 		{
-			Derived() throws IOException
+			Derived()
 			{
 				super("abc");
 			}
 		}
-		;
 		new Derived();
 	}
 }

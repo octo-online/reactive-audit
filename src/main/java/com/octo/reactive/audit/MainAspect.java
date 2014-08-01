@@ -9,7 +9,6 @@ public class MainAspect extends AbstractCPUAudit
 {
 	@Before("execution(public static void *.main(..))")
 	public void startup(JoinPoint thisJoinPoint)
-			throws Throwable
 	{
 		Runtime.getRuntime().addShutdownHook(new Thread()
 		{

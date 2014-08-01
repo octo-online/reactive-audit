@@ -39,7 +39,6 @@ public class FilterOutputStreamTest extends FileOutputStreamTest
 				super(newOutputStream());
 			}
 		}
-		;
 		new Derived();
 	}
 

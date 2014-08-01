@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ForkJoinPoolTest
 {
-	ForkJoinPool e = new ForkJoinPool(1);
+	private final ForkJoinPool e = new ForkJoinPool(1);
 
 	@Test(expected = CPUAuditReactiveException.class)
 	public void awaitQuiescence() throws InterruptedException
@@ -56,7 +56,7 @@ public class ForkJoinPoolTest
 	public void managedBlock() throws InterruptedException
 	{
 		AuditReactive.strict.commit();
-		e.managedBlock(new ForkJoinPool.ManagedBlocker()
+		ForkJoinPool.managedBlock(new ForkJoinPool.ManagedBlocker()
 		{
 			@Override
 			public boolean block() throws InterruptedException

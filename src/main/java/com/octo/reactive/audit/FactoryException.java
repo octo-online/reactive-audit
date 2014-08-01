@@ -5,8 +5,12 @@ import com.octo.reactive.audit.lib.Latency;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.aspectj.lang.JoinPoint;
 
-public class FactoryException
+public final class FactoryException
 {
+	private FactoryException()
+	{
+	}
+
 	public static NetworkAuditReactiveException newNetwork(Latency latency, JoinPoint thisJoinPoint)
 	{
 		return newNetwork(latency, thisJoinPoint, null);

@@ -11,6 +11,7 @@ public class ThreadTest
 	{
 		AuditReactive.strict.commit();
 		Thread thread = new Thread();
+		thread.setDaemon(true);
 		thread.join();
 	}
 

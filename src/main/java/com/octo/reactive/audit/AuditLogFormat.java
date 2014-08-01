@@ -1,14 +1,12 @@
 package com.octo.reactive.audit;
 
-import com.octo.reactive.audit.lib.SuppressAuditReactive;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
-public class AuditLogFormat extends Formatter
+class AuditLogFormat extends Formatter
 {
 
 	private final Date dat = new Date();
@@ -19,7 +17,6 @@ public class AuditLogFormat extends Formatter
 		this.format = format;
 	}
 
-	@SuppressAuditReactive
 	public synchronized String format(LogRecord record)
 	{
 		dat.setTime(record.getMillis());
@@ -40,12 +37,14 @@ public class AuditLogFormat extends Formatter
 		String throwable = "";
 		if (record.getThrown() != null)
 		{
+			AuditReactive.config.incSuppress();
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			pw.println();
 			record.getThrown().printStackTrace(pw);
 			pw.close();
 			throwable = sw.toString();
+			AuditReactive.config.decSuppress();
 		}
 		return String.format(format,
 		                     dat,

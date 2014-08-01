@@ -10,7 +10,7 @@ import java.nio.channels.spi.AbstractInterruptibleChannel;
 abstract class AbstractInterruptibleChannelTest
 {
 	@Test(expected = AuditReactiveException.class)
-	public void begin() throws IOException
+	public void begin()
 	{
 		AuditReactive.strict.commit();
 		class C extends AbstractInterruptibleChannel

@@ -24,7 +24,6 @@ public class CharArrayWriterTest extends WriterTest
 				super(10);
 			}
 		}
-		;
 		new Derived();
 	}
 }

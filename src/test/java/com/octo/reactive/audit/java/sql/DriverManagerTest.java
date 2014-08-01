@@ -10,9 +10,9 @@ import java.sql.SQLException;
 
 public class DriverManagerTest
 {
-	public static final String DB = "jdbc:derby:memory:myDB;create=true";
+	private static final String DB = "jdbc:derby:memory:myDB;create=true";
 
-	public static Connection getDBConnection() throws SQLException
+	private static Connection getDBConnection() throws SQLException
 	{
 		return DriverManager.getConnection(DB, "SA", "");
 	}
@@ -21,6 +21,6 @@ public class DriverManagerTest
 	public void getConnection() throws InterruptedException, ClassNotFoundException, SQLException
 	{
 		AuditReactive.strict.commit();
-		Connection c = getDBConnection();
+		getDBConnection();
 	}
 }

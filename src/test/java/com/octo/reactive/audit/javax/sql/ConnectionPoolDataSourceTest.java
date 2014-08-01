@@ -5,53 +5,26 @@ import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
-import javax.sql.rowset.WebRowSet;
-import java.io.*;
+import javax.sql.ConnectionPoolDataSource;
 import java.sql.SQLException;
 
 public class ConnectionPoolDataSourceTest
 {
-	WebRowSet x = (WebRowSet) TestTools.createProxy(WebRowSet.class);
+	private final ConnectionPoolDataSource x = (ConnectionPoolDataSource) TestTools.createProxy(
+			ConnectionPoolDataSource.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void readXML_InputStream() throws InterruptedException, IOException, SQLException
+	public void getPooledConnection() throws SQLException
 	{
 		AuditReactive.strict.commit();
-		x.readXml((InputStream) null);
+		x.getPooledConnection();
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void readXML_Reader() throws InterruptedException, IOException, SQLException
+	public void getPooledConnection_up() throws SQLException
 	{
 		AuditReactive.strict.commit();
-		x.readXml((Reader) null);
+		x.getPooledConnection(null, null);
 	}
 
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void writeXML_OutputStream() throws InterruptedException, IOException, SQLException
-	{
-		AuditReactive.strict.commit();
-		x.writeXml((OutputStream) null);
-	}
-
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void writeXML_RS_OutputStream() throws InterruptedException, IOException, SQLException
-	{
-		AuditReactive.strict.commit();
-		x.writeXml(null,(OutputStream) null);
-	}
-
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void writeXML_Writer() throws InterruptedException, IOException, SQLException
-	{
-		AuditReactive.strict.commit();
-		x.writeXml((Writer) null);
-	}
-
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void writeXML_RS_Writer() throws InterruptedException, IOException, SQLException
-	{
-		AuditReactive.strict.commit();
-		x.writeXml(null,(Writer) null);
-	}
 }

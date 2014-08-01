@@ -15,7 +15,7 @@ public class ExchangerTest
 	public void exchange() throws InterruptedException, BrokenBarrierException
 	{
 		AuditReactive.strict.commit();
-		Exchanger c = new Exchanger<Object>();
+		Exchanger<Object> c = new Exchanger<>();
 		c.exchange("");
 	}
 
@@ -23,7 +23,7 @@ public class ExchangerTest
 	public void exchange_to() throws InterruptedException, BrokenBarrierException, TimeoutException
 	{
 		AuditReactive.strict.commit();
-		Exchanger c = new Exchanger<Object>();
+		Exchanger<Object> c = new Exchanger<>();
 		c.exchange("", 1, TimeUnit.MILLISECONDS);
 	}
 }

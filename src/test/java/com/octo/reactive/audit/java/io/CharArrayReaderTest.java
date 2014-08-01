@@ -24,7 +24,6 @@ public class CharArrayReaderTest extends ReaderTest
 				super(new char[10]);
 			}
 		}
-		;
 		new Derived();
 	}
 }

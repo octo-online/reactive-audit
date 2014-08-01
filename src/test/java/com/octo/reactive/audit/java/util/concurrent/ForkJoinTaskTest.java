@@ -11,7 +11,7 @@ import java.util.concurrent.TimeoutException;
 
 public class ForkJoinTaskTest
 {
-	ForkJoinTask e = new ForkJoinTask()
+	private final ForkJoinTask e = new ForkJoinTask()
 	{
 
 		@Override

@@ -37,6 +37,6 @@ public abstract class AbstractReaderAudit extends AbstractInputStreamAudit
 	protected void latency(Latency latency, JoinPoint thisJoinPoint, Reader reader)
 	{
 		AuditReactiveException ex = latencyReader(config, latency, thisJoinPoint, reader);
-		if (ex != null) super.latency(latency, thisJoinPoint, ex);
+		if (ex != null) super.logLatency(latency, thisJoinPoint, ex);
 	}
 }

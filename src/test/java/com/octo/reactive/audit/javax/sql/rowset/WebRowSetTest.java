@@ -1,36 +1,58 @@
 package com.octo.reactive.audit.javax.sql.rowset;
 
 import com.octo.reactive.audit.AuditReactive;
+import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.TestTools;
-import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
+import com.octo.reactive.audit.lib.AuditReactiveException;
 import org.junit.Test;
 
-import javax.sql.rowset.JdbcRowSet;
+import javax.sql.rowset.WebRowSet;
 import java.io.IOException;
 import java.sql.SQLException;
 
 public class WebRowSetTest
 {
-	JdbcRowSet x = (JdbcRowSet) TestTools.createProxy(JdbcRowSet.class);
+	private final WebRowSet x = (WebRowSet) TestTools.createProxy(WebRowSet.class);
 
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void commit() throws InterruptedException, IOException, SQLException
+	@Test(expected = AuditReactiveException.class)
+	public void readXML_InputStream() throws IOException, SQLException
 	{
 		AuditReactive.strict.commit();
-		x.commit();
+		x.readXml(IOTestTools.getTempFileInputStream());
 	}
 
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void rollback() throws InterruptedException, IOException, SQLException
+	@Test(expected = AuditReactiveException.class)
+	public void readXML_Reader() throws SQLException
 	{
 		AuditReactive.strict.commit();
-		x.rollback();
+		x.readXml(IOTestTools.getTempFileReader());
 	}
 
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void rollback_SavePoint() throws InterruptedException, IOException, SQLException
+	@Test(expected = AuditReactiveException.class)
+	public void writeXML_OutputStream() throws IOException, SQLException
 	{
 		AuditReactive.strict.commit();
-		x.rollback(null);
+		x.writeXml(IOTestTools.getTempFileOutputStream());
+	}
+
+	@Test(expected = AuditReactiveException.class)
+	public void writeXML_RS_OutputStream() throws IOException, SQLException
+	{
+		AuditReactive.strict.commit();
+		x.writeXml(null, IOTestTools.getTempFileOutputStream());
+	}
+
+	@Test(expected = AuditReactiveException.class)
+	public void writeXML_Writer() throws SQLException
+	{
+		AuditReactive.strict.commit();
+		x.writeXml(IOTestTools.getTempFileWriter());
+	}
+
+	@Test(expected = AuditReactiveException.class)
+	public void writeXML_RS_Writer() throws SQLException
+	{
+		AuditReactive.strict.commit();
+		x.writeXml(null, IOTestTools.getTempFileWriter());
 	}
 }

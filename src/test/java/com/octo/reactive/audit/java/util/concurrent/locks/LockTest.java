@@ -10,7 +10,7 @@ import java.util.concurrent.locks.Lock;
 
 public class LockTest
 {
-	Lock c = new Lock()
+	private final Lock c = new Lock()
 	{
 
 		@Override
@@ -62,7 +62,6 @@ public class LockTest
 	{
 		AuditReactive.strict.commit();
 		c.lockInterruptibly();
-		;
 	}
 
 }

@@ -4,53 +4,129 @@ import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
-import javax.net.SocketFactory;
+import javax.net.ssl.HandshakeCompletedListener;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocket;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class SSLSocketTest
 {
-	SocketFactory sf=new SocketFactory()
-	{
-
-		@Override
-		public Socket createSocket(String s, int i) throws IOException, UnknownHostException
-		{
-			return null;
-		}
-
-		@Override
-		public Socket createSocket(String s, int i, InetAddress inetAddress, int i2)
-		throws IOException, UnknownHostException
-		{
-			return null;
-		}
-
-		@Override
-		public Socket createSocket(InetAddress inetAddress, int i) throws IOException
-		{
-			return null;
-		}
-
-		@Override
-		public Socket createSocket(InetAddress inetAddress, int i, InetAddress inetAddress2, int i2)
-		throws IOException
-		{
-			return null;
-		}
-	};
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void createSocket() throws InterruptedException, IOException
+	public void New()
 	{
 		AuditReactive.strict.commit();
-		sf.createSocket();
+		new MySSLSocket();
 	}
-	@Test(expected = NetworkAuditReactiveException.class)
-	public void createSocket_InetAddressI() throws InterruptedException, IOException
+
+	private class MySSLSocket extends SSLSocket
 	{
-		AuditReactive.strict.commit();
-		sf.createSocket(InetAddress.getLocalHost(), 1);
+		@Override
+		public String[] getSupportedCipherSuites()
+		{
+			return new String[0];
+		}
+
+		@Override
+		public String[] getEnabledCipherSuites()
+		{
+			return new String[0];
+		}
+
+		@Override
+		public void setEnabledCipherSuites(String[] strings)
+		{
+
+		}
+
+		@Override
+		public String[] getSupportedProtocols()
+		{
+			return new String[0];
+		}
+
+		@Override
+		public String[] getEnabledProtocols()
+		{
+			return new String[0];
+		}
+
+		@Override
+		public void setEnabledProtocols(String[] strings)
+		{
+
+		}
+
+		@Override
+		public SSLSession getSession()
+		{
+			return null;
+		}
+
+		@Override
+		public void addHandshakeCompletedListener(HandshakeCompletedListener handshakeCompletedListener)
+		{
+
+		}
+
+		@Override
+		public void removeHandshakeCompletedListener(HandshakeCompletedListener handshakeCompletedListener)
+		{
+
+		}
+
+		@Override
+		public void startHandshake() throws IOException
+		{
+
+		}
+
+		@Override
+		public boolean getUseClientMode()
+		{
+			return false;
+		}
+
+		@Override
+		public void setUseClientMode(boolean b)
+		{
+
+		}
+
+		@Override
+		public boolean getNeedClientAuth()
+		{
+			return false;
+		}
+
+		@Override
+		public void setNeedClientAuth(boolean b)
+		{
+
+		}
+
+		@Override
+		public boolean getWantClientAuth()
+		{
+			return false;
+		}
+
+		@Override
+		public void setWantClientAuth(boolean b)
+		{
+
+		}
+
+		@Override
+		public boolean getEnableSessionCreation()
+		{
+			return false;
+		}
+
+		@Override
+		public void setEnableSessionCreation(boolean b)
+		{
+
+		}
 	}
+
 }

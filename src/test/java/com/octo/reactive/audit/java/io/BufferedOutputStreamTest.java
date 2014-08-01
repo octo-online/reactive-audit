@@ -38,7 +38,6 @@ public class BufferedOutputStreamTest extends FileOutputStreamTest
 				super(new ByteArrayOutputStream(10));
 			}
 		}
-		;
 		new Derived();
 	}
 }

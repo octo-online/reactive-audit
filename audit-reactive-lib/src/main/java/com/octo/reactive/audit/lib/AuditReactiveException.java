@@ -10,20 +10,20 @@ package com.octo.reactive.audit.lib;
 
 public abstract class AuditReactiveException extends AssertionError
 {
-	/* Calculate the package name of the project. */
-	private static final String  auditPackageName          =
-			AuditReactiveException.class.getPackage().getName().replaceFirst("\\.[^.]+$", "");
-	/* If debug, use a limited stack trace. */
-	private static final int     LIMIT_STACK_SIZE_IF_DEBUG = 10;
 	/* This variable was set by the javaagent, via introspection.
 	   Then, it is not declared public.
 	 */
-	static  /*package*/  boolean debug                     = false;
-
+	@SuppressWarnings("StaticNonFinalField")
+	static  /*package*/ final boolean debug                     = false;
+	/* Calculate the package name of the project. */
+	private static final      String  auditPackageName          =
+			AuditReactiveException.class.getPackage().getName().replaceFirst("\\.[^.]+$", "");
+	/* If debug, use a limited stack trace. */
+	private static final      int     LIMIT_STACK_SIZE_IF_DEBUG = 10;
 	/* The threadname with the exception was create. */
-	private String  threadName;
+	private final String  threadName;
 	/* The latency of this exception. */
-	private Latency latency;
+	private       Latency latency;
 
 	/**
 	 * Create an {@link AssertionError} with {@link Latency}, thread name and message.
@@ -43,8 +43,8 @@ public abstract class AuditReactiveException extends AssertionError
 	 * Create an {@link AssertionError} with {@link Latency}, thread name and formatted message.
 	 *
 	 * @param latency The latency for this exception.
-	 * @param format The format message associated with this exception.
-	 * @param args The arguments to generate the message with the format.
+	 * @param format  The format message associated with this exception.
+	 * @param args    The arguments to generate the message with the format.
 	 */
 	protected AuditReactiveException(Latency latency, String format, Object... args)
 	{
@@ -67,7 +67,7 @@ public abstract class AuditReactiveException extends AssertionError
 	@Override
 	public String toString()
 	{
-		return super.toString() + " at thread " + threadName;
+		return super.toString() + " at thread \"" + threadName + '"';
 	}
 
 	/**

@@ -4,15 +4,15 @@ import com.octo.reactive.audit.AuditReactive;
 import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
-import javax.rmi.PortableRemoteObject;
+import javax.rmi.ssl.SslRMIClientSocketFactory;
 import java.io.IOException;
 
 public class SslRMIClientSocketFactoryTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void connect() throws InterruptedException, IOException
+	public void connect() throws IOException
 	{
 		AuditReactive.strict.commit();
-		PortableRemoteObject.connect(null, null);
+		new SslRMIClientSocketFactory().createSocket(null, 0);
 	}
 }

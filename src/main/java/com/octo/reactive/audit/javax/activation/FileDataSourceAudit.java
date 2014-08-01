@@ -1,17 +1,15 @@
 package com.octo.reactive.audit.javax.activation;
 
-import com.octo.reactive.audit.NetworkAudit;
+import com.octo.reactive.audit.AbstractFileAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
 import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
-/**
- * Created by pprados on 19/05/2014.
- */
+// Nb methods: 2
 @Aspect
-public class FileDataSourceAudit extends NetworkAudit
+public class FileDataSourceAudit extends AbstractFileAudit
 {
 	@Before("call(javax.activation.FileDataSource.new(..))")
 	public void New(JoinPoint thisJoinPoint)

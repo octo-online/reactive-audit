@@ -20,7 +20,7 @@ public class URLAudit extends AbstractNetworkAudit
 	{
 		URL url = (URL) thisJoinPoint.getTarget();
 		AuditReactiveException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-		if (ex != null) super.latency(HIGH, thisJoinPoint, ex);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
 	}
 
 	@Before("call(java.io.InputStream java.net.URL.openConnection())")
@@ -28,6 +28,6 @@ public class URLAudit extends AbstractNetworkAudit
 	{
 		URL url = (URL) thisJoinPoint.getTarget();
 		AuditReactiveException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-		if (ex != null) super.latency(HIGH, thisJoinPoint, ex);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
 	}
 }

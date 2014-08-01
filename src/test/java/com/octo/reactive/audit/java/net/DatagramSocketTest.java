@@ -12,7 +12,7 @@ import java.net.InetSocketAddress;
 public class DatagramSocketTest
 {
 
-	public static final int PORT = 8080;
+	private static final int PORT = 8080;
 
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void connect() throws IOException
@@ -32,7 +32,7 @@ public class DatagramSocketTest
 		AuditReactive.off.commit();
 		try (DatagramSocket socket = new DatagramSocket())
 		{
-			InetSocketAddress localhost = new InetSocketAddress("localhost", PORT);
+			new InetSocketAddress("localhost", PORT);
 			AuditReactive.strict.commit();
 			DatagramPacket packet = new DatagramPacket(new byte[10], 10);
 			socket.receive(packet);
@@ -45,7 +45,7 @@ public class DatagramSocketTest
 		AuditReactive.off.commit();
 		try (DatagramSocket socket = new DatagramSocket())
 		{
-			InetSocketAddress localhost = new InetSocketAddress("localhost", PORT);
+			new InetSocketAddress("localhost", PORT);
 			AuditReactive.strict.commit();
 			DatagramPacket packet = new DatagramPacket(new byte[10], 10);
 			socket.send(packet);

@@ -9,4 +9,7 @@ annotations/
 derbyDB/
 derby.log
 *~
-
+/bin
+.classpath
+.project
+.settings/

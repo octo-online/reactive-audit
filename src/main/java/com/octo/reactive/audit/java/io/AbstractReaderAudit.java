@@ -20,6 +20,8 @@ public abstract class AbstractReaderAudit extends AbstractInputStreamAudit
 		CharSequence msg = null;
 		if (config.isDebug())
 			msg = FileTools.dumpChain(reader);
+		else
+			msg = FileTools.printFilename(reader);
 		AuditReactiveException ex = null;
 		switch (FileTools.isLastReaderWithLatency(reader))
 		{

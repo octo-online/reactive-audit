@@ -21,6 +21,8 @@ public abstract class AbstractWriterAudit extends AbstractFileAudit
 		CharSequence msg = null;
 		if (config.isDebug())
 			msg = FileTools.dumpChain(writer);
+		else
+			msg = FileTools.printFilename(writer);
 		switch (isLastOutputStreamFromWriterWithLatency(writer))
 		{
 			case NET_ERROR:

@@ -11,9 +11,9 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
 public class WithLatencyAudit extends AbstractCPUAudit
 {
 	@Before("execution(@com.octo.reactive.audit.lib.WithLatency * *(..) )")
-	public void beforeSuppress(JoinPoint thisJoinPoint)
+	public void with(JoinPoint thisJoinPoint)
 			throws AuditReactiveException
 	{
-		latency(HIGH, thisJoinPoint);
+		latency(HIGH, thisJoinPoint); // FIXME ! Niveau de latence
 	}
 }

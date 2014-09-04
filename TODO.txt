@@ -1,9 +1,6 @@
-Voir javax.image.InputInputStream etc.
 
 Voir http://stackoverflow.com/questions/24199884/java8-how-discover-the-class-and-method-name-in-visitmethodinvocation/24577343#24577343
 http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#installation
-
-S'il y a un buffered dans la chaine, descent à low latency ? Je ne pense pas.
 
 Lazy pour exception
 Ajouter les conteneurs bloquant (synchonized)

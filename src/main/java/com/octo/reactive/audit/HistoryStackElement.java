@@ -29,22 +29,22 @@ class HistoryStackElement
 
 	static class HashStackTraceElement
 	{
-		final int                 hash;
-		final StackTraceElement[] stack;
+		final long hash;
+		//final StackTraceElement[] stack;
 
 		public HashStackTraceElement(StackTraceElement[] aStack)
 		{
-			stack = aStack;
-			int aHash = 0;
+			//stack = aStack;
+			long aHash = 0;
 			for (int i = 0; i < aStack.length; ++i)
-				aHash ^= aStack[i].hashCode();
+				aHash = (aHash << 1) ^ aStack[i].hashCode();
 			hash = aHash;
 		}
 
 		@Override
 		public int hashCode()
 		{
-			return hash;
+			return (int) hash;
 		}
 
 		@Override

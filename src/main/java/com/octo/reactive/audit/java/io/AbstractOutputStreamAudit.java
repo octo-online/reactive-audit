@@ -19,6 +19,8 @@ public abstract class AbstractOutputStreamAudit extends AbstractFileAudit
 		CharSequence msg = null;
 		if (config.isDebug())
 			msg = FileTools.dumpChain(out);
+		else
+			msg = FileTools.printFilename(out);
 		AuditReactiveException ex = null;
 		switch (isLastOutputStreamWithLatency(out))
 		{

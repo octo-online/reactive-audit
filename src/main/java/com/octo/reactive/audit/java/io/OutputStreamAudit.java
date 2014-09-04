@@ -16,9 +16,9 @@ public class OutputStreamAudit extends AbstractOutputStreamAudit
 	@Before("call(* java.io.OutputStream.write(..))")
 	public void write(JoinPoint thisJoinPoint)
 	{
+		OutputStream out = (OutputStream) thisJoinPoint.getTarget();
 		if (config.isDebug())
 		{
-			OutputStream out = (OutputStream) thisJoinPoint.getTarget();
 			config.logger.finest(
 					thisJoinPoint.toString() + "  with " + FileTools.dumpChain(out));
 		}

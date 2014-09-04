@@ -254,15 +254,55 @@ public final class FileTools
 		}
 	}
 
-	public static CharSequence dumpChain(OutputStream out)
+	public static CharSequence printFilename(OutputStream out)
 	{
-		return dumpChain(out, new StringBuilder());
+		return dumpChain(out, new StringBuilder(), FileTools::filenameDump);
 	}
 
-	private static CharSequence dumpChain(OutputStream out, StringBuilder buf)
+	public static CharSequence printFilename(Writer writer)
+	{
+		return dumpChain(writer, FileTools::filenameDump);
+	}
+
+	static public CharSequence printFilename(InputStream in)
+	{
+		return dumpChain(in, new StringBuilder(), FileTools::filenameDump);
+	}
+
+	public static CharSequence printFilename(Reader reader)
+	{
+		return dumpChain(reader, FileTools::filenameDump);
+	}
+
+	static public CharSequence dumpFilename(InputStream in)
+	{
+		return dumpChain(in, new StringBuilder(), FileTools::chainFilenameDump);
+	}
+	public static CharSequence dumpChain(OutputStream out)
+	{
+		return dumpChain(out, new StringBuilder(), FileTools::chainFilenameDump);
+	}
+
+	public static CharSequence dumpChain(Writer writer)
+	{
+		return dumpChain(writer, FileTools::chainFilenameDump);
+	}
+
+	static public CharSequence dumpChain(InputStream in)
+	{
+		return dumpChain(in, new StringBuilder(), FileTools::chainFilenameDump);
+	}
+
+	public static CharSequence dumpChain(Reader reader)
+	{
+		return dumpChain(reader, FileTools::chainFilenameDump);
+	}
+
+
+	private static CharSequence dumpChain(OutputStream out, StringBuilder buf, FilenameDumpClosure dump)
 	{
 		if (out == null) return buf;
-		buf.append(out.getClass().getName());
+		dump.dump(buf, out.getClass(), null);
 		while (out instanceof FilterOutputStream
 				|| out instanceof ObjectOutputStream)
 		{
@@ -281,7 +321,7 @@ public final class FileTools
 							fieldBoutObjectOutputStream.get(objIn)
 					);
 				}
-				buf.append(" -> ").append(out.getClass().getName());
+				dump.dump(buf, out.getClass(), null);
 			}
 			catch (IllegalAccessException e)
 			{
@@ -294,35 +334,7 @@ public final class FileTools
 			try
 			{
 				path = (String) fieldPathOutputStream.get(out);
-				if (path != null)
-					buf.append(" -> ").append(path);
-				else
-				{
-					buf.append("-> NO NAME"); // FIXME : COnsole ?
-					// Essai de détection de console, mais StackOverflow
-					// Il faut faire de même pour le inputStream
-					// et voir s'il faut le faire hors des dumps
-					// A faire en ajoutant debug dans play.properties
-//					try
-//					{
-//						AuditReactive.config.incSuppress();
-//						Field f=FileOutputStream.class.getDeclaredField("fd");
-//						f.setAccessible(true);
-//						FileDescriptor fd=(FileDescriptor)f.get(out);
-//						Field ff=FileDescriptor.class.getDeclaredField("fd");
-//						ff.setAccessible(true);
-//						int i =(Integer)ff.get(fd);
-//						System.err.println("FD="+i);
-//					}
-//					catch (NoSuchFieldException e)
-//					{
-//						e.printStackTrace();
-//					}
-//					finally
-//					{
-//						AuditReactive.config.decSuppress();
-//					}
-				}
+				dump.dump(buf, null, path);
 			}
 			catch (IllegalAccessException e)
 			{
@@ -337,13 +349,13 @@ public final class FileTools
 	}
 
 	@SuppressWarnings("ChainOfInstanceofChecks")
-	public static CharSequence dumpChain(Writer writer)
+	public static CharSequence dumpChain(Writer writer, FilenameDumpClosure dump)
 	{
 		StringBuilder buf = new StringBuilder();
 		if (writer == null) return buf;
 		try
 		{
-			buf.append(writer.getClass().getName());
+			dump.dump(buf, writer.getClass(), null);
 			while (writer instanceof FilterWriter
 					|| writer instanceof BufferedWriter
 					|| writer instanceof PrintWriter)
@@ -360,12 +372,13 @@ public final class FileTools
 				{
 					writer = (Writer) fieldOutBufferedWriter.get(writer);
 				}
-				buf.append(" -> ").append(writer.getClass().getName());
+				dump.dump(buf, writer.getClass(), null);
 			}
 			if (writer instanceof OutputStreamWriter)
 			{
 				OutputStream out = (OutputStream) fieldLockWriter.get(writer);
-				return dumpChain(out, buf.append(" -> "));
+				dump.dump(buf, Void.class, null);
+				return dumpChain(out, buf, dump);
 			}
 			else
 			{
@@ -379,15 +392,12 @@ public final class FileTools
 		}
 	}
 
-	static public CharSequence dumpChain(InputStream in)
-	{
-		return dumpChain(in, new StringBuilder());
-	}
-
-	static private CharSequence dumpChain(InputStream in, StringBuilder buf)
+	static private CharSequence dumpChain(InputStream in,
+	                                      StringBuilder buf,
+	                                      FilenameDumpClosure dump)
 	{
 		if (in == null) return buf;
-		buf.append(in.getClass().getName());
+		dump.dump(buf, in.getClass(), null);
 		while (in instanceof FilterInputStream
 				|| in instanceof ObjectInputStream)
 		{
@@ -408,7 +418,7 @@ public final class FileTools
 							)
 					);
 				}
-				buf.append(" -> ").append(in.getClass().getName());
+				dump.dump(buf, in.getClass(), null);
 			}
 			catch (IllegalAccessException e)
 			{
@@ -421,9 +431,7 @@ public final class FileTools
 			try
 			{
 				path = (String) fieldPathInputStream.get(in);
-				if (path != null)
-					buf.append(" -> ").append(path);
-				else buf.append("-> NO NAME"); // FIXME : COnsole ?
+				chainFilenameDump(buf, null, path);
 			}
 			catch (IllegalAccessException e)
 			{
@@ -432,16 +440,16 @@ public final class FileTools
 		}
 		else
 		{
-			buf.append(" -> ").append(in.getClass().getSimpleName());
+			dump.dump(buf, in.getClass(), null);
 		}
 		return buf;
 	}
 
-	public static CharSequence dumpChain(Reader reader)
+	private static CharSequence dumpChain(Reader reader, FilenameDumpClosure dump)
 	{
 		StringBuilder buf = new StringBuilder();
 		if (reader == null) return buf;
-		buf.append(reader.getClass().getName());
+		dump.dump(buf, reader.getClass(), null);
 		try
 		{
 			while (reader instanceof FilterReader
@@ -455,12 +463,13 @@ public final class FileTools
 				{
 					reader = (Reader) fieldInBufferedReader.get(reader);
 				}
-				buf.append(" -> ").append(reader.getClass().getName());
+				dump.dump(buf, reader.getClass(), null);
 			}
 			if (reader instanceof InputStreamReader)
 			{
 				InputStream in = (InputStream) fieldLockReader.get(reader);
-				return dumpChain(in, buf.append(" -> "));
+				dump.dump(buf, Void.class, null);
+				return dumpChain(in, buf, dump);
 			}
 			return buf;
 		}
@@ -468,6 +477,55 @@ public final class FileTools
 		{
 			throw new Error(e);
 		}
+	}
+
+	static private void chainFilenameDump(StringBuilder buf, Class cl, String filename)
+	{
+		if (cl != null)
+		{
+			buf.append(" -> ");
+			if (cl != Void.class) buf.append(cl.getClass().getSimpleName());
+		}
+		if (filename != null)
+		{
+			buf.append(" -> ").append(filename);
+			// Essai de détection de console, mais StackOverflow
+			// Il faut faire de même pour le inputStream
+			// et voir s'il faut le faire hors des dumps
+			// A faire en ajoutant debug dans play.properties
+//					try
+//					{
+//						AuditReactive.config.incSuppress();
+//						Field f=FileOutputStream.class.getDeclaredField("fd");
+//						f.setAccessible(true);
+//						FileDescriptor fd=(FileDescriptor)f.get(out);
+//						Field ff=FileDescriptor.class.getDeclaredField("fd");
+//						ff.setAccessible(true);
+//						int i =(Integer)ff.get(fd);
+//						System.err.println("FD="+i);
+//					}
+//					catch (NoSuchFieldException e)
+//					{
+//						e.printStackTrace();
+//					}
+//					finally
+//					{
+//						AuditReactive.config.decSuppress();
+//					}
+		}
+	}
+
+	static private void filenameDump(StringBuilder buf, Class cl, String filename)
+	{
+		if (filename != null)
+		{
+			buf.append(" with ").append(filename);
+		}
+	}
+
+	interface FilenameDumpClosure
+	{
+		void dump(StringBuilder buf, Class cl, String filename);
 	}
 
 }

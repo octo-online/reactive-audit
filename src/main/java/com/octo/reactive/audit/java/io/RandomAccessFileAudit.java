@@ -4,7 +4,6 @@ import com.octo.reactive.audit.AbstractFileAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
 
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 import static com.octo.reactive.audit.lib.Latency.LOW;
@@ -47,11 +46,5 @@ public class RandomAccessFileAudit extends AbstractFileAudit
 	public void close(JoinPoint thisJoinPoint)
 	{
 		latency(LOW, thisJoinPoint);
-	}
-
-	// FIXME
-	@Pointcut("call(* java.io.RandomAccessFile.format(..))")
-	public void format()
-	{
 	}
 }

@@ -47,7 +47,8 @@ dependencies {
 
 jar {
     //println ("####="+project(":audit-reactive-lib").buildDir.findAll("/classes/main/java/**.class"))
-    println("---" + fileTree(dir: project(":audit-reactive-lib").buildDir).matching { include 'classes/main/java/**' })
+//    println("---" + fileTree(dir: project(":audit-reactive-lib").buildDir).matching { include 'classes/main/java/**' })
+//    println("CLASSDIR "+project(":audit-reactive-lib").buildDir.)
     into('') {
         from project(":audit-reactive-lib").buildDir
     }

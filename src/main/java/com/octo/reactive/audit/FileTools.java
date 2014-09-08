@@ -206,7 +206,6 @@ public final class FileTools
 				throw new Error(e);
 			}
 		}
-		//if (out != null) ConfigAuditReactive.config.logger.finest("FINAL OUT:" + out.getClass()); // FIXME
 		if (out.getClass().getName().equals("java.net.SocketOutputStream")) return NET_ERROR;
 		if (out instanceof FileOutputStream) return FILE_ERROR;
 		if (out.getClass().getName().startsWith("sun.net.www.")) return NET_ERROR;
@@ -278,6 +277,7 @@ public final class FileTools
 	{
 		return dumpChain(in, new StringBuilder(), FileTools::chainFilenameDump);
 	}
+
 	public static CharSequence dumpChain(OutputStream out)
 	{
 		return dumpChain(out, new StringBuilder(), FileTools::chainFilenameDump);

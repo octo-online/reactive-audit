@@ -93,7 +93,7 @@ class LoadParams
 	{
 		if (allEnv == null)
 		{
-			Properties tempAllEnv = new Properties(); // FIXME
+			Properties tempAllEnv = new Properties();
 			// First: Java properties
 			for (Map.Entry<Object, Object> entry : System.getProperties().entrySet())
 			{

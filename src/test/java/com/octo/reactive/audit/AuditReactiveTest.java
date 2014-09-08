@@ -127,7 +127,6 @@ public class AuditReactiveTest
 		Thread t;
 
 		log[0] = 0;
-		// FIXME: ecriture java8 rejeté par aspectj 8.0
 		Runnable rctx1 = new Runnable()
 		{
 			@Override

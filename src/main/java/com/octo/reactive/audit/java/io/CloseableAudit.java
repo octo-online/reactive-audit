@@ -84,6 +84,6 @@ public class CloseableAudit extends AbstractAudit
 	@Override
 	protected AuditReactiveException newException(Latency latency, JoinPoint thisJoinPoint)
 	{
-		return null;  // FIXME
+		return null;
 	}
 }

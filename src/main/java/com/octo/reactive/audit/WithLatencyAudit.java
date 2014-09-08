@@ -1,11 +1,11 @@
 package com.octo.reactive.audit;
 
 import com.octo.reactive.audit.lib.AuditReactiveException;
+import com.octo.reactive.audit.lib.WithLatency;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-
-import static com.octo.reactive.audit.lib.Latency.HIGH;
+import org.aspectj.lang.reflect.MethodSignature;
 
 @Aspect
 public class WithLatencyAudit extends AbstractCPUAudit
@@ -14,6 +14,8 @@ public class WithLatencyAudit extends AbstractCPUAudit
 	public void with(JoinPoint thisJoinPoint)
 			throws AuditReactiveException
 	{
-		latency(HIGH, thisJoinPoint); // FIXME ! Niveau de latence
+		WithLatency withLatency = ((MethodSignature) thisJoinPoint.getSignature()).getMethod().getAnnotation(
+				WithLatency.class);
+		latency(withLatency.value(), thisJoinPoint);
 	}
 }

@@ -116,10 +116,12 @@ You can set all the parameters described in `<audit home>/etc/default.properties
 
 # Compile
 use
+
     gradlew build
 
 # Distribution
 use one of
+
     gradlew distZip     (result in build/distributions)
     gradlew distTar     (result in build/distributions)
     gradlew installDist (result in build/install/audit-reactive)

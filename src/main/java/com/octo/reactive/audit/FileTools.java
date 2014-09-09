@@ -34,8 +34,8 @@ public final class FileTools
 	private static final Field fieldBinObjectInputStream;
 	private static final Field fieldInObjectInputStream;
 	private static final Field fieldPeekObjectInputStream;
-	private static final Field fieldPathOutputStream;
-	private static final Field fieldPathInputStream;
+	private static Field fieldPathOutputStream;
+	private static Field fieldPathInputStream;
 	private static final Field fieldLockReader;
 	private static final Field fieldInFilterReader;
 	private static final Field fieldInBufferedReader;
@@ -100,10 +100,24 @@ public final class FileTools
 			fieldInObjectInputStream.setAccessible(true);
 			fieldPeekObjectInputStream = fieldInObjectInputStream.getType().getDeclaredField("in");
 			fieldPeekObjectInputStream.setAccessible(true);
-			fieldPathOutputStream = FileOutputStream.class.getDeclaredField("path");
-			fieldPathOutputStream.setAccessible(true);
-			fieldPathInputStream = FileInputStream.class.getDeclaredField("path");
-			fieldPathInputStream.setAccessible(true);
+			try
+			{
+				fieldPathOutputStream = FileOutputStream.class.getDeclaredField("path");
+				fieldPathOutputStream.setAccessible(true);
+			}
+			catch (Exception e)
+			{
+				// Ignore
+			}
+			try
+			{
+				fieldPathInputStream = FileInputStream.class.getDeclaredField("path");
+				fieldPathInputStream.setAccessible(true);
+			}
+			catch (Exception e)
+			{
+				// Ignore
+			}
 		}
 		catch (NoSuchFieldException e)
 		{
@@ -358,14 +372,17 @@ public final class FileTools
 		if (out instanceof FileOutputStream)
 		{
 			String path = null;
-			try
+			if (fieldPathOutputStream!=null)
 			{
-				path = (String) fieldPathOutputStream.get(out);
-				dump.dump(buf, null, path);
-			}
-			catch (IllegalAccessException e)
-			{
-				// Ignore
+				try
+				{
+					path = (String) fieldPathOutputStream.get(out);
+					dump.dump(buf, null, path);
+				}
+				catch (IllegalAccessException e)
+				{
+					// Ignore
+				}
 			}
 		}
 		else
@@ -455,14 +472,17 @@ public final class FileTools
 		if (in instanceof FileInputStream)
 		{
 			String path = null;
-			try
+			if (fieldPathInputStream!=null)
 			{
-				path = (String) fieldPathInputStream.get(in);
-				chainFilenameDump(buf, null, path);
-			}
-			catch (IllegalAccessException e)
-			{
-				// Ignore
+				try
+				{
+					path = (String) fieldPathInputStream.get(in);
+					chainFilenameDump(buf, null, path);
+				}
+				catch (IllegalAccessException e)
+				{
+					// Ignore
+				}
 			}
 		}
 		else

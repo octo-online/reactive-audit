@@ -30,7 +30,7 @@ sourceCompatibility = '7'
 targetCompatibility = '7'
 
 group = "com.octo.reactive.audit"
-version = '0.0.3-SNAPSHOT'
+version = '0.0.3-SNAPSHOT' // Don't forget to update init-home
 description = 'JVM Agent to detect blocking IO call'
 
 dependencies {

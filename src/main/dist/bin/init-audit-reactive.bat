@@ -26,29 +26,13 @@ goto :end
 
 REM ************************ Help
 if "%1"=="help" (
-    echo.
-    echo Usage init-audit-reactive [options] [framework]
-    echo.
-    echo Framework:
-    echo ^<nothing^>  Set AUDIT_OPTS
-    echo jetty     Set AUDIT_OPTS to start jetty
-    echo catalina  Set CATALINA_OPTS
-    echo play      Set SBT_OPTS
-    echo help      Print this message
-    echo.
-    echo Options:
-    echo -s Silent mode
-    echo -d Debug mode. Print values
-    echo.
-    echo Environment variables ^(read from context^):
-    echo AUDIT_REACTIVE_HOME  Environment variable, if unset uses the home directory of this batch.
-    echo FRAMEWORKS_HOME      Environment variable, if unset uses AUDIT_REACTIVE_HOME/etc
-    echo.
-    echo JRE_HOME             Environment variable, if unset detect the value with PATH
-    echo JAVA_HOME            Environment variable, if unset detect the value with PATH
-    echo JAVACMD              Environment variable, if unset use "java"
-    echo.
-    goto :end
+  goto :help
+)
+if "%1"=="-help" (
+  goto :help
+)
+if "%1"=="--help" (
+  goto :help
 )
 
 REM ************************ set JAVA_HOME
@@ -146,8 +130,8 @@ for /f "delims=. tokens=1-3" %%v in ("%_JAVA_VERSION%") do (
     set _BUILD=%%x
  )
 
-if "%_MINOR%" LSS "8" (
-  echo You must use JRE/JDK 8+. A back port is in the road map.
+if "%_MINOR%" LSS "7" (
+  echo You must use JRE/JDK 7+. A back port is in the road map.
   goto :end
 )
 
@@ -224,7 +208,7 @@ if "%_DEBUG%"=="true" (
 if "%_FRAMEWORK%"=="" (
     if not "%_SILENT%"=="true" (
         echo Now you can use the environment variable AUDIT_OPTS for launch Java program.
-        echo.  set JAVA_OPTS=%AUDIT_OPTS%
+        echo.  set JAVA_OPTS=%%AUDIT_OPTS%%
         echo Add -DauditReactive=^<yourfile^>.properties to select a specific configuration.
     )
 )
@@ -246,8 +230,10 @@ rem    set AUDIT_OPTS=%WEAVER%
 
 
     if not "%_SILENT%"=="true" (
+        setlocal enabledelayedexpansion
+        set dblpercent=%%%%
         echo In file ^"standalone.conf.bat^", add
-        echo.  set JAVA_OPTS=%%JAVA_OPTS%% %%AUDIT_OPTS%%
+        echo.  set JAVA_OPTS=%%JAVA_OPTS%%;%%AUDIT_OPTS%%
         echo "then you can start 'standalone'."
     )
 )
@@ -297,6 +283,33 @@ if "%_FRAMEWORK%" == "catalina" (
 )
 
 )
+
+goto :end
+
+:help
+    echo.
+    echo Usage init-audit-reactive [options] [framework]
+    echo.
+    echo Framework:
+    echo ^<nothing^>  Set AUDIT_OPTS
+    echo jetty      Set AUDIT_OPTS to start jetty
+    echo catalina   Set CATALINA_OPTS
+    echo play       Set SBT_OPTS
+    echo help       Print this message
+    echo.
+    echo Options:
+    echo -s Silent mode
+    echo -d Debug mode. Print values
+    echo.
+    echo Environment variables ^(read from context^):
+    echo AUDIT_REACTIVE_HOME  Environment variable, if unset uses the home directory of this batch.
+    echo FRAMEWORKS_HOME      Environment variable, if unset uses AUDIT_REACTIVE_HOME/etc
+    echo.
+    echo JRE_HOME             Environment variable, if unset detect the value with PATH
+    echo JAVA_HOME            Environment variable, if unset detect the value with PATH
+    echo JAVACMD              Environment variable, if unset use "java"
+    echo.
+    goto :end
 
 :end
 Rem clean env

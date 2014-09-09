@@ -1,6 +1,6 @@
 @echo off
 setlocal
-set VERSION=0.0.2-SNAPSHOT
+set VERSION=0.0.3-SNAPSHOT
 set "HOME=%~dp0"
 
 REM Reset

@@ -3,11 +3,12 @@
 @REM Environment:
 @REM JAVA_HOME - location of a JDK home dir (optional if java on path)
 @REM AUDIT_REACTIVE_HOME - location of a Audit Reactive home dir (optional)
-@REM FRAMEWORKS_HOME - The etc/ directory with the default properties for frameworks (optional)
+@REM FRAMEWORKS_HOME - The <home>/etc/ directory with the default properties for frameworks (optional)
 @REM
 @REM Parameters:
+@REM -help       : Print help (optional)
 @REM -s          : Silent mode (optional)
-@REM <framework> : Framework name. Must be "jetty", "catalina", "glassfish" or "play". (optional)
+@REM <framework> : Framework name. Must be "jetty", "catalina" or "play". (optional)
 @REM
 @REM Set:
 @REM AUDIT_OPTS  - JVM options for audit

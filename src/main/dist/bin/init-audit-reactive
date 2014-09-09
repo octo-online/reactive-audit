@@ -1,4 +1,20 @@
 #!/bin/bash
+# init-audit-reactive script
+#
+# Environment:
+# JAVA_HOME - location of a JDK home dir (optional if java on path)
+# AUDIT_REACTIVE_HOME - location of a Audit Reactive home dir (optional)
+# FRAMEWORKS_HOME - The <home>/etc/ directory with the default properties for frameworks (optional)
+#
+# Parameters:
+# -help       : Print help (optional)
+# -s          : Silent mode (optional)
+# <framework> : Framework name. Must be "jetty", "catalina" or "play". (optional)
+#
+# Set:
+# AUDIT_OPTS  - JVM options for audit
+# *_OPTS      - If <framework> would like.
+#
 
 # Uses uname to detect if we're in the odd cygwin environment.
 is_cygwin() {
@@ -8,6 +24,8 @@ is_cygwin() {
     *)  return 1 ;;
   esac
 }
+
+echo CYGWIN=$(is_cygwin )
 
 # This can fix cygwin style /cygdrive paths so we get the
 # windows style paths.
@@ -20,9 +38,6 @@ cygwinpath() {
   fi
 }
 
-echo XXXX=`cygwinpath a/b`
-echo YYYY=`cygwinpath a\\b`
-
 if [ -z "$AUDIT_REACTIVE_HOME" ]; then
     AUDIT_REACTIVE_HOME=$(cygwinpath `dirname $0`)
 else
@@ -33,6 +48,9 @@ if [ -z "$FRAMEWORKS_HOME" ]; then
 else
     FRAMEWORKS_HOME=$(cygwinpath $FRAMEWORKS_HOME)
 fi
+
+echo AUDIT_REACTIVE_HOME=$(AUDIT_REACTIVE_HOME)
+echo FRAMEWORKS_HOME=$(FRAMEWORKS_HOME)
 
 # Parse args
 while [ "$1" != "" ]; do
@@ -58,7 +76,7 @@ AUDIT_OPTS="${CONF} ${WEAVER} ${XBOOT}"
 
 if [[ "$FRAMEWORK" == "" && "$SILENT" != "true" ]]; then
     echo 'Now you can use the environment variable AUDIT_OPTS for launch Java program.'
-    echo ' set JAVA_OPTS=$AUDIT_OPTS}'
+    echo ' set JAVA_OPTS=${AUDIT_OPTS}'
     echo 'Add -DauditReactive=<yourfile>.properties to select a specific configuration.'
 fi
 

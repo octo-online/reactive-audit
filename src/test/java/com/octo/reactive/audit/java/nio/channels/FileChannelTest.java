@@ -6,13 +6,34 @@ import com.octo.reactive.audit.lib.FileAuditReactiveException;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.channels.DatagramChannel;
 import java.nio.channels.FileChannel;
 import java.util.function.Supplier;
 
 public class FileChannelTest
 {
-	private final Supplier<FileChannel> readChannel  = IOTestTools::getInputFileChannel;
-	private final Supplier<FileChannel> writeChannel = IOTestTools::getOutputFileChannel;
+	//Jaba8 private final Supplier<FileChannel> readChannel  = IOTestTools::getInputFileChannel;
+	private final Supplier<FileChannel> readChannel =
+		new Supplier<FileChannel>()
+		{
+			@Override
+			public FileChannel get()
+			{
+				return IOTestTools.getInputFileChannel();
+			}
+
+		};
+	//Java8 private final Supplier<FileChannel> writeChannel = IOTestTools::getOutputFileChannel;
+	private final Supplier<FileChannel> writeChannel =
+			new Supplier<FileChannel>()
+			{
+				@Override
+				public FileChannel get()
+				{
+					return IOTestTools.getOutputFileChannel();
+				}
+
+			};
 
 	@Test(expected = FileAuditReactiveException.class)
 	public void open() throws IOException

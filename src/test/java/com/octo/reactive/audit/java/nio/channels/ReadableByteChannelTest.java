@@ -30,8 +30,24 @@ public class ReadableByteChannelTest
 	{
 		Supplier<?>[][] data = new Supplier<?>[][]
 				{
-						{IOTestTools::getInputFileChannel},
-						{IOTestTools::getSocketChannel},
+						//Java8 {IOTestTools::getInputFileChannel},
+						{new Supplier<Object>()
+							{
+								@Override
+								public Object get()
+								{
+									return IOTestTools.getInputFileChannel();
+								}
+							}},
+						//Java8 {IOTestTools::getSocketChannel},
+						{new Supplier<Object>()
+						{
+							@Override
+							public Object get()
+							{
+								return IOTestTools.getSocketChannel();
+							}
+						}},
 				};
 		return Arrays.asList(data);
 	}

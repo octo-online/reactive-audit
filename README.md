@@ -117,7 +117,8 @@ You can set all the parameters described in `<audit home>/etc/default.properties
 # Compile
 use
 
-    gradlew build
+    gradlew build (with Jdk8)
+    gradlew build -x test (with Jdk7)
 
 # Distribution
 use one of

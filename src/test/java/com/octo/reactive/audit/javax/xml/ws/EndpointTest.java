@@ -9,6 +9,7 @@ import javax.xml.transform.Source;
 import javax.xml.ws.Binding;
 import javax.xml.ws.Endpoint;
 import javax.xml.ws.EndpointReference;
+import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.spi.http.HttpContext;
 import java.util.List;
 import java.util.Map;
@@ -136,7 +137,7 @@ public class EndpointTest
 	public void publish_String_Object_WebServiceFeature()
 	{
 		AuditReactive.strict.commit();
-		Endpoint.publish(null, null, null);
+		Endpoint.publish(null, null, (WebServiceFeature)null);
 	}
 
 }

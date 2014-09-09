@@ -253,49 +253,76 @@ public final class FileTools
 		}
 	}
 
+	static FilenameDumpClosure FileTools_filenameDump = new FilenameDumpClosure()
+	{
+		@Override
+		public void dump(StringBuilder buf, Class cl, String filename)
+		{
+			filenameDump(buf, cl, filename);
+		}
+	};
+
+	static FilenameDumpClosure FileTools_chainFilenameDump = new FilenameDumpClosure()
+	{
+		@Override
+		public void dump(StringBuilder buf, Class cl, String filename)
+		{
+			chainFilenameDump(buf, cl, filename);
+		}
+	};
+
 	public static CharSequence printFilename(OutputStream out)
 	{
-		return dumpChain(out, new StringBuilder(), FileTools::filenameDump);
+		// Java8 return dumpChain(out, new StringBuilder(), FileTools::filenameDump);
+		return dumpChain(out, new StringBuilder(), FileTools_filenameDump);
 	}
 
 	public static CharSequence printFilename(Writer writer)
 	{
-		return dumpChain(writer, FileTools::filenameDump);
+		// Java8 return dumpChain(writer, FileTools::filenameDump);
+		return dumpChain(writer, FileTools_filenameDump);
 	}
 
 	static public CharSequence printFilename(InputStream in)
 	{
-		return dumpChain(in, new StringBuilder(), FileTools::filenameDump);
+		// Java8 return dumpChain(in, new StringBuilder(), FileTools::filenameDump);
+		return dumpChain(in, new StringBuilder(), FileTools_filenameDump);
 	}
 
 	public static CharSequence printFilename(Reader reader)
 	{
-		return dumpChain(reader, FileTools::filenameDump);
+		// Java8 return dumpChain(reader, FileTools::filenameDump);
+		return dumpChain(reader, FileTools_filenameDump);
 	}
 
 	static public CharSequence dumpFilename(InputStream in)
 	{
-		return dumpChain(in, new StringBuilder(), FileTools::chainFilenameDump);
+		// Java8 return dumpChain(in, new StringBuilder(), FileTools::chainFilenameDump);
+		return dumpChain(in, new StringBuilder(), FileTools_chainFilenameDump);
 	}
 
 	public static CharSequence dumpChain(OutputStream out)
 	{
-		return dumpChain(out, new StringBuilder(), FileTools::chainFilenameDump);
+		// Java8 return dumpChain(out, new StringBuilder(), FileTools::chainFilenameDump);
+		return dumpChain(out, new StringBuilder(), FileTools_chainFilenameDump);
 	}
 
 	public static CharSequence dumpChain(Writer writer)
 	{
-		return dumpChain(writer, FileTools::chainFilenameDump);
+		// Java8 return dumpChain(writer, FileTools::chainFilenameDump);
+		return dumpChain(writer, FileTools_chainFilenameDump);
 	}
 
 	static public CharSequence dumpChain(InputStream in)
 	{
-		return dumpChain(in, new StringBuilder(), FileTools::chainFilenameDump);
+		// Java8 return dumpChain(in, new StringBuilder(), FileTools::chainFilenameDump);
+		return dumpChain(in, new StringBuilder(), FileTools_chainFilenameDump);
 	}
 
 	public static CharSequence dumpChain(Reader reader)
 	{
-		return dumpChain(reader, FileTools::chainFilenameDump);
+		// Java8 return dumpChain(reader, FileTools::chainFilenameDump);
+		return dumpChain(reader, FileTools_chainFilenameDump);
 	}
 
 

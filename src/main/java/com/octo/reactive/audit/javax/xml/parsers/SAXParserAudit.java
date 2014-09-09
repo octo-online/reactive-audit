@@ -7,7 +7,6 @@ import com.octo.reactive.audit.lib.AuditReactiveException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.xml.sax.HandlerBase;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.InputStream;
@@ -37,14 +36,16 @@ public class SAXParserAudit extends AbstractFileAudit
 	}
 
 	@Before("call(* javax.xml.parsers.SAXParser.parse(java.io.InputStream,org.xml.sax.HandlerBase)) && args(in,hb)")
-	public void parse(JoinPoint thisJoinPoint, InputStream in, HandlerBase hb)
+	@SuppressWarnings( "deprecation" )
+	public void parse(JoinPoint thisJoinPoint, InputStream in, org.xml.sax.HandlerBase hb)
 	{
 		AuditReactiveException ex = AbstractInputStreamAudit.latencyInputStream(config, HIGH, thisJoinPoint, in);
 		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
 	}
 
 	@Before("call(* javax.xml.parsers.SAXParser.parse(java.io.InputStream,org.xml.sax.HandlerBase,String)) && args(in,hb,s)")
-	public void parse(JoinPoint thisJoinPoint, InputStream in, HandlerBase hb, String s)
+	@SuppressWarnings( "deprecation" )
+	public void parse(JoinPoint thisJoinPoint, InputStream in, org.xml.sax.HandlerBase hb, String s)
 	{
 		AuditReactiveException ex = AbstractInputStreamAudit.latencyInputStream(config, HIGH, thisJoinPoint, in);
 		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
@@ -70,7 +71,8 @@ public class SAXParserAudit extends AbstractFileAudit
 	}
 
 	@Before("call(* javax.xml.parsers.SAXParser.parse(String,org.xml.sax.HandlerBase)) && args(uri,hb)")
-	public void parse(JoinPoint thisJoinPoint, String uri, HandlerBase hb)
+	@SuppressWarnings( "deprecation" )
+	public void parse(JoinPoint thisJoinPoint, String uri, org.xml.sax.HandlerBase hb)
 	{
 		try
 		{

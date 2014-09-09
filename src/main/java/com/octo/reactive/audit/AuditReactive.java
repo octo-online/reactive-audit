@@ -7,9 +7,9 @@ import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.LongAdder;
 import java.util.logging.*;
 import java.util.regex.Pattern;
+import com.octo.reactive.audit.backport.LongAdder;
 
 public class AuditReactive
 {
@@ -492,9 +492,16 @@ public class AuditReactive
 		 * @param onOff true or fall
 		 * @return The current transaction.
 		 */
-		public Transaction throwExceptions(boolean onOff)
+		public Transaction throwExceptions(final boolean onOff)
 		{
-			add(() -> throwExceptions = onOff);
+			add(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					throwExceptions = onOff;
+				}
+			});
 			return this;
 		}
 
@@ -505,30 +512,58 @@ public class AuditReactive
 		 * @param level The logLevel.
 		 * @return The current transaction.
 		 */
-		public Transaction log(Level level)
+		public Transaction log(final Level level)
 		{
-			add(() -> logger.setLevel(level));
+			add(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					logger.setLevel(level);
+				}
+			});
 			return this;
 		}
 
 		public Transaction latencyFile(String level)
 		{
 			final Latency latency = (level.length()) == 0 ? null : Latency.valueOf(level.toUpperCase());
-			add(() -> latencyFile = latency);
+			add(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					latencyFile = latency;
+				}
+			});
 			return this;
 		}
 
 		public Transaction latencyNetwork(String level)
 		{
 			final Latency latency = (level.length()) == 0 ? null : Latency.valueOf(level.toUpperCase());
-			add(() -> latencyNetwork = latency);
+			add(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					latencyNetwork = latency;
+				}
+			} );
 			return this;
 		}
 
 		public Transaction latencyCPU(String level)
 		{
 			final Latency latency = (level.length()) == 0 ? null : Latency.valueOf(level.toUpperCase());
-			add(() -> latencyCPU = latency);
+			add(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					latencyCPU = latency;
+				}
+			} );
 			return this;
 		}
 
@@ -554,14 +589,19 @@ public class AuditReactive
 				{
 					handler.setFormatter(new AuditLogFormat(format));
 				}
-				add(() -> {
-					for (Handler h : logger.getHandlers())
+				add(new Runnable()
+				{
+					@Override
+					public void run()
 					{
-						logger.removeHandler(h);
+						for (Handler h : logger.getHandlers())
+						{
+							logger.removeHandler(h);
+						}
+						logHandler = handler;
+						logger.addHandler(handler);
 					}
-					logHandler = handler;
-					logger.addHandler(handler);
-				});
+				} );
 				logger.setUseParentHandlers(false);
 			}
 			catch (IOException e)
@@ -578,9 +618,16 @@ public class AuditReactive
 		 * @param pattern The regexp pattern.
 		 * @return The current transaction.
 		 */
-		public Transaction threadPattern(String pattern)
+		public Transaction threadPattern(final String pattern)
 		{
-			add(() -> threadPattern = Pattern.compile(pattern));
+			add(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					threadPattern = Pattern.compile(pattern);
+				}
+			} );
 			return this;
 		}
 
@@ -591,9 +638,16 @@ public class AuditReactive
 		 * @param delay The new delay.
 		 * @return The current transaction.
 		 */
-		public Transaction bootStrapDelay(long delay)
+		public Transaction bootStrapDelay(final long delay)
 		{
-			add(() -> bootstrapDelay = delay);
+			add(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					bootstrapDelay = delay;
+				}
+			} );
 			return this;
 		}
 
@@ -605,9 +659,16 @@ public class AuditReactive
 		 * @param aDebug The debug mode.
 		 * @return The current transaction.
 		 */
-		public Transaction debug(boolean aDebug)
+		public Transaction debug(final boolean aDebug)
 		{
-			add(() -> setDebug(aDebug));
+			add(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					setDebug(aDebug);
+				}
+			} );
 			return this;
 		}
 
@@ -617,7 +678,7 @@ public class AuditReactive
 		 */
 		public synchronized void commit()
 		{
-			commands.forEach(x -> x.run());
+			for (Runnable r:commands) r.run();
 			statLow.reset();
 			statMedium.reset();
 			statLow.reset();

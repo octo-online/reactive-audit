@@ -34,7 +34,7 @@ public class ObjectInputStreamTest extends AuditedInputStreamTest
 	@Test
 	public void derived() throws IOException
 	{
-		ByteArrayOutputStream buf = new ByteArrayOutputStream(100);
+		final ByteArrayOutputStream buf = new ByteArrayOutputStream(100);
 		ObjectOutputStream obj = new ObjectOutputStream(buf);
 		obj.writeObject("");
 		obj.close();

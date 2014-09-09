@@ -18,20 +18,20 @@ project.ext {
     aspectjVersion = '1.8.2'
 }
 
-apply plugin: 'aspectj'
+//apply plugin: 'aspectj'
+apply plugin: 'java'
 
 apply plugin: 'distribution'
 apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-sourceCompatibility = '8'
-targetCompatibility = '8'
+sourceCompatibility = '7'
+targetCompatibility = '7'
 
 group = "com.octo.reactive.audit"
-version = '0.0.2-SNAPSHOT'
+version = '0.0.3-SNAPSHOT'
 description = 'JVM Agent to detect blocking IO call'
-
 
 dependencies {
     compile project(":audit-reactive-lib")
@@ -45,12 +45,22 @@ dependencies {
     testRuntime "org.apache.derby:derby:10.10.2.0"
 }
 
+compileJava {
+    // I only managed to get this working when I forked
+    // and passed 'javac' as an executable
+    options.compilerArgs << '-XDignore.symbol.file'
+    options.fork = true
+    options.forkOptions.executable = 'javac'
+}
+
 jar {
     //println ("####="+project(":audit-reactive-lib").buildDir.findAll("/classes/main/java/**.class"))
 //    println("---" + fileTree(dir: project(":audit-reactive-lib").buildDir).matching { include 'classes/main/java/**' })
-//    println("CLASSDIR "+project(":audit-reactive-lib").buildDir.)
+    def libcl=file(project(":audit-reactive-lib").buildDir.toString()+"/classes/main/")
+    println("CLASSDIR "+libcl)
+
     into('') {
-        from project(":audit-reactive-lib").buildDir
+        from file(project(":audit-reactive-lib").buildDir.toString()+"/classes/main/")
     }
 }
 task wrapper(type: Wrapper) {
@@ -64,6 +74,7 @@ test {
 //    }
 
     include 'com/octo/reactive/audit/**'
+
     def weaver = "-javaagent:" +
             project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
     def auditReactiveConf = "-DauditReactive=src/test/resources/testAuditReactive.properties"

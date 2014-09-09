@@ -7,7 +7,7 @@ import java.util.Set;
 class HistoryStackElement
 {
 	static final  String                     myPackage = HistoryStackElement.class.getPackage().getName();
-	private final Set<HashStackTraceElement> logged    = Collections.synchronizedSet(new HashSet<>());
+	private final Set<HashStackTraceElement> logged    = Collections.synchronizedSet(new HashSet<HashStackTraceElement>());
 
 
 	void purge()

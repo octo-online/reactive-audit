@@ -9,6 +9,7 @@ import org.junit.runners.Parameterized;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.channels.SeekableByteChannel;
 import java.nio.channels.WritableByteChannel;
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,8 +30,24 @@ public class WritableByteChannelTest
 	{
 		Supplier<?>[][] data = new Supplier<?>[][]
 				{
-						{IOTestTools::getOutputFileChannel},
-						{IOTestTools::getSocketChannel},
+						//Java8 {IOTestTools::getOutputFileChannel},
+						{new Supplier<Object>()
+						{
+							@Override
+							public Object get()
+							{
+								return IOTestTools.getOutputFileChannel();
+							}
+						}},
+						//Jav8 {IOTestTools::getSocketChannel},
+						{new Supplier<Object>()
+						{
+							@Override
+							public Object get()
+							{
+								return IOTestTools.getSocketChannel();
+							}
+						}},
 				};
 		return Arrays.asList(data);
 	}

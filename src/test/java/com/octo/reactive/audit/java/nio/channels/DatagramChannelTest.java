@@ -16,7 +16,17 @@ import static com.octo.reactive.audit.IOTestTools.PORT;
 
 public class DatagramChannelTest
 {
-	private final Supplier<DatagramChannel> channel = IOTestTools::getDatagramChannel;
+	// Java8 private final Supplier<DatagramChannel> channel = IOTestTools::getDatagramChannel;
+	private final Supplier<DatagramChannel> channel =
+			new Supplier<DatagramChannel>()
+			{
+				@Override
+				public DatagramChannel get()
+				{
+					return IOTestTools.getDatagramChannel();
+				}
+
+			};
 
 	@Test(expected = NetworkAuditReactiveException.class)
 	public void connect() throws IOException

@@ -15,6 +15,7 @@ import java.rmi.server.*;
 public class RemoteObjectInvocationHandlerTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
+	@SuppressWarnings( "deprecation" )
 	public void invoke() throws Throwable
 	{
 		AuditReactive.strict.commit();

@@ -10,14 +10,13 @@ import java.io.ObjectOutput;
 import java.lang.reflect.Method;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.server.Operation;
-import java.rmi.server.RemoteCall;
 import java.rmi.server.RemoteObject;
 import java.rmi.server.RemoteRef;
 
 public class RemoteRefTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
+	@SuppressWarnings( "deprecation" )
 	public void invoke() throws Exception
 	{
 		AuditReactive.strict.commit();
@@ -31,19 +30,19 @@ public class RemoteRefTest
 			}
 
 			@Override
-			public RemoteCall newCall(RemoteObject obj, Operation[] op, int opnum, long hash) throws RemoteException
+			public java.rmi.server.RemoteCall newCall(RemoteObject obj, java.rmi.server.Operation[] op, int opnum, long hash) throws RemoteException
 			{
 				return null;
 			}
 
 			@Override
-			public void invoke(RemoteCall call) throws Exception
+			public void invoke(java.rmi.server.RemoteCall call) throws Exception
 			{
 
 			}
 
 			@Override
-			public void done(RemoteCall call) throws RemoteException
+			public void done(java.rmi.server.RemoteCall call) throws RemoteException
 			{
 
 			}

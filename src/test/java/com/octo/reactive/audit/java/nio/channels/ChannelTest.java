@@ -10,7 +10,15 @@ import java.util.function.Supplier;
 
 public class ChannelTest
 {
-	private final Supplier<Channel> channel = IOTestTools::getInputFileChannel;
+	// Java8 private final Supplier<Channel> channel = IOTestTools::getInputFileChannel;
+	private final Supplier<Channel> channel = new Supplier<Channel>()
+	{
+		@Override
+		public Channel get()
+		{
+			return IOTestTools.getInputFileChannel();
+		}
+	};
 
 	@Test
 	public void close() throws IOException

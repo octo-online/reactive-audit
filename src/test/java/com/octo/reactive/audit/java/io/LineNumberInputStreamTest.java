@@ -5,7 +5,6 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.LineNumberInputStream;
 
 import static com.octo.reactive.audit.TestTools.pop;
 import static com.octo.reactive.audit.TestTools.push;
@@ -19,7 +18,7 @@ public class LineNumberInputStreamTest extends FileInputStreamTest
 		push();
 		InputStream in = super.newInputStream();
 		pop();
-		return new LineNumberInputStream(in);
+		return new java.io.LineNumberInputStream(in);
 	}
 
 	@Override
@@ -32,7 +31,7 @@ public class LineNumberInputStreamTest extends FileInputStreamTest
 	@Test
 	public void derived() throws IOException
 	{
-		class Derived extends LineNumberInputStream
+		class Derived extends java.io.LineNumberInputStream
 		{
 			Derived()
 			{

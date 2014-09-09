@@ -41,6 +41,7 @@ public class SocketTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
+	@SuppressWarnings( "deprecation" )
 	public void new_3() throws IOException
 	{
 		AuditReactive.off.commit();

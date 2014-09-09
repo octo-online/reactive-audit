@@ -16,6 +16,7 @@ public class SAXParserTest
 	{
 
 		@Override
+		@SuppressWarnings( "deprecation" )
 		public Parser getParser() throws SAXException
 		{
 			return null;
@@ -60,6 +61,7 @@ public class SAXParserTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
+	@SuppressWarnings( "deprecation" )
 	public void parse_File_HandlerBase() throws IOException, SAXException
 	{
 		AuditReactive.strict.commit();
@@ -74,6 +76,7 @@ public class SAXParserTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
+	@SuppressWarnings( "deprecation" )
 	public void parse_InputStream_HandlerBase() throws IOException, SAXException
 	{
 		AuditReactive.strict.commit();
@@ -81,6 +84,7 @@ public class SAXParserTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
+	@SuppressWarnings( "deprecation" )
 	public void parse_InputStream_HandlerBase_S() throws IOException, SAXException
 	{
 		AuditReactive.strict.commit();
@@ -95,6 +99,7 @@ public class SAXParserTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
+	@SuppressWarnings( "deprecation" )
 	public void parse_String_HandlerBase() throws IOException, SAXException
 	{
 		AuditReactive.strict.commit();

@@ -49,7 +49,6 @@ echo Neither the JAVA_HOME nor the JRE_HOME environment variable is defined
 echo At least one of these environment variable is needed to run this program
 goto end
 
-:needJavaHome
 rem Check if we have a usable JDK
 if "%_JAVA_HOME%" == "" goto noJavaHome
 if not exist "%_JAVA_HOME%\bin\java.exe" goto noJavaHome
@@ -102,7 +101,7 @@ set _JAVAINSTALLED=
 
 if "%_JAVAOK%"=="false" (
   echo.
-  echo A Java JDK is not installed or can't be found.
+  echo A Java JRE is not installed or can't be found.
   if not "%_JAVA_HOME%"=="" (
     echo JAVA_HOME = "%JAVA_HOME%"
   )
@@ -112,8 +111,8 @@ if "%_JAVAOK%"=="false" (
   echo and download a valid Java JDK and install before running Activator.
   echo.
   echo If you think this message is in error, please check
-  echo your environment variables to see if "java.exe" and "javac.exe" are
-  echo available via JAVA_HOME or PATH.
+  echo your environment variables to see if "java" is
+  echo available via JAVA_HOME or JRE_HOME.
   echo.
   goto :end
 )
@@ -137,7 +136,7 @@ if "%_MINOR%" LSS "7" (
 )
 
 REM ************************ set AUDIT_REACTIVE_HOME & FRAMEWORKS_HOME
-for %%A in ("%_JAVA_HOME%") do set _JAVA_HOME=%%~sA
+for %%A in ("%_JRE_HOME%") do set _JRE_HOME=%%~sA
 if "%_AUDIT_REACTIVE_HOME%"=="" set _AUDIT_REACTIVE_HOME=%~dp0..
 for %%A in ("%_AUDIT_REACTIVE_HOME%") do set _AUDIT_REACTIVE_HOME=%%~sA
 if not exist "%_AUDIT_REACTIVE_HOME%\lib\aspectjweaver.jar" (
@@ -193,8 +192,8 @@ rem set _XBOOT=-Xbootclasspath/p:%_AUDIT_REACTIVE_HOME%\lib\aspectjweaver.jar;%_
 rem set AUDIT_OPTS=%_CONF% %_WEAVER% %_XBOOT%
 
 @REM Add audit agent with java.ext.dirs
-set _EXTDIR=-Djava.ext.dirs=%_JAVA_HOME%\jre\lib\ext;%_AUDIT_REACTIVE_HOME%\lib
-set AUDIT_OPTS=%AUDIT_OPTS% %_CONF% %_WEAVER% %_EXTDIR%
+set _EXTDIR=-Djava.ext.dirs=%_JRE_HOME%\jre\lib\ext;%_AUDIT_REACTIVE_HOME%\lib
+set AUDIT_OPTS=%_CONF% %_WEAVER% %_EXTDIR%
 
 if "%_DEBUG%"=="true" (
     echo AUDIT_REACTIVE_HOME = %AUDIT_REACTIVE_HOME%
@@ -303,12 +302,12 @@ goto :end
     echo -d Debug mode. Print values
     echo.
     echo Environment variables ^(read from context^):
-    echo AUDIT_REACTIVE_HOME  Environment variable, if unset uses the home directory of this batch.
-    echo FRAMEWORKS_HOME      Environment variable, if unset uses AUDIT_REACTIVE_HOME/etc
+    echo AUDIT_REACTIVE_HOME  Env. variable, if unset uses the home directory of this batch.
+    echo FRAMEWORKS_HOME      Env. variable, if unset uses AUDIT_REACTIVE_HOME/etc
     echo.
-    echo JRE_HOME             Environment variable, if unset detect the value with PATH
-    echo JAVA_HOME            Environment variable, if unset detect the value with PATH
-    echo JAVACMD              Environment variable, if unset use "java"
+    echo JRE_HOME             Env. variable, if unset detect the value with PATH
+    echo JAVA_HOME            Env. variable, if unset detect the value with PATH
+    echo JAVACMD              Env. variable, if unset use "java"
     echo.
     goto :end
 

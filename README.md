@@ -52,7 +52,7 @@ To start **JVM** with the audit on Windows:
 
 To start **JVM** with the audit on Linux:
 
-    > . init-audit-reactive
+    > . init-audit-reactive.sh
     > java %AUDIT_OPTS% ...
 
 To start **jetty** with the audit on Windows:
@@ -62,7 +62,7 @@ To start **jetty** with the audit on Windows:
 
 To start **jetty** with the audit on Linux:
 
-    > . init-audit-reactive jetty
+    > . init-audit-reactive.sh jetty
     > java %AUDIT_OPTS% -jar start.jar
 
 To start **catalina** (Tomcat) with audit on Windows:
@@ -72,7 +72,7 @@ To start **catalina** (Tomcat) with audit on Windows:
 
 To start **catalina** (Tomcat) with audit on Linux:
 
-    > . init-audit-reactive catalina
+    > . init-audit-reactive.sh catalina
     > catalina run
 
 To start **play** with the audit on Windows:
@@ -82,7 +82,7 @@ To start **play** with the audit on Windows:
 
 To start **play** with the audit on Linux:
 
-    >. init-audit-reactive play
+    >. init-audit-reactive.sh play
     > activator run
 
 For the background, this script add a boot classpath with `<audit home>/lib`

@@ -14,9 +14,9 @@ mkdir %HOME%\home\lib
 
 pushd %HOME%\home\bin
 mklink debug-audit-reactive.bat ..\..\src\test\bin\debug-audit-reactive.bat
-mklink debug-audit-reactive ..\..\src\test\bin\debug-audit-reactive
+mklink debug-audit-reactive.sh ..\..\src\test\bin\debug-audit-reactive.sh
 mklink init-audit-reactive.bat ..\..\src\main\dist\bin\init-audit-reactive.bat
-mklink init-audit-reactive ..\..\src\main\dist\bin\init-audit-reactive
+mklink init-audit-reactive.sh ..\..\src\main\dist\bin\init-audit-reactive.sh
 popd
 
 pushd %HOME%\home

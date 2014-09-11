@@ -4,7 +4,7 @@ For reminder, when applying this approach the application must use only **non-bl
 as soon as possible, return the current thread to a pool, limited by the number of CPU cores.
 The code must also use Java 8 concurrency utility classes `Future<>` and `CompletableFuture<>` everywhere.
 
-**WARNING:** This is an alpha version, works only with JRE 8 !
+**WARNING:** This is an alpha version, works only with JRE 7+ !
 
 Now, 517 blocking methods was detected.
 
@@ -117,13 +117,13 @@ You can set all the parameters described in `<audit home>/etc/default.properties
 # Compile
 use
 
-    gradlew build (with Jdk8)
-    gradlew build -x test (with Jdk7)
+    ./gradlew build (with Jdk8)
+    ./gradlew build -x test (with Jdk7)
 
 # Distribution
 use one of
 
-    gradlew distZip     (result in build/distributions)
-    gradlew distTar     (result in build/distributions)
-    gradlew installDist (result in build/install/audit-reactive)
+    ./gradlew distZip     (result in build/distributions)
+    ./gradlew distTar     (result in build/distributions)
+    ./gradlew installDist (result in build/install/audit-reactive)
 

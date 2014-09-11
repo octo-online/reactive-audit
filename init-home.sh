@@ -1,0 +1,33 @@
+VERSION=0.0.3-SNAPSHOT
+declare AUDIT_REACTIVE_HOME="$(dirname  "$0")"
+# FIXME
+declare ASPECTJ_HOME=$AUDIT_REACTIVE_HOME
+if [[ -z "$ASPECTJ_HOME" ]]; then
+    echo 'Set $ASPECTJ_HOME'
+    exit 1
+fi
+
+if [[ -e "$AUDIT_REACTIVE_HOME/home" ]]; then
+  rm -Rf "$AUDIT_REACTIVE_HOME/home"
+fi
+
+mkdir -p "$AUDIT_REACTIVE_HOME/home/bin"
+mkdir -p "$AUDIT_REACTIVE_HOME/home/lib"
+
+pushd "$AUDIT_REACTIVE_HOME/home/bin" >/dev/null
+ln -s ../../src/test/bin/debug-audit-reactive.bat debug-audit-reactive.bat 
+ln -s  ../../src/test/bin/debug-audit-reactive.sh debug-audit-reactive.sh 
+ln -s  ../../src/main/dist/bin/init-audit-reactive.bat init-audit-reactive.bat 
+ln -s  ../../src/main/dist/bin/init-audit-reactive.sh init-audit-reactive.sh
+popd >/dev/null
+
+pushd "$AUDIT_REACTIVE_HOME/home" >/dev/null
+ln -s ../src/main/dist/etc etc
+popd >/dev/null
+
+pushd "$AUDIT_REACTIVE_HOME/home/lib" >/dev/null
+ln -s "$ASPECTJ_HOME/lib/aspectjweaver.jar" aspectjweaver.jar
+ln -s "../../build/libs/audit-reactive-lib-$VERSION.jar" audit-reactive-lib.jar
+ln -s "../../build/libs/audit-reactive-$VERSION.jar" audit-reactive.jar 
+popd >/dev/null
+

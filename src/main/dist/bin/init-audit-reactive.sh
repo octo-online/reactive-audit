@@ -136,6 +136,9 @@ cygunixpath() {
 
 # Detect if we should use JAVA_HOME or just try PATH.
 get_jre_home() {
+dlog "JRE_HOME=$JRE_HOME"
+dlog "JAVA_HOME=$JAVA_HOME"
+
   if [[ -n "$JRE_HOME" ]] ; then
     echo "$(cygunixpath "$JRE_HOME")"
   else
@@ -174,9 +177,11 @@ process_args () {
 ###  ------------------------------- ###
 ###  Main script                     ###
 ###  ------------------------------- ###
+debug=1
+
 if [[ -z "${AUDIT_REACTIVE_HOME}" ]]
 then
-  declare AUDIT_REACTIVE_HOME="$(realpath "$0")"
+  declare AUDIT_REACTIVE_HOME="$(dirname $(realpath "../$0"))"
 else
   declare AUDIT_REACTIVE_HOME="$(realpath "${AUDIT_REACTIVE_HOME}")"
 fi

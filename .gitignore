@@ -8,3 +8,5 @@ sampleweb/
 annotations/
 derbyDB/
 derby.log
+*~
+

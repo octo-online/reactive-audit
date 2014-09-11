@@ -1,7 +1,5 @@
 VERSION=0.0.3-SNAPSHOT
 declare AUDIT_REACTIVE_HOME="$(dirname  "$0")"
-# FIXME
-declare ASPECTJ_HOME=$AUDIT_REACTIVE_HOME
 if [[ -z "$ASPECTJ_HOME" ]]; then
     echo 'Set $ASPECTJ_HOME'
     exit 1

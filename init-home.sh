@@ -25,7 +25,7 @@ popd >/dev/null
 
 pushd "$AUDIT_REACTIVE_HOME/home/lib" >/dev/null
 ln -s "$ASPECTJ_HOME/lib/aspectjweaver.jar" aspectjweaver.jar
-ln -s "../../build/libs/audit-reactive-lib-$VERSION.jar" audit-reactive-lib.jar
-ln -s "../../build/libs/audit-reactive-$VERSION.jar" audit-reactive.jar 
+ln -s ../../audit-reactive-lib/build/libs/audit-reactive-lib-$VERSION.jar audit-reactive-lib.jar
+ln -s "../../build/libs/audit-reactive-$VERSION.jar" audit-reactive.jar
 popd >/dev/null
 

@@ -177,7 +177,6 @@ process_args () {
 ###  ------------------------------- ###
 ###  Main script                     ###
 ###  ------------------------------- ###
-debug=1
 
 if [[ -z "${AUDIT_REACTIVE_HOME}" ]]
 then
@@ -230,7 +229,7 @@ fi
 weaver=-javaagent:$(cygwinpath "$AUDIT_REACTIVE_HOME/lib/aspectjweaver.jar")
 # Add audit agent with bootclasspath
 # strategy with Xbootclasspath
-# xboot=-Xbootclasspath/p:${audit_reactive_home}/lib/aspectjweaver.jar:${audit_reactive_home}/lib/audit-reactive.jar:${audit_reactive_home}/lib/audit-reactive-lib.jar
+# xboot=-Xbootclasspath/p:${AUDIT_REACTIVE_HOME}/lib/aspectjweaver.jar:${AUDIT_REACTIVE_HOME}/lib/audit-reactive.jar:${AUDIT_REACTIVE_HOME}/lib/audit-reactive-lib.jar
 # AUDIT_OPTS=${conf} ${weaver} ${xboot}
 
 # Add audit agent with java.ext.dirs

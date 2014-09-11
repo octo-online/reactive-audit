@@ -56,12 +56,12 @@ compileJava {
 jar {
     //println ("####="+project(":audit-reactive-lib").buildDir.findAll("/classes/main/java/**.class"))
 //    println("---" + fileTree(dir: project(":audit-reactive-lib").buildDir).matching { include 'classes/main/java/**' })
-    def libcl=file(project(":audit-reactive-lib").buildDir.toString()+"/classes/main/")
-    println("CLASSDIR "+libcl)
+//    def libcl=file(project(":audit-reactive-lib").buildDir.toString()+"/classes/main/")
+//    println("CLASSDIR "+libcl)
 
-    into('') {
-        from file(project(":audit-reactive-lib").buildDir.toString()+"/classes/main/")
-    }
+//    into('') {
+//        from file(project(":audit-reactive-lib").buildDir.toString()+"/classes/main/")
+//    }
 }
 task wrapper(type: Wrapper) {
     gradleVersion = '2.0'

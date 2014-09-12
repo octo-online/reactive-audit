@@ -26,8 +26,8 @@ apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-sourceCompatibility = '6'
-targetCompatibility = '6'
+sourceCompatibility = '7'
+targetCompatibility = '7'
 
 group = "com.octo.reactive.audit"
 version = '0.0.3-SNAPSHOT' // Don't forget to update init-home and sub projets

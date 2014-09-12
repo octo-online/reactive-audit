@@ -29,7 +29,8 @@ mklink /D etc ..\src\main\dist\etc
 popd
 
 pushd %HOME%\home\lib
-mklink aspectjweaver.jar %ASPECTJ_HOME%\lib\aspectjweaver.jar
+echo on
+copy ..\..\build\install\audit-reactive\lib\aspectjweaver.jar aspectjweaver.jar
 mklink audit-reactive-lib.jar ..\..\audit-reactive-lib\build\libs\audit-reactive-lib-%VERSION%.jar
 mklink audit-reactive.jar ..\..\build\libs\audit-reactive-%VERSION%.jar
 popd

@@ -214,10 +214,10 @@ if [[ "$java_version" == "" ]]; then
   echo available via JAVA_HOME, JRE_HOME or PATH.
   echo
   exit 1
-elif [[ ! "$java_version" > "1.7" ]]; then
+elif [[ ! "$java_version" > "1.6" ]]; then
   echo
   echo The java installation you have is not up to date
-  echo audit-reactive requires at least version 1.7+, you have
+  echo audit-reactive requires at least version 1.6+, you have
   echo version $java_version
   echo
   echo Please go to http://www.java.com/getjava/ and download

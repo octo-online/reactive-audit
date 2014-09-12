@@ -130,8 +130,8 @@ for /f "delims=. tokens=1-3" %%v in ("%_JAVA_VERSION%") do (
     set _BUILD=%%x
  )
 
-if "%_MINOR%" LSS "7" (
-  echo You must use JRE/JDK 7+. A back port is in the road map.
+if "%_MINOR%" LSS "6" (
+  echo You must use JRE/JDK 6+. A back port is in the road map.
   goto :end
 )
 

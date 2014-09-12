@@ -4,7 +4,7 @@ For reminder, when applying this approach the application must use only **non-bl
 as soon as possible, return the current thread to a pool, limited by the number of CPU cores.
 The code must also use Java 8 concurrency utility classes `Future<>` and `CompletableFuture<>` everywhere.
 
-**WARNING:** This is an alpha version, works only with JRE 7+ !
+**WARNING:** This is a beta version
 
 Now, 517 blocking methods was detected.
 

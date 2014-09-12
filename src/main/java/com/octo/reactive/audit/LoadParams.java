@@ -134,10 +134,19 @@ class LoadParams
 			config.incSuppress();
 			if (filename != null)
 			{
-				try (Reader reader = new InputStreamReader(filename.openStream()))
-				{
+                Reader reader=null;
+				try
+                {
+                    reader = new InputStreamReader(filename.openStream());
 					prop.load(reader);
 				}
+                finally
+                {
+                    if (reader!=null)
+                    {
+                        reader.close();
+                    }
+                }
 			}
 		}
 		catch (IOException e)

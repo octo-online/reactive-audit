@@ -5,12 +5,15 @@ import com.octo.reactive.audit.lib.Latency;
 import com.octo.reactive.audit.lib.WithLatency;
 import org.junit.Test;
 
+import static com.octo.reactive.audit.lib.Latency.HIGH;
 import static com.octo.reactive.audit.lib.Latency.LOW;
+import static com.octo.reactive.audit.lib.Latency.MEDIUM;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class WithLatencyTest
 {
-	@Test(expected = AuditReactiveException.class)
+	@Test
 	public void invokeWithLatencyLow()
 	{
 		AuditReactive.strict.commit();
@@ -22,10 +25,16 @@ public class WithLatencyTest
 				fail();
 			}
 		}
-		new Test().directCall();
+        try
+        {
+            new Test().directCall();
+        } catch (AuditReactiveException e)
+        {
+            assertEquals(LOW,e.getLatency());
+        }
 	}
 
-	@Test(expected = AuditReactiveException.class)
+	@Test
 	public void invokeWithLatencyMedium()
 	{
 		AuditReactive.strict.commit();
@@ -37,10 +46,16 @@ public class WithLatencyTest
 				fail();
 			}
 		}
-		new Test().directCall();
+        try
+        {
+		    new Test().directCall();
+        } catch (AuditReactiveException e)
+        {
+            assertEquals(MEDIUM,e.getLatency());
+        }
 	}
 
-	@Test(expected = AuditReactiveException.class)
+	@Test
 	public void invokeWithLatencyHigh()
 	{
 		AuditReactive.strict.commit();
@@ -52,6 +67,12 @@ public class WithLatencyTest
 				fail();
 			}
 		}
-		new Test().directCall();
+        try
+        {
+		    new Test().directCall();
+        } catch (AuditReactiveException e)
+        {
+            assertEquals(HIGH,e.getLatency());
+        }
 	}
 }

@@ -465,7 +465,7 @@ public class AuditReactive
 	 */
 	public class Transaction
 	{
-		private final List<Runnable> commands = new ArrayList<>();
+		private final List<Runnable> commands = new ArrayList<Runnable>();
 		private boolean sealed;
 
 		private void add(Runnable cmd) throws IllegalArgumentException

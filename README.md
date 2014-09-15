@@ -127,3 +127,4 @@ use one of
     ./gradlew distTar     (result in build/distributions)
     ./gradlew installDist (result in build/install/audit-reactive)
 
+Then, add audit-reactive/bin in PATH.

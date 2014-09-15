@@ -6,11 +6,6 @@
 
 VERSION=0.0.3-SNAPSHOT
 declare AUDIT_REACTIVE_HOME="$(dirname  "$0")"
-if [[ -z "$ASPECTJ_HOME" ]]; then
-    echo 'Set $ASPECTJ_HOME'
-    exit 1
-fi
-
 if [[ -e "$AUDIT_REACTIVE_HOME/home" ]]; then
   rm -Rf "$AUDIT_REACTIVE_HOME/home"
 fi
@@ -31,7 +26,7 @@ popd >/dev/null
 
 pushd "$AUDIT_REACTIVE_HOME/home/lib" >/dev/null
 # not ln -s
-ln "../../build/install/audit-reactive/lib/aspectjweaver.jar" aspectjweaver.jar
+cp "../../build/install/audit-reactive/lib/aspectjweaver.jar" aspectjweaver.jar
 ln -s ../../audit-reactive-lib/build/libs/audit-reactive-lib-$VERSION.jar audit-reactive-lib.jar
 ln -s "../../build/libs/audit-reactive-$VERSION.jar" audit-reactive.jar
 popd >/dev/null

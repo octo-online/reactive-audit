@@ -15,6 +15,8 @@
  */
 
 apply plugin: 'java'
+apply plugin: 'ivy-publish'
+apply plugin: 'maven-publish'
 apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -27,6 +29,9 @@ version = '0.0.3-SNAPSHOT'
 description = 'TODO'
 
 
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
 repositories {
     mavenCentral()
 }
@@ -34,3 +39,33 @@ repositories {
 dependencies {
 //    testCompile group: 'junit', name: 'junit', version: '4.11'
 }
+
+publishing {
+    publications {
+//        ivyJava(IvyPublication) {
+//            from components.java
+//
+//            artifact sourceJar {
+//                classifier "sources"
+//            }
+//        }
+        mavenJava(MavenPublication) {
+            from components.java
+
+            artifact sourceJar {
+                classifier "sources"
+            }
+        }
+    }
+    repositories {
+//        ivy {
+//            // change to point to your repo, e.g. http://my.org/repo
+//            url "$buildDir/repo"
+//        }
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            url "$buildDir/repo"
+        }
+    }
+}
+

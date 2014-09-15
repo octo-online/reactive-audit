@@ -34,9 +34,7 @@ project.ext {
  * limitations under the License.
  */
 
-//apply plugin: 'aspectj'
-apply plugin: 'java'
-
+apply plugin: 'aspectj'
 apply plugin: 'distribution'
 apply plugin: 'maven'
 apply plugin: 'eclipse'
@@ -61,6 +59,10 @@ dependencies {
     testRuntime "org.apache.derby:derby:10.10.2.0"
 }
 
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
 compileJava {
     // I only managed to get this working when I forked
     // and passed 'javac' as an executable
@@ -69,7 +71,7 @@ compileJava {
     options.forkOptions.executable = 'javac'
 }
 
-jar {
+//jar {
     //println ("####="+project(":audit-reactive-lib").buildDir.findAll("/classes/main/java/**.class"))
 //    println("---" + fileTree(dir: project(":audit-reactive-lib").buildDir).matching { include 'classes/main/java/**' })
 //    def libcl=file(project(":audit-reactive-lib").buildDir.toString()+"/classes/main/")
@@ -78,7 +80,7 @@ jar {
 //    into('') {
 //        from file(project(":audit-reactive-lib").buildDir.toString()+"/classes/main/")
 //    }
-}
+//}
 task wrapper(type: Wrapper) {
     gradleVersion = '2.1'
 }
@@ -117,3 +119,4 @@ distributions {
         }
     }
 }
+

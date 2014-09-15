@@ -6,7 +6,7 @@ The code must also use Java 8 concurrency utility classes `Future<>` and `Comple
 
 **WARNING:** This is a beta version
 
-Now, 517 blocking methods was detected.
+Now, 517 blocking methods are detected.
 
 # How it works
 To detect where the application uses a blocking API, this tool injects some

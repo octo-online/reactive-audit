@@ -49,10 +49,4 @@ public class PrintStreamTest extends FilterOutputStreamTest
 		}
 		new Derived();
 	}
-
-	@Test
-	public void stdConsole()
-	{
-		PrintStream s=System.out; // TEST
-	}
 }

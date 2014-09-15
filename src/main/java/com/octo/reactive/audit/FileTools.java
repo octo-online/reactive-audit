@@ -56,10 +56,14 @@ public final class FileTools
 	private static final Field fieldInFilterReader;
 	private static final Field fieldInBufferedReader;
 
+    private static final Field fieldInFileDescriptor;
+
 	static
 	{
 		try
 		{
+            fieldInFileDescriptor = FileDescriptor.class.getDeclaredField("fd");
+            fieldInFileDescriptor.setAccessible(true);
 			fieldLockReader = Reader.class.getDeclaredField("lock");
 			fieldLockReader.setAccessible(true);
 			fieldInFilterReader = FilterReader.class.getDeclaredField("in");
@@ -237,7 +241,20 @@ public final class FileTools
 			}
 		}
 		if (out.getClass().getName().equals("java.net.SocketOutputStream")) return NET_ERROR;
-		if (out instanceof FileOutputStream) return FILE_ERROR;
+		if (out instanceof FileOutputStream)
+        {
+            try {
+                int i = (Integer)fieldInFileDescriptor.get(((FileOutputStream) out).getFD());
+                if (i<=2)
+                {
+                    return NO_ERROR; // Console
+                }
+            } catch (Exception e)
+            {
+                // Ignore
+            }
+            return FILE_ERROR;
+        }
 		if (out.getClass().getName().startsWith("sun.net.www.")) return NET_ERROR;
 AuditReactive.config.debug("SOCKET OUTPUT="+out.getClass()); // FIXME
 		return NO_ERROR;

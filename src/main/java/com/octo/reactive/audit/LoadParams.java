@@ -29,7 +29,7 @@ import java.util.logging.Level;
 
 class LoadParams
 {
-	public static final  String DEFAULT_THREAD_PATTERN   = "^(ForkJoinPool-.*)"; // FIXME "(?!^main$)(^.*$)"
+	public static final String DEFAULT_THREAD_PATTERN = "^(ForkJoinPool-.*)";
 	public static final  String KEY_AUDIT_FILENAME       = "auditReactive";
 	private static final String PREFIX                   = KEY_AUDIT_FILENAME + '.';
 	public static final  String KEY_THROW_EXCEPTIONS     = PREFIX + "throwExceptions";

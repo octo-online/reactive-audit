@@ -84,8 +84,6 @@ realpath () {
 )
 }
 
-# TODO - Do we need to detect msys?
-
 # Uses uname to detect if we're in the odd cygwin environment.
 is_cygwin() {
   local os=$(uname -s)

@@ -31,8 +31,6 @@ public final class IOTestTools
 {
 	public static final  String HOST     = "www.google.com";
 	public static final  int    PORT     = 80;
-	//public static final String HOST="192.168.0.50";  // FIXME
-	//public static final int PORT=5000;
 	private static final int    UDP_PORT = 5000;
 
 	private IOTestTools()

@@ -40,8 +40,8 @@ apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-sourceCompatibility = '7'
-targetCompatibility = '7'
+sourceCompatibility = '8'
+targetCompatibility = '8'
 
 description = 'JVM Agent to detect blocking IO call'
 
@@ -90,7 +90,7 @@ task wrapper(type: Wrapper) {
 }
 
 test {
-    testLogging.showStandardStreams = true
+//    testLogging.showStandardStreams = true
 //    beforeTest { descriptor ->
 //        logger.lifecycle("Running test: " + descriptor)
 //    }

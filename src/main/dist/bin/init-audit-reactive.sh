@@ -146,7 +146,7 @@ dlog "JAVA_HOME=$JAVA_HOME"
         echo "$(cygunixpath "$JAVA_HOME")"
     else
         echoerr "A Java JRE is not installed or can't be found."
-        exit 1
+        return 1
     fi
   fi
 }
@@ -164,7 +164,7 @@ get_java_cmd() {
 process_args () {
   while [[ $# -gt 0 ]]; do
     case "$1" in
-       -h|-help) usage; exit 1 ;;
+       -h|-help) usage; return 1 ;;
              -s) silent=1 && shift ;;
              -d) debug=1 && shift ;;
         -sd|-ds) silent=1 && debug=1 && shift ;;
@@ -213,7 +213,6 @@ if [[ "$java_version" == "" ]]; then
   echo your environment variables to see if "java" is
   echo available via JAVA_HOME, JRE_HOME or PATH.
   echo
-  exit 1
 elif [[ ! "$java_version" > "1.7" ]]; then
   echo
   echo The java installation you have is not up to date
@@ -223,8 +222,7 @@ elif [[ ! "$java_version" > "1.7" ]]; then
   echo Please go to http://www.java.com/getjava/ and download
   echo a valid Java Runtime and install before running Activator.
   echo
-  exit 1
-fi
+else
 
 weaver=-javaagent:$(cygwinpath "$AUDIT_REACTIVE_HOME/lib/aspectjweaver.jar")
 # Add audit agent with bootclasspath
@@ -278,6 +276,7 @@ if [[ "$framework" == "catalina" ]]; then
     fi
 fi
 
+fi  # java_version
 
 
 

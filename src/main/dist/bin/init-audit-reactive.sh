@@ -155,7 +155,6 @@ get_java_cmd() {
   if [[ -n "$jre_home" ]] && [[ -x "$jre_home/bin/java" ]];  then
     echo "$jre_home/bin/java"
   else
-  dlog "use which"
     echo "$(which java)"
   fi
 }
@@ -231,13 +230,22 @@ weaver=-javaagent:$(cygwinpath "$AUDIT_REACTIVE_HOME/lib/aspectjweaver.jar")
 # AUDIT_OPTS=${conf} ${weaver} ${xboot}
 
 # Add audit agent with java.ext.dirs
-extdir="-Djava.ext.dirs=$(cygwinpaths "${jre_home}/jre/lib/ext" "${AUDIT_REACTIVE_HOME}/lib")"
+if [[ -e "${jre_home}/jre/lib/ext" ]]; then
+  ext="${jre_home}/jre/lib/ext"
+elif [[ -e "${jre_home}/lib/ext" ]]; then
+  ext="${jre_home}/lib/ext"
+else
+  echoerr "Not found JAVA_HOME/lib/ext"
+  return 1
+fi
+extdir="-Djava.ext.dirs=$(cygwinpaths "$ext" "${AUDIT_REACTIVE_HOME}/lib")"
 AUDIT_OPTS="${conf} ${weaver} ${extdir}"
 
 if [[ -n "$debug" ]]; then
 dlog "AUDIT_REACTIVE_HOME = $AUDIT_REACTIVE_HOME"
 dlog "FRAMEWORKS_HOME     = $FRAMEWORKS_HOME"
 dlog "JRE_HOME            = $jre_home"
+dlog "EXT                 = $ext"
 dlog "JAVACMD             = $java_cmd"
 dlog ""
 dlog "AUDIT_OPTS=$AUDIT_OPTS"
@@ -277,7 +285,3 @@ if [[ "$framework" == "catalina" ]]; then
 fi
 
 fi  # java_version
-
-
-
-

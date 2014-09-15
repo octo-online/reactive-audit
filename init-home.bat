@@ -1,6 +1,5 @@
 @Rem
 @Rem Tools to simulate an installation in ./home with some "soft link"
-
 @echo off
 call gradlew instDist
 

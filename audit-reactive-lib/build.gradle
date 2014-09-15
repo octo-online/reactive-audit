@@ -15,17 +15,15 @@
  */
 
 apply plugin: 'java'
-//apply plugin: 'ivy-publish'
 apply plugin: 'maven-publish'
 apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: 'signing'
 
 sourceCompatibility = '6'
 targetCompatibility = '6'
 
-group = "com.octo.reactive.audit"
-version = '0.0.3-SNAPSHOT'
 description = 'Annotations and exceptions to manage audit-reactive (https://github.com/pprados/audit-reactive)'
 
 task sourceJar(type: Jar) {
@@ -47,21 +45,11 @@ repositories {
     mavenCentral()
 }
 
-//uploadArchives {
-//    repositories {
-//        flatDir {
-//            dirs 'jars'
-//        }
-//    }
-//}
+signing {
+    sign configurations.archives
+}
 publishing {
     publications {
-//        ivyJava(IvyPublication) {
-//            from components.java
-//
-//        artifact sourceJar
-//        artifact javadocJar
-//        }
         mavenJava(MavenPublication) {
             from components.java
 
@@ -70,10 +58,6 @@ publishing {
         }
     }
     repositories {
-//        ivy {
-//            // change to point to your repo, e.g. http://my.org/repo
-//            url "$buildDir/repo"
-//        }
         maven {
             // change to point to your repo, e.g. http://my.org/repo
             url "$buildDir/repo"

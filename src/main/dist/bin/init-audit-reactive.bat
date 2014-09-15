@@ -192,13 +192,26 @@ rem set _XBOOT=-Xbootclasspath/p:%_AUDIT_REACTIVE_HOME%\lib\aspectjweaver.jar;%_
 rem set AUDIT_OPTS=%_CONF% %_WEAVER% %_XBOOT%
 
 @REM Add audit agent with java.ext.dirs
-set _EXTDIR=-Djava.ext.dirs=%_JRE_HOME%\jre\lib\ext;%_AUDIT_REACTIVE_HOME%\lib
+if exist "%_JAVA_HOME%\jre\lib\ext" (
+set _EXT=%_JAVA_HOME%\jre\lib\ext
+goto :extdir
+)
+if exist "%_JAVA_HOME%\lib\ext" (
+set _EXT=%_JAVA_HOME%\lib\ext
+goto :extdir
+)
+echo Not found JAVA_HOME/lib/ext >&2
+goto :end
+
+:extdir
+set _EXTDIR=-Djava.ext.dirs=%EXT%;%_AUDIT_REACTIVE_HOME%\lib
 set AUDIT_OPTS=%_CONF% %_WEAVER% %_EXTDIR%
 
 if "%_DEBUG%"=="true" (
     echo AUDIT_REACTIVE_HOME = %AUDIT_REACTIVE_HOME%
     echo FRAMEWORKS_HOME     = %_FRAMEWORKS_HOME%
     echo JRE_HOME            = %_JRE_HOME%
+    echo EXT                 = %_EXT%
     echo JAVACMD             = %_JAVACMD%
     echo.
     echo AUDIT_OPTS=%AUDIT_OPTS%
@@ -319,6 +332,7 @@ set _DEBUG=
 set _FRAMEWORK=
 set _WEAVER=
 set _XBOOT=
+set _EXT=
 set _EXTDIR=
 set _JAVAOK=
 set _JRE_HOME=

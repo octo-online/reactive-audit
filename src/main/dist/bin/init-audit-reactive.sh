@@ -25,6 +25,7 @@ usage() {
     jetty      Set AUDIT_OPTS to start jetty
     catalina   Set CATALINA_OPTS
     play       Set SBT_OPTS
+    sbt       Set SBT_OPTS
     help       Print this message
 
     Options:
@@ -263,6 +264,13 @@ if [[ "$framework" == "jboss" ]] ; then
 fi
 
 if [[ "$framework" == "play" ]]; then
+    export SBT_OPTS=$AUDIT_OPTS
+    if [[ -z "$silent" ]]; then
+        echo "SBT_OPTS was set. You can use TypeSafe 'activator run'."
+    fi
+fi
+
+if [[ "$framework" == "sbt" ]]; then
     export SBT_OPTS=$AUDIT_OPTS
     if [[ -z "$silent" ]]; then
         echo "SBT_OPTS was set. You can use TypeSafe 'activator run'."

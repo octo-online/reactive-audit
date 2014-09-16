@@ -4,7 +4,7 @@
 
 ./gradlew instDist
 
-VERSION=0.0.3-SNAPSHOT
+VERSION=0.0.4-SNAPSHOT
 declare AUDIT_REACTIVE_HOME="$(dirname  "$0")"
 if [[ -e "$AUDIT_REACTIVE_HOME/home" ]]; then
   rm -Rf "$AUDIT_REACTIVE_HOME/home"

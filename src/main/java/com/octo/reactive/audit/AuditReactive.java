@@ -588,6 +588,8 @@ public class AuditReactive
 		 * May be apply after the commit().
 		 *
 		 * @param output pattern of "console" The logLevel.
+		 * @param format The string format.
+		 * @param size The size before rolling the files.
 		 * @return The current transaction.
 		 */
 		public Transaction logOutput(String output, String format, String size)

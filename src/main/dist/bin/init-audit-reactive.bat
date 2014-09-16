@@ -282,6 +282,12 @@ if "%_FRAMEWORK%" == "play" (
         echo SBT_OPTS was set. You can use TypeSafe 'activator run'.
     )
 )
+if "%_FRAMEWORK%" == "sbt" (
+    set SBT_OPTS=%AUDIT_OPTS%
+    if not "%_SILENT%"=="true" (
+        echo SBT_OPTS was set. You can use TypeSafe 'activator run'.
+    )
+)
 if "%_FRAMEWORK%" == "jetty" (
     if not "%_SILENT%"=="true" (
         echo "To start Jetty, use: java %%AUDIT_OPTS%% -jar start.jar
@@ -308,6 +314,7 @@ goto :end
     echo jetty      Set AUDIT_OPTS to start jetty
     echo catalina   Set CATALINA_OPTS
     echo play       Set SBT_OPTS
+    echo sbt        Set SBT_OPTS
     echo help       Print this message
     echo.
     echo Options:

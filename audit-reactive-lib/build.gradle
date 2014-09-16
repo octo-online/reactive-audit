@@ -16,10 +16,11 @@
 
 apply plugin: 'java'
 apply plugin: 'maven-publish'
-apply plugin: 'maven'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
 apply plugin: 'signing'
+
+// At this time, Eclipse is not compatible with Java8 and Gradle
+//apply plugin: 'eclipse'
+apply plugin: 'idea'
 
 sourceCompatibility = '6'
 targetCompatibility = '6'
@@ -48,11 +49,11 @@ repositories {
 signing {
     sign configurations.archives
 }
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
-
             artifact sourceJar
             artifact javadocJar
         }

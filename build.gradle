@@ -14,6 +14,14 @@
  * limitations under the License.
  */
 
+task usage << {
+    println "gradlew task          : Displays the tasks runnable from root project"
+    println "gradlew clean         : Deletes the build directory."
+    println "gradlew build         : build for Jdk8+"
+    println "gradlew build -x test : build for Jdk7"
+    println "gradlew installDist   : Generate a publication in build/install/audit-reactive"
+}
+
 buildscript {
     repositories {
         maven {
@@ -36,19 +44,23 @@ project.ext {
 
 apply plugin: 'aspectj'
 apply plugin: 'distribution'
-apply plugin: 'maven'
-apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+// At this time, Eclipse is not compatible with Java8 and Gradle
+//apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-sourceCompatibility = '8'
-targetCompatibility = '8'
+sourceCompatibility = '7'
+targetCompatibility = '7'
 
-description = 'JVM Agent to detect blocking IO call'
+description = 'JVM Agent to detect blocking IO call (https://github.com/pprados/audit-reactive)'
 
 allprojects {
     group = "com.octo.reactive.audit"
-    version = '0.0.3-SNAPSHOT' // Don't forget to update init-home and sub projets
+    version = '0.0.4-SNAPSHOT' // Don't forget to update init-home
 }
+
 dependencies {
     compile project(":audit-reactive-lib")
     compile "org.aspectj:aspectjrt:${aspectjVersion}"
@@ -62,26 +74,17 @@ dependencies {
 }
 
 task sourceJar(type: Jar) {
+    classifier = 'sources'
     from sourceSets.main.allJava
 }
 
-compileJava {
-    // I only managed to get this working when I forked
-    // and passed 'javac' as an executable
-    options.compilerArgs << '-XDignore.symbol.file'
-    options.fork = true
-    options.forkOptions.executable = 'javac'
+artifacts {
+    archives sourceJar
 }
 
+// Add the lib classes in the main jar
 jar {
-//    println ("####="+project(":audit-reactive-lib").buildDir.findAll("/classes/main/java/**.class"))
-//    println("---" + fileTree(dir: project(":audit-reactive-lib").buildDir).matching { include 'classes/main/java/**' })
-//    def libcl=file(project(":audit-reactive-lib").buildDir.toString()+"/classes/main/")
-//    println("CLASSDIR "+libcl)
-
-//    into('') {
-////        from project(":audit-reactive-lib").buildDir;
-//    }
+    from { project(":audit-reactive-lib").sourceSets.main.output.classesDir }
 }
 
 // Use gradle wrapper to update the current wrapper
@@ -104,6 +107,7 @@ test {
     jvmArgs = [weaver, auditReactiveConf, logConfig]
 }
 
+// Package the distribution with bin, etc and lib sub directories
 distributions {
     main {
         contents {
@@ -123,4 +127,24 @@ distributions {
         }
     }
 }
+
+signing {
+    sign configurations.archives
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourceJar
+        }
+    }
+    repositories {
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            url "$buildDir/repo"
+        }
+    }
+}
+
 

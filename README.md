@@ -21,11 +21,13 @@ depending on the specific running instance. For example, the
 or for a socket.
 
 Some threads can invoke a blocking API, others can not. It is possible
-to select for which thread the agent must detect a call to a blocking API.
+to select for which thread the agent must detect a call to a blocking API
+(parameter `auditReactive.threadPattern`).
 
 At the application startup, it is common to use some blocking API to
 load parameters from file, etc. Therefore, it is possible to shift the
-audit start time to a few seconds after the application startup.
+audit start time to a few seconds after the application startup
+(parameter `auditReactive.bootstrapDelay`).
 
 Some blocking APIs are used to manage files. If the file system uses a SSD,
 the latency is low. But if the file system is on a NAS or on the Cloud,
@@ -114,7 +116,10 @@ or
 
 You can set all the parameters described in `<audit home>/etc/default.properties`.
 
-# Compile
+# Build
+    ./gradlew usage
+
+# Unit test can be compiled only with Java 8+. So, remove the tests for others JVM
 use
 
     ./gradlew build (with Jdk8)
@@ -125,6 +130,16 @@ use one of
 
     ./gradlew distZip     (result in build/distributions)
     ./gradlew distTar     (result in build/distributions)
-    ./gradlew installDist (result in build/install/audit-reactive)
 
-Then, add audit-reactive/bin in PATH.
+# Test distribution (Option 1)
+
+    ./gradlew installDist
+
+Then, add `./build/install/audit-reactive/bin` in `PATH`.
+
+# Test distribution (Option 2)
+
+    init-home.sh
+    ./gradlew build
+
+Then, add `./home/bin` in `PATH`.

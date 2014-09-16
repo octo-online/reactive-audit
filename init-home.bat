@@ -4,7 +4,7 @@
 call gradlew instDist
 
 setlocal
-set VERSION=0.0.3-SNAPSHOT
+set VERSION=0.0.4-SNAPSHOT
 set "HOME=%~dp0"
 
 REM Reset

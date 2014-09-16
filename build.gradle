@@ -1,3 +1,30 @@
+/*
+ * Copyright 2014 OCTO Technology
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+task usage << {
+    println "gradlew task                : Displays the tasks runnable from root project."
+    println "gradlew idea                : Generates IDEA project files (IML, IPR, IWS)"
+    println "gradlew clean               : Deletes the build directory."
+    println "gradlew build               : build for Jdk8+."
+    println "gradlew build -x test       : build for Jdk7."
+    println "gradlew installDist         : Generate a publication in build/install/audit-reactive."
+    println "gradlew publishToMavenLocal : Publishes all Maven publications produced by this project to the local Maven cache."
+    println "gradlew publish             : Publishes all publications produced by this project."
+}
+
 buildscript {
     repositories {
         maven {
@@ -18,34 +45,24 @@ project.ext {
     aspectjVersion = '1.8.2'
 }
 
-/*
- * Copyright 2014 OCTO Technology
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 apply plugin: 'aspectj'
 apply plugin: 'distribution'
-apply plugin: 'maven'
-apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+// At this time, Eclipse is not compatible with Java8 and Gradle
+//apply plugin: 'eclipse'
 apply plugin: 'idea'
 
 sourceCompatibility = '7'
 targetCompatibility = '7'
 
-group = "com.octo.reactive.audit"
-version = '0.0.3-SNAPSHOT' // Don't forget to update init-home and sub projets
-description = 'JVM Agent to detect blocking IO call'
+description = 'JVM Agent to detect blocking IO call (https://github.com/pprados/audit-reactive)'
+
+allprojects {
+    group = "com.octo.reactive.audit"
+    version = '0.0.4-SNAPSHOT' // Don't forget to update init-home
+}
 
 dependencies {
     compile project(":audit-reactive-lib")
@@ -60,33 +77,26 @@ dependencies {
 }
 
 task sourceJar(type: Jar) {
+    classifier = 'sources'
     from sourceSets.main.allJava
 }
 
-compileJava {
-    // I only managed to get this working when I forked
-    // and passed 'javac' as an executable
-    options.compilerArgs << '-XDignore.symbol.file'
-    options.fork = true
-    options.forkOptions.executable = 'javac'
+artifacts {
+    archives sourceJar
 }
 
-//jar {
-    //println ("####="+project(":audit-reactive-lib").buildDir.findAll("/classes/main/java/**.class"))
-//    println("---" + fileTree(dir: project(":audit-reactive-lib").buildDir).matching { include 'classes/main/java/**' })
-//    def libcl=file(project(":audit-reactive-lib").buildDir.toString()+"/classes/main/")
-//    println("CLASSDIR "+libcl)
+// Add the lib classes in the main jar
+jar {
+    from { project(":audit-reactive-lib").sourceSets.main.output.classesDir }
+}
 
-//    into('') {
-//        from file(project(":audit-reactive-lib").buildDir.toString()+"/classes/main/")
-//    }
-//}
+// Use gradle wrapper to update the current wrapper
 task wrapper(type: Wrapper) {
     gradleVersion = '2.1'
 }
 
 test {
-    testLogging.showStandardStreams = true
+//    testLogging.showStandardStreams = true
 //    beforeTest { descriptor ->
 //        logger.lifecycle("Running test: " + descriptor)
 //    }
@@ -100,6 +110,7 @@ test {
     jvmArgs = [weaver, auditReactiveConf, logConfig]
 }
 
+// Package the distribution with bin, etc and lib sub directories
 distributions {
     main {
         contents {
@@ -119,4 +130,24 @@ distributions {
         }
     }
 }
+
+signing {
+    sign configurations.archives
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourceJar
+        }
+    }
+    repositories {
+        maven {
+            // FIXME change to point to your repo, e.g. http://my.org/repo
+            url "$buildDir/repo"
+        }
+    }
+}
+
 

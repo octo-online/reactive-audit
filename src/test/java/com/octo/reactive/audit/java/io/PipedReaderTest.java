@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 
-// FIXME
+// FIXME : Write unit test
 public class PipedReaderTest //extends ReaderTest
 {
 	//@Override

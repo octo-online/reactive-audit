@@ -40,7 +40,7 @@ public class URLAudit extends AbstractNetworkAudit
 	}
 
 	@Before("call(java.io.InputStream java.net.URL.openConnection())")
-	public void openConnection(JoinPoint thisJoinPoint) // FIXME: TU
+	public void openConnection(JoinPoint thisJoinPoint) // FIXME: Write test unitaire
 	{
 		URL url = (URL) thisJoinPoint.getTarget();
 		AuditReactiveException ex = URLTools.latencyURL(config, thisJoinPoint, url);

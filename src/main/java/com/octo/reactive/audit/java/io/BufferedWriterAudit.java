@@ -28,7 +28,6 @@ import static com.octo.reactive.audit.lib.Latency.HIGH;
 @Aspect
 public class BufferedWriterAudit extends AbstractWriterAudit
 {
-	// FIXME : est-ce necessaire ?
 	@Before("call(* java.io.BufferedWriter.newLine())")
 	public void newLine(JoinPoint thisJoinPoint)
 	{

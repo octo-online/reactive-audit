@@ -3,10 +3,12 @@ This audit tool aims to provide help to the use of *[Reactive architecture](http
 For reminder, when applying this approach the application must use only **non-blocking APIs** and,
 as soon as possible, return the current thread to a pool, limited by the number of CPU cores.
 The code must also use Java 8 concurrency utility classes `Future<>` and `CompletableFuture<>` everywhere.
+The frameworks [Play](https://www.playframework.com/ "Play framework"), [AKKA](http://www.akka.io/ "AKKA framework")
+and [Scala](http://www.scala-lang.org/ "Scala lang") promote this approach.
 
 **WARNING:** This is a beta version
 
-Now, 517 blocking methods was detected.
+Now, 517 blocking methods are detected.
 
 # How it works
 To detect where the application uses a blocking API, this tool injects some
@@ -21,11 +23,13 @@ depending on the specific running instance. For example, the
 or for a socket.
 
 Some threads can invoke a blocking API, others can not. It is possible
-to select for which thread the agent must detect a call to a blocking API.
+to select for which thread the agent must detect a call to a blocking API
+(parameter `auditReactive.threadPattern`).
 
 At the application startup, it is common to use some blocking API to
 load parameters from file, etc. Therefore, it is possible to shift the
-audit start time to a few seconds after the application startup.
+audit start time to a few seconds after the application startup
+(parameter `auditReactive.bootstrapDelay`).
 
 Some blocking APIs are used to manage files. If the file system uses a SSD,
 the latency is low. But if the file system is on a NAS or on the Cloud,
@@ -50,9 +54,9 @@ To start **JVM** with the audit on Windows:
     > init-audit-reactive
     > java %AUDIT_OPTS% ...
 
-To start **JVM** with the audit on Linux:
+To start **JVM** with the audit on Mac/Linux:
 
-    > . init-audit-reactive.sh
+    > source init-audit-reactive.sh
     > java %AUDIT_OPTS% ...
 
 To start **jetty** with the audit on Windows:
@@ -60,9 +64,9 @@ To start **jetty** with the audit on Windows:
     > init-audit-reactive jetty
     > java %AUDIT_OPTS% -jar start.jar
 
-To start **jetty** with the audit on Linux:
+To start **jetty** with the audit on Mac/Linux:
 
-    > . init-audit-reactive.sh jetty
+    > source init-audit-reactive.sh jetty
     > java %AUDIT_OPTS% -jar start.jar
 
 To start **catalina** (Tomcat) with audit on Windows:
@@ -70,9 +74,9 @@ To start **catalina** (Tomcat) with audit on Windows:
     > init-audit-reactive catalina
     > catalina run
 
-To start **catalina** (Tomcat) with audit on Linux:
+To start **catalina** (Tomcat) with audit on Mac/Linux:
 
-    > . init-audit-reactive.sh catalina
+    > source init-audit-reactive.sh catalina
     > catalina run
 
 To start **play** with the audit on Windows:
@@ -80,9 +84,9 @@ To start **play** with the audit on Windows:
     > init-audit-reactive play
     > activator run
 
-To start **play** with the audit on Linux:
+To start **play** with the audit on Mac/Linux:
 
-    >. init-audit-reactive.sh play
+    >source init-audit-reactive.sh play
     > activator run
 
 For the background, this script add a boot classpath with `<audit home>/lib`
@@ -114,16 +118,29 @@ or
 
 You can set all the parameters described in `<audit home>/etc/default.properties`.
 
-# Compile
-use
+# Build
+    ./gradlew usage
 
-    ./gradlew build (with Jdk8)
+## Unit test can be compiled only with Java 8+.
+
+    ./gradlew build (with Jdk8+)
     ./gradlew build -x test (with Jdk7)
 
-# Distribution
+## Distribution
 use one of
 
-    ./gradlew distZip     (result in build/distributions)
-    ./gradlew distTar     (result in build/distributions)
-    ./gradlew installDist (result in build/install/audit-reactive)
+    ./gradlew distZip
+    ./gradlew distTar
 
+## Test distribution (Option 1)
+
+    ./gradlew installDist
+
+Then, add `./build/install/audit-reactive/bin` in `PATH`.
+
+## Test distribution (Option 2)
+
+    ./init-home.sh (simulate installation with links)
+    ./gradlew build
+
+Then, add `./home/bin` in `PATH`.

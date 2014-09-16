@@ -16,6 +16,7 @@
 
 package com.octo.reactive.audit;
 
+import com.octo.reactive.audit.backport.LongAdder;
 import com.octo.reactive.audit.lib.*;
 
 import java.io.IOException;
@@ -25,7 +26,6 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.*;
 import java.util.regex.Pattern;
-import com.octo.reactive.audit.backport.LongAdder;
 
 public class AuditReactive
 {
@@ -67,7 +67,7 @@ public class AuditReactive
 	public static final String               auditPackageName  = AuditReactive.class.getPackage().getName();
 	public final        Logger               logger            =
 			Logger.getLogger(AuditReactive.class.getPackage().getName());
-	// FIXME : Fake logger to test Jboss
+	// FIXME : Fake logger to test Jboss. Jboss has a problem with Aspectj :-(
 //	public final        FakeLogger          logger           = new FakeLogger();
 	private final       LongAdder            statLow           = new LongAdder();
 	private final       LongAdder            statMedium        = new LongAdder();
@@ -588,6 +588,8 @@ public class AuditReactive
 		 * May be apply after the commit().
 		 *
 		 * @param output pattern of "console" The logLevel.
+		 * @param format The string format.
+		 * @param size The size before rolling the files.
 		 * @return The current transaction.
 		 */
 		public Transaction logOutput(String output, String format, String size)

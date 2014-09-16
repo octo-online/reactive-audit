@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 
-// FIXME
+// FIXME : Write unit test
 public class PipedInputStreamTest //extends InputStreamTest
 {
 	//@Override

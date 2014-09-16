@@ -50,20 +50,17 @@ public final class FileTools
 	private static final Field fieldBinObjectInputStream;
 	private static final Field fieldInObjectInputStream;
 	private static final Field fieldPeekObjectInputStream;
-	private static Field fieldPathOutputStream;
-	private static Field fieldPathInputStream;
 	private static final Field fieldLockReader;
 	private static final Field fieldInFilterReader;
 	private static final Field fieldInBufferedReader;
-
-    private static final Field fieldInFileDescriptor;
+	private static final Field fieldInFileDescriptor;
 
 	static
 	{
 		try
 		{
-            fieldInFileDescriptor = FileDescriptor.class.getDeclaredField("fd");
-            fieldInFileDescriptor.setAccessible(true);
+			fieldInFileDescriptor = FileDescriptor.class.getDeclaredField("fd");
+			fieldInFileDescriptor.setAccessible(true);
 			fieldLockReader = Reader.class.getDeclaredField("lock");
 			fieldLockReader.setAccessible(true);
 			fieldInFilterReader = FilterReader.class.getDeclaredField("in");
@@ -102,6 +99,25 @@ public final class FileTools
 			throw new Error(e);
 		}
 	}
+
+	static FilenameDumpClosure FileTools_filenameDump      = new FilenameDumpClosure()
+	{
+		@Override
+		public void dump(StringBuilder buf, Class cl, String filename)
+		{
+			filenameDump(buf, cl, filename);
+		}
+	};
+	static FilenameDumpClosure FileTools_chainFilenameDump = new FilenameDumpClosure()
+	{
+		@Override
+		public void dump(StringBuilder buf, Class cl, String filename)
+		{
+			chainFilenameDump(buf, cl, filename);
+		}
+	};
+	private static Field fieldPathOutputStream;
+	private static Field fieldPathInputStream;
 
 	private FileTools()
 	{
@@ -242,21 +258,22 @@ public final class FileTools
 		}
 		if (out.getClass().getName().equals("java.net.SocketOutputStream")) return NET_ERROR;
 		if (out instanceof FileOutputStream)
-        {
-            try {
-                int i = (Integer)fieldInFileDescriptor.get(((FileOutputStream) out).getFD());
-                if (i<=2)
-                {
-                    return NO_ERROR; // Console
-                }
-            } catch (Exception e)
-            {
-                // Ignore
-            }
-            return FILE_ERROR;
-        }
+		{
+			try
+			{
+				int i = (Integer) fieldInFileDescriptor.get(((FileOutputStream) out).getFD());
+				if ((i == 1) || (i == 2))
+				{
+					return NO_ERROR; // Console
+				}
+			}
+			catch (Exception e)
+			{
+				// Ignore
+			}
+			return FILE_ERROR;
+		}
 		if (out.getClass().getName().startsWith("sun.net.www.")) return NET_ERROR;
-AuditReactive.config.debug("SOCKET OUTPUT="+out.getClass()); // FIXME
 		return NO_ERROR;
 	}
 
@@ -300,24 +317,6 @@ AuditReactive.config.debug("SOCKET OUTPUT="+out.getClass()); // FIXME
 			throw new Error(e);
 		}
 	}
-
-	static FilenameDumpClosure FileTools_filenameDump = new FilenameDumpClosure()
-	{
-		@Override
-		public void dump(StringBuilder buf, Class cl, String filename)
-		{
-			filenameDump(buf, cl, filename);
-		}
-	};
-
-	static FilenameDumpClosure FileTools_chainFilenameDump = new FilenameDumpClosure()
-	{
-		@Override
-		public void dump(StringBuilder buf, Class cl, String filename)
-		{
-			chainFilenameDump(buf, cl, filename);
-		}
-	};
 
 	public static CharSequence printFilename(OutputStream out)
 	{
@@ -406,7 +405,7 @@ AuditReactive.config.debug("SOCKET OUTPUT="+out.getClass()); // FIXME
 		if (out instanceof FileOutputStream)
 		{
 			String path = null;
-			if (fieldPathOutputStream!=null)
+			if (fieldPathOutputStream != null)
 			{
 				try
 				{
@@ -506,7 +505,7 @@ AuditReactive.config.debug("SOCKET OUTPUT="+out.getClass()); // FIXME
 		if (in instanceof FileInputStream)
 		{
 			String path = null;
-			if (fieldPathInputStream!=null)
+			if (fieldPathInputStream != null)
 			{
 				try
 				{

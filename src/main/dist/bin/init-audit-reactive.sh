@@ -25,6 +25,7 @@ usage() {
     jetty      Set AUDIT_OPTS to start jetty
     catalina   Set CATALINA_OPTS
     play       Set SBT_OPTS
+    sbt       Set SBT_OPTS
     help       Print this message
 
     Options:
@@ -83,8 +84,6 @@ realpath () {
   fi
 )
 }
-
-# TODO - Do we need to detect msys?
 
 # Uses uname to detect if we're in the odd cygwin environment.
 is_cygwin() {
@@ -146,7 +145,7 @@ dlog "JAVA_HOME=$JAVA_HOME"
         echo "$(cygunixpath "$JAVA_HOME")"
     else
         echoerr "A Java JRE is not installed or can't be found."
-        exit 1
+        return 1
     fi
   fi
 }
@@ -155,7 +154,6 @@ get_java_cmd() {
   if [[ -n "$jre_home" ]] && [[ -x "$jre_home/bin/java" ]];  then
     echo "$jre_home/bin/java"
   else
-  dlog "use which"
     echo "$(which java)"
   fi
 }
@@ -164,7 +162,7 @@ get_java_cmd() {
 process_args () {
   while [[ $# -gt 0 ]]; do
     case "$1" in
-       -h|-help) usage; exit 1 ;;
+       -h|-help) usage; return 1 ;;
              -s) silent=1 && shift ;;
              -d) debug=1 && shift ;;
         -sd|-ds) silent=1 && debug=1 && shift ;;
@@ -213,7 +211,6 @@ if [[ "$java_version" == "" ]]; then
   echo your environment variables to see if "java" is
   echo available via JAVA_HOME, JRE_HOME or PATH.
   echo
-  exit 1
 elif [[ ! "$java_version" > "1.7" ]]; then
   echo
   echo The java installation you have is not up to date
@@ -223,8 +220,7 @@ elif [[ ! "$java_version" > "1.7" ]]; then
   echo Please go to http://www.java.com/getjava/ and download
   echo a valid Java Runtime and install before running Activator.
   echo
-  exit 1
-fi
+else
 
 weaver=-javaagent:$(cygwinpath "$AUDIT_REACTIVE_HOME/lib/aspectjweaver.jar")
 # Add audit agent with bootclasspath
@@ -233,13 +229,22 @@ weaver=-javaagent:$(cygwinpath "$AUDIT_REACTIVE_HOME/lib/aspectjweaver.jar")
 # AUDIT_OPTS=${conf} ${weaver} ${xboot}
 
 # Add audit agent with java.ext.dirs
-extdir="-Djava.ext.dirs=$(cygwinpaths "${jre_home}/jre/lib/ext" "${AUDIT_REACTIVE_HOME}/lib")"
+if [[ -e "${jre_home}/jre/lib/ext" ]]; then
+  ext="${jre_home}/jre/lib/ext"
+elif [[ -e "${jre_home}/lib/ext" ]]; then
+  ext="${jre_home}/lib/ext"
+else
+  echoerr "Not found JAVA_HOME/lib/ext"
+  return 1
+fi
+extdir="-Djava.ext.dirs=$(cygwinpaths "$ext" "${AUDIT_REACTIVE_HOME}/lib")"
 AUDIT_OPTS="${conf} ${weaver} ${extdir}"
 
 if [[ -n "$debug" ]]; then
 dlog "AUDIT_REACTIVE_HOME = $AUDIT_REACTIVE_HOME"
 dlog "FRAMEWORKS_HOME     = $FRAMEWORKS_HOME"
 dlog "JRE_HOME            = $jre_home"
+dlog "EXT                 = $ext"
 dlog "JAVACMD             = $java_cmd"
 dlog ""
 dlog "AUDIT_OPTS=$AUDIT_OPTS"
@@ -261,6 +266,11 @@ elif [[ "$framework" == "play" ]]; then
     if [[ -z "$silent" ]]; then
         echo "SBT_OPTS was set. You can use TypeSafe 'activator run'."
     fi
+elif [[ "$framework" == "sbt" ]]; then
+    export SBT_OPTS=$AUDIT_OPTS
+    if [[ -z "$silent" ]]; then
+        echo "SBT_OPTS was set. You can use TypeSafe 'activator run'."
+    fi
 elif [[ "$framework" == "jetty" ]]; then
     if [[ -z "$silent" ]]; then
         echo 'To start Jetty, use: java $AUDIT_OPTS -jar start.jar'
@@ -274,7 +284,4 @@ else
    echoerr "Framework $framework unknown !"
 fi
 
-
-
-
-
+fi  # java_version

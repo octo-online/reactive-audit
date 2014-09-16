@@ -326,7 +326,7 @@ public class AuditReactiveTest
 	private void addHandler()
 	{
 		//noinspection ConstantIfStatement
-		if (false) // FIXME : remove log on console
+		if (true) // Remove log on console
 		{
 			for (Handler h : config.logger.getHandlers())
 			{

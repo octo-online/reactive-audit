@@ -18,12 +18,13 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-// At this time, Eclipse is not compatible with Java8 and Gradle
-//apply plugin: 'eclipse'
+apply plugin: 'eclipse'
 apply plugin: 'idea'
 
 sourceCompatibility = '6'
 targetCompatibility = '6'
+
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
 description = 'Annotations and exceptions to manage audit-reactive (https://github.com/pprados/audit-reactive)'
 
@@ -47,6 +48,7 @@ repositories {
 }
 
 signing {
+    required { isReleaseVersion }
     sign configurations.archives
 }
 

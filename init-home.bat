@@ -4,7 +4,9 @@
 call gradlew instDist
 
 setlocal
-set VERSION=0.0.4-SNAPSHOT
+For /F "tokens=1* delims==" %%A IN (%HOME%\bin\version.properties) DO (
+    IF "%%A"=="version" set VERSION=%%B
+    )
 set "HOME=%~dp0"
 
 REM Reset
@@ -19,6 +21,7 @@ mkdir %HOME%\home\lib
 pushd %HOME%\home\bin
 mklink debug-audit-reactive.bat ..\..\src\test\bin\debug-audit-reactive.bat
 mklink debug-audit-reactive.sh ..\..\src\test\bin\debug-audit-reactive.sh
+mklink version.properties ..\..\src\main\resources\version.properties
 mklink init-audit-reactive.bat ..\..\src\main\dist\bin\init-audit-reactive.bat
 mklink init-audit-reactive.sh ..\..\src\main\dist\bin\init-audit-reactive.sh
 popd

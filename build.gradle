@@ -50,8 +50,7 @@ apply plugin: 'distribution'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-// At this time, Eclipse is not compatible with Java8 and Gradle
-//apply plugin: 'eclipse'
+apply plugin: 'eclipse'
 apply plugin: 'idea'
 
 sourceCompatibility = '7'
@@ -59,9 +58,12 @@ targetCompatibility = '7'
 
 description = 'JVM Agent to detect blocking IO call (https://github.com/pprados/audit-reactive)'
 
+apply from: "src/main/resources/version.properties"
+
 allprojects {
     group = "com.octo.reactive.audit"
-    version = '0.0.4-SNAPSHOT' // Don't forget to update init-home
+    version=project.version
+    ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 }
 
 dependencies {
@@ -81,8 +83,15 @@ task sourceJar(type: Jar) {
     from sourceSets.main.allJava
 }
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+
 artifacts {
     archives sourceJar
+    archives javadocJar
 }
 
 // Add the lib classes in the main jar
@@ -120,18 +129,24 @@ distributions {
             }
             into('lib') {
                 from project(':audit-reactive-lib').jar
+                rename { project(':audit-reactive-lib').name+".jar" }
+            }
+            into('lib') {
                 from jar
-                rename { it.substring(0, it.indexOf(version) - 1) + it.substring(it.lastIndexOf("."), it.size()) }
+                rename { project.name+".jar" }
             }
             into('lib') {
                 from project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
                 rename { "aspectjweaver.jar" }
             }
+            into('bin') {
+                from sourceSets.main.resources.find { it.name == "version.properties" }
+            }
         }
     }
 }
-
 signing {
+    required { isReleaseVersion }
     sign configurations.archives
 }
 

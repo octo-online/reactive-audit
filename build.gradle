@@ -22,7 +22,7 @@ task usage << {
     println "gradlew build -x test       : build for Jdk7."
     println "gradlew installDist         : Generate a publication in build/install/audit-reactive."
     println "gradlew publishToMavenLocal : Publishes all Maven publications produced by this project to the local Maven cache."
-    println "gradlew publish             : Publishes all publications produced by this project."
+    println "gradlew uploadArchive       : Uploads all artifacts belonging to Sonatype."
 }
 
 buildscript {
@@ -47,6 +47,7 @@ project.ext {
 
 apply plugin: 'aspectj'
 apply plugin: 'distribution'
+apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
@@ -56,15 +57,16 @@ apply plugin: 'idea'
 sourceCompatibility = '7'
 targetCompatibility = '7'
 
-description = 'JVM Agent to detect blocking IO call (https://github.com/pprados/audit-reactive)'
+description = 'JVM Agent to detect blocking IO call'
 
 apply from: "src/main/resources/version.properties"
 
 allprojects {
     group = "com.octo.reactive.audit"
-    //version=project.version
-    version='0.0.4-SNAPSHOT'
+    archivesBaseName = "audit-reactive"
+    version = project.version
     ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+
 }
 
 dependencies {
@@ -75,7 +77,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testRuntime "org.aspectj:aspectjweaver:${aspectjVersion}"
     testRuntime "org.aspectj:aspectjrt:${aspectjVersion}"
-    testRuntime "org.scala-lang:scala-library:2.11.1"
     testRuntime "org.apache.derby:derby:10.10.2.0"
 }
 
@@ -147,10 +148,93 @@ distributions {
     }
 }
 signing {
-    required { isReleaseVersion }
+    required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives
 }
 
+task writeNewPom << {
+    pom {
+        project {
+            inceptionYear '2008'
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+        }
+    }.writeTo("$buildDir/newpom.xml")
+}
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            pom.project {
+                name "${project.name}"
+                description "${project.description}"
+                packaging 'jar'
+                url 'http://github.com/pprados/audit-reactive'
+
+                scm {
+                    connection 'scm:git:http://github.com/pprados/audit-reactive.git'
+                    developerConnection 'scm:git:http://git@github.com:pprados/audit-reactive.git'
+                    url 'http://github.com/pprados/audit-reactive/'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'pprados'
+                        name 'Philippe Prados'
+                        organization = 'OCTO Technology'
+                        organizationUrl 'http://www.octo.com'
+                        roles {
+                            role 'Architect'
+                            role 'Developer'
+                        }
+                    }
+                    developer {
+                        id 'fxbonnet'
+                        name 'Francois-Xavier Bonnet'
+                        organization = 'OCTO Technology'
+                        organizationUrl 'http://www.octo.com'
+                        roles {
+                            role 'Developer'
+                        }
+                    }
+                    developer {
+                        id 'ybenabderrahmane'
+                        name 'yacine Benabderrahmane'
+                        organization = 'OCTO Technology'
+                        organizationUrl 'http://www.octo.com'
+                        roles {
+                            role 'Developer'
+                        }
+                    }
+                }
+                properties {
+                    'project.build.sourceEncoding' 'UTF-8'
+                    'project.reporting.outputEncoding' 'UTF-8'
+                }
+            }
+        }
+    }
+}
+
+/*
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -169,5 +253,4 @@ publishing {
         }
     }
 }
-
-
+*/

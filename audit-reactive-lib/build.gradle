@@ -15,6 +15,7 @@
  */
 
 apply plugin: 'java'
+apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
@@ -26,7 +27,7 @@ targetCompatibility = '6'
 
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
-description = 'Annotations and exceptions to manage audit-reactive (https://github.com/pprados/audit-reactive)'
+description = 'Annotations and exceptions to manage audit-reactive'
 
 task sourceJar(type: Jar) {
     classifier = 'sources'
@@ -48,10 +49,79 @@ repositories {
 }
 
 signing {
-    required { isReleaseVersion }
+    required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives
 }
 
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: sonatypeNexusOssUser, password: sonatypeNexusOssPassword)
+            }
+
+            pom.project {
+                name "${project.name}"
+                description "${project.description}"
+                packaging 'jar'
+                url 'http://github.com/pprados/audit-reactive'
+
+                scm {
+                    connection 'scm:git:git://github.com/pprados/audit-reactive.git'
+                    developerConnection 'scm:git:ssh://git@github.com:pprados/audit-reactive.git'
+                    url 'http://github.com/pprados/audit-reactive/'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'pprados'
+                        name 'Philippe Prados'
+                        organization = 'OCTO Technology'
+                        organizationUrl 'http://www.octo.com'
+                        roles {
+                            role 'Architect'
+                            role 'Developer'
+                        }
+                    }
+                    developer {
+                        id 'fxbonnet'
+                        name 'Francois-Xavier Bonnet'
+                        organization = 'OCTO Technology'
+                        organizationUrl 'http://www.octo.com'
+                        roles {
+                            role 'Developer'
+                        }
+                    }
+                    developer {
+                        id 'ybenabderrahmane'
+                        name 'yacine Benabderrahmane'
+                        organization = 'OCTO Technology'
+                        organizationUrl 'http://www.octo.com'
+                        roles {
+                            role 'Developer'
+                        }
+                    }
+                }
+                properties {
+                    'project.build.sourceEncoding' 'UTF-8'
+                    'project.reporting.outputEncoding' 'UTF-8'
+                }
+            }
+        }
+    }
+}
+
+/*
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -62,9 +132,12 @@ publishing {
     }
     repositories {
         maven {
-            // FIXME change to point to your repo, e.g. http://my.org/repo
-            url "$buildDir/repo"
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username sonatypeNexusOssUser
+                password sonatypeNexusOssPassword
+            }
         }
     }
 }
-
+*/

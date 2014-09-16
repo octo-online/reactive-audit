@@ -52,21 +52,22 @@ signing {
     required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives
 }
-
 uploadArchives {
     repositories {
         mavenDeployer {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: sonatypeUsername, password: sonatypePassword)
+                if (ext.hasProperty("sonatypeUsername")) {
+                    authentication(userName: sonatypeUsername, password: sonatypePassword)
+                }
             }
 
             pom.project {
                 name "${project.name}"
                 description "${project.description}"
-                packaging 'jar'
                 url 'http://github.com/pprados/audit-reactive'
+                packaging 'jar'
 
                 scm {
                     connection 'scm:git:git://github.com/pprados/audit-reactive.git'
@@ -105,6 +106,15 @@ uploadArchives {
                     developer {
                         id 'ybenabderrahmane'
                         name 'yacine Benabderrahmane'
+                        organization = 'OCTO Technology'
+                        organizationUrl 'http://www.octo.com'
+                        roles {
+                            role 'Developer'
+                        }
+                    }
+                    developer {
+                        id 'efortin'
+                        name 'Emanuel Fortin'
                         organization = 'OCTO Technology'
                         organizationUrl 'http://www.octo.com'
                         roles {

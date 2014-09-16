@@ -62,7 +62,8 @@ apply from: "src/main/resources/version.properties"
 
 allprojects {
     group = "com.octo.reactive.audit"
-    version=project.version
+    //version=project.version
+    version='0.0.4-SNAPSHOT'
     ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 }
 
@@ -155,12 +156,16 @@ publishing {
         mavenJava(MavenPublication) {
             from components.java
             artifact sourceJar
+            artifact javadocJar
         }
     }
     repositories {
         maven {
-            // FIXME change to point to your repo, e.g. http://my.org/repo
-            url "$buildDir/repo"
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username sonatypeNexusOssUser
+                password sonatypeNexusOssPassword
+            }
         }
     }
 }

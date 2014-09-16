@@ -257,37 +257,31 @@ if [[ -z "$framework" ]]; then
         echo ' set JAVA_OPTS=$AUDIT_OPTS'
         echo 'Add -DauditReactive=<yourfile>.properties to select a specific configuration.'
     fi
-fi
 
-if [[ "$framework" == "jboss" ]] ; then
+elif [[ "$framework" == "jboss" ]] ; then
     echo Not yet implemented
-fi
 
-if [[ "$framework" == "play" ]]; then
+elif [[ "$framework" == "play" ]]; then
     export SBT_OPTS=$AUDIT_OPTS
     if [[ -z "$silent" ]]; then
         echo "SBT_OPTS was set. You can use TypeSafe 'activator run'."
     fi
-fi
-
-if [[ "$framework" == "sbt" ]]; then
+elif [[ "$framework" == "sbt" ]]; then
     export SBT_OPTS=$AUDIT_OPTS
     if [[ -z "$silent" ]]; then
         echo "SBT_OPTS was set. You can use TypeSafe 'activator run'."
     fi
-fi
-
-if [[ "$framework" == "jetty" ]]; then
+elif [[ "$framework" == "jetty" ]]; then
     if [[ -z "$silent" ]]; then
         echo 'To start Jetty, use: java $AUDIT_OPTS -jar start.jar'
     fi
-fi
-
-if [[ "$framework" == "catalina" ]]; then
+elif [[ "$framework" == "catalina" ]]; then
     export CATALINA_OPTS=$AUDIT_OPTS
     if [[ -z "$silent" ]]; then
         echo "CATALINA_OPTS was set. You can use 'catalina run'."
     fi
+else
+   echoerr "Framework $framework unknown !"
 fi
 
 fi  # java_version

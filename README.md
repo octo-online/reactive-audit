@@ -3,6 +3,8 @@ This audit tool aims to provide help to the use of *[Reactive architecture](http
 For reminder, when applying this approach the application must use only **non-blocking APIs** and,
 as soon as possible, return the current thread to a pool, limited by the number of CPU cores.
 The code must also use Java 8 concurrency utility classes `Future<>` and `CompletableFuture<>` everywhere.
+The frameworks [Play](https://www.playframework.com/ "Play framework"), [AKKA](http://www.akka.io/ "AKKA framework")
+and [Scala](http://www.scala-lang.org/ "Scala lang") promote this approach.
 
 **WARNING:** This is a beta version
 
@@ -119,17 +121,16 @@ You can set all the parameters described in `<audit home>/etc/default.properties
 # Build
     ./gradlew usage
 
-## Unit test can be compiled only with Java 8+. So, remove the tests for others JVM
-use
+## Unit test can be compiled only with Java 8+.
 
-    ./gradlew build (with Jdk8)
+    ./gradlew build (with Jdk8+)
     ./gradlew build -x test (with Jdk7)
 
 ## Distribution
 use one of
 
-    ./gradlew distZip     (result in build/distributions)
-    ./gradlew distTar     (result in build/distributions)
+    ./gradlew distZip
+    ./gradlew distTar
 
 ## Test distribution (Option 1)
 
@@ -139,7 +140,7 @@ Then, add `./build/install/audit-reactive/bin` in `PATH`.
 
 ## Test distribution (Option 2)
 
-    init-home.sh
+    ./init-home.sh (simulate installation with links)
     ./gradlew build
 
 Then, add `./home/bin` in `PATH`.

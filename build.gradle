@@ -15,11 +15,14 @@
  */
 
 task usage << {
-    println "gradlew task          : Displays the tasks runnable from root project"
-    println "gradlew clean         : Deletes the build directory."
-    println "gradlew build         : build for Jdk8+"
-    println "gradlew build -x test : build for Jdk7"
-    println "gradlew installDist   : Generate a publication in build/install/audit-reactive"
+    println "gradlew task                : Displays the tasks runnable from root project."
+    println "gradlew idea                : Generates IDEA project files (IML, IPR, IWS)"
+    println "gradlew clean               : Deletes the build directory."
+    println "gradlew build               : build for Jdk8+."
+    println "gradlew build -x test       : build for Jdk7."
+    println "gradlew installDist         : Generate a publication in build/install/audit-reactive."
+    println "gradlew publishToMavenLocal : Publishes all Maven publications produced by this project to the local Maven cache."
+    println "gradlew publish             : Publishes all publications produced by this project."
 }
 
 buildscript {
@@ -148,12 +151,12 @@ publishing {
     }
     repositories {
         maven {
-            // change to point to your repo, e.g. http://my.org/repo
             url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
 			credentials {
             	username sonatypeNexusOssUser
             	password sonatypeNexusOssPassword
         	}
+            url "$buildDir/repo"
         }
     }
 }

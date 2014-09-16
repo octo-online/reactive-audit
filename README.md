@@ -52,9 +52,9 @@ To start **JVM** with the audit on Windows:
     > init-audit-reactive
     > java %AUDIT_OPTS% ...
 
-To start **JVM** with the audit on Linux:
+To start **JVM** with the audit on Mac/Linux:
 
-    > . init-audit-reactive.sh
+    > source init-audit-reactive.sh
     > java %AUDIT_OPTS% ...
 
 To start **jetty** with the audit on Windows:
@@ -62,9 +62,9 @@ To start **jetty** with the audit on Windows:
     > init-audit-reactive jetty
     > java %AUDIT_OPTS% -jar start.jar
 
-To start **jetty** with the audit on Linux:
+To start **jetty** with the audit on Mac/Linux:
 
-    > . init-audit-reactive.sh jetty
+    > source init-audit-reactive.sh jetty
     > java %AUDIT_OPTS% -jar start.jar
 
 To start **catalina** (Tomcat) with audit on Windows:
@@ -72,9 +72,9 @@ To start **catalina** (Tomcat) with audit on Windows:
     > init-audit-reactive catalina
     > catalina run
 
-To start **catalina** (Tomcat) with audit on Linux:
+To start **catalina** (Tomcat) with audit on Mac/Linux:
 
-    > . init-audit-reactive.sh catalina
+    > source init-audit-reactive.sh catalina
     > catalina run
 
 To start **play** with the audit on Windows:
@@ -82,9 +82,9 @@ To start **play** with the audit on Windows:
     > init-audit-reactive play
     > activator run
 
-To start **play** with the audit on Linux:
+To start **play** with the audit on Mac/Linux:
 
-    >. init-audit-reactive.sh play
+    >source init-audit-reactive.sh play
     > activator run
 
 For the background, this script add a boot classpath with `<audit home>/lib`
@@ -119,25 +119,25 @@ You can set all the parameters described in `<audit home>/etc/default.properties
 # Build
     ./gradlew usage
 
-# Unit test can be compiled only with Java 8+. So, remove the tests for others JVM
+## Unit test can be compiled only with Java 8+. So, remove the tests for others JVM
 use
 
     ./gradlew build (with Jdk8)
     ./gradlew build -x test (with Jdk7)
 
-# Distribution
+## Distribution
 use one of
 
     ./gradlew distZip     (result in build/distributions)
     ./gradlew distTar     (result in build/distributions)
 
-# Test distribution (Option 1)
+## Test distribution (Option 1)
 
     ./gradlew installDist
 
 Then, add `./build/install/audit-reactive/bin` in `PATH`.
 
-# Test distribution (Option 2)
+## Test distribution (Option 2)
 
     init-home.sh
     ./gradlew build

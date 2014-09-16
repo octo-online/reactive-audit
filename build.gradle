@@ -78,8 +78,14 @@ task sourceJar(type: Jar) {
     from sourceSets.main.allJava
 }
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
 artifacts {
     archives sourceJar
+    archives javadocJar
 }
 
 // Add the lib classes in the main jar
@@ -137,12 +143,17 @@ publishing {
         mavenJava(MavenPublication) {
             from components.java
             artifact sourceJar
+            artifact javadocJar
         }
     }
     repositories {
         maven {
             // change to point to your repo, e.g. http://my.org/repo
-            url "$buildDir/repo"
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+			credentials {
+            	username sonatypeNexusOssUser
+            	password sonatypeNexusOssPassword
+        	}
         }
     }
 }

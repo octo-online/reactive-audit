@@ -25,7 +25,12 @@ usage() {
     jetty      Set AUDIT_OPTS to start jetty
     catalina   Set CATALINA_OPTS
     play       Set SBT_OPTS
-    sbt       Set SBT_OPTS
+
+    ant        Set ANT_OPTS
+    gradle     Set GRADLE_OPTS
+    maven      Set MAVEN_OPTS
+    sbt        Set SBT_OPTS
+
     help       Print this message
 
     Options:
@@ -266,10 +271,25 @@ elif [[ "$framework" == "play" ]]; then
     if [[ -z "$silent" ]]; then
         echo "SBT_OPTS was set. You can use TypeSafe 'activator run'."
     fi
+elif [[ "$framework" == "ant" ]]; then
+    export ANT_OPTS=$AUDIT_OPTS
+    if [[ -z "$silent" ]]; then
+        echo "ANT_OPTS was set. You can use 'ant'."
+    fi
 elif [[ "$framework" == "sbt" ]]; then
     export SBT_OPTS=$AUDIT_OPTS
     if [[ -z "$silent" ]]; then
         echo "SBT_OPTS was set. You can use TypeSafe 'activator run'."
+    fi
+elif [[ "$framework" == "maven" ]]; then
+    export MAVEN_OPTS=$AUDIT_OPTS
+    if [[ -z "$silent" ]]; then
+        echo "MAVEN_OPTS was set. You can use 'mvn'."
+    fi
+elif [[ "$framework" == "gradle" ]]; then
+    export GRADLE_OPTS=$AUDIT_OPTS
+    if [[ -z "$silent" ]]; then
+        echo "GRADLE_OPTS was set. You can use 'gradle'."
     fi
 elif [[ "$framework" == "jetty" ]]; then
     if [[ -z "$silent" ]]; then

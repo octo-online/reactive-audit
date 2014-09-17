@@ -282,10 +282,28 @@ if "%_FRAMEWORK%" == "play" (
         echo SBT_OPTS was set. You can use TypeSafe 'activator run'.
     )
 )
+if "%_FRAMEWORK%" == "ant" (
+    set ANT_OPTS=%AUDIT_OPTS%
+    if not "%_SILENT%"=="true" (
+        echo ANT_OPTS was set. You can use 'ant'.
+    )
+)
 if "%_FRAMEWORK%" == "sbt" (
     set SBT_OPTS=%AUDIT_OPTS%
     if not "%_SILENT%"=="true" (
         echo SBT_OPTS was set. You can use TypeSafe 'activator run'.
+    )
+)
+if "%_FRAMEWORK%" == "maven" (
+    set MAVEN_OPTS=%AUDIT_OPTS%
+    if not "%_SILENT%"=="true" (
+        echo MAVEN_OPTS was set. You can use 'mvn'.
+    )
+)
+if "%_FRAMEWORK%" == "gradle" (
+    set GRADLE_OPTS=%AUDIT_OPTS%
+    if not "%_SILENT%"=="true" (
+        echo GRADLE_OPTS was set. You can use 'gradle'.
     )
 )
 if "%_FRAMEWORK%" == "jetty" (
@@ -314,7 +332,12 @@ goto :end
     echo jetty      Set AUDIT_OPTS to start jetty
     echo catalina   Set CATALINA_OPTS
     echo play       Set SBT_OPTS
+    echo .
+    echo ant        Set ANT_OPTS
+    echo gradle     Set GRADLE_OPTS
+    echo maven      Set MAVEN_OPTS
     echo sbt        Set SBT_OPTS
+    echo .
     echo help       Print this message
     echo.
     echo Options:

@@ -175,13 +175,13 @@ uploadArchives {
             pom.project {
                 name "${project.name}"
                 description "${project.description}"
-                url 'http://github.com/pprados/audit-reactive'
+                url 'https://github.com/octo-online/audit-reactive'
                 packaging 'jar'
 
                 scm {
-                    connection 'scm:git:http://github.com/pprados/audit-reactive.git'
-                    developerConnection 'scm:git:http://git@github.com:pprados/audit-reactive.git'
-                    url 'http://github.com/pprados/audit-reactive/'
+                    connection 'scm:git:https://github.com/octo-online/audit-reactive.git'
+                    developerConnection 'scm:git:https://github.com/octo-online/audit-reactive.git'
+                    url 'https://github.com/octo-online/audit-reactive'
                 }
 
                 licenses {

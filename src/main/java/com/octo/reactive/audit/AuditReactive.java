@@ -113,7 +113,7 @@ public class AuditReactive
 			logOnly.commit();
 			String url = getPropertiesURL();
 			Logger log = Logger.getLogger(auditPackageName);
-			log.info("Use audit-reactive (@see https://github.com/pprados/audit-reactive)");
+			log.info("Use audit-reactive (@see https://github.com/octo-online/audit-reactive)");
 			log.info("with " + url);
 			new LoadParams(this, url).commit();
 			logger.info("Start audit reactive");

@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
+defaultTasks 'usage'
+
 task usage << {
-    println "gradlew task                : Displays the tasks runnable from root project."
-    println "gradlew idea                : Generates IDEA project files (IML, IPR, IWS)"
-    println "gradlew clean               : Deletes the build directory."
-    println "gradlew build               : build for Jdk8+."
-    println "gradlew build -x test       : build for Jdk7."
-    println "gradlew installDist         : Generate a publication in build/install/audit-reactive."
-    println "gradlew publishToMavenLocal : Publishes all Maven publications produced by this project to the local Maven cache."
-    println "gradlew uploadArchive       : Uploads all artifacts belonging to Sonatype."
+    println "./gradlew task                : Displays the tasks runnable from root project."
+    println "./gradlew clean               : Deletes the build directory."
+    println "./gradlew build               : build for Jdk8+."
+    println "./gradlew build -x test       : build for Jdk7."
+    println "./gradlew installDist         : Generate a publication in build/install/audit-reactive."
+    println "./gradlew publishToMavenLocal : Publishes all Maven publications produced by this project to the local Maven cache."
+    println "./gradlew uploadArchive       : Uploads all artifacts belonging to Sonatype."
+    println "./gradlew idea                : Generates IDEA project files."
+    println "./gradlew eclipse             : Generates Eclipse project files."
 }
 
 buildscript {
@@ -66,7 +69,6 @@ allprojects {
     archivesBaseName = "audit-reactive"
     version = project.version
     ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
-
 }
 
 dependencies {
@@ -89,7 +91,6 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
 }
-
 
 artifacts {
     archives sourceJar
@@ -148,31 +149,26 @@ distributions {
     }
 }
 signing {
-    required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+    required { isReleaseVersion }
     sign configurations.archives
 }
 
-task writeNewPom << {
-    pom {
-        project {
-            inceptionYear '2008'
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
-                }
-            }
-        }
-    }.writeTo("$buildDir/newpom.xml")
-}
 uploadArchives {
     repositories {
         mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            beforeDeployment {
+                MavenDeployment deployment ->
+                    if (!isReleaseVersion) {
+                        throw new GradleException("Current version is ${version}. Use a release version")
+                    }
+                    if (!project.hasProperty("sonatypeUsername") || !project.hasProperty("sonatypePassword")) {
+                        throw new GradleException('Set sonatypeUsername and sonatypePassword in ~/.gradle/gradle.properties or with -D<x>=<y>')
+                    }
+                    signing.signPom(deployment)
+            }
 
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                if (ext.hasProperty("sonatypeUsername")) {
+                if (project.hasProperty("sonatypeUsername") && project.hasProperty("sonatypePassword")) {
                     authentication(userName: sonatypeUsername, password: sonatypePassword)
                 }
             }
@@ -245,7 +241,6 @@ uploadArchives {
     }
 }
 
-/*
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -256,12 +251,7 @@ publishing {
     }
     repositories {
         maven {
-            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
-            credentials {
-                username sonatypeNexusOssUser
-                password sonatypeNexusOssPassword
-            }
+            url "$buildDir/repo"
         }
     }
 }
-*/

@@ -25,7 +25,12 @@ apply plugin: 'idea'
 sourceCompatibility = '6'
 targetCompatibility = '6'
 
-ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+//defaultTasks "clean jar"
+
+apply from: "../src/main/resources/version.properties"
+
+isReleaseVersion = !version.endsWith("SNAPSHOT")
+
 
 description = 'Annotations and exceptions to manage audit-reactive'
 
@@ -49,16 +54,25 @@ repositories {
 }
 
 signing {
-    required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+    required { isReleaseVersion }
     sign configurations.archives
 }
 uploadArchives {
     repositories {
         mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            beforeDeployment {
+                MavenDeployment deployment ->
+                    if (!isReleaseVersion) {
+                        throw new GradleException("Current version is ${version}. Use a release version")
+                    }
+                    if (!project.hasProperty("sonatypeUsername") || !project.hasProperty("sonatypePassword")) {
+                        throw new GradleException('Set sonatypeUsername and sonatypePassword in ~/.gradle/gradle.properties or with -D<x>=<y>')
+                    }
+                    signing.signPom(deployment)
+            }
 
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                if (ext.hasProperty("sonatypeUsername")) {
+                if (project.hasProperty("sonatypeUsername") && project.hasProperty("sonatypePassword")) {
                     authentication(userName: sonatypeUsername, password: sonatypePassword)
                 }
             }
@@ -131,7 +145,6 @@ uploadArchives {
     }
 }
 
-/*
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -142,12 +155,7 @@ publishing {
     }
     repositories {
         maven {
-            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
-            credentials {
-                username sonatypeNexusOssUser
-                password sonatypeNexusOssPassword
-            }
+            url "$buildDir/repo"
         }
     }
 }
-*/

@@ -133,14 +133,17 @@ use one of
     ./gradlew distTar
 
 ## Test distribution (Option 1)
+Add `./build/install/audit-reactive/bin` in `PATH`, and
 
     ./gradlew installDist
 
-Then, add `./build/install/audit-reactive/bin` in `PATH`.
 
 ## Test distribution (Option 2)
+Then, add `./home/bin` in `PATH`, and
 
     ./init-home.sh (simulate installation with links)
+    
+To build more quickly
+
     ./gradlew build
 
-Then, add `./home/bin` in `PATH`.

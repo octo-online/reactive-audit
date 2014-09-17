@@ -128,7 +128,7 @@ uploadArchives {
                     }
                     developer {
                         id 'efortin'
-                        name 'Emanuel Fortin'
+                        name 'Emmanuel Fortin'
                         organization = 'OCTO Technology'
                         organizationUrl 'http://www.octo.com'
                         roles {

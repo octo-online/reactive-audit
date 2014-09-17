@@ -79,7 +79,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testRuntime "org.aspectj:aspectjweaver:${aspectjVersion}"
     testRuntime "org.aspectj:aspectjrt:${aspectjVersion}"
-    testRuntime "org.apache.derby:derby:10.10.2.0"
 }
 
 task sourceJar(type: Jar) {
@@ -224,7 +223,7 @@ uploadArchives {
                     }
                     developer {
                         id 'efortin'
-                        name 'Emanuel Fortin'
+                        name 'Emmanuel Fortin'
                         organization = 'OCTO Technology'
                         organizationUrl 'http://www.octo.com'
                         roles {

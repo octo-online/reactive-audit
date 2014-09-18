@@ -89,7 +89,7 @@ To start **play** with the audit on Mac/Linux:
     >source init-audit-reactive.sh play
     > activator run
 
-For the background, this script add a boot classpath with `<audit home>/lib`
+For the background, this script adds the boot classpath `<audit home>/lib`
 and adds the agent using `-javaagent:<audit home>/lib/aspectjweaver.jar`.
 
 If a framework is selected, this script adds a default associated parameter file

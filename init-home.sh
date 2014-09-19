@@ -18,8 +18,8 @@ pushd "$AUDIT_REACTIVE_HOME/home/bin" >/dev/null
 ln -s ../../src/test/bin/debug-audit-reactive.bat debug-audit-reactive.bat
 ln -s  ../../src/test/bin/debug-audit-reactive.sh debug-audit-reactive.sh 
 ln -s ../../src/main/resources/version.properties version.properties
-ln -s  ../../src/main/dist/bin/init-audit-reactive.bat init-audit-reactive.bat
-ln -s  ../../src/main/dist/bin/init-audit-reactive.sh init-audit-reactive.sh
+ln -s  ../../src/main/bin/init-audit-reactive.bat init-audit-reactive.bat
+ln -s  ../../src/main/bin/init-audit-reactive.sh init-audit-reactive.sh
 popd >/dev/null
 
 pushd "$AUDIT_REACTIVE_HOME/home" >/dev/null

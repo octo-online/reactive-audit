@@ -126,7 +126,7 @@ distributions {
     main {
         contents {
             into('bin') {
-                from { 'src/main/dist/bin' }
+                from { 'src/main/bin' }
                 fileMode = 0755
             }
             into('lib') {

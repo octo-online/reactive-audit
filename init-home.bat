@@ -22,8 +22,8 @@ pushd %HOME%\home\bin
 mklink debug-audit-reactive.bat ..\..\src\test\bin\debug-audit-reactive.bat
 mklink debug-audit-reactive.sh ..\..\src\test\bin\debug-audit-reactive.sh
 mklink version.properties ..\..\src\main\resources\version.properties
-mklink init-audit-reactive.bat ..\..\src\main\dist\bin\init-audit-reactive.bat
-mklink init-audit-reactive.sh ..\..\src\main\dist\bin\init-audit-reactive.sh
+mklink init-audit-reactive.bat ..\..\src\main\bin\init-audit-reactive.bat
+mklink init-audit-reactive.sh ..\..\src\main\bin\init-audit-reactive.sh
 popd
 
 pushd %HOME%\home

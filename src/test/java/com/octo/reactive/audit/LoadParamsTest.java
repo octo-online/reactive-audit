@@ -16,6 +16,7 @@
 
 package com.octo.reactive.audit;
 
+import com.octo.reactive.audit.lib.Latency;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -70,5 +71,24 @@ public class LoadParamsTest
 		LoadParams.resetAllEnv();
 		System.setProperty(KEY_LOG_LEVEL, "XXX");
 		new LoadParams(AuditReactive.config, DEFAULT_FILENAME).commit();
+	}
+
+	@Test
+	public void mappingLogLevel()
+	{
+		LoadParams.resetAllEnv();
+		System.setProperty(KEY_LOG_LEVEL, Latency.HIGH.name());
+		new LoadParams(AuditReactive.config, DEFAULT_FILENAME).commit();
+		assertEquals(Level.SEVERE, AuditReactive.config.logger.getLevel());
+
+		LoadParams.resetAllEnv();
+		System.setProperty(KEY_LOG_LEVEL, Latency.MEDIUM.name());
+		new LoadParams(AuditReactive.config, DEFAULT_FILENAME).commit();
+		assertEquals(Level.WARNING, AuditReactive.config.logger.getLevel());
+
+		LoadParams.resetAllEnv();
+		System.setProperty(KEY_LOG_LEVEL, Latency.LOW.name());
+		new LoadParams(AuditReactive.config, DEFAULT_FILENAME).commit();
+		assertEquals(Level.INFO, AuditReactive.config.logger.getLevel());
 	}
 }

@@ -16,6 +16,8 @@
 
 package com.octo.reactive.audit;
 
+import com.octo.reactive.audit.lib.Latency;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -191,7 +193,7 @@ class LoadParams
 		tx.latencyFile(getValue(KEY_FILE_LATENCY, DEFAULT_FILE_LATENCY, prop));
 		tx.latencyNetwork(getValue(KEY_NETWORK_LATENCY, DEFAULT_NETWORK_LATENCY, prop));
 		tx.latencyCPU(getValue(KEY_CPU_LATENCY, DEFAULT_CPU_LATENCY, prop));
-		tx.log(Level.parse(getValue(KEY_LOG_LEVEL, DEFAULT_LOG_LEVEL, prop).toUpperCase()));
+		tx.log(convLevelLatency(getValue(KEY_LOG_LEVEL, DEFAULT_LOG_LEVEL, prop).toUpperCase()));
 		tx.logOutput(getValue(KEY_LOG_OUTPUT, DEFAULT_LOG_OUTPUT, prop),
 		             getValue(KEY_LOG_FORMAT, DEFAULT_LOG_FORMAT, prop),
 		             getValue(KEY_LOG_SIZE, DEFAULT_LOG_SIZE, prop));
@@ -202,4 +204,20 @@ class LoadParams
 		tx.commit();
 	}
 
+	private Level convLevelLatency(String level)
+	{
+		if (Latency.HIGH.name().equals(level))
+		{
+			return Level.SEVERE;
+		}
+		if (Latency.MEDIUM.name().equals(level))
+		{
+			return Level.WARNING;
+		}
+		if (Latency.LOW.name().equals(level))
+		{
+			return Level.INFO;
+		}
+		return Level.parse(level);
+	}
 }

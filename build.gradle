@@ -21,23 +21,16 @@ task usage << {
     println "./gradlew clean               : Deletes the build directory."
     println "./gradlew build               : build for Jdk8+."
     println "./gradlew build -x test       : build for Jdk7."
-    println "./gradlew installDist         : Generate a publication in build/install/audit-reactive."
+    println ""
+    println "./gradlew installDist         : Generate a publication in ../build/install/audit-reactive."
+    println "./gradlew distTar             : Bundles the project as a distribution."
+    println "./gradlew distZip             : Bundles the project as a distribution."
+    println ""
     println "./gradlew publishToMavenLocal : Publishes all Maven publications produced by this project to the local Maven cache."
     println "./gradlew uploadArchive       : Uploads all artifacts belonging to Sonatype."
+    println ""
     println "./gradlew idea                : Generates IDEA project files."
     println "./gradlew eclipse             : Generates Eclipse project files."
-}
-
-buildscript {
-    repositories {
-        maven {
-            url "https://maven.eveoh.nl/content/repositories/releases"
-        }
-    }
-
-    dependencies {
-        classpath "nl.eveoh:gradle-aspectj:1.4"
-    }
 }
 
 repositories {
@@ -48,209 +41,29 @@ project.ext {
     aspectjVersion = '1.8.2'
 }
 
-apply plugin: 'aspectj'
+apply plugin: 'java'
 apply plugin: 'distribution'
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
 
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-sourceCompatibility = '7'
-targetCompatibility = '7'
-
 description = 'JVM Agent to detect blocking IO call'
 
-apply from: "src/main/resources/version.properties"
+apply from: "audit-reactive-agent/src/main/resources/version.properties"
 
 allprojects {
     group = "com.octo.reactive.audit"
     archivesBaseName = "audit-reactive"
-    version = project.version
+    ext.version=version
     ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 }
 
 dependencies {
+    compile project(":audit-reactive-agent")
     compile project(":audit-reactive-lib")
-    compile "org.aspectj:aspectjrt:${aspectjVersion}"
-    compile "org.aspectj:aspectjtools:${aspectjVersion}"
-
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-    testRuntime "org.aspectj:aspectjweaver:${aspectjVersion}"
-    testRuntime "org.aspectj:aspectjrt:${aspectjVersion}"
-}
-
-task sourceJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allJava
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives sourceJar
-    archives javadocJar
-}
-
-// Add the lib classes in the main jar
-jar {
-    from { project(":audit-reactive-lib").sourceSets.main.output.classesDir }
 }
 
 // Use gradle wrapper to update the current wrapper
 task wrapper(type: Wrapper) {
     gradleVersion = '2.1'
-}
-
-test {
-//    testLogging.showStandardStreams = true
-//    beforeTest { descriptor ->
-//        logger.lifecycle("Running test: " + descriptor)
-//    }
-
-    include 'com/octo/reactive/audit/**'
-
-    def weaver = "-javaagent:" +
-            project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
-    def auditReactiveConf = "-DauditReactive=src/test/resources/testAuditReactive.properties"
-    def logConfig = "-Djava.util.logging.config.file=src/test/resources/testLogging.properties"
-    jvmArgs = [weaver, auditReactiveConf, logConfig]
-}
-
-// Package the distribution with bin, etc and lib sub directories
-distributions {
-    main {
-        contents {
-            into('bin') {
-                from { 'src/main/bin' }
-                fileMode = 0755
-            }
-            into('lib') {
-                from project(':audit-reactive-lib').jar
-                rename { project(':audit-reactive-lib').name+".jar" }
-            }
-            into('lib') {
-                from jar
-                rename { project.name+".jar" }
-            }
-            into('lib') {
-                from project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
-                rename { "aspectjweaver.jar" }
-            }
-            into('bin') {
-                from sourceSets.main.resources.find { it.name == "version.properties" }
-            }
-        }
-    }
-}
-signing {
-    required { isReleaseVersion }
-    sign configurations.archives
-}
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment {
-                MavenDeployment deployment ->
-                    if (!isReleaseVersion) {
-                        throw new GradleException("Current version is ${version}. Use a release version")
-                    }
-                    if (!project.hasProperty("sonatypeUsername") || !project.hasProperty("sonatypePassword")) {
-                        throw new GradleException('Set sonatypeUsername and sonatypePassword in ~/.gradle/gradle.properties or with -D<x>=<y>')
-                    }
-                    signing.signPom(deployment)
-            }
-
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                if (project.hasProperty("sonatypeUsername") && project.hasProperty("sonatypePassword")) {
-                    authentication(userName: sonatypeUsername, password: sonatypePassword)
-                }
-            }
-
-            pom.project {
-                name "${project.name}"
-                description "${project.description}"
-                url 'https://github.com/octo-online/audit-reactive'
-                packaging 'jar'
-
-                scm {
-                    connection 'scm:git:https://github.com/octo-online/audit-reactive.git'
-                    developerConnection 'scm:git:https://github.com/octo-online/audit-reactive.git'
-                    url 'https://github.com/octo-online/audit-reactive'
-                }
-
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        distribution 'repo'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id 'pprados'
-                        name 'Philippe Prados'
-                        organization = 'OCTO Technology'
-                        organizationUrl 'http://www.octo.com'
-                        roles {
-                            role 'Architect'
-                            role 'Developer'
-                        }
-                    }
-                    developer {
-                        id 'fxbonnet'
-                        name 'Francois-Xavier Bonnet'
-                        organization = 'OCTO Technology'
-                        organizationUrl 'http://www.octo.com'
-                        roles {
-                            role 'Developer'
-                        }
-                    }
-                    developer {
-                        id 'ybenabderrahmane'
-                        name 'Yacine Benabderrahmane'
-                        organization = 'OCTO Technology'
-                        organizationUrl 'http://www.octo.com'
-                        roles {
-                            role 'Developer'
-                        }
-                    }
-                    developer {
-                        id 'efortin'
-                        name 'Emmanuel Fortin'
-                        organization = 'OCTO Technology'
-                        organizationUrl 'http://www.octo.com'
-                        roles {
-                            role 'Developer'
-                        }
-                    }
-                }
-                properties {
-                    'project.build.sourceEncoding' 'UTF-8'
-                    'project.reporting.outputEncoding' 'UTF-8'
-                }
-            }
-        }
-    }
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            artifact sourceJar
-            artifact javadocJar
-        }
-    }
-    repositories {
-        maven {
-            url "$buildDir/repo"
-        }
-    }
 }

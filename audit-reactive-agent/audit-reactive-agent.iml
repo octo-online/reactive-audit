@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="com.octo.reactive.audit" external.system.module.version="0.0.5-SNAPSHOT" type="JAVA_MODULE" version="4">
+<module external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="com.octo.reactive.audit" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/build/classes/main" />
     <output-test url="file://$MODULE_DIR$/build/classes/test" />
@@ -14,8 +14,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="audit-reactive-agent" exported="" />
     <orderEntry type="module" module-name="audit-reactive-lib" exported="" />
+    <orderEntry type="library" exported="" name="Gradle: aspectjrt-1.8.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: junit-4.11" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: hamcrest-core-1.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: aspectjweaver-1.8.2" level="project" />
   </component>
 </module>
 

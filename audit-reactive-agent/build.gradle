@@ -14,7 +14,28 @@
  * limitations under the License.
  */
 
-apply plugin: 'java'
+buildscript {
+    repositories {
+        maven {
+            url "https://maven.eveoh.nl/content/repositories/releases"
+        }
+    }
+
+    dependencies {
+        classpath "nl.eveoh:gradle-aspectj:1.4"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+project.ext {
+    aspectjVersion = '1.8.2'
+}
+
+apply plugin: 'aspectj'
+apply plugin: 'distribution'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
@@ -22,18 +43,21 @@ apply plugin: 'signing'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-sourceCompatibility = '6'
-targetCompatibility = '6'
+sourceCompatibility = '7'
+targetCompatibility = '7'
 
-defaultTasks "clean jar"
+apply from: "src/main/resources/version.properties"
 
-apply from: "../audit-reactive-agent/src/main/resources/version.properties"
-
-// FIXME:  impact sur le POM
-//jar. baseName="ABC"
-
-description = 'Annotations and exceptions to manage audit-reactive'
+description = 'JVM Agent to detect blocking IO call'
 isReleaseVersion = !version.endsWith("SNAPSHOT")
+
+dependencies {
+    compile project(":audit-reactive-lib")
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testRuntime "org.aspectj:aspectjweaver:${aspectjVersion}"
+    testRuntime "org.aspectj:aspectjrt:${aspectjVersion}"
+}
 
 task sourceJar(type: Jar) {
     classifier = 'sources'
@@ -50,14 +74,57 @@ artifacts {
     archives javadocJar
 }
 
-repositories {
-    mavenCentral()
+// Add the lib classes in the main jar
+jar {
+    from { project(":audit-reactive-lib").sourceSets.main.output.classesDir }
 }
 
+test {
+//    testLogging.showStandardStreams = true
+//    beforeTest { descriptor ->
+//        logger.lifecycle("Running test: " + descriptor)
+//    }
+
+    include 'com/octo/reactive/audit/**'
+
+    def weaver = "-javaagent:" +
+            project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
+    def auditReactiveConf = "-DauditReactive=src/test/resources/testAuditReactive.properties"
+    def logConfig = "-Djava.util.logging.config.file=src/test/resources/testLogging.properties"
+    jvmArgs = [weaver, auditReactiveConf, logConfig]
+}
+
+// Package the distribution with bin, etc and lib sub directories
+distributions {
+    main {
+        contents {
+            into('bin') {
+                from { 'src/main/bin' }
+                fileMode = 0755
+            }
+            into('lib') {
+                from project(':audit-reactive-lib').jar
+                rename { project(':audit-reactive-lib').name+".jar" }
+            }
+            into('lib') {
+                from jar
+                rename { project.name+".jar" }
+            }
+            into('lib') {
+                from project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
+                rename { "aspectjweaver.jar" }
+            }
+            into('bin') {
+                from sourceSets.main.resources.find { it.name == "version.properties" }
+            }
+        }
+    }
+}
 signing {
     required { isReleaseVersion }
     sign configurations.archives
 }
+
 uploadArchives {
     repositories {
         mavenDeployer {
@@ -120,7 +187,7 @@ uploadArchives {
                     }
                     developer {
                         id 'ybenabderrahmane'
-                        name 'yacine Benabderrahmane'
+                        name 'Yacine Benabderrahmane'
                         organization = 'OCTO Technology'
                         organizationUrl 'http://www.octo.com'
                         roles {

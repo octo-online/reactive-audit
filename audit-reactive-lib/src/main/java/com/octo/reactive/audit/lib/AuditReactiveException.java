@@ -17,17 +17,16 @@
 package com.octo.reactive.audit.lib;
 
 /**
- * Exception throw by the JVM agent if a blocking API is used.
- * This exception is throw only if the auditReactive.throwExceptions parameter is true.
+ * Exception thrown by the JVM agent if a blocking API is used.
+ * This exception is thrown only if the auditReactive.throwExceptions parameter is set to <b>true</b>.
  *
  * @author Philippe PRADOS
  * @since 1.0
  */
-
 public abstract class AuditReactiveException extends AssertionError
 {
 	/* This variable was set by the javaagent, via introspection.
-	   Then, it is not declared public.
+	   Thus it is not declared public.
 	 */
 	@SuppressWarnings("StaticNonFinalField")
 	static  /*package*/ final boolean debug                     = false;
@@ -36,7 +35,7 @@ public abstract class AuditReactiveException extends AssertionError
 			AuditReactiveException.class.getPackage().getName().replaceFirst("\\.[^.]+$", "");
 	/* If debug, use a limited stack trace. */
 	private static final      int     LIMIT_STACK_SIZE_IF_DEBUG = 10;
-	/* The threadname with the exception was create. */
+	/* The threadName with the exception is created. */
 	private final String  threadName;
 	/* The latency of this exception. */
 	private       Latency latency;
@@ -50,7 +49,7 @@ public abstract class AuditReactiveException extends AssertionError
 	protected AuditReactiveException(Latency latency, String message)
 	{
 		super(message);
-		threadName = Thread.currentThread().getName();
+		this.threadName = Thread.currentThread().getName();
 		this.latency = latency;
 		updateStackTraceElements();
 	}
@@ -65,7 +64,7 @@ public abstract class AuditReactiveException extends AssertionError
 	protected AuditReactiveException(Latency latency, String format, Object... args)
 	{
 		super(String.format(format, args));
-		threadName = Thread.currentThread().getName();
+		this.threadName = Thread.currentThread().getName();
 		updateStackTraceElements();
 	}
 
@@ -74,7 +73,7 @@ public abstract class AuditReactiveException extends AssertionError
 	 */
 	public Latency getLatency()
 	{
-		return latency;
+		return this.latency;
 	}
 
 	/**
@@ -83,7 +82,7 @@ public abstract class AuditReactiveException extends AssertionError
 	@Override
 	public String toString()
 	{
-		return super.toString() + " at thread \"" + threadName + '"';
+		return super.toString() + " at thread \"" + this.threadName + '"';
 	}
 
 	/**
@@ -94,9 +93,9 @@ public abstract class AuditReactiveException extends AssertionError
 		if (!debug)
 		{
 			// Filter stack trace
-			StackTraceElement[] stack = getStackTrace();
+			final StackTraceElement[] stack = getStackTrace();
 			int pos = 0;
-			for (StackTraceElement traceElement : stack)
+			for (final StackTraceElement traceElement : stack)
 			{
 				if (!traceElement.getClassName().startsWith(auditPackageName)
 						|| traceElement.getClassName().endsWith("Test")) // For inner unit test
@@ -105,15 +104,15 @@ public abstract class AuditReactiveException extends AssertionError
 				}
 				++pos;
 			}
-			StackTraceElement[] newStack = new StackTraceElement[stack.length - pos];
+			final StackTraceElement[] newStack = new StackTraceElement[stack.length - pos];
 			System.arraycopy(stack, pos, newStack, 0, newStack.length);
 			setStackTrace(newStack);
 		}
 		else
 		{
-			StackTraceElement[] stack = getStackTrace();
-			int newSize = Math.min(stack.length, LIMIT_STACK_SIZE_IF_DEBUG);
-			StackTraceElement[] newStack = new StackTraceElement[newSize];
+			final StackTraceElement[] stack = getStackTrace();
+			final int newSize = Math.min(stack.length, LIMIT_STACK_SIZE_IF_DEBUG);
+			final StackTraceElement[] newStack = new StackTraceElement[newSize];
 			System.arraycopy(stack, 0, newStack, 0, newSize);
 			setStackTrace(newStack);
 		}

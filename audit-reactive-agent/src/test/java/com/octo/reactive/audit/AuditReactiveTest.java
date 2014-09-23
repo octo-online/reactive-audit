@@ -24,10 +24,16 @@ import org.junit.Test;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
+import java.util.regex.Pattern;
 
+import static com.octo.reactive.audit.AuditReactive.*;
 import static com.octo.reactive.audit.lib.Latency.*;
 import static org.junit.Assert.*;
 
@@ -64,7 +70,7 @@ public class AuditReactiveTest
 	@Test
 	public void currentThread_test()
 	{
-		AuditReactive.strict.commit();
+		strict.commit();
 		assertTrue(config.isThreadNameMatch(Thread.currentThread().getName()));
 	}
 
@@ -365,7 +371,7 @@ public class AuditReactiveTest
 		Field field = AuditReactiveException.class.getDeclaredField("debug");
 		field.setAccessible(true);
 		if (((Boolean) field.get(null)) == true) return;
-		AuditReactive.strict.commit();
+		strict.commit();
 
 		try
 		{
@@ -377,7 +383,7 @@ public class AuditReactiveTest
 			StackTraceElement[] stack = e.getStackTrace();
 			for (StackTraceElement traceElement : stack)
 			{
-				assertFalse((traceElement.getClassName().startsWith(AuditReactive.auditPackageName)
+				assertFalse((traceElement.getClassName().startsWith(auditPackageName)
 						&& !traceElement.getClassName().endsWith("Test"))); // For inner unit test
 			}
 		}

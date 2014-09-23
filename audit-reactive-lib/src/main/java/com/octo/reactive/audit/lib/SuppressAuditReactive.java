@@ -16,11 +16,15 @@
 
 package com.octo.reactive.audit.lib;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Annotation to accept to call a blocking API without log or exception.
- * All call from this method or from method called by this method was accepted without alert.
+ * Annotation forcing the JVM agent to tolerate a method call to a blocking API without log or exception.
+ * All blocking call from this method or from one of its callees is accepted without generating an alert.
  *
  * @author Philippe PRADOS
  * @since 1.0
@@ -30,5 +34,5 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 public @interface SuppressAuditReactive
 {
-	String value() default "Assume a call to a blocking method after this point.";
+	String value() default "Tolerate a call to a blocking method from this method or its callees.";
 }

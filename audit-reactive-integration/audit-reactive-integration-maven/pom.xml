@@ -1,0 +1,177 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.octo.reactive.audit</groupId>
+    <artifactId>audit-reactive-integration-maven</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Reactive Audit Tool Maven Integration Test Application</name>
+    
+    <properties>
+        <audit.reactive.agent.version.string>[0.0.4,)</audit.reactive.agent.version.string>
+        <aspectjweaver.version>1.8.2</aspectjweaver.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.octo.reactive.audit</groupId>
+            <artifactId>audit-reactive-agent</artifactId>
+            <version>${audit.reactive.agent.version.string}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectjweaver.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-dependency-plugin</artifactId>
+                                        <versionRange>[2.4,)</versionRange>
+                                        <goals>
+                                            <goal>copy-dependencies</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <archive>
+                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>reactive_audit</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <properties>
+                <project.artifact.filename>${project.artifactId}-${project.version}.jar</project.artifact.filename>
+                <audit-libs-extract-dir>${project.build.directory}\audit-libs</audit-libs-extract-dir>
+                <java-ext-dir>${java.home}\lib\ext</java-ext-dir>
+                <audit-reactive-lib-home>${audit-libs-extract-dir}</audit-reactive-lib-home>
+                <audit-reactive-output-dir>${project.build.directory}/audit-reactive-output</audit-reactive-output-dir>
+                <aspectjweaver.artifact.filename>aspectjweaver-${aspectjweaver.version}.jar</aspectjweaver.artifact.filename>
+            </properties>
+
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.4</version>
+                        <executions>
+                            <execution>
+                                <id>copy-dependencies</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${audit-libs-extract-dir}</outputDirectory>
+                                    <overWriteReleases>false</overWriteReleases>
+                                    <overWriteSnapshots>false</overWriteSnapshots>
+                                    <overWriteIfNewer>true</overWriteIfNewer>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>2.6</version>
+                        <executions>
+                            <execution>
+                                <id>copy-integration-test-resources</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>testResources</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.3.2</version>
+                        <executions>
+                            <execution>
+                                <id>launch-with-reactive-audit</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <executable>java</executable>
+                            <workingDirectory>${project.build.directory}</workingDirectory>
+                            <arguments>
+                                <argument>-DauditReactive=${project.build.testOutputDirectory}\auditReactive.properties</argument>
+
+                                <argument>-javaagent:${audit-reactive-lib-home}\${aspectjweaver.artifact.filename}</argument>
+
+                                <argument>-Djava.ext.dirs=${java-ext-dir};${audit-reactive-lib-home}</argument>
+
+                                <argument>-jar</argument>
+                                <argument>${project.artifact.filename}</argument>
+                            </arguments>
+                            <outputFile>${audit-reactive-output-dir}\auditReactiveConsole.log</outputFile>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    <repositories>
+        <repository>
+            <id>Sonatype-staging-repository</id>
+            <name>Sonatype's Staging Maven repository</name>
+            <url>https://oss.sonatype.org/content/groups/staging</url>
+            <releases>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+        </repository>
+    </repositories>
+</project>

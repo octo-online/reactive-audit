@@ -4,7 +4,7 @@
     <artifactId>audit-reactive-integration-maven</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Reactive Audit Tool Maven Integration Test Application</name>
-    
+
     <properties>
         <audit.reactive.agent.version.string>[0.0.4,)</audit.reactive.agent.version.string>
         <aspectjweaver.version>1.8.2</aspectjweaver.version>
@@ -56,7 +56,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.1</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
@@ -78,18 +78,19 @@
 
     <profiles>
         <profile>
-            <id>reactive_audit</id>
+            <id>reactive-audit</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
 
             <properties>
+                <java-ext-dir>${java.home}${file.separator}lib${file.separator}ext</java-ext-dir>
+                
                 <project.artifact.filename>${project.artifactId}-${project.version}.jar</project.artifact.filename>
-                <audit-libs-extract-dir>${project.build.directory}\audit-libs</audit-libs-extract-dir>
-                <java-ext-dir>${java.home}\lib\ext</java-ext-dir>
+                <audit-libs-extract-dir>${project.build.directory}${file.separator}audit-libs</audit-libs-extract-dir>
                 <audit-reactive-lib-home>${audit-libs-extract-dir}</audit-reactive-lib-home>
                 <audit-reactive-output-dir>${project.build.directory}/audit-reactive-output</audit-reactive-output-dir>
-                <aspectjweaver.artifact.filename>aspectjweaver-${aspectjweaver.version}.jar</aspectjweaver.artifact.filename>
+                <aspectjweaver.artifact.path>${org.aspectj:aspectjweaver:jar}</aspectjweaver.artifact.path>
             </properties>
 
             <build>
@@ -105,6 +106,7 @@
                                 <phase>pre-integration-test</phase>
                                 <goals>
                                     <goal>copy-dependencies</goal>
+                                    <goal>properties</goal>
                                 </goals>
                                 <configuration>
                                     <outputDirectory>${audit-libs-extract-dir}</outputDirectory>
@@ -148,16 +150,13 @@
                             <executable>java</executable>
                             <workingDirectory>${project.build.directory}</workingDirectory>
                             <arguments>
-                                <argument>-DauditReactive=${project.build.testOutputDirectory}\auditReactive.properties</argument>
-
-                                <argument>-javaagent:${audit-reactive-lib-home}\${aspectjweaver.artifact.filename}</argument>
-
+                                <argument>-DauditReactive=${project.build.testOutputDirectory}/auditReactive.properties</argument>
+                                <argument>-javaagent:${aspectjweaver.artifact.path}</argument>
                                 <argument>-Djava.ext.dirs=${java-ext-dir};${audit-reactive-lib-home}</argument>
-
                                 <argument>-jar</argument>
                                 <argument>${project.artifact.filename}</argument>
                             </arguments>
-                            <outputFile>${audit-reactive-output-dir}\auditReactiveConsole.log</outputFile>
+                            <outputFile>${audit-reactive-output-dir}/auditReactiveConsole.log</outputFile>
                         </configuration>
                     </plugin>
                 </plugins>

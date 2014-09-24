@@ -25,7 +25,7 @@ import org.aspectj.lang.annotation.Before;
 import java.io.InputStream;
 import java.io.Reader;
 
-import static com.octo.reactive.audit.lib.Latency.LOW;
+import static com.octo.reactive.audit.lib.Latency.HIGH;
 
 // Nb methods: 2
 @Aspect
@@ -35,13 +35,13 @@ public class PropertiesAudit extends AbstractFileAudit
 	public void advice_high(JoinPoint thisJoinPoint, InputStream in)
 	{
 		if (FileTools.isLastInputStreamWithLatency(in) != 0)
-			latency(LOW, thisJoinPoint);
+			latency(HIGH, thisJoinPoint);
 	}
 
 	@Before("call(* java.util.Properties.load(java.io.Reader)) && args(in)")
 	public void advice_high(JoinPoint thisJoinPoint, Reader in)
 	{
 		if (FileTools.isLastReaderWithLatency(in) != 0)
-			latency(LOW, thisJoinPoint);
+			latency(HIGH, thisJoinPoint);
 	}
 }

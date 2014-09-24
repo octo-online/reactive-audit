@@ -37,8 +37,10 @@ public class PrintStreamTest extends FilterOutputStreamTest
 		return new PrintStream(out);
 	}
 
-	@Test
-	public void derived() throws IOException
+	@SuppressWarnings("RefusedBequest")
+    @Test
+    @Override
+    public void derived() throws IOException
 	{
 		class Derived extends PrintStream
 		{

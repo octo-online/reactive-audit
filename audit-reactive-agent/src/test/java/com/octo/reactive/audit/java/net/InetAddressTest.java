@@ -22,6 +22,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.net.InetAddress;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class InetAddressTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)

@@ -33,7 +33,7 @@ public abstract class AbstractReaderAudit extends AbstractInputStreamAudit
 
 	public static AuditReactiveException latencyReader(AuditReactive config, Latency latency, JoinPoint thisJoinPoint, Reader reader)
 	{
-		CharSequence msg = null;
+		CharSequence msg;
 		if (config.isDebug())
 			msg = FileTools.dumpChain(reader);
 		else

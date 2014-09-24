@@ -63,7 +63,8 @@ class HistoryStackElement
 			return (int) hash;
 		}
 
-		@Override
+		@SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+        @Override
 		public boolean equals(Object obj)
 		{
 			// It's enough because the probability is very low to have 2 stack trace with the same hash value.

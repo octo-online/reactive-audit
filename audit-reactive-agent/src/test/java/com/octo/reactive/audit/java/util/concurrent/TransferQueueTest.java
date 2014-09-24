@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TransferQueue;
 
+@SuppressWarnings("NullableProblems")
 public class TransferQueueTest
 {
 	private final TransferQueue<Object> t = new TransferQueue<Object>()
@@ -180,7 +181,8 @@ public class TransferQueueTest
 			return false;
 		}
 
-		@Override
+		@SuppressWarnings("ConstantConditions")
+        @Override
 		public Iterator<Object> iterator()
 		{
 			return null;
@@ -192,7 +194,8 @@ public class TransferQueueTest
 			return new Object[0];
 		}
 
-		@Override
+		@SuppressWarnings("ConstantConditions")
+        @Override
 		public <T> T[] toArray(T[] a)
 		{
 			return null;

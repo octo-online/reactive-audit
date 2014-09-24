@@ -100,7 +100,7 @@ public final class FileTools
 		}
 	}
 
-	static FilenameDumpClosure FileTools_filenameDump      = new FilenameDumpClosure()
+	static final FilenameDumpClosure FileTools_filenameDump      = new FilenameDumpClosure()
 	{
 		@Override
 		public void dump(StringBuilder buf, Class cl, String filename)
@@ -108,7 +108,7 @@ public final class FileTools
 			filenameDump(buf, cl, filename);
 		}
 	};
-	static FilenameDumpClosure FileTools_chainFilenameDump = new FilenameDumpClosure()
+	static final FilenameDumpClosure FileTools_chainFilenameDump = new FilenameDumpClosure()
 	{
 		@Override
 		public void dump(StringBuilder buf, Class cl, String filename)
@@ -116,13 +116,8 @@ public final class FileTools
 			chainFilenameDump(buf, cl, filename);
 		}
 	};
-	private static Field fieldPathOutputStream;
-	private static Field fieldPathInputStream;
-
-	private FileTools()
-	{
-
-	}
+	private static Field fieldPathOutputStream=null;
+	private static Field fieldPathInputStream=null;
 
 	static
 	{
@@ -161,7 +156,12 @@ public final class FileTools
 		}
 	}
 
-	static public int isLastInputStreamWithLatency(InputStream in)
+    private FileTools()
+    {
+
+    }
+
+    static public int isLastInputStreamWithLatency(InputStream in)
 	{
 		if (in == null)
 			return NO_ERROR;
@@ -404,7 +404,7 @@ public final class FileTools
 		}
 		if (out instanceof FileOutputStream)
 		{
-			String path = null;
+			String path;
 			if (fieldPathOutputStream != null)
 			{
 				try
@@ -504,7 +504,7 @@ public final class FileTools
 		}
 		if (in instanceof FileInputStream)
 		{
-			String path = null;
+			String path;
 			if (fieldPathInputStream != null)
 			{
 				try

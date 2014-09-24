@@ -34,7 +34,7 @@ public abstract class AbstractWriterAudit extends AbstractFileAudit
 			throws AuditReactiveException
 	{
 		AuditReactiveException ex = null;
-		CharSequence msg = null;
+		CharSequence msg;
 		if (config.isDebug())
 			msg = FileTools.dumpChain(writer);
 		else

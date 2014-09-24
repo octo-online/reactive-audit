@@ -21,6 +21,8 @@ import com.octo.reactive.audit.lib.NetworkAuditReactiveException;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.nio.channels.ServerSocketChannel;
 
 public class ServerSocketChannelTest
@@ -30,8 +32,16 @@ public class ServerSocketChannelTest
 	{
 		try (ServerSocketChannel r = ServerSocketChannel.open())
 		{
-			AuditReactive.strict.commit();
-			r.accept();
+            try
+            {
+                r.bind(new InetSocketAddress(9999));
+                AuditReactive.strict.commit();
+                r.accept();
+            }
+            finally
+            {
+                r.close();
+            }
 		}
 	}
 }

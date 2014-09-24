@@ -37,8 +37,10 @@ public class LineNumberReaderTest extends FileReaderTest
 		return new LineNumberReader(in);
 	}
 
-	@Test
-	public void derived() throws IOException
+	@SuppressWarnings("RedundantMethodOverride")
+    @Test
+    @Override
+    public void derived() throws IOException
 	{
 		class Derived extends LineNumberReader
 		{

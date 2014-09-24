@@ -31,7 +31,8 @@ import static com.octo.reactive.audit.TestTools.push;
 
 public class FileReaderTest extends InputStreamReaderTest
 {
-	@Override
+	@SuppressWarnings("RefusedBequest")
+    @Override
 	protected Reader newReader() throws IOException
 	{
 		push();
@@ -40,7 +41,8 @@ public class FileReaderTest extends InputStreamReaderTest
 		return new FileReader(fileIn);
 	}
 
-	@Test(expected = FileAuditReactiveException.class)
+	@SuppressWarnings("RefusedBequest")
+    @Test(expected = FileAuditReactiveException.class)
 	@Override
 	public void New() throws IOException
 	{

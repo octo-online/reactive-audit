@@ -21,7 +21,7 @@ import com.octo.reactive.audit.lib.CPUAuditReactiveException;
 import com.octo.reactive.audit.lib.Latency;
 import org.aspectj.lang.JoinPoint;
 
-abstract public class AbstractCPUAudit extends AbstractAudit
+public class AbstractCPUAudit extends AbstractAudit
 {
 	@Override
 	protected AuditReactiveException newException(Latency latency, JoinPoint thisJoinPoint)

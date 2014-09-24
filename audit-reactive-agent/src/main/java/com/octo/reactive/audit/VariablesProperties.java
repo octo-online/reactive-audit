@@ -35,7 +35,8 @@ class VariablesProperties extends Properties
 		this.variables = variables;
 	}
 
-	public String getProperty(String key)
+    @Override
+    public String getProperty(String key)
 	{
 
 

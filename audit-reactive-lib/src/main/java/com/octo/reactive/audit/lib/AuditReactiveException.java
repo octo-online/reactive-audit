@@ -23,7 +23,7 @@ package com.octo.reactive.audit.lib;
  * @author Philippe PRADOS
  * @since 1.0
  */
-public abstract class AuditReactiveException extends AssertionError
+public class AuditReactiveException extends AssertionError
 {
 	/* This variable was set by the javaagent, via introspection.
 	   Thus it is not declared public.
@@ -88,9 +88,10 @@ public abstract class AuditReactiveException extends AssertionError
 	/**
 	 * If not debug, remove all the audit layout in the stack trace.
 	 */
-	private void updateStackTraceElements()
+	@SuppressWarnings("PointlessBooleanExpression")
+    private void updateStackTraceElements()
 	{
-		if (!debug)
+		if (!debug) // Warning: the debug value can be updated via introspection.
 		{
 			// Filter stack trace
 			final StackTraceElement[] stack = getStackTrace();

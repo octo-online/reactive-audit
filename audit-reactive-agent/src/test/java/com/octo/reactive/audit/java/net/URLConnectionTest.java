@@ -29,6 +29,7 @@ import java.net.URLConnection;
 import static com.octo.reactive.audit.IOTestTools.HOST;
 import static com.octo.reactive.audit.IOTestTools.PORT;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public abstract class URLConnectionTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)

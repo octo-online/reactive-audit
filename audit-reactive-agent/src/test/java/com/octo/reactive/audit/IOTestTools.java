@@ -27,6 +27,7 @@ import static com.octo.reactive.audit.TestTools.pop;
 import static com.octo.reactive.audit.TestTools.push;
 import static org.junit.Assert.fail;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public final class IOTestTools
 {
 	public static final  String HOST     = "www.google.com";

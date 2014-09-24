@@ -25,6 +25,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("NullableProblems")
 public class CompletionServiceTest
 {
 	private final Executor e = new Executor()

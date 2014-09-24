@@ -29,7 +29,8 @@ import static com.octo.reactive.audit.TestTools.push;
 
 public class PrintWriterTest extends OutputStreamWriterTest
 {
-	@Override
+	@SuppressWarnings("RefusedBequest")
+    @Override
 	protected PrintWriter newWriter() throws IOException
 	{
 		push();
@@ -39,7 +40,8 @@ public class PrintWriterTest extends OutputStreamWriterTest
 		return new PrintWriter(writer);
 	}
 
-	@Test(expected = FileAuditReactiveException.class)
+	@SuppressWarnings("MalformedFormatString")
+    @Test(expected = FileAuditReactiveException.class)
 	public void format_Locale_String_Objects() throws IOException
 	{
 		AuditReactive.off.commit();
@@ -83,7 +85,8 @@ public class PrintWriterTest extends OutputStreamWriterTest
 		}
 	}
 
-	@Test(expected = FileAuditReactiveException.class)
+	@SuppressWarnings("MalformedFormatString")
+    @Test(expected = FileAuditReactiveException.class)
 	public void printf_Locale_String_Object() throws IOException
 	{
 		AuditReactive.off.commit();
@@ -127,8 +130,10 @@ public class PrintWriterTest extends OutputStreamWriterTest
 		}
 	}
 
-	@Test
-	public void derived() throws IOException
+	@SuppressWarnings("RedundantMethodOverride")
+    @Test
+    @Override
+    public void derived() throws IOException
 	{
 		class Derived extends PrintWriter
 		{

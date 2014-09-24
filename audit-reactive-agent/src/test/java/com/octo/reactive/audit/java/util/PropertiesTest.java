@@ -24,6 +24,7 @@ import org.junit.Test;
 import java.io.*;
 import java.util.Properties;
 
+@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 public class PropertiesTest
 {
 	@Test(expected = AuditReactiveException.class)

@@ -44,8 +44,10 @@ public class BufferedOutputStreamTest extends FileOutputStreamTest
 		super.New();
 	}
 
-	@Test
-	public void derived()
+	@SuppressWarnings("RedundantMethodOverride")
+    @Test
+    @Override
+    public void derived()
 	{
 		class Derived extends BufferedOutputStream
 		{

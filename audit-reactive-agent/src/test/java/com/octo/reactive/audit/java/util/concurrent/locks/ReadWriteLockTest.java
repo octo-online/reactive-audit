@@ -28,13 +28,15 @@ public class ReadWriteLockTest
 	private final ReadWriteLock c = new ReadWriteLock()
 	{
 
-		@Override
+		@SuppressWarnings({"ConstantConditions", "NullableProblems"})
+        @Override
 		public Lock readLock()
 		{
 			return null;
 		}
 
-		@Override
+		@SuppressWarnings({"ConstantConditions", "NullableProblems"})
+        @Override
 		public Lock writeLock()
 		{
 			return null;

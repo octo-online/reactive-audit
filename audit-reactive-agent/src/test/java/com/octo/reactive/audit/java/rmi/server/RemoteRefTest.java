@@ -29,6 +29,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.RemoteObject;
 import java.rmi.server.RemoteRef;
 
+@SuppressWarnings("ExternalizableWithoutPublicNoArgConstructor")
 public class RemoteRefTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)

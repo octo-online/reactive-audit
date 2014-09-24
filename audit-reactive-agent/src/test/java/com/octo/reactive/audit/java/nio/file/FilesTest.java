@@ -69,7 +69,8 @@ public class FilesTest
 		Files.readAllLines(getPath());
 	}
 
-	@Test(expected = FileAuditReactiveException.class)
+	@SuppressWarnings("ConstantConditions")
+    @Test(expected = FileAuditReactiveException.class)
 	public void walkFileTree() throws IOException
 	{
 		AuditReactive.off.commit();

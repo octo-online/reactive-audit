@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
+@SuppressWarnings("NullableProblems")
 public class LockTest
 {
 	private final Lock c = new Lock()
@@ -59,7 +60,8 @@ public class LockTest
 
 		}
 
-		@Override
+		@SuppressWarnings("ConstantConditions")
+        @Override
 		public Condition newCondition()
 		{
 			return null;

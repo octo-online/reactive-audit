@@ -22,6 +22,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public abstract class InputStreamTest
 {
 	protected abstract InputStream newInputStream() throws IOException;

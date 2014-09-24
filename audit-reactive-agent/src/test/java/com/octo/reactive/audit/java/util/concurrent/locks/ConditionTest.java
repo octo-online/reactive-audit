@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 
+@SuppressWarnings("NullableProblems")
 public class ConditionTest
 {
 	private final Condition c = new Condition()

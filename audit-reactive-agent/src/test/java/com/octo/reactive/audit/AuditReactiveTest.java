@@ -24,16 +24,12 @@ import org.junit.Test;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
-import java.util.regex.Pattern;
 
-import static com.octo.reactive.audit.AuditReactive.*;
+import static com.octo.reactive.audit.AuditReactive.auditPackageName;
+import static com.octo.reactive.audit.AuditReactive.strict;
 import static com.octo.reactive.audit.lib.Latency.*;
 import static org.junit.Assert.*;
 
@@ -329,7 +325,8 @@ public class AuditReactiveTest
 		config.logger.removeHandler(handler);
 	}
 
-	private void addHandler()
+	@SuppressWarnings("ConstantConditions")
+    private void addHandler()
 	{
 		//noinspection ConstantIfStatement
 		if (true) // Remove log on console

@@ -24,9 +24,11 @@ import org.aspectj.lang.JoinPoint;
 
 import java.nio.channels.FileChannel;
 
-abstract class AbstractChannelsAudit extends AbstractAudit
+@SuppressWarnings("RefusedBequest")
+class AbstractChannelsAudit extends AbstractAudit
 {
-	protected void latency(Latency latency, JoinPoint thisJoinPoint)
+	@Override
+    protected void latency(Latency latency, JoinPoint thisJoinPoint)
 	{
 		AuditReactiveException ex;
 		if (thisJoinPoint.getTarget() instanceof FileChannel)

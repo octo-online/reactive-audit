@@ -60,6 +60,7 @@ public final class LongAdder extends Striped64 {
     /**
      * Version of plus for use in retryUpdate
      */
+    @Override
     final long fn(long v, long x) { return v + x; }
 
     /**
@@ -173,6 +174,7 @@ public final class LongAdder extends Striped64 {
      *
      * @return the sum
      */
+    @Override
     public long longValue() {
         return sum();
     }
@@ -181,6 +183,7 @@ public final class LongAdder extends Striped64 {
      * Returns the {@link #sum} as an {@code int} after a narrowing
      * primitive conversion.
      */
+    @Override
     public int intValue() {
         return (int)sum();
     }
@@ -189,6 +192,7 @@ public final class LongAdder extends Striped64 {
      * Returns the {@link #sum} as a {@code float}
      * after a widening primitive conversion.
      */
+    @Override
     public float floatValue() {
         return (float)sum();
     }
@@ -197,6 +201,7 @@ public final class LongAdder extends Striped64 {
      * Returns the {@link #sum} as a {@code double} after a widening
      * primitive conversion.
      */
+    @Override
     public double doubleValue() {
         return (double)sum();
     }

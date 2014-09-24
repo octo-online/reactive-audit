@@ -24,6 +24,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 public class BlockingQueueTest
 {
 	@Test(expected = CPUAuditReactiveException.class)

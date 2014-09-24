@@ -38,8 +38,10 @@ public class SequenceInputStreamTest extends ByteArrayInputStreamTest
 		return new SequenceInputStream(in1, in2);
 	}
 
-	@Test
-	public void derived() throws IOException
+	@SuppressWarnings("RedundantMethodOverride")
+    @Test
+    @Override
+    public void derived() throws IOException
 	{
 		class Derived extends SequenceInputStream
 		{

@@ -33,7 +33,9 @@ class AuditLogFormat extends Formatter
 		this.format = format;
 	}
 
-	public synchronized String format(LogRecord record)
+    @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
+    @Override
+    public synchronized String format(LogRecord record)
 	{
 		dat.setTime(record.getMillis());
 		String source;

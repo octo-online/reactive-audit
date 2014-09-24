@@ -44,7 +44,8 @@ public class FilterInputStreamTest extends FileInputStreamTest
 		super.New();
 	}
 
-	@Test
+	@SuppressWarnings("RedundantMethodOverride")
+    @Test
 	@Override
 	public void derived() throws IOException
 	{

@@ -28,6 +28,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.*;
 
+@SuppressWarnings("ExternalizableWithoutPublicNoArgConstructor")
 public class RemoteObjectInvocationHandlerTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)

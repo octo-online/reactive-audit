@@ -37,8 +37,10 @@ public class BufferedReaderTest extends FileReaderTest
 		return new BufferedReader(reader);
 	}
 
-	@Test
-	public void derived() throws IOException
+	@SuppressWarnings("RedundantMethodOverride")
+    @Test
+    @Override
+    public void derived() throws IOException
 	{
 		class Derived extends BufferedReader
 		{

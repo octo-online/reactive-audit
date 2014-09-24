@@ -27,6 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.*;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("RefusedBequest")
 public class AuditReactive
 {
 	/**
@@ -112,7 +113,6 @@ public class AuditReactive
 			bootstrapStart = System.currentTimeMillis();
 			logOnly.commit();
 			String url = getPropertiesURL();
-			Logger log = Logger.getLogger(auditPackageName);
 
             String home=System.getProperty("user.home");
             String printUrl;
@@ -219,8 +219,6 @@ public class AuditReactive
 		if (name == null) return false;
 		if (threadPattern == null)
 		{
-			System.err.println("isThreadNameMatch=" + name + " threadPattern=" + threadPattern); // FIXME
-			System.err.println("********************************** threadPattern not init !"); // FIXME
 			return false;
 		}
 		if (historyThreadName.add(name))
@@ -409,6 +407,7 @@ public class AuditReactive
 
 	}
 
+    /*
 	public class FakeLogger //extends Logger
 	{
 		public Handler[] getHandlers()
@@ -489,6 +488,7 @@ public class AuditReactive
 //			super(name, resourceBundleName);
 //		}
 	}
+	*/
 
 	/**
 	 * A current transaction to modify the parameters.

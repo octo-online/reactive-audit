@@ -44,8 +44,10 @@ public class ObjectOutputStreamTest extends FileOutputStreamTest
 		super.New();
 	}
 
-	@Test
-	public void derived() throws IOException
+	@SuppressWarnings("RedundantMethodOverride")
+    @Test
+    @Override
+    public void derived() throws IOException
 	{
 		class Derived extends ObjectOutputStream
 		{

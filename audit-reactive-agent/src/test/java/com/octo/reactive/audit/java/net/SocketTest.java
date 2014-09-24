@@ -29,6 +29,7 @@ import java.net.SocketAddress;
 import static com.octo.reactive.audit.IOTestTools.HOST;
 import static java.net.InetAddress.getByName;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class SocketTest
 {
 

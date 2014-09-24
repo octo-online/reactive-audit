@@ -44,8 +44,10 @@ public class LineNumberInputStreamTest extends FileInputStreamTest
 		super.New();
 	}
 
-	@Test
-	public void derived() throws IOException
+	@SuppressWarnings("RedundantMethodOverride")
+    @Test
+    @Override
+    public void derived() throws IOException
 	{
 		class Derived extends java.io.LineNumberInputStream
 		{

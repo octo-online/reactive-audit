@@ -49,7 +49,7 @@ public class InvokerTest
 	public void invoke() throws InvocationTargetException, IllegalAccessException
 	{
 		AuditReactive.strict.commit();
-		x.invoke((Method)null, (Object)null);
+		x.invoke(null, (Object)null);
 	}
 
 }

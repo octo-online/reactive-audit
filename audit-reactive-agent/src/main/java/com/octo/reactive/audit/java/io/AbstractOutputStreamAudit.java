@@ -32,7 +32,7 @@ public abstract class AbstractOutputStreamAudit extends AbstractFileAudit
 {
 	public static AuditReactiveException latencyOutputStream(AuditReactive config, Latency latency, JoinPoint thisJoinPoint, OutputStream out)
 	{
-		CharSequence msg = null;
+		CharSequence msg;
 		if (config.isDebug())
 			msg = FileTools.dumpChain(out);
 		else

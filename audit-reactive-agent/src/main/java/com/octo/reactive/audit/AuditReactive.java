@@ -16,9 +16,9 @@
 
 package com.octo.reactive.audit;
 
-import com.octo.reactive.audit.backport.LongAdder;
 import com.octo.reactive.audit.lib.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
@@ -113,7 +113,23 @@ public class AuditReactive
 			logOnly.commit();
 			String url = getPropertiesURL();
 			Logger log = Logger.getLogger(auditPackageName);
-            logger.warning("Start audit reactive with " + url);
+
+            String home=System.getProperty("user.home");
+            String printUrl;
+            String homeRef="~";
+            if (File.separator.equals("\\")) // Windows
+                homeRef="%HOME%";
+            if (url.startsWith(home))
+            {
+                printUrl=url.substring(home.length());
+                if (printUrl.startsWith(File.separator))
+                    printUrl=homeRef+printUrl;
+                else
+                    printUrl=homeRef+File.separator+printUrl;
+            }
+            else
+                printUrl=url;
+            logger.warning("Start audit reactive with " + printUrl+" if exist");
 			new LoadParams(this, url).commit();
 		}
 	}
@@ -122,7 +138,6 @@ public class AuditReactive
 	{
 		if (!started) return;
 		started = false;
-		logger.info("Shutdown audit");
 		long low = statLow.sum();
 		long medium = statMedium.sum();
 		long high = statHigh.sum();
@@ -131,6 +146,7 @@ public class AuditReactive
 		logger.warning("  Total high  =" + high);
 		logger.warning("  Max. concurrent threads=" + statMaxThread.get() +
 				            " (Good value:" + Runtime.getRuntime().availableProcessors() + ")");
+        logger.info("Shutdown audit");
 		if (logHandler != null) logHandler.close();
 	}
 

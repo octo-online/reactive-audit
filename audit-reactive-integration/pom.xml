@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.octo.reactive.audit</groupId>
-    <artifactId>audit-reactive-integration-maven</artifactId>
+    <artifactId>audit-reactive-integration</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Reactive Audit Tool Maven Integration Test Application</name>
+    <name>Reactive Audit Tool Integration Test Application</name>
 
     <properties>
         <audit.reactive.agent.version.string>[0.0.4,)</audit.reactive.agent.version.string>
@@ -150,7 +150,7 @@
                             <executable>java</executable>
                             <workingDirectory>${project.build.directory}</workingDirectory>
                             <arguments>
-                                <argument>-DauditReactive=${project.build.testOutputDirectory}/auditReactive.properties</argument>
+                                <!--<argument>-DauditReactive=${project.build.testOutputDirectory}/auditReactive.properties</argument>-->
                                 <argument>-javaagent:${aspectjweaver.artifact.path}</argument>
                                 <argument>-Djava.ext.dirs=${java-ext-dir};${audit-reactive-lib-home}</argument>
                                 <argument>-jar</argument>

@@ -1,0 +1,66 @@
+/*
+ * Copyright 2014 OCTO Technology
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+repositories {
+    mavenCentral()
+    // FIXME: N'utiliser que mavenCentral à terme
+    maven {
+        url "https://oss.sonatype.org/content/repositories/comoctoreactive-1009"
+    }
+}
+
+ext.aspectjVersion = '1.8.2'
+ext.auditReactiveVersion = '0.0.5'
+
+apply plugin: 'java'
+
+description = 'Reactive Audit Tool Integration Test Application'
+
+dependencies {
+    testRuntime "com.octo.reactive.audit:audit-reactive-agent:${auditReactiveVersion}"
+    testRuntime "org.aspectj:aspectjweaver:${aspectjVersion}"
+}
+
+task audit(type:JavaExec) {
+    main = 'com.octo.reactive.sample.TestApp'
+
+    classpath = sourceSets.main.runtimeClasspath
+    def weaver = "-javaagent:" +
+            project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
+    // FIXME
+    def agentjar=project.configurations.testRuntime.find { it.name.startsWith("audit-reactive-agent-") }
+    def conf = "-DauditReactive=src/test/resources/auditReactive.properties"
+    def log  = "-DauditReactive.logOutput=build/audit-reactive.log"
+    def ext  ="-Djava.ext.dirs="+System.env.'java_home'+"/ext"+File.pathSeparator+agentjar
+
+    copy {
+        // Copy the output of copyTask
+        from agentjar
+        into 'build'
+    }
+    println "weaver=${weaver}"
+    println "agentjar=${agentjar}"
+    println "conf=${conf}"
+    println "log=${log}"
+    println "java.EXT=${System.env.'java_home'}/ext"+File.pathSeparator+agentjar
+    println "java.home=${System.env.'java_home'}"
+    println "ex=${ext}"
+    jvmArgs = [weaver,
+               agent,
+               conf,
+               log,
+               ext]
+}
+

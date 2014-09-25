@@ -43,6 +43,8 @@ apply plugin: 'signing'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
+apply plugin: "sonar-runner"
+
 sourceCompatibility = '7'
 targetCompatibility = '7'
 
@@ -124,6 +126,14 @@ signing {
     required { isReleaseVersion }
     sign configurations.archives
 }
+
+/* Sonar PMD and JaCoCo plugins do not support yet Java 8
+sonarRunner {
+    sonarProperties {
+        property "sonar.java.source", "1.8"
+    }
+}
+*/
 
 uploadArchives {
     repositories {

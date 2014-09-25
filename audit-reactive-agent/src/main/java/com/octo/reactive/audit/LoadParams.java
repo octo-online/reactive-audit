@@ -50,9 +50,9 @@ class LoadParams
 	private static final String DEFAULT_NETWORK_LATENCY  = "LOW";
 	private static final String DEFAULT_CPU_LATENCY      = "LOW";
 	private static final String DEFAULT_LOG_LEVEL        = Level.WARNING.getName();
-	public static final String DEFAULT_LOG_OUTPUT       = "console";
-	public static final String DEFAULT_LOG_FORMAT       = "%4$-7s: %5$s%6$s%n";
-	public static final String DEFAULT_LOG_SIZE         = "0"; // No limit
+	public static final  String DEFAULT_LOG_OUTPUT       = "console";
+	public static final  String DEFAULT_LOG_FORMAT       = "%4$-7s: %5$s%6$s%n";
+	public static final  String DEFAULT_LOG_SIZE         = "0"; // No limit
 	private static final String DEFAULT_BOOTSTRAP_DELAY  = "0";
 	private static final String DEFAULT_THROW_EXCEPTIONS = "false";
 	private static final String DEFAULT_DEBUG            = "false";
@@ -133,14 +133,13 @@ class LoadParams
 	private static String getValue(String key, String def, Properties prop)
 	{
 		String val = getAllEnv().getProperty(key);
-		String newVal = null;
-		if (prop != null)
-		{
-			newVal = prop.getProperty(key);
-			if (newVal != null)
-				val = newVal;
-		}
-		if (newVal != null) val = newVal;
+        if (val==null)
+        {
+            if (prop != null)
+            {
+                val = prop.getProperty(key);
+            }
+        }
 		if (val == null)
 			val = def;
 		return (val != null) ? val.trim() : null;

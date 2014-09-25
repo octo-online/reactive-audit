@@ -91,4 +91,5 @@ public class LoadParamsTest
 		new LoadParams(AuditReactive.config, DEFAULT_FILENAME).commit();
 		assertEquals(Level.INFO, AuditReactive.config.logger.getLevel());
 	}
+
 }

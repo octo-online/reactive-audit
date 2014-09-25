@@ -137,6 +137,7 @@ public class AuditReactive
 		logger.warning("  Max. concurrent threads=" + statMaxThread.get() +
 				            " (Good value:" + Runtime.getRuntime().availableProcessors() + ")");
         logger.info("Shutdown audit");
+        logHandler.flush();
 		if (logHandler != null) logHandler.close();
 	}
 

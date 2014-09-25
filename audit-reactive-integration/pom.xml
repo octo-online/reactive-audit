@@ -151,6 +151,7 @@
                             <workingDirectory>${project.build.directory}</workingDirectory>
                             <arguments>
                                 <!--<argument>-DauditReactive=${project.build.testOutputDirectory}/auditReactive.properties</argument>-->
+                                <argument>-DauditReactive.logOutput=${project.build.testOutputDirectory}/audit.log</argument>-->
                                 <argument>-javaagent:${aspectjweaver.artifact.path}</argument>
                                 <argument>-Djava.ext.dirs=${java-ext-dir};${audit-reactive-lib-home}</argument>
                                 <argument>-jar</argument>

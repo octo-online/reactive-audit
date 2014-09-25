@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 repositories {
+    mavenLocal()
     mavenCentral()
-    // FIXME: N'utiliser que mavenCentral à terme
-    maven {
-        url "https://oss.sonatype.org/content/repositories/comoctoreactive-1009"
-    }
 }
+
+defaultTasks 'audit'
 
 ext.aspectjVersion = '1.8.2'
 ext.auditReactiveVersion = '0.0.5'
@@ -33,34 +32,26 @@ dependencies {
     testRuntime "org.aspectj:aspectjweaver:${aspectjVersion}"
 }
 
-task audit(type:JavaExec) {
+task (audit,dependsOn: 'classes',type:JavaExec) {
     main = 'com.octo.reactive.sample.TestApp'
-
     classpath = sourceSets.main.runtimeClasspath
-    def weaver = "-javaagent:" +
-            project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
-    // FIXME
-    def agentjar=project.configurations.testRuntime.find { it.name.startsWith("audit-reactive-agent-") }
-    def conf = "-DauditReactive=src/test/resources/auditReactive.properties"
-    def log  = "-DauditReactive.logOutput=build/audit-reactive.log"
-    def ext  ="-Djava.ext.dirs="+System.env.'java_home'+"/ext"+File.pathSeparator+agentjar
+
+    def auditDir="${buildDir}/audit"
+    def aspectjWeaverJar=project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
+    def agentJar=project.configurations.testRuntime.find { it.name.startsWith("audit-reactive-agent-") }
 
     copy {
-        // Copy the output of copyTask
-        from agentjar
-        into 'build'
+        from aspectjWeaverJar
+        from agentJar
+        into "${buildDir}/audit"
     }
-    println "weaver=${weaver}"
-    println "agentjar=${agentjar}"
-    println "conf=${conf}"
-    println "log=${log}"
-    println "java.EXT=${System.env.'java_home'}/ext"+File.pathSeparator+agentjar
-    println "java.home=${System.env.'java_home'}"
-    println "ex=${ext}"
-    jvmArgs = [weaver,
-               agent,
-               conf,
-               log,
-               ext]
+    debug=false
+    jvmArgs =[
+            "-javaagent:${aspectjWeaverJar}",
+            "-Djava.ext.dirs="+System.env.'JAVA_HOME'+"/ext${File.pathSeparator}${auditDir}",
+            "-DauditReactive=src/test/resources/auditReactive.properties",
+            "-DauditReactive.logOutput=${auditDir}/audit-reactive.log"
+        ]
 }
+
 

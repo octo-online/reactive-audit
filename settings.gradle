@@ -16,3 +16,4 @@
 
 include 'audit-reactive-agent'
 include 'audit-reactive-lib'
+include 'audit-reactive-integration'

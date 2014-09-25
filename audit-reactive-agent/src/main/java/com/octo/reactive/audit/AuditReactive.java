@@ -26,6 +26,11 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.*;
 import java.util.regex.Pattern;
+import com.octo.reactive.audit.LoadParams.*;
+
+import static com.octo.reactive.audit.LoadParams.*;
+import static com.octo.reactive.audit.LoadParams.DEFAULT_LOG_FORMAT;
+import static com.octo.reactive.audit.LoadParams.DEFAULT_LOG_OUTPUT;
 
 @SuppressWarnings("RefusedBequest")
 public class AuditReactive
@@ -50,8 +55,9 @@ public class AuditReactive
 	public static final Transaction          logOnly           =
 			config.begin()
 					.throwExceptions(false)
+                    .logOutput(DEFAULT_LOG_OUTPUT, DEFAULT_LOG_FORMAT, DEFAULT_LOG_SIZE)
 					.log(Level.WARNING)
-					.threadPattern(LoadParams.DEFAULT_THREAD_PATTERN)
+					.threadPattern(DEFAULT_THREAD_PATTERN)
 					.bootStrapDelay(0)
 					.seal();
 	/**
@@ -86,7 +92,7 @@ public class AuditReactive
 	private final       HistoryStackElement  history           = new HistoryStackElement();
 	private final       Set<String>          historyThreadName = Collections.synchronizedSet(new TreeSet<String>());
 	/*package*/ volatile boolean started = false;
-	private Pattern threadPattern   = Pattern.compile(LoadParams.DEFAULT_THREAD_PATTERN);
+	private Pattern threadPattern   = Pattern.compile(DEFAULT_THREAD_PATTERN);
 	private boolean throwExceptions = false;
 	private long    bootstrapStart  = 0L;
 	private long    bootstrapDelay  = 0L;
@@ -99,9 +105,9 @@ public class AuditReactive
 
 	public static String getPropertiesURL()
 	{
-		String url = System.getenv(LoadParams.KEY_AUDIT_FILENAME);
-		if (url == null) url = LoadParams.DEFAULT_FILENAME;
-		url = System.getProperty(LoadParams.KEY_AUDIT_FILENAME, url);
+		String url = System.getenv(KEY_AUDIT_FILENAME);
+		if (url == null) url = DEFAULT_FILENAME;
+		url = System.getProperty(KEY_AUDIT_FILENAME, url);
 		return url.trim();
 	}
 
@@ -112,24 +118,8 @@ public class AuditReactive
 			started = true;
 			bootstrapStart = System.currentTimeMillis();
 			logOnly.commit();
-			String url = getPropertiesURL();
-
-            String home=System.getProperty("user.home");
-            String printUrl;
-            String homeRef="~";
-            if (File.separator.equals("\\")) // Windows
-                homeRef="%HOME%";
-            if (url.startsWith(home))
-            {
-                printUrl=url.substring(home.length());
-                if (printUrl.startsWith(File.separator))
-                    printUrl=homeRef+printUrl;
-                else
-                    printUrl=homeRef+File.separator+printUrl;
-            }
-            else
-                printUrl=url;
-            logger.warning("Start audit reactive with " + printUrl+" if exist");
+			final String url = getPropertiesURL();
+            logger.warning("Start audit reactive with " + FileTools.homeFile(url)+" if exist");
 			new LoadParams(this, url).commit();
 		}
 	}

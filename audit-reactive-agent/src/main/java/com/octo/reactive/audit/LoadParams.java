@@ -50,9 +50,9 @@ class LoadParams
 	private static final String DEFAULT_NETWORK_LATENCY  = "LOW";
 	private static final String DEFAULT_CPU_LATENCY      = "LOW";
 	private static final String DEFAULT_LOG_LEVEL        = Level.WARNING.getName();
-	private static final String DEFAULT_LOG_OUTPUT       = "%h/audit-reactive-%u.log";
-	private static final String DEFAULT_LOG_FORMAT       = "%4$-7s: %5$s%6$s%n";
-	private static final String DEFAULT_LOG_SIZE         = "0"; // No limit
+	public static final String DEFAULT_LOG_OUTPUT       = "console";
+	public static final String DEFAULT_LOG_FORMAT       = "%4$-7s: %5$s%6$s%n";
+	public static final String DEFAULT_LOG_SIZE         = "0"; // No limit
 	private static final String DEFAULT_BOOTSTRAP_DELAY  = "0";
 	private static final String DEFAULT_THROW_EXCEPTIONS = "false";
 	private static final String DEFAULT_DEBUG            = "false";
@@ -66,7 +66,9 @@ class LoadParams
 		this.config = config;
 		tx = config.begin();
 		if (propertiesFile == null || propertiesFile.length() == 0)
-			return;
+        {
+            return;
+        }
 		try
 		{
 			filename = new URL(propertiesFile);
@@ -169,7 +171,7 @@ class LoadParams
 		}
 		catch (IOException e)
 		{
-			config.logger.warning(filename + " not found");
+			config.logger.warning(FileTools.homeFile(filename.toExternalForm()) + " not found. Use default values.");
 		}
 		finally
 		{

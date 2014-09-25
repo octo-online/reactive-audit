@@ -18,6 +18,9 @@ package com.octo.reactive.audit;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 @SuppressWarnings({"FinalClass", "UtilityClass"})
 public final class FileTools
@@ -585,4 +588,34 @@ public final class FileTools
 		void dump(StringBuilder buf, Class cl, String filename);
 	}
 
+    static String homeFile(String filename)
+    {
+        if (filename.startsWith("file:"))
+        {
+            try
+            {
+                filename=new File(new URL(filename).toURI()).getPath();
+            }
+            catch (Exception e)
+            {
+                // Ignore
+            }
+        }
+        String home=System.getProperty("user.home");
+        String homeFilename;
+        String homeRef="~";
+        if (File.separator.equals("\\")) // Windows
+            homeRef="%HOME%";
+        if (filename.startsWith(home))
+        {
+            homeFilename=filename.substring(home.length());
+            if (homeFilename.startsWith(File.separator))
+                homeFilename=homeRef+homeFilename;
+            else
+                homeFilename=homeRef+File.separator+homeFilename;
+        }
+        else
+            homeFilename=filename;
+        return homeFilename;
+    }
 }

@@ -204,7 +204,7 @@ echo Not found JAVA_HOME/lib/ext >&2
 goto :end
 
 :extdir
-set _EXTDIR=-Djava.ext.dirs=%EXT%;%_AUDIT_REACTIVE_HOME%\lib
+set _EXTDIR=-Djava.ext.dirs=%_EXT%;%_AUDIT_REACTIVE_HOME%\lib
 set AUDIT_OPTS=%_CONF% %_WEAVER% %_EXTDIR%
 
 if "%_DEBUG%"=="true" (

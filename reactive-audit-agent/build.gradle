@@ -72,15 +72,14 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-task etcJar(type: Jar) {
-    classifier = 'etc'
-    from 'src/main/dist/etc'
+task(distArtifact, dependsOn: 'installDist', type: Zip) {
+    from "build/install"
 }
 
 artifacts {
     archives sourceJar
     archives javadocJar
-    archives etcJar
+    archives distArtifact
 }
 
 // Add the lib classes in the main jar

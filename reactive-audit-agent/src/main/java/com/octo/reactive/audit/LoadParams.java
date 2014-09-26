@@ -169,7 +169,7 @@ class LoadParams
 		}
 		catch (IOException e)
 		{
-			config.logger.warning(FileTools.homeFile(filename.toExternalForm()) + " not found. Use default values.");
+			config.logger.config(FileTools.homeFile(filename.toExternalForm()) + " not found. Use default values.");
 		}
 		finally
 		{

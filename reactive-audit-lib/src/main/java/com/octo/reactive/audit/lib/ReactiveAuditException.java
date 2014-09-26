@@ -29,7 +29,7 @@ public class ReactiveAuditException extends AssertionError
 	   Thus it is not declared public.
 	 */
 	@SuppressWarnings("StaticNonFinalField")
-	static  /*package*/ final boolean debug                     = false;
+	static  /*package*//*!final !!!*/ boolean debug             = false;
 	/* Calculate the package name of the project. */
 	private static final      String  auditPackageName          =
 			ReactiveAuditException.class.getPackage().getName().replaceFirst("\\.[^.]+$", "");

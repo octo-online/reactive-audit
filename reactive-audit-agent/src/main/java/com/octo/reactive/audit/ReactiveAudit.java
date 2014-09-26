@@ -124,11 +124,11 @@ public class ReactiveAudit
 		long low = statLow.sum();
 		long medium = statMedium.sum();
 		long high = statHigh.sum();
-		logger.config("  Total low   =" + low);
-		logger.config("  Total medium=" + medium);
-		logger.config("  Total high  =" + high);
-		logger.config("  Max. concurrent threads=" + statMaxThread.get() +
-							  " (Good value:" + Runtime.getRuntime().availableProcessors() + ")");
+		logger.config("Total low   =" + low);
+		logger.config("Total medium=" + medium);
+		logger.config("Total high  =" + high);
+		logger.config("Max. concurrent threads=" + statMaxThread.get() +
+							  " (Number of node:" + Runtime.getRuntime().availableProcessors() + ")");
 		logger.config("Shutdown audit");
 		logHandler.flush();
 		if (logHandler != null) logHandler.close();
@@ -163,7 +163,7 @@ public class ReactiveAudit
 		catch (Exception e)
 		{
 			// Ignore
-			logger.config("You detect a bug " + e.getMessage());
+			logger.config("You detect a bug !"+System.getenv("line.separator")+ e.getMessage());
 		}
 	}
 
@@ -595,6 +595,7 @@ public class ReactiveAudit
 					}
 				});
 				logger.setUseParentHandlers(false);
+				handler.setLevel(Level.CONFIG);
 			}
 			catch (IOException e)
 			{

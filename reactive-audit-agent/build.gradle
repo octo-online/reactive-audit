@@ -1,0 +1,246 @@
+/*
+ * Copyright 2014 OCTO Technology
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+buildscript {
+    repositories {
+        maven {
+            url "https://maven.eveoh.nl/content/repositories/releases"
+        }
+    }
+
+    dependencies {
+        classpath "nl.eveoh:gradle-aspectj:1.4"
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+project.ext {
+    aspectjVersion = '1.8.2'
+}
+
+apply plugin: 'aspectj'
+apply plugin: 'distribution'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+apply plugin: "sonar-runner"
+
+sourceCompatibility = '7'
+targetCompatibility = '7'
+
+apply from: "src/main/resources/version.properties"
+
+description = 'JVM Agent to detect blocking IO call'
+isReleaseVersion = !version.endsWith("SNAPSHOT")
+
+dependencies {
+    compile project(":reactive-audit-lib")
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testRuntime "org.aspectj:aspectjweaver:${aspectjVersion}"
+    testRuntime "org.aspectj:aspectjrt:${aspectjVersion}"
+}
+
+task sourceJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task etcJar(type: Jar) {
+    classifier = 'etc'
+    from 'src/main/dist/etc'
+}
+
+artifacts {
+    archives sourceJar
+    archives javadocJar
+    archives etcJar
+}
+
+// Add the lib classes in the main jar
+jar {
+    from { project(":reactive-audit-lib").sourceSets.main.output.classesDir }
+}
+
+test {
+//    testLogging.showStandardStreams = true
+//    beforeTest { descriptor ->
+//        logger.lifecycle("Running test: " + descriptor)
+//    }
+
+    include 'com/octo/reactive/audit/**'
+
+    def weaver = "-javaagent:" +
+            project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
+    def reactiveAuditConf = "-DreactiveAudit=src/test/resources/testReactiveAudit.properties"
+    def logConfig = "-Djava.util.logging.config.file=src/test/resources/testLogging.properties"
+    jvmArgs = [weaver, reactiveAuditConf, logConfig]
+}
+
+// Package the distribution with bin, etc and lib sub directories
+distributions {
+    main {
+        contents {
+            into('bin') {
+                from { 'src/main/bin' }
+                fileMode = 0755
+            }
+            into('lib') {
+                from project(':reactive-audit-lib').jar
+                rename { project(':reactive-audit-lib').name + ".jar" }
+            }
+            into('lib') {
+                from jar
+                rename { project.name + ".jar" }
+            }
+            into('lib') {
+                from project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
+                rename { "aspectjweaver.jar" }
+            }
+            into('bin') {
+                from sourceSets.main.resources.find { it.name == "version.properties" }
+            }
+        }
+    }
+}
+signing {
+    required { isReleaseVersion }
+    sign configurations.archives
+}
+
+/* Sonar PMD and JaCoCo plugins do not support yet Java 8
+sonarRunner {
+    sonarProperties {
+        property "sonar.java.source", "1.8"
+    }
+}
+*/
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment {
+                MavenDeployment deployment ->
+                    if (!isReleaseVersion) {
+                        throw new GradleException("Current version is ${version}. Use a release version")
+                    }
+                    if (!project.hasProperty("sonatypeUsername") || !project.hasProperty("sonatypePassword")) {
+                        throw new GradleException('Set sonatypeUsername and sonatypePassword in ~/.gradle/gradle.properties or with -D<x>=<y>')
+                    }
+                    signing.signPom(deployment)
+            }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                if (project.hasProperty("sonatypeUsername") && project.hasProperty("sonatypePassword")) {
+                    authentication(userName: sonatypeUsername, password: sonatypePassword)
+                }
+            }
+
+            pom.project {
+                name "${project.name}"
+                description "${project.description}"
+                url 'https://github.com/octo-online/reactive-audit'
+                packaging 'jar'
+
+                scm {
+                    connection 'scm:git:https://github.com/octo-online/reactive-audit.git'
+                    developerConnection 'scm:git:https://github.com/octo-online/reactive-audit.git'
+                    url 'https://github.com/octo-online/reactive-audit'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'pprados'
+                        name 'Philippe Prados'
+                        organization = 'OCTO Technology'
+                        organizationUrl 'http://www.octo.com'
+                        roles {
+                            role 'Architect'
+                            role 'Developer'
+                        }
+                    }
+                    developer {
+                        id 'fxbonnet'
+                        name 'Francois-Xavier Bonnet'
+                        organization = 'OCTO Technology'
+                        organizationUrl 'http://www.octo.com'
+                        roles {
+                            role 'Developer'
+                        }
+                    }
+                    developer {
+                        id 'ybenabderrahmane'
+                        name 'Yacine Benabderrahmane'
+                        organization = 'OCTO Technology'
+                        organizationUrl 'http://www.octo.com'
+                        roles {
+                            role 'Developer'
+                        }
+                    }
+                    developer {
+                        id 'efortin'
+                        name 'Emmanuel Fortin'
+                        organization = 'OCTO Technology'
+                        organizationUrl 'http://www.octo.com'
+                        roles {
+                            role 'Developer'
+                        }
+                    }
+                }
+                properties {
+                    'project.build.sourceEncoding' 'UTF-8'
+                    'project.reporting.outputEncoding' 'UTF-8'
+                }
+            }
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourceJar
+            artifact javadocJar
+        }
+    }
+    repositories {
+        maven {
+            url "$buildDir/repo"
+        }
+    }
+}

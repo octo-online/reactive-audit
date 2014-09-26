@@ -22,7 +22,7 @@ task usage << {
     println "./gradlew build               : build for Jdk8+."
     println "./gradlew build -x test       : build for Jdk7."
     println ""
-    println "./gradlew installDist         : Generate a publication in ../build/install/audit-reactive."
+    println "./gradlew installDist         : Generate a publication in ../build/install/reactive-audit."
     println "./gradlew distTar             : Bundles the project as a distribution."
     println "./gradlew distZip             : Bundles the project as a distribution."
     println ""
@@ -49,18 +49,18 @@ apply plugin: 'idea'
 
 description = 'JVM Agent to detect blocking IO call'
 
-apply from: "audit-reactive-agent/src/main/resources/version.properties"
+apply from: "reactive-audit-agent/src/main/resources/version.properties"
 
 allprojects {
     group = "com.octo.reactive.audit"
-    archivesBaseName = "audit-reactive"
+    archivesBaseName = "reactive-audit"
     ext.version = version
     ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 }
 
 dependencies {
-    compile project(":audit-reactive-agent")
-    compile project(":audit-reactive-lib")
+    compile project(":reactive-audit-agent")
+    compile project(":reactive-audit-lib")
 }
 
 // Use gradle wrapper to update the current wrapper

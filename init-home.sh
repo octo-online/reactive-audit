@@ -4,32 +4,32 @@
 
 ./gradlew instDist
 
-source "${AUDIT_REACTIVE_HOME}/audit-reactive-agent/bin/version.properties"
+source "${REACTIVE_AUDIT_HOME}/reactive-audit-agent/bin/version.properties"
 
-declare AUDIT_REACTIVE_HOME="$(dirname  "$0")"
-if [[ -e "$AUDIT_REACTIVE_HOME/home" ]]; then
-  rm -Rf "$AUDIT_REACTIVE_HOME/home"
+declare REACTIVE_AUDIT_HOME="$(dirname  "$0")"
+if [[ -e "$REACTIVE_AUDIT_HOME/home" ]]; then
+  rm -Rf "$REACTIVE_AUDIT_HOME/home"
 fi
 
-mkdir -p "$AUDIT_REACTIVE_HOME/home/bin"
-mkdir -p "$AUDIT_REACTIVE_HOME/home/lib"
+mkdir -p "$REACTIVE_AUDIT_HOME/home/bin"
+mkdir -p "$REACTIVE_AUDIT_HOME/home/lib"
 
-pushd "$AUDIT_REACTIVE_HOME/home/bin" >/dev/null
-ln -s ../../audit-reactive-lib/src/test/bin/debug-audit-reactive.bat debug-audit-reactive.bat
-ln -s ../../audit-reactive-lib/src/test/bin/debug-audit-reactive.sh  debug-audit-reactive.sh
-ln -s ../../audit-reactive-lib/src/main/resources/version.properties version.properties
-ln -s ../../audit-reactive-lib/src/main/dist/bin/init-audit-reactive.bat  init-audit-reactive.bat
-ln -s ../../audit-reactive-lib/src/main/dist/bin/init-audit-reactive.sh   init-audit-reactive.sh
+pushd "$REACTIVE_AUDIT_HOME/home/bin" >/dev/null
+ln -s ../../reactive-audit-lib/src/test/bin/debug-reactive-audit.bat debug-reactive-audit.bat
+ln -s ../../reactive-audit-lib/src/test/bin/debug-reactive-audit.sh  debug-reactive-audit.sh
+ln -s ../../reactive-audit-lib/src/main/resources/version.properties version.properties
+ln -s ../../reactive-audit-lib/src/main/dist/bin/init-reactive-audit.bat  init-reactive-audit.bat
+ln -s ../../reactive-audit-lib/src/main/dist/bin/init-reactive-audit.sh   init-reactive-audit.sh
 popd >/dev/null
 
-pushd "$AUDIT_REACTIVE_HOME/home" >/dev/null
-ln -s ../audit-reactive-lib/src/main/dist/etc etc
+pushd "$REACTIVE_AUDIT_HOME/home" >/dev/null
+ln -s ../reactive-audit-lib/src/main/dist/etc etc
 popd >/dev/null
 
-pushd "$AUDIT_REACTIVE_HOME/home/lib" >/dev/null
+pushd "$REACTIVE_AUDIT_HOME/home/lib" >/dev/null
 # not ln -s
-cp    ../../audit-reactive-lib/build/install/audit-reactive-agent/lib/aspectjweaver.jar aspectjweaver.jar
-ln -s ../../audit-reactive-lib/build/libs/audit-reactive-lib-${version}.jar       audit-reactive-lib.jar
-ln -s ../../audit-reactive-lib/build/libs/audit-reactive-${version}.jar           audit-reactive.jar
+cp    ../../reactive-audit-lib/build/install/reactive-audit-agent/lib/aspectjweaver.jar aspectjweaver.jar
+ln -s ../../reactive-audit-lib/build/libs/reactive-audit-lib-${version}.jar       reactive-audit-lib.jar
+ln -s ../../reactive-audit-lib/build/libs/reactive-audit-${version}.jar           reactive-audit.jar
 popd >/dev/null
 

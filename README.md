@@ -24,12 +24,12 @@ or for a socket.
 
 Some threads can invoke a blocking API, others can not. It is possible
 to select for which thread the agent must detect a call to a blocking API
-(parameter `auditReactive.threadPattern`).
+(parameter `reactiveAudit.threadPattern`).
 
 At the application startup, it is common to use some blocking API to
 load parameters from file, etc. Therefore, it is possible to shift the
 audit start time to a few seconds after the application startup
-(parameter `auditReactive.bootstrapDelay`).
+(parameter `reactiveAudit.bootstrapDelay`).
 
 Some blocking APIs are used to manage files. If the file system uses a SSD,
 the latency is low. But if the file system is on a NAS or on the Cloud,
@@ -39,8 +39,8 @@ medium and high file latency API generates an alert, because it is not possible
 blocking API.
 
 # Usage
-To set the environment variables, use `bin/init-audit-reactive`.
-This will set the variables `AUDIT_REACTIVE_HOME` to the reactive audit tool home directory
+To set the environment variables, use `bin/init-reactive-audit`.
+This will set the variables `REACTIVE_AUDIT_HOME` to the reactive audit tool home directory
 and `AUDIT_OPTS` to all the parameters to start a JVM.
 
 _Note: The application startup can be *SLOW*. Each class to load must be inspected
@@ -51,69 +51,69 @@ You can add a framework name as a parameter of this command, such as
 
 To start **JVM** with the audit on Windows:
 
-    > init-audit-reactive
+    > init-reactive-audit
     > java %AUDIT_OPTS% ...
 
 To start **JVM** with the audit on Mac/Linux:
 
-    > source init-audit-reactive.sh
+    > source init-reactive-audit.sh
     > java %AUDIT_OPTS% ...
 
 To start **jetty** with the audit on Windows:
 
-    > init-audit-reactive jetty
+    > init-reactive-audit jetty
     > java %AUDIT_OPTS% -jar start.jar
 
 To start **jetty** with the audit on Mac/Linux:
 
-    > source init-audit-reactive.sh jetty
+    > source init-reactive-audit.sh jetty
     > java %AUDIT_OPTS% -jar start.jar
 
 To start **catalina** (Tomcat) with audit on Windows:
 
-    > init-audit-reactive catalina
+    > init-reactive-audit catalina
     > catalina run
 
 To start **catalina** (Tomcat) with audit on Mac/Linux:
 
-    > source init-audit-reactive.sh catalina
+    > source init-reactive-audit.sh catalina
     > catalina run
 
 To start **play** with the audit on Windows:
 
-    > init-audit-reactive play
+    > init-reactive-audit play
     > activator run
 
 To start **play** with the audit on Mac/Linux:
 
-    >source init-audit-reactive.sh play
+    >source init-reactive-audit.sh play
     > activator run
 
 For the background, this script adds the boot classpath `<audit home>/lib`
 and adds the agent using `-javaagent:<audit home>/lib/aspectjweaver.jar`.
 
 If a framework is selected, this script adds a default associated parameter file
-with `-DauditReactive=<audit home>/etc/<framework>.properties`.
+with `-DreactiveAudit=<audit home>/etc/<framework>.properties`.
 Sometime, the specific environment variable is set to start the framework.
 
 # Parameters
-All the parameters are named using the pattern `auditReactive.<key>`.
+All the parameters are named using the pattern `reactiveAudit.<key>`.
 To set the parameters, you can use:
 
-* an environment variable (`set auditReactive.file=low`)
-* a properties file (`auditReactive.file=low`)
-* or the java system properties (`java -DauditReactive.file=low ...`)
+* an environment variable (`set reactiveAudit.file=low`)
+* a properties file (`reactiveAudit.file=low`)
+* or the java system properties (`java -DreactiveAudit.file=low ...`)
 
 The values are read in the latter order.
 
-The filename of parameters file is by default: `auditReactive.properties`
-To use another file, set the variable `auditReactive`:
+The filename of parameters file is by default: `reactiveAudit.properties`
+To use another file, set the variable `reactiveAudit`:
 
-    java -DauditReactive=config.properties ...
+    java -DreactiveAudit=config.properties ...
     
 or
 
-    set auditReactive=config.properties
+    set reactiveAudit=config.properties
     java ...
 
 You can set all the parameters described in `<audit home>/etc/default.properties`.
@@ -133,7 +133,7 @@ use one of
     ./gradlew distTar
 
 ## Test distribution (Option 1)
-Add `./build/install/audit-reactive/bin` in `PATH`, and
+Add `./build/install/reactive-audit/bin` in `PATH`, and
 
     ./gradlew installDist
 

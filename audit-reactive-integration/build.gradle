@@ -36,9 +36,9 @@ task(audit, dependsOn: 'classes', type: JavaExec) {
     main = 'com.octo.reactive.sample.TestApp'
     classpath = sourceSets.main.runtimeClasspath
 
-    def auditDir = "${buildDir}/audit"
+    def auditDir = "${buildDir}/audit-reactive-output"
     file(auditDir).mkdirs()
-    def auditLibs = "${buildDir}/audit-libs"
+    def auditLibs = "${buildDir}/audit-reactive-libs"
     def aspectjWeaverJar = project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
     def agentJar = project.configurations.testRuntime.find { it.name.startsWith("audit-reactive-agent-") }
 
@@ -55,5 +55,4 @@ task(audit, dependsOn: 'classes', type: JavaExec) {
             "-DauditReactive=src/test/resources/auditReactive.properties"
     ]
 }
-
 

@@ -5,10 +5,10 @@ Sample project to invoke audit-reactive with
 
 # Maven
 Execute
-    mvn verify
+    mvn install
     
 # Gradle
 Execute
-    gradle test
+    gradle audit
     
 # SBT: TODO

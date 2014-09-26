@@ -29,18 +29,21 @@ description = 'Reactive Audit Tool Integration Test Application'
 
 dependencies {
     testRuntime "com.octo.reactive.audit:audit-reactive-agent:${auditReactiveVersion}"
+    testRuntime "com.octo.reactive.audit:audit-reactive-agent:${auditReactiveVersion}:etc"
     testRuntime "org.aspectj:aspectjweaver:${aspectjVersion}"
 }
 
 task(audit, dependsOn: 'classes', type: JavaExec) {
     main = 'com.octo.reactive.sample.TestApp'
     classpath = sourceSets.main.runtimeClasspath
+    def framework="default"
 
     def auditDir = "${buildDir}/audit-reactive-output"
     file(auditDir).mkdirs()
     def auditLibs = "${buildDir}/audit-reactive-libs"
     def aspectjWeaverJar = project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
-    def agentJar = project.configurations.testRuntime.find { it.name.startsWith("audit-reactive-agent-") }
+    def agentJar = project.configurations.testRuntime.find { it.name.startsWith("audit-reactive-agent-${auditReactiveVersion}.jar") }
+    def agentConf = "jar:"+file(project.configurations.testRuntime.find { it.name.startsWith("audit-reactive-agent-${auditReactiveVersion}-etc.jar") }).toURI()
 
     copy {
         from aspectjWeaverJar
@@ -52,6 +55,9 @@ task(audit, dependsOn: 'classes', type: JavaExec) {
             "-javaagent:${aspectjWeaverJar}",
             "-Djava.ext.dirs=" + System.env.'JAVA_HOME' + "/ext${File.pathSeparator}${auditLibs}",
             "-DauditReactive.logOutput=${auditDir}/audit-reactive.log",
+            // If use a framework
+            //"-DauditReactive=${agentConf}!/${framework}.properties"
+            // else, use specific properties
             "-DauditReactive=src/test/resources/auditReactive.properties"
     ]
 }

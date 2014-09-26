@@ -30,21 +30,24 @@ public class JdbcRowSetTest
 	private final JdbcRowSet x = (JdbcRowSet) TestTools.createProxy(JdbcRowSet.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void commit() throws SQLException
+	public void commit()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.commit();
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void rollback() throws SQLException
+	public void rollback()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.rollback();
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void rollback_SavePoint() throws InterruptedException, IOException, SQLException
+	public void rollback_SavePoint()
+			throws InterruptedException, IOException, SQLException
 	{
 		AuditReactive.strict.commit();
 		x.rollback(null);

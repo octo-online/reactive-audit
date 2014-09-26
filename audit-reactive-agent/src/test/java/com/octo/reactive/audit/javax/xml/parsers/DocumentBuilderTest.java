@@ -36,7 +36,8 @@ public class DocumentBuilderTest
 	{
 
 		@Override
-		public Document parse(InputSource inputSource) throws SAXException, IOException
+		public Document parse(InputSource inputSource)
+				throws SAXException, IOException
 		{
 			return null;
 		}
@@ -79,14 +80,16 @@ public class DocumentBuilderTest
 	};
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void parse_File() throws IOException, SAXException
+	public void parse_File()
+			throws IOException, SAXException
 	{
 		AuditReactive.strict.commit();
 		x.parse(IOTestTools.getTempFile());
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void parse_String() throws IOException, SAXException
+	public void parse_String()
+			throws IOException, SAXException
 	{
 		AuditReactive.strict.commit();
 		x.parse(IOTestTools.getTempFile().toURI().toString());

@@ -70,9 +70,15 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
+task etcJar(type: Jar) {
+    classifier = 'etc'
+    from 'src/main/dist/etc'
+}
+
 artifacts {
     archives sourceJar
     archives javadocJar
+    archives etcJar
 }
 
 // Add the lib classes in the main jar
@@ -105,11 +111,11 @@ distributions {
             }
             into('lib') {
                 from project(':audit-reactive-lib').jar
-                rename { project(':audit-reactive-lib').name+".jar" }
+                rename { project(':audit-reactive-lib').name + ".jar" }
             }
             into('lib') {
                 from jar
-                rename { project.name+".jar" }
+                rename { project.name + ".jar" }
             }
             into('lib') {
                 from project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }

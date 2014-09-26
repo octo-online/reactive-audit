@@ -30,27 +30,31 @@ public class SOAPConnectionTest
 	{
 
 		@Override
-		public SOAPMessage call(SOAPMessage request, Object to) throws SOAPException
+		public SOAPMessage call(SOAPMessage request, Object to)
+				throws SOAPException
 		{
 			return null;
 		}
 
 		@Override
-		public void close() throws SOAPException
+		public void close()
+				throws SOAPException
 		{
 
 		}
 	};
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void call() throws SOAPException
+	public void call()
+			throws SOAPException
 	{
 		AuditReactive.strict.commit();
 		x.call(null, null);
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void get() throws SOAPException
+	public void get()
+			throws SOAPException
 	{
 		AuditReactive.strict.commit();
 		x.get(null);

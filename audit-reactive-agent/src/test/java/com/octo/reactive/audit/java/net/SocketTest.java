@@ -36,7 +36,8 @@ public class SocketTest
 	private static final int PORT = 80;
 
 	@Test
-	public void new_1() throws IOException
+	public void new_1()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		try (Socket socket = new Socket())
@@ -46,7 +47,8 @@ public class SocketTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void new_2() throws IOException
+	public void new_2()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		InetAddress target = getByName(HOST);
@@ -58,8 +60,9 @@ public class SocketTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	@SuppressWarnings( "deprecation" )
-	public void new_3() throws IOException
+	@SuppressWarnings("deprecation")
+	public void new_3()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		InetAddress target = getByName(HOST);
@@ -71,7 +74,8 @@ public class SocketTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void new_4() throws IOException
+	public void new_4()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		InetAddress target = getByName(HOST);
@@ -83,7 +87,8 @@ public class SocketTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void new_5() throws IOException
+	public void new_5()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		AuditReactive.strict.commit();
@@ -94,7 +99,8 @@ public class SocketTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void new_6() throws IOException
+	public void new_6()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		AuditReactive.strict.commit();
@@ -105,7 +111,8 @@ public class SocketTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void new_7() throws IOException
+	public void new_7()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		AuditReactive.strict.commit();
@@ -116,7 +123,8 @@ public class SocketTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void connect() throws IOException
+	public void connect()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Socket socket = new Socket())
@@ -128,7 +136,8 @@ public class SocketTest
 	}
 
 	@Test
-	public void getInputStream() throws IOException
+	public void getInputStream()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Socket socket = new Socket(HOST, PORT))
@@ -139,7 +148,8 @@ public class SocketTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getInputStream_use() throws IOException
+	public void getInputStream_use()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Socket socket = new Socket(HOST, PORT))
@@ -150,7 +160,8 @@ public class SocketTest
 	}
 
 	@Test
-	public void getOutputStream() throws IOException
+	public void getOutputStream()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Socket socket = new Socket(HOST, PORT))
@@ -161,7 +172,8 @@ public class SocketTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getOutputStream_use() throws IOException
+	public void getOutputStream_use()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Socket socket = new Socket(HOST, PORT))
@@ -172,7 +184,8 @@ public class SocketTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void sendUrgentData() throws IOException
+	public void sendUrgentData()
+			throws IOException
 	{
 		final int DATA = 255;
 		AuditReactive.off.commit();

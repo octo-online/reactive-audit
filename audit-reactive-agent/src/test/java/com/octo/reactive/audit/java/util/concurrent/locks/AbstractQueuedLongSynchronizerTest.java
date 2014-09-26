@@ -30,28 +30,32 @@ public class AbstractQueuedLongSynchronizerTest
 	};
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void acquire() throws InterruptedException
+	public void acquire()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		c.acquire(1);
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void acquireInterruptibly() throws InterruptedException
+	public void acquireInterruptibly()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		c.acquireInterruptibly(1);
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void acquireShared() throws InterruptedException
+	public void acquireShared()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		c.acquireShared(1);
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void acquireSharedInterruptibly() throws InterruptedException
+	public void acquireSharedInterruptibly()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		c.acquireSharedInterruptibly(1);

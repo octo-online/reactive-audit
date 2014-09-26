@@ -29,14 +29,16 @@ public class XADataSourceTest
 	private final XADataSource x = (XADataSource) TestTools.createProxy(XADataSource.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getXAConnection() throws SQLException
+	public void getXAConnection()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.getXAConnection();
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getXAConnection_up() throws SQLException
+	public void getXAConnection_up()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.getXAConnection(null, null);

@@ -30,14 +30,16 @@ public class ConnectionPoolDataSourceTest
 			ConnectionPoolDataSource.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getPooledConnection() throws SQLException
+	public void getPooledConnection()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.getPooledConnection();
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getPooledConnection_up() throws SQLException
+	public void getPooledConnection_up()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.getPooledConnection(null, null);

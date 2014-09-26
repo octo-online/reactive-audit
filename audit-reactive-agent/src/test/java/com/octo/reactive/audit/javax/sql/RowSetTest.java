@@ -29,7 +29,8 @@ public class RowSetTest
 	private final RowSet x = (RowSet) TestTools.createProxy(RowSet.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void execute() throws SQLException
+	public void execute()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.execute();

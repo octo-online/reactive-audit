@@ -37,7 +37,8 @@ public class LockTest
 		}
 
 		@Override
-		public void lockInterruptibly() throws InterruptedException
+		public void lockInterruptibly()
+				throws InterruptedException
 		{
 
 		}
@@ -49,7 +50,8 @@ public class LockTest
 		}
 
 		@Override
-		public boolean tryLock(long l, TimeUnit timeUnit) throws InterruptedException
+		public boolean tryLock(long l, TimeUnit timeUnit)
+				throws InterruptedException
 		{
 			return false;
 		}
@@ -61,7 +63,7 @@ public class LockTest
 		}
 
 		@SuppressWarnings("ConstantConditions")
-        @Override
+		@Override
 		public Condition newCondition()
 		{
 			return null;
@@ -69,14 +71,16 @@ public class LockTest
 	};
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void lock() throws InterruptedException
+	public void lock()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		c.lock();
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void lockInterruptibly() throws InterruptedException
+	public void lockInterruptibly()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		c.lockInterruptibly();

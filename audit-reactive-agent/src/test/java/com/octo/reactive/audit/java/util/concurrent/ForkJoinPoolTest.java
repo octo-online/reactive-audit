@@ -29,21 +29,24 @@ public class ForkJoinPoolTest
 	private final ForkJoinPool e = new ForkJoinPool(1);
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void awaitQuiescence() throws InterruptedException
+	public void awaitQuiescence()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		e.awaitQuiescence(1, TimeUnit.MILLISECONDS);
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void awaitTermination() throws InterruptedException
+	public void awaitTermination()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		e.awaitTermination(1, TimeUnit.MILLISECONDS);
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void invoke() throws InterruptedException
+	public void invoke()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		e.invoke(new ForkJoinTask<Object>()
@@ -69,13 +72,15 @@ public class ForkJoinPoolTest
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void managedBlock() throws InterruptedException
+	public void managedBlock()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		ForkJoinPool.managedBlock(new ForkJoinPool.ManagedBlocker()
 		{
 			@Override
-			public boolean block() throws InterruptedException
+			public boolean block()
+					throws InterruptedException
 			{
 				return false;
 			}

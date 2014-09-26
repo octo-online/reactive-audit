@@ -27,13 +27,15 @@ import java.rmi.server.RMIServerSocketFactory;
 public class RMIServerSocketFactoryTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void createServerSocket() throws Exception
+	public void createServerSocket()
+			throws Exception
 	{
 		AuditReactive.strict.commit();
 		RMIServerSocketFactory factory = new RMIServerSocketFactory()
 		{
 			@Override
-			public ServerSocket createServerSocket(int port) throws IOException
+			public ServerSocket createServerSocket(int port)
+					throws IOException
 			{
 				return null;
 			}

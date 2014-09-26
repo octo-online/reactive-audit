@@ -82,14 +82,16 @@ public class AuditReactiveException extends AssertionError
 	@Override
 	public String toString()
 	{
-		return super.toString() + " at thread \"" + this.threadName + '"';
+		return super.toString() +
+				System.getProperty("line.separator")+
+				"\tat thread \"" + this.threadName + '"';
 	}
 
 	/**
 	 * If not debug, remove all the audit layout in the stack trace.
 	 */
 	@SuppressWarnings("PointlessBooleanExpression")
-    private void updateStackTraceElements()
+	private void updateStackTraceElements()
 	{
 		if (!debug) // Warning: the debug value can be updated via introspection.
 		{

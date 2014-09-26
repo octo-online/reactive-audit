@@ -28,7 +28,8 @@ import java.util.concurrent.TimeoutException;
 public class ExchangerTest
 {
 	@Test(expected = CPUAuditReactiveException.class)
-	public void exchange() throws InterruptedException, BrokenBarrierException
+	public void exchange()
+			throws InterruptedException, BrokenBarrierException
 	{
 		AuditReactive.strict.commit();
 		Exchanger<Object> c = new Exchanger<>();
@@ -36,7 +37,8 @@ public class ExchangerTest
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void exchange_to() throws InterruptedException, BrokenBarrierException, TimeoutException
+	public void exchange_to()
+			throws InterruptedException, BrokenBarrierException, TimeoutException
 	{
 		AuditReactive.strict.commit();
 		Exchanger<Object> c = new Exchanger<>();

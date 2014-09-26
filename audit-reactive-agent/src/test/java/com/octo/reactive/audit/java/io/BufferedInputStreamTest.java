@@ -29,7 +29,8 @@ import static com.octo.reactive.audit.TestTools.push;
 public class BufferedInputStreamTest extends FileInputStreamTest
 {
 	@Override
-	protected InputStream newInputStream() throws IOException
+	protected InputStream newInputStream()
+			throws IOException
 	{
 		push();
 		InputStream out = super.newInputStream();
@@ -39,7 +40,8 @@ public class BufferedInputStreamTest extends FileInputStreamTest
 
 	@Override
 	@Test
-	public void New() throws IOException
+	public void New()
+			throws IOException
 	{
 		super.New();
 	}

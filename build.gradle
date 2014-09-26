@@ -54,7 +54,7 @@ apply from: "audit-reactive-agent/src/main/resources/version.properties"
 allprojects {
     group = "com.octo.reactive.audit"
     archivesBaseName = "audit-reactive"
-    ext.version=version
+    ext.version = version
     ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 }
 

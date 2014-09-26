@@ -238,7 +238,7 @@ public final class IOTestTools
 		{
 			NetworkInterface ni = null;
 			for (Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
-			     e.hasMoreElements(); )
+				 e.hasMoreElements(); )
 			{
 				NetworkInterface n = e.nextElement();
 				if (n.isUp() && !n.isLoopback())

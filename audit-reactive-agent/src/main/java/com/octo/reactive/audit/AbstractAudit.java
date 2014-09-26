@@ -37,15 +37,16 @@ public abstract class AbstractAudit
 	}
 
 	protected void latency(Latency latency,
-	                       JoinPoint thisJoinPoint
-	) throws AuditReactiveException
+						   JoinPoint thisJoinPoint
+						  )
+			throws AuditReactiveException
 	{
 		logLatency(latency, thisJoinPoint, newException(latency, thisJoinPoint));
 	}
 
 	protected void logLatency(Latency latency,
-	                          JoinPoint thisJoinPoint,
-	                          AuditReactiveException e)
+							  JoinPoint thisJoinPoint,
+							  AuditReactiveException e)
 			throws AuditReactiveException
 	{
 		if (checkForAll())

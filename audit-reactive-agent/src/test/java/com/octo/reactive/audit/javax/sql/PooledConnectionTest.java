@@ -29,7 +29,8 @@ public class PooledConnectionTest
 	private final PooledConnection x = (PooledConnection) TestTools.createProxy(PooledConnection.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getConnection() throws SQLException
+	public void getConnection()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.getConnection();

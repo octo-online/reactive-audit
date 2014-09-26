@@ -42,7 +42,8 @@ public class SSLSocketFactoryTest
 		}
 
 		@Override
-		public Socket createSocket(Socket socket, String s, int i, boolean b) throws IOException
+		public Socket createSocket(Socket socket, String s, int i, boolean b)
+				throws IOException
 		{
 			return null;
 		}
@@ -60,13 +61,15 @@ public class SSLSocketFactoryTest
 		}
 
 		@Override
-		public Socket createSocket(InetAddress inetAddress, int i) throws IOException
+		public Socket createSocket(InetAddress inetAddress, int i)
+				throws IOException
 		{
 			return null;
 		}
 
 		@Override
-		public Socket createSocket(InetAddress inetAddress, int i, InetAddress inetAddress2, int i2) throws IOException
+		public Socket createSocket(InetAddress inetAddress, int i, InetAddress inetAddress2, int i2)
+				throws IOException
 		{
 			return null;
 		}
@@ -74,7 +77,8 @@ public class SSLSocketFactoryTest
 
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void createSocket() throws IOException
+	public void createSocket()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		sf.createSocket("localhost", 1);

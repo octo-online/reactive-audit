@@ -29,7 +29,8 @@ import static com.octo.reactive.audit.TestTools.push;
 public class SequenceInputStreamTest extends ByteArrayInputStreamTest
 {
 	@Override
-	protected InputStream newInputStream() throws IOException
+	protected InputStream newInputStream()
+			throws IOException
 	{
 		push();
 		InputStream in1 = super.newInputStream();
@@ -39,9 +40,10 @@ public class SequenceInputStreamTest extends ByteArrayInputStreamTest
 	}
 
 	@SuppressWarnings("RedundantMethodOverride")
-    @Test
-    @Override
-    public void derived() throws IOException
+	@Test
+	@Override
+	public void derived()
+			throws IOException
 	{
 		class Derived extends SequenceInputStream
 		{

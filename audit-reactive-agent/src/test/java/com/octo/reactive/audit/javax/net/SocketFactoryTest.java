@@ -43,7 +43,8 @@ public class SocketFactoryTest
 		}
 
 		@Override
-		public Socket createSocket(InetAddress inetAddress, int i) throws IOException
+		public Socket createSocket(InetAddress inetAddress, int i)
+				throws IOException
 		{
 			return null;
 		}
@@ -57,14 +58,16 @@ public class SocketFactoryTest
 	};
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void createSocket() throws IOException
+	public void createSocket()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		sf.createSocket();
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void createSocket_InetAddressI() throws IOException
+	public void createSocket_InetAddressI()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		sf.createSocket(InetAddress.getLocalHost(), 1);

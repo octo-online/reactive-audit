@@ -27,7 +27,8 @@ import static com.octo.reactive.audit.TestTools.push;
 public class OutputStreamWriterTest extends AuditedWriterTest
 {
 	@Override
-	protected Writer newWriter() throws IOException
+	protected Writer newWriter()
+			throws IOException
 	{
 		push();
 		OutputStream out = new FileOutputStream(IOTestTools.getTempFile());
@@ -37,7 +38,8 @@ public class OutputStreamWriterTest extends AuditedWriterTest
 	}
 
 	@Test
-	public void derived() throws IOException
+	public void derived()
+			throws IOException
 	{
 		class Derived extends OutputStreamWriter
 		{

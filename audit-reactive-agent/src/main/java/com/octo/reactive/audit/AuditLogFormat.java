@@ -33,9 +33,9 @@ class AuditLogFormat extends Formatter
 		this.format = format;
 	}
 
-    @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
-    @Override
-    public synchronized String format(LogRecord record)
+	@SuppressWarnings("ThrowableResultOfMethodCallIgnored")
+	@Override
+	public synchronized String format(LogRecord record)
 	{
 		dat.setTime(record.getMillis());
 		String source;
@@ -65,12 +65,12 @@ class AuditLogFormat extends Formatter
 			AuditReactive.config.decSuppress();
 		}
 		return String.format(format,
-		                     dat,
-		                     source,
-		                     record.getLoggerName(),
-		                     record.getLevel().getName(),
-		                     message,
-		                     throwable);
+							 dat,
+							 source,
+							 record.getLoggerName(),
+							 LoadParams.convLevelString(record.getLevel()),
+							 message,
+							 throwable);
 	}
 
 	String getFormat()

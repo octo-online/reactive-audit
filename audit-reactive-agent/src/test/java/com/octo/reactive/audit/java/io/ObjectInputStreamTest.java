@@ -28,7 +28,8 @@ public class ObjectInputStreamTest extends AuditedInputStreamTest
 {
 
 	@Override
-	protected InputStream newInputStream() throws IOException
+	protected InputStream newInputStream()
+			throws IOException
 	{
 		push();
 		File f = IOTestTools.getTempFile();
@@ -42,13 +43,15 @@ public class ObjectInputStreamTest extends AuditedInputStreamTest
 
 	@Override
 	@Test
-	public void New() throws IOException
+	public void New()
+			throws IOException
 	{
 		super.New();
 	}
 
 	@Test
-	public void derived() throws IOException
+	public void derived()
+			throws IOException
 	{
 		final ByteArrayOutputStream buf = new ByteArrayOutputStream(100);
 		ObjectOutputStream obj = new ObjectOutputStream(buf);
@@ -56,7 +59,8 @@ public class ObjectInputStreamTest extends AuditedInputStreamTest
 		obj.close();
 		class Derived extends ObjectInputStream
 		{
-			Derived() throws IOException
+			Derived()
+					throws IOException
 			{
 				super(new ByteArrayInputStream(buf.toByteArray()));
 			}

@@ -29,7 +29,8 @@ public class SQLInputTest
 	private final SQLInput input = (SQLInput) TestTools.createProxy(SQLInput.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void read() throws InterruptedException, ClassNotFoundException, SQLException
+	public void read()
+			throws InterruptedException, ClassNotFoundException, SQLException
 	{
 		AuditReactive.strict.commit();
 		input.readShort();

@@ -33,14 +33,16 @@ import static com.octo.reactive.audit.IOTestTools.PORT;
 public abstract class URLConnectionTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void connect() throws IOException
+	public void connect()
+			throws IOException
 	{
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		conn.connect();
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getContent() throws IOException
+	public void getContent()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -49,7 +51,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test
-	public void getContent_2() throws IOException
+	public void getContent_2()
+			throws IOException
 	{
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		AuditReactive.off.commit();
@@ -59,7 +62,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getContent_AClass() throws IOException
+	public void getContent_AClass()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -68,7 +72,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getContentEncoding() throws IOException
+	public void getContentEncoding()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -77,7 +82,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getContentLength() throws IOException
+	public void getContentLength()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -86,7 +92,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getContentLengthLong() throws IOException
+	public void getContentLengthLong()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -95,7 +102,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getContentType() throws IOException
+	public void getContentType()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -104,7 +112,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getDate() throws IOException
+	public void getDate()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -113,7 +122,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getExpiration() throws IOException
+	public void getExpiration()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -122,7 +132,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getHeaderField_i() throws IOException
+	public void getHeaderField_i()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -131,7 +142,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getHeaderField() throws IOException
+	public void getHeaderField()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -140,7 +152,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getHeaderFieldDate() throws IOException
+	public void getHeaderFieldDate()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -149,7 +162,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getHeaderFieldInt() throws IOException
+	public void getHeaderFieldInt()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -158,7 +172,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getHeaderFieldKey() throws IOException
+	public void getHeaderFieldKey()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -167,7 +182,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getHeaderFieldLong() throws IOException
+	public void getHeaderFieldLong()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -176,7 +192,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getHeaderFields() throws IOException
+	public void getHeaderFields()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -185,7 +202,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getIfModifiedSince() throws IOException
+	public void getIfModifiedSince()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -194,7 +212,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getInputStream() throws IOException
+	public void getInputStream()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -203,7 +222,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getInputStream_use() throws IOException
+	public void getInputStream_use()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -213,7 +233,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getLastModified() throws IOException
+	public void getLastModified()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -222,7 +243,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getOutputStream() throws IOException
+	public void getOutputStream()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -232,7 +254,8 @@ public abstract class URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getOutputStream_use() throws IOException
+	public void getOutputStream_use()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();

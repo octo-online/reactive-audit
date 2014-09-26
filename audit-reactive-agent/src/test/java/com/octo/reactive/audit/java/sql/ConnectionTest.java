@@ -28,19 +28,22 @@ public class ConnectionTest
 	private final Connection c = (Connection) TestTools.createProxy(Connection.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void close() throws SQLException
+	public void close()
+			throws SQLException
 	{
 		c.close();
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void commit() throws SQLException
+	public void commit()
+			throws SQLException
 	{
 		c.commit();
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void rollback() throws SQLException
+	public void rollback()
+			throws SQLException
 	{
 		c.rollback();
 	}

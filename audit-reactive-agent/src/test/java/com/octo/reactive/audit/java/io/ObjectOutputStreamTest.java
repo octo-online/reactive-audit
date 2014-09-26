@@ -29,7 +29,8 @@ import static com.octo.reactive.audit.TestTools.push;
 public class ObjectOutputStreamTest extends FileOutputStreamTest
 {
 	@Override
-	protected OutputStream newOutputStream() throws IOException
+	protected OutputStream newOutputStream()
+			throws IOException
 	{
 		push();
 		OutputStream out = super.newOutputStream();
@@ -39,19 +40,22 @@ public class ObjectOutputStreamTest extends FileOutputStreamTest
 
 	@Override
 	@Test
-	public void New() throws IOException
+	public void New()
+			throws IOException
 	{
 		super.New();
 	}
 
 	@SuppressWarnings("RedundantMethodOverride")
-    @Test
-    @Override
-    public void derived() throws IOException
+	@Test
+	@Override
+	public void derived()
+			throws IOException
 	{
 		class Derived extends ObjectOutputStream
 		{
-			Derived() throws IOException
+			Derived()
+					throws IOException
 			{
 				super(new ByteArrayOutputStream(10));
 			}

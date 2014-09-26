@@ -40,7 +40,8 @@ public class GatheringByteChannelTest
 			};
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void write() throws IOException
+	public void write()
+			throws IOException
 	{
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (GatheringByteChannel w = channel.get())

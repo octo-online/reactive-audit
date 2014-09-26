@@ -28,7 +28,8 @@ import java.util.Properties;
 public class PropertiesTest
 {
 	@Test(expected = AuditReactiveException.class)
-	public void load_FileInputStream() throws IOException
+	public void load_FileInputStream()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		InputStream in = new FileInputStream(IOTestTools.getTempFile());
@@ -38,7 +39,8 @@ public class PropertiesTest
 	}
 
 	@Test(expected = AuditReactiveException.class)
-	public void load_FileReader() throws IOException
+	public void load_FileReader()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		Reader in = new FileReader(IOTestTools.getTempFile());
@@ -48,7 +50,8 @@ public class PropertiesTest
 	}
 
 	@Test
-	public void load_InputStream() throws IOException
+	public void load_InputStream()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		InputStream in = new ByteArrayInputStream(new byte[1]);
@@ -58,7 +61,8 @@ public class PropertiesTest
 	}
 
 	@Test
-	public void load_Reader() throws IOException
+	public void load_Reader()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		Reader in = new StringReader("");

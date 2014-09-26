@@ -27,7 +27,8 @@ import java.io.IOException;
 public class FlushableTest
 {
 	@Test
-	public void flush_1() throws IOException
+	public void flush_1()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		new Flushable()
@@ -41,7 +42,8 @@ public class FlushableTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void flush_2() throws IOException
+	public void flush_2()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		IOTestTools.getTempFileOutputStream().flush();

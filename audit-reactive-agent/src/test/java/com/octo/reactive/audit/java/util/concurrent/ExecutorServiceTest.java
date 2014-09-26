@@ -28,21 +28,24 @@ public class ExecutorServiceTest
 	final private ExecutorService e = Executors.newFixedThreadPool(1);
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void awaitTermination() throws InterruptedException
+	public void awaitTermination()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		e.awaitTermination(1, TimeUnit.MILLISECONDS);
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void invokeAny() throws InterruptedException, ExecutionException, TimeoutException
+	public void invokeAny()
+			throws InterruptedException, ExecutionException, TimeoutException
 	{
 		AuditReactive.strict.commit();
 		e.invokeAny(new ArrayList<Callable<Object>>(), 1, TimeUnit.MILLISECONDS);
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void shutdownNow() throws InterruptedException
+	public void shutdownNow()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		e.shutdownNow();

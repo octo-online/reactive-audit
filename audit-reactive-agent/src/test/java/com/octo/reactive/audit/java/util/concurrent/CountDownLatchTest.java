@@ -26,7 +26,8 @@ import java.util.concurrent.TimeUnit;
 public class CountDownLatchTest
 {
 	@Test(expected = CPUAuditReactiveException.class)
-	public void await() throws InterruptedException
+	public void await()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		CountDownLatch c = new CountDownLatch(1);
@@ -34,7 +35,8 @@ public class CountDownLatchTest
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void await_to() throws InterruptedException
+	public void await_to()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		CountDownLatch c = new CountDownLatch(1);

@@ -35,7 +35,8 @@ public class LoggerAudit extends AbstractCPUAudit
 	}
 
 	@After("execution(* java.util.logger.Logger.*(..))")
-	public void afterLogger(JoinPoint thisJoinPoint) throws AuditReactiveException
+	public void afterLogger(JoinPoint thisJoinPoint)
+			throws AuditReactiveException
 	{
 		AuditReactive.config.decSuppress();
 	}

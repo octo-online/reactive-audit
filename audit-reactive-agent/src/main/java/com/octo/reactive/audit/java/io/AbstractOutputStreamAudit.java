@@ -30,7 +30,8 @@ import static com.octo.reactive.audit.FileTools.*;
 
 public abstract class AbstractOutputStreamAudit extends AbstractFileAudit
 {
-	public static AuditReactiveException latencyOutputStream(AuditReactive config, Latency latency, JoinPoint thisJoinPoint, OutputStream out)
+	public static AuditReactiveException latencyOutputStream(AuditReactive config, Latency latency,
+															 JoinPoint thisJoinPoint, OutputStream out)
 	{
 		CharSequence msg;
 		if (config.isDebug())

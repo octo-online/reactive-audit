@@ -26,7 +26,8 @@ import static com.octo.reactive.audit.TestTools.push;
 public class PushbackReaderTest extends FilterReaderTest
 {
 	@Override
-	protected Reader newReader() throws IOException
+	protected Reader newReader()
+			throws IOException
 	{
 		push();
 		Reader reader = super.newReader();

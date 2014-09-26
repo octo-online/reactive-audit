@@ -52,7 +52,7 @@ public class SAXParserAudit extends AbstractFileAudit
 	}
 
 	@Before("call(* javax.xml.parsers.SAXParser.parse(java.io.InputStream,org.xml.sax.HandlerBase)) && args(in,hb)")
-	@SuppressWarnings( "deprecation" )
+	@SuppressWarnings("deprecation")
 	public void parse(JoinPoint thisJoinPoint, InputStream in, org.xml.sax.HandlerBase hb)
 	{
 		AuditReactiveException ex = AbstractInputStreamAudit.latencyInputStream(config, HIGH, thisJoinPoint, in);
@@ -60,7 +60,7 @@ public class SAXParserAudit extends AbstractFileAudit
 	}
 
 	@Before("call(* javax.xml.parsers.SAXParser.parse(java.io.InputStream,org.xml.sax.HandlerBase,String)) && args(in,hb,s)")
-	@SuppressWarnings( "deprecation" )
+	@SuppressWarnings("deprecation")
 	public void parse(JoinPoint thisJoinPoint, InputStream in, org.xml.sax.HandlerBase hb, String s)
 	{
 		AuditReactiveException ex = AbstractInputStreamAudit.latencyInputStream(config, HIGH, thisJoinPoint, in);
@@ -87,7 +87,7 @@ public class SAXParserAudit extends AbstractFileAudit
 	}
 
 	@Before("call(* javax.xml.parsers.SAXParser.parse(String,org.xml.sax.HandlerBase)) && args(uri,hb)")
-	@SuppressWarnings( "deprecation" )
+	@SuppressWarnings("deprecation")
 	public void parse(JoinPoint thisJoinPoint, String uri, org.xml.sax.HandlerBase hb)
 	{
 		try

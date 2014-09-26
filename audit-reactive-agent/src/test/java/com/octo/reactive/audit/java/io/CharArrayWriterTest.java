@@ -25,7 +25,8 @@ import java.io.Writer;
 public class CharArrayWriterTest extends WriterTest
 {
 	@Override
-	protected Writer newWriter() throws IOException
+	protected Writer newWriter()
+			throws IOException
 	{
 		return new CharArrayWriter(10);
 	}

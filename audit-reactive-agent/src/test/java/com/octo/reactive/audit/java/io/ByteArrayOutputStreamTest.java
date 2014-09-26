@@ -25,7 +25,8 @@ import java.io.OutputStream;
 public class ByteArrayOutputStreamTest extends OutputStreamTest
 {
 	@Override
-	protected OutputStream newOutputStream() throws IOException
+	protected OutputStream newOutputStream()
+			throws IOException
 	{
 		return new ByteArrayOutputStream();
 	}

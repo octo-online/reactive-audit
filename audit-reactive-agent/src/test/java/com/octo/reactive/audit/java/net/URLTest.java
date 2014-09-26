@@ -30,7 +30,8 @@ import static com.octo.reactive.audit.IOTestTools.PORT;
 public class URLTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void openStream_network() throws IOException
+	public void openStream_network()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		URL url = new URL("http://" + HOST + ":" + PORT);
@@ -38,7 +39,8 @@ public class URLTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void openStream_file() throws IOException
+	public void openStream_file()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		URL url = new URL("file://" + HOST + ":" + PORT);
@@ -46,7 +48,8 @@ public class URLTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void openStream_jarfile() throws IOException
+	public void openStream_jarfile()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		URL url = new URL("JAR:file:///toto!/toto" + HOST + ":" + PORT);

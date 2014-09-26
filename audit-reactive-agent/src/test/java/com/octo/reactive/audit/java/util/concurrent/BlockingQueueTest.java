@@ -28,7 +28,8 @@ import java.util.concurrent.TimeUnit;
 public class BlockingQueueTest
 {
 	@Test(expected = CPUAuditReactiveException.class)
-	public void offer() throws InterruptedException
+	public void offer()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		BlockingQueue<Object> q = new LinkedBlockingDeque<>();
@@ -36,7 +37,8 @@ public class BlockingQueueTest
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void poll() throws InterruptedException
+	public void poll()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		BlockingQueue<Object> q = new LinkedBlockingDeque<>();
@@ -44,7 +46,8 @@ public class BlockingQueueTest
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void put() throws InterruptedException
+	public void put()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		BlockingQueue<Object> q = new LinkedBlockingDeque<>();
@@ -52,7 +55,8 @@ public class BlockingQueueTest
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void take() throws InterruptedException
+	public void take()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		BlockingQueue<Object> q = new LinkedBlockingDeque<>();

@@ -32,8 +32,9 @@ import static com.octo.reactive.audit.TestTools.push;
 public class FileReaderTest extends InputStreamReaderTest
 {
 	@SuppressWarnings("RefusedBequest")
-    @Override
-	protected Reader newReader() throws IOException
+	@Override
+	protected Reader newReader()
+			throws IOException
 	{
 		push();
 		File fileIn = IOTestTools.getTempFile();
@@ -42,9 +43,10 @@ public class FileReaderTest extends InputStreamReaderTest
 	}
 
 	@SuppressWarnings("RefusedBequest")
-    @Test(expected = FileAuditReactiveException.class)
+	@Test(expected = FileAuditReactiveException.class)
 	@Override
-	public void New() throws IOException
+	public void New()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		try (Reader in = new FileReader(IOTestTools.getTempFile()))
@@ -54,7 +56,8 @@ public class FileReaderTest extends InputStreamReaderTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void New_String() throws IOException
+	public void New_String()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		try (Reader in = new FileReader(IOTestTools.getTempFile().getName()))
@@ -64,11 +67,13 @@ public class FileReaderTest extends InputStreamReaderTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void derived() throws IOException
+	public void derived()
+			throws IOException
 	{
 		class Derived extends FileReader
 		{
-			Derived() throws IOException
+			Derived()
+					throws IOException
 			{
 				super(IOTestTools.getTempFile().getName());
 			}

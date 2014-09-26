@@ -33,7 +33,7 @@ public class FlushableAudit extends AbstractFileAudit
 	public void flush(JoinPoint thisJoinPoint)
 	{
 		if ((thisJoinPoint.getTarget() instanceof FileOutputStream) ||
-			(thisJoinPoint.getTarget().getClass().getName().equals("java.net.SocketOutputStream")))
+				(thisJoinPoint.getTarget().getClass().getName().equals("java.net.SocketOutputStream")))
 			latency(HIGH, thisJoinPoint);
 	}
 

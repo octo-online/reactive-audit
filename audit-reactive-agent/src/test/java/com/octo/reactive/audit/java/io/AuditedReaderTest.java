@@ -25,28 +25,32 @@ public abstract class AuditedReaderTest extends ReaderTest
 {
 	@Override
 	@Test(expected = FileAuditReactiveException.class)
-	public void close() throws IOException
+	public void close()
+			throws IOException
 	{
 		super.close();
 	}
 
 	@Override
 	@Test(expected = FileAuditReactiveException.class)
-	public void read() throws IOException
+	public void read()
+			throws IOException
 	{
 		super.read();
 	}
 
 	@Override
 	@Test(expected = FileAuditReactiveException.class)
-	public void read_C() throws IOException
+	public void read_C()
+			throws IOException
 	{
 		super.read_C();
 	}
 
 	@Override
 	@Test(expected = FileAuditReactiveException.class)
-	public void read_Cii() throws IOException
+	public void read_Cii()
+			throws IOException
 	{
 		super.read_Cii();
 	}
@@ -59,7 +63,8 @@ public abstract class AuditedReaderTest extends ReaderTest
 //	}
 	@Override
 	@Test(expected = FileAuditReactiveException.class)
-	public void skip() throws IOException
+	public void skip()
+			throws IOException
 	{
 		super.skip();
 	}

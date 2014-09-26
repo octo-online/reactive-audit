@@ -39,7 +39,8 @@ public class SeekableByteChannelTest
 			};
 
 	@Test(expected = AuditReactiveException.class)
-	public void position() throws IOException
+	public void position()
+			throws IOException
 	{
 		try (SeekableByteChannel r = channel.get())
 		{
@@ -49,7 +50,8 @@ public class SeekableByteChannelTest
 	}
 
 	@Test(expected = AuditReactiveException.class)
-	public void truncate() throws IOException
+	public void truncate()
+			throws IOException
 	{
 		try (SeekableByteChannel r = channel.get())
 		{

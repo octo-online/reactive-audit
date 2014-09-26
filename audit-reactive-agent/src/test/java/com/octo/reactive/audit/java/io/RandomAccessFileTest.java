@@ -26,13 +26,15 @@ import java.io.RandomAccessFile;
 
 public class RandomAccessFileTest
 {
-	private RandomAccessFile newRandomAccessFile() throws IOException
+	private RandomAccessFile newRandomAccessFile()
+			throws IOException
 	{
 		return new RandomAccessFile(IOTestTools.getTempFile(), "rw");
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void new_file() throws IOException
+	public void new_file()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		try (RandomAccessFile rw = new RandomAccessFile(IOTestTools.getTempFile(), "rw"))
@@ -43,7 +45,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void new_string() throws IOException
+	public void new_string()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		try (RandomAccessFile rw = new RandomAccessFile(IOTestTools.getTempFile().getAbsoluteFile(), "rw"))
@@ -54,7 +57,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void read() throws IOException
+	public void read()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -66,7 +70,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void read_B() throws IOException
+	public void read_B()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -78,7 +83,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void read_Bii() throws IOException
+	public void read_Bii()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -90,7 +96,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void readLine() throws IOException
+	public void readLine()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -102,7 +109,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void readBoolean() throws IOException
+	public void readBoolean()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -114,7 +122,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void readByte() throws IOException
+	public void readByte()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -126,7 +135,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void readChar() throws IOException
+	public void readChar()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -138,7 +148,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void readDouble() throws IOException
+	public void readDouble()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -150,7 +161,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void readFloat() throws IOException
+	public void readFloat()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -162,7 +174,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void readFully() throws IOException
+	public void readFully()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -174,7 +187,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void readInt() throws IOException
+	public void readInt()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -186,7 +200,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void readLong() throws IOException
+	public void readLong()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -198,7 +213,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void readShort() throws IOException
+	public void readShort()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -210,7 +226,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void readUnsignedByte() throws IOException
+	public void readUnsignedByte()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -222,7 +239,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void readUnsignedShort() throws IOException
+	public void readUnsignedShort()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -234,7 +252,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void readUTF() throws IOException
+	public void readUTF()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -246,7 +265,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void write_B() throws IOException
+	public void write_B()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -258,7 +278,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void write_Bii() throws IOException
+	public void write_Bii()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -270,7 +291,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void write_i() throws IOException
+	public void write_i()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -282,7 +304,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void writeBoolean() throws IOException
+	public void writeBoolean()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -294,7 +317,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void writeByte() throws IOException
+	public void writeByte()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -306,7 +330,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void writeBytes() throws IOException
+	public void writeBytes()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -318,7 +343,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void writeChar() throws IOException
+	public void writeChar()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -330,7 +356,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void writeChars() throws IOException
+	public void writeChars()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -342,7 +369,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void writeDouble() throws IOException
+	public void writeDouble()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -354,7 +382,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void writeFloat() throws IOException
+	public void writeFloat()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -366,7 +395,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void writeShort() throws IOException
+	public void writeShort()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -378,7 +408,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void writeUTF() throws IOException
+	public void writeUTF()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -390,7 +421,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void seek() throws IOException
+	public void seek()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
@@ -402,7 +434,8 @@ public class RandomAccessFileTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void close() throws IOException
+	public void close()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())

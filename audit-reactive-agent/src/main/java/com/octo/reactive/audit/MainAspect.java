@@ -26,8 +26,8 @@ public class MainAspect extends AbstractCPUAudit
 	@Before("execution(public static void *.main(..))")
 	public void startup(JoinPoint thisJoinPoint)
 	{
-        //noinspection RefusedBequest
-        Runtime.getRuntime().addShutdownHook(new Thread()
+		//noinspection RefusedBequest
+		Runtime.getRuntime().addShutdownHook(new Thread()
 		{
 			@Override
 			public void run()

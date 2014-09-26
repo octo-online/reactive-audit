@@ -40,7 +40,8 @@ public class PipedReaderTest //extends ReaderTest
 	}
 
 	@Test
-	public void derived() throws IOException
+	public void derived()
+			throws IOException
 	{
 		class Derived extends OutputStreamWriter
 		{

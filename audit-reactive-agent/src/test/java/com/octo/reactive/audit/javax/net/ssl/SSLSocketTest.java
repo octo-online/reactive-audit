@@ -91,7 +91,8 @@ public class SSLSocketTest
 		}
 
 		@Override
-		public void startHandshake() throws IOException
+		public void startHandshake()
+				throws IOException
 		{
 
 		}

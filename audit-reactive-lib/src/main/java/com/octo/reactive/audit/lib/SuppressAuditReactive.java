@@ -16,11 +16,7 @@
 
 package com.octo.reactive.audit.lib;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * Annotation forcing the JVM agent to tolerate a method call to a blocking API without log or exception.

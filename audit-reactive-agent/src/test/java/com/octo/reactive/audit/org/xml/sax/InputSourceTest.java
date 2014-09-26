@@ -29,14 +29,16 @@ import java.io.IOException;
 public class InputSourceTest
 {
 	@Test(expected = FileAuditReactiveException.class)
-	public void new_InputStream() throws IOException
+	public void new_InputStream()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		new InputSource(new FileInputStream(IOTestTools.getTempFile()));
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void new_Reader() throws IOException
+	public void new_Reader()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		new InputSource(new FileReader(IOTestTools.getTempFile()));

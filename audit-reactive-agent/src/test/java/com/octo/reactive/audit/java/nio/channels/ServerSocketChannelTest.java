@@ -22,26 +22,26 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.SocketAddress;
 import java.nio.channels.ServerSocketChannel;
 
 public class ServerSocketChannelTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void accept() throws IOException
+	public void accept()
+			throws IOException
 	{
 		try (ServerSocketChannel r = ServerSocketChannel.open())
 		{
-            try
-            {
-                r.bind(new InetSocketAddress(9999));
-                AuditReactive.strict.commit();
-                r.accept();
-            }
-            finally
-            {
-                r.close();
-            }
+			try
+			{
+				r.bind(new InetSocketAddress(9999));
+				AuditReactive.strict.commit();
+				r.accept();
+			}
+			finally
+			{
+				r.close();
+			}
 		}
 	}
 }

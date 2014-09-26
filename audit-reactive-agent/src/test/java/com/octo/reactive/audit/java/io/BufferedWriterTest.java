@@ -27,8 +27,9 @@ import static com.octo.reactive.audit.TestTools.push;
 public class BufferedWriterTest extends FileWriterTest
 {
 	@SuppressWarnings("RefusedBequest")
-    @Override
-	protected Writer newWriter() throws IOException
+	@Override
+	protected Writer newWriter()
+			throws IOException
 	{
 		push();
 		FileOutputStream out = new FileOutputStream(IOTestTools.getTempFile());
@@ -38,16 +39,17 @@ public class BufferedWriterTest extends FileWriterTest
 	}
 
 	@Test
-    @Override
-    public void New() throws IOException
+	@Override
+	public void New()
+			throws IOException
 	{
 		super.New();
 	}
 
 	@SuppressWarnings("RedundantMethodOverride")
-    @Test
-    @Override
-    public void derived()
+	@Test
+	@Override
+	public void derived()
 	{
 		class Derived extends BufferedWriter
 		{

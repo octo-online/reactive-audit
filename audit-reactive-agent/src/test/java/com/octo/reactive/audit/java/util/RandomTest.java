@@ -26,7 +26,8 @@ import java.util.Random;
 public class RandomTest
 {
 	@Test(expected = CPUAuditReactiveException.class)
-	public void nextBoolean() throws IOException
+	public void nextBoolean()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		Random r = new Random();

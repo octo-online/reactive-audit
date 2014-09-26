@@ -28,7 +28,13 @@ import java.nio.channels.FileChannel;
 class AbstractChannelsAudit extends AbstractAudit
 {
 	@Override
-    protected void latency(Latency latency, JoinPoint thisJoinPoint)
+	protected AuditReactiveException newException(Latency latency, JoinPoint thisJoinPoint)
+	{
+		return FactoryException.newNetwork(latency, thisJoinPoint);
+	}
+
+	@Override
+	protected void latency(Latency latency, JoinPoint thisJoinPoint)
 	{
 		AuditReactiveException ex;
 		if (thisJoinPoint.getTarget() instanceof FileChannel)
@@ -36,11 +42,5 @@ class AbstractChannelsAudit extends AbstractAudit
 		else
 			ex = FactoryException.newNetwork(latency, thisJoinPoint);
 		super.logLatency(latency, thisJoinPoint, ex);
-	}
-
-	@Override
-	protected AuditReactiveException newException(Latency latency, JoinPoint thisJoinPoint)
-	{
-		return FactoryException.newNetwork(latency, thisJoinPoint);
 	}
 }

@@ -26,7 +26,8 @@ import java.io.IOException;
 public class SslRMIClientSocketFactoryTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void connect() throws IOException
+	public void connect()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		new SslRMIClientSocketFactory().createSocket(null, 0);

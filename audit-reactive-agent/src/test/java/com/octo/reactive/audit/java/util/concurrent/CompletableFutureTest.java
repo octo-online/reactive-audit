@@ -28,7 +28,8 @@ public class CompletableFutureTest
 	private final CompletableFuture<Object> f = new CompletableFuture<Object>();
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void get() throws InterruptedException, ExecutionException
+	public void get()
+			throws InterruptedException, ExecutionException
 	{
 		AuditReactive.strict.commit();
 		f.join();

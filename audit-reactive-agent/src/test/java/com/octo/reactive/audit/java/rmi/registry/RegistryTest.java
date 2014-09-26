@@ -29,7 +29,8 @@ public class RegistryTest
 	private static final int RMIPORT = 1099;
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void lookup() throws NotBoundException, RemoteException
+	public void lookup()
+			throws NotBoundException, RemoteException
 	{
 		AuditReactive.strict.commit();
 		LocateRegistry.createRegistry(RMIPORT);

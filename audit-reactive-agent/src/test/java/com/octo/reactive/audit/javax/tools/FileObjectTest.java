@@ -37,28 +37,32 @@ public class FileObjectTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void openInputStream() throws IOException
+	public void openInputStream()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		x.openInputStream();
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void openOutputStream() throws InterruptedException, IOException, SQLException
+	public void openOutputStream()
+			throws InterruptedException, IOException, SQLException
 	{
 		AuditReactive.strict.commit();
 		x.openOutputStream();
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void openReader() throws InterruptedException, IOException, SQLException
+	public void openReader()
+			throws InterruptedException, IOException, SQLException
 	{
 		AuditReactive.strict.commit();
 		x.openReader(true);
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void openWriter() throws InterruptedException, IOException, SQLException
+	public void openWriter()
+			throws InterruptedException, IOException, SQLException
 	{
 		AuditReactive.strict.commit();
 		x.openWriter();

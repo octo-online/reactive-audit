@@ -23,8 +23,9 @@ import org.junit.Test;
 public class ObjectTest
 {
 	@SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")
-    @Test(expected = AuditReactiveException.class)
-	public void wait_() throws InterruptedException
+	@Test(expected = AuditReactiveException.class)
+	public void wait_()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		Object x = new Object();

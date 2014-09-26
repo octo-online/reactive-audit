@@ -31,7 +31,8 @@ import static com.octo.reactive.audit.IOTestTools.PORT;
 public class SocketChannelTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void connect() throws IOException
+	public void connect()
+			throws IOException
 	{
 		try (SocketChannel r = IOTestTools.getSocketChannel())
 		{
@@ -41,7 +42,8 @@ public class SocketChannelTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void finishConnect() throws IOException
+	public void finishConnect()
+			throws IOException
 	{
 		try (SocketChannel r = IOTestTools.getSocketChannel())
 		{
@@ -51,7 +53,8 @@ public class SocketChannelTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void open() throws IOException
+	public void open()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		SocketChannel.open(new InetSocketAddress(HOST, PORT));

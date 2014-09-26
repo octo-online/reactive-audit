@@ -30,7 +30,8 @@ public class XmlWriterTest
 	private final XmlWriter x = (XmlWriter) TestTools.createProxy(XmlWriter.class);
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void writeXML() throws SQLException
+	public void writeXML()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.writeXML(null, IOTestTools.getTempFileWriter());

@@ -36,7 +36,8 @@ public class BlockingDequeTest
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void pool_tu() throws InterruptedException
+	public void pool_tu()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		BlockingDeque<Object> q = new LinkedBlockingDeque<>();
@@ -44,7 +45,8 @@ public class BlockingDequeTest
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void poolFirst() throws InterruptedException
+	public void poolFirst()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		BlockingDeque<Object> q = new LinkedBlockingDeque<>();
@@ -52,7 +54,8 @@ public class BlockingDequeTest
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void poolLast() throws InterruptedException
+	public void poolLast()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		BlockingDeque<Object> q = new LinkedBlockingDeque<>();
@@ -60,7 +63,8 @@ public class BlockingDequeTest
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void put() throws InterruptedException
+	public void put()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		BlockingDeque<Object> q = new LinkedBlockingDeque<>();
@@ -68,7 +72,8 @@ public class BlockingDequeTest
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void putFirst() throws InterruptedException
+	public void putFirst()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		BlockingDeque<Object> q = new LinkedBlockingDeque<>();
@@ -76,7 +81,8 @@ public class BlockingDequeTest
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void putLast() throws InterruptedException
+	public void putLast()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		BlockingDeque<Object> q = new LinkedBlockingDeque<>();
@@ -84,21 +90,24 @@ public class BlockingDequeTest
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void take() throws InterruptedException
+	public void take()
+			throws InterruptedException
 	{
 		BlockingDeque<Object> q = new LinkedBlockingDeque<>();
 		q.take();
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void takeFirst() throws InterruptedException
+	public void takeFirst()
+			throws InterruptedException
 	{
 		BlockingDeque<Object> q = new LinkedBlockingDeque<>();
 		q.takeFirst();
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void takeLast() throws InterruptedException
+	public void takeLast()
+			throws InterruptedException
 	{
 		BlockingDeque<Object> q = new LinkedBlockingDeque<>();
 		q.takeLast();

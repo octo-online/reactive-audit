@@ -28,7 +28,8 @@ import java.util.concurrent.TimeoutException;
 public class CyclicBarrierTest
 {
 	@Test(expected = CPUAuditReactiveException.class)
-	public void await() throws InterruptedException, BrokenBarrierException
+	public void await()
+			throws InterruptedException, BrokenBarrierException
 	{
 		AuditReactive.strict.commit();
 		CyclicBarrier c = new CyclicBarrier(1);
@@ -36,7 +37,8 @@ public class CyclicBarrierTest
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void await_to() throws InterruptedException, BrokenBarrierException, TimeoutException
+	public void await_to()
+			throws InterruptedException, BrokenBarrierException, TimeoutException
 	{
 		AuditReactive.strict.commit();
 		CyclicBarrier c = new CyclicBarrier(1);

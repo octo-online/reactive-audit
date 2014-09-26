@@ -16,12 +16,10 @@
 
 package com.octo.reactive.audit;
 
-import com.octo.reactive.audit.lib.Latency;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 
 import static com.octo.reactive.audit.LoadParams.*;
 import static org.junit.Assert.assertEquals;
@@ -33,17 +31,16 @@ public class LoadParamsTest
 	private final AuditReactive config = AuditReactive.config;
 
 	@Test
-	public void setSystemParams() throws IOException
+	public void setSystemParams()
+			throws IOException
 	{
 		LoadParams.resetAllEnv();
-		System.setProperty(KEY_LOG_LEVEL, Level.INFO.getName());
 		System.setProperty(KEY_LOG_OUTPUT, "console");
 		System.setProperty(KEY_LOG_FORMAT, "format");
 		System.setProperty(KEY_THROW_EXCEPTIONS, "true");
 		System.setProperty(KEY_THREAD_PATTERN, "abc");
 		System.setProperty(KEY_BOOTSTRAP_DELAY, "10");
 		new LoadParams(AuditReactive.config, DEFAULT_FILENAME).commit();
-		assertEquals(Level.INFO, config.getLogLevel());
 		assertTrue(config.logger.getHandlers()[0] instanceof ConsoleHandler);
 		assertEquals("format", ((AuditLogFormat) config.logger.getHandlers()[0].getFormatter()).getFormat());
 		assertEquals(true, config.isThrow());
@@ -55,7 +52,6 @@ public class LoadParamsTest
 	public void loadNotFoundFile()
 	{
 		LoadParams.resetAllEnv();
-		System.setProperty(KEY_LOG_LEVEL, "FINE");
 		new LoadParams(config, "XXX").commit();
 	}
 
@@ -63,33 +59,6 @@ public class LoadParamsTest
 	public void loadNoFile()
 	{
 		new LoadParams(config, "").commit();
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void badLogLevel()
-	{
-		LoadParams.resetAllEnv();
-		System.setProperty(KEY_LOG_LEVEL, "XXX");
-		new LoadParams(AuditReactive.config, DEFAULT_FILENAME).commit();
-	}
-
-	@Test
-	public void mappingLogLevel()
-	{
-		LoadParams.resetAllEnv();
-		System.setProperty(KEY_LOG_LEVEL, Latency.HIGH.name());
-		new LoadParams(AuditReactive.config, DEFAULT_FILENAME).commit();
-		assertEquals(Level.SEVERE, AuditReactive.config.logger.getLevel());
-
-		LoadParams.resetAllEnv();
-		System.setProperty(KEY_LOG_LEVEL, Latency.MEDIUM.name());
-		new LoadParams(AuditReactive.config, DEFAULT_FILENAME).commit();
-		assertEquals(Level.WARNING, AuditReactive.config.logger.getLevel());
-
-		LoadParams.resetAllEnv();
-		System.setProperty(KEY_LOG_LEVEL, Latency.LOW.name());
-		new LoadParams(AuditReactive.config, DEFAULT_FILENAME).commit();
-		assertEquals(Level.INFO, AuditReactive.config.logger.getLevel());
 	}
 
 }

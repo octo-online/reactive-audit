@@ -33,33 +33,39 @@ import java.rmi.server.RemoteRef;
 public class RemoteRefTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
-	@SuppressWarnings( "deprecation" )
-	public void invoke() throws Exception
+	@SuppressWarnings("deprecation")
+	public void invoke()
+			throws Exception
 	{
 		AuditReactive.strict.commit();
 		RemoteRef ref = new RemoteRef()
 		{
 
 			@Override
-			public Object invoke(Remote obj, Method method, Object[] params, long opnum) throws Exception
+			public Object invoke(Remote obj, Method method, Object[] params, long opnum)
+					throws Exception
 			{
 				return null;
 			}
 
 			@Override
-			public java.rmi.server.RemoteCall newCall(RemoteObject obj, java.rmi.server.Operation[] op, int opnum, long hash) throws RemoteException
+			public java.rmi.server.RemoteCall newCall(RemoteObject obj, java.rmi.server.Operation[] op, int opnum,
+													  long hash)
+					throws RemoteException
 			{
 				return null;
 			}
 
 			@Override
-			public void invoke(java.rmi.server.RemoteCall call) throws Exception
+			public void invoke(java.rmi.server.RemoteCall call)
+					throws Exception
 			{
 
 			}
 
 			@Override
-			public void done(java.rmi.server.RemoteCall call) throws RemoteException
+			public void done(java.rmi.server.RemoteCall call)
+					throws RemoteException
 			{
 
 			}
@@ -89,13 +95,15 @@ public class RemoteRefTest
 			}
 
 			@Override
-			public void writeExternal(ObjectOutput objectOutput) throws IOException
+			public void writeExternal(ObjectOutput objectOutput)
+					throws IOException
 			{
 
 			}
 
 			@Override
-			public void readExternal(ObjectInput objectInput) throws IOException, ClassNotFoundException
+			public void readExternal(ObjectInput objectInput)
+					throws IOException, ClassNotFoundException
 			{
 
 			}

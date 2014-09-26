@@ -33,7 +33,8 @@ abstract class AbstractInterruptibleChannelTest
 		{
 
 			@Override
-			protected void implCloseChannel() throws IOException
+			protected void implCloseChannel()
+					throws IOException
 			{
 
 			}

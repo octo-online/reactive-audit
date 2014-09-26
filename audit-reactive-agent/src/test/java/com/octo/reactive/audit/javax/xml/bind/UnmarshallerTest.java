@@ -31,28 +31,32 @@ public class UnmarshallerTest
 	private final Unmarshaller x = (Unmarshaller) TestTools.createProxy(Unmarshaller.class);
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void unmarshal_File() throws JAXBException
+	public void unmarshal_File()
+			throws JAXBException
 	{
 		AuditReactive.strict.commit();
 		x.unmarshal(IOTestTools.getTempFile());
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void unmarshal_InputStream() throws JAXBException
+	public void unmarshal_InputStream()
+			throws JAXBException
 	{
 		AuditReactive.strict.commit();
 		x.unmarshal(IOTestTools.getTempFileInputStream());
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void unmarshal_Reader() throws JAXBException
+	public void unmarshal_Reader()
+			throws JAXBException
 	{
 		AuditReactive.strict.commit();
 		x.unmarshal(IOTestTools.getTempFileReader());
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void unmarshal_URL() throws MalformedURLException, JAXBException
+	public void unmarshal_URL()
+			throws MalformedURLException, JAXBException
 	{
 		AuditReactive.strict.commit();
 		x.unmarshal(IOTestTools.getTempFile().toURI().toURL());

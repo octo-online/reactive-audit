@@ -40,8 +40,8 @@ public class FileAuditReactiveException extends AuditReactiveException
 	 * Creates an {@link AssertionError} with {@link Latency}, thread name and formatted message.
 	 *
 	 * @param latency The latency for this exception.
-	 * @param format The message format associated with this exception.
-	 * @param args The arguments to generate the formatted message.
+	 * @param format  The message format associated with this exception.
+	 * @param args    The arguments to generate the formatted message.
 	 */
 	public FileAuditReactiveException(Latency latency, String format, Object... args)
 	{

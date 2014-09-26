@@ -35,9 +35,9 @@ public final class FactoryException
 	public static NetworkAuditReactiveException newNetwork(Latency latency, JoinPoint thisJoinPoint, CharSequence msg)
 	{
 		return new NetworkAuditReactiveException(latency,
-		                                         (msg == null)
-		                                         ? thisJoinPoint.getSignature().toString()
-		                                         : thisJoinPoint.getSignature().toString() + " " + msg);
+												 (msg == null)
+												 ? thisJoinPoint.getSignature().toString()
+												 : thisJoinPoint.getSignature().toString() + " " + msg);
 	}
 
 	public static FileAuditReactiveException newFile(Latency latency, JoinPoint thisJoinPoint)
@@ -48,7 +48,7 @@ public final class FactoryException
 	public static FileAuditReactiveException newFile(Latency latency, JoinPoint thisJoinPoint, CharSequence msg)
 	{
 		return new FileAuditReactiveException(latency, (msg == null)
-		                                               ? thisJoinPoint.getSignature().toString()
-		                                               : thisJoinPoint.getSignature().toString() + " " + msg);
+													   ? thisJoinPoint.getSignature().toString()
+													   : thisJoinPoint.getSignature().toString() + " " + msg);
 	}
 }

@@ -28,16 +28,16 @@ import java.util.function.Supplier;
 public class FileChannelTest
 {
 	//Jaba8 private final Supplier<FileChannel> readChannel  = IOTestTools::getInputFileChannel;
-	private final Supplier<FileChannel> readChannel =
-		new Supplier<FileChannel>()
-		{
-			@Override
-			public FileChannel get()
+	private final Supplier<FileChannel> readChannel  =
+			new Supplier<FileChannel>()
 			{
-				return IOTestTools.getInputFileChannel();
-			}
+				@Override
+				public FileChannel get()
+				{
+					return IOTestTools.getInputFileChannel();
+				}
 
-		};
+			};
 	//Java8 private final Supplier<FileChannel> writeChannel = IOTestTools::getOutputFileChannel;
 	private final Supplier<FileChannel> writeChannel =
 			new Supplier<FileChannel>()
@@ -51,17 +51,19 @@ public class FileChannelTest
 			};
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void open() throws IOException
+	public void open()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		FileChannel.open(IOTestTools.getTempPath());
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void transferFrom() throws IOException
+	public void transferFrom()
+			throws IOException
 	{
 		try (FileChannel s = readChannel.get();
-		     FileChannel d = writeChannel.get())
+			 FileChannel d = writeChannel.get())
 		{
 			AuditReactive.strict.commit();
 			d.transferFrom(s, 0, 1);
@@ -69,10 +71,11 @@ public class FileChannelTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void transferTo() throws IOException
+	public void transferTo()
+			throws IOException
 	{
 		try (FileChannel s = readChannel.get();
-		     FileChannel d = writeChannel.get())
+			 FileChannel d = writeChannel.get())
 		{
 			AuditReactive.strict.commit();
 			s.transferTo(0, 1, d);
@@ -80,7 +83,8 @@ public class FileChannelTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void lock() throws IOException
+	public void lock()
+			throws IOException
 	{
 		try (FileChannel s = readChannel.get())
 		{

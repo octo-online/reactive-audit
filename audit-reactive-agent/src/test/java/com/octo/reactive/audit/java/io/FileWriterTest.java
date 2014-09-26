@@ -28,31 +28,35 @@ import java.io.Writer;
 public class FileWriterTest extends OutputStreamWriterTest
 {
 	@SuppressWarnings("RefusedBequest")
-    @Override
-	protected Writer newWriter() throws IOException
+	@Override
+	protected Writer newWriter()
+			throws IOException
 	{
 		return new FileWriter(IOTestTools.getTempFile());
 	}
 
-	@Test(expected = AuditReactiveException.class)
-    @Override
-    public void New() throws IOException
-	{
-		super.New();
-	}
-
 	@SuppressWarnings("RedundantMethodOverride")
-    @Test(expected = FileAuditReactiveException.class)
-    @Override
-    public void derived() throws IOException
+	@Test(expected = FileAuditReactiveException.class)
+	@Override
+	public void derived()
+			throws IOException
 	{
 		class Derived extends FileWriter
 		{
-			Derived() throws IOException
+			Derived()
+					throws IOException
 			{
 				super(IOTestTools.getTempFile());
 			}
 		}
 		new Derived();
+	}
+
+	@Test(expected = AuditReactiveException.class)
+	@Override
+	public void New()
+			throws IOException
+	{
+		super.New();
 	}
 }

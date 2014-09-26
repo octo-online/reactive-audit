@@ -26,7 +26,8 @@ import static com.octo.reactive.audit.TestTools.push;
 public class FilterWriterTest extends OutputStreamWriterTest
 {
 	@Override
-	protected Writer newWriter() throws IOException
+	protected Writer newWriter()
+			throws IOException
 	{
 		push();
 		final Writer outWriter = super.newWriter();

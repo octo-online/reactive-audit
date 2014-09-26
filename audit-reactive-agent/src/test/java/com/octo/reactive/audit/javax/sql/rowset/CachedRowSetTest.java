@@ -30,42 +30,48 @@ public class CachedRowSetTest
 	private final CachedRowSet x = (CachedRowSet) TestTools.createProxy(CachedRowSet.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void acceptChanges() throws SyncProviderException
+	public void acceptChanges()
+			throws SyncProviderException
 	{
 		AuditReactive.strict.commit();
 		x.acceptChanges();
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void acceptChanges_Connection() throws SyncProviderException
+	public void acceptChanges_Connection()
+			throws SyncProviderException
 	{
 		AuditReactive.strict.commit();
 		x.acceptChanges(null);
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void commit() throws SQLException
+	public void commit()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.commit();
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void execute() throws SQLException
+	public void execute()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.execute(null);
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void rollback() throws SQLException
+	public void rollback()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.rollback();
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void rollback_SavePoint() throws SQLException
+	public void rollback_SavePoint()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.rollback(null);

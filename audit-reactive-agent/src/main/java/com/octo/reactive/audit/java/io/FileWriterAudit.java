@@ -28,7 +28,8 @@ import static com.octo.reactive.audit.lib.Latency.LOW;
 public class FileWriterAudit extends AbstractWriterAudit
 {
 	@Before("call(java.io.FileWriter+.new(..))")
-	public void new_(JoinPoint thisJoinPoint) throws AuditReactiveException
+	public void new_(JoinPoint thisJoinPoint)
+			throws AuditReactiveException
 	{
 		latency(LOW, thisJoinPoint);
 	}

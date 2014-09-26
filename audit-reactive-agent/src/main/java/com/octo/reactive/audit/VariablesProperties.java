@@ -35,8 +35,8 @@ class VariablesProperties extends Properties
 		this.variables = variables;
 	}
 
-    @Override
-    public String getProperty(String key)
+	@Override
+	public String getProperty(String key)
 	{
 
 
@@ -77,7 +77,7 @@ class VariablesProperties extends Properties
 				// Insert the constant value into the
 				// original property value
 				String newValue = (startName > 0)
-				                  ? value.substring(0, startName) : "";
+								  ? value.substring(0, startName) : "";
 				newValue += constValue;
 
 

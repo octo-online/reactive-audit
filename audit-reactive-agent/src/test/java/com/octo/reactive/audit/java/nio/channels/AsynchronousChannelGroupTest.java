@@ -29,7 +29,8 @@ public class AsynchronousChannelGroupTest
 {
 
 	@Test(expected = AuditReactiveException.class)
-	public void awaitTermination() throws IOException, InterruptedException
+	public void awaitTermination()
+			throws IOException, InterruptedException
 	{
 		AsynchronousChannelGroup group = AsynchronousChannelGroup.withThreadPool(commonPool());
 		group.awaitTermination(1, TimeUnit.NANOSECONDS);

@@ -18,8 +18,6 @@ package com.octo.reactive.audit;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 @SuppressWarnings({"FinalClass", "UtilityClass"})
@@ -49,6 +47,22 @@ public final class FileTools
 		}
 	}
 
+	static final FilenameDumpClosure FileTools_filenameDump      = new FilenameDumpClosure()
+	{
+		@Override
+		public void dump(StringBuilder buf, Class cl, String filename)
+		{
+			filenameDump(buf, cl, filename);
+		}
+	};
+	static final FilenameDumpClosure FileTools_chainFilenameDump = new FilenameDumpClosure()
+	{
+		@Override
+		public void dump(StringBuilder buf, Class cl, String filename)
+		{
+			chainFilenameDump(buf, cl, filename);
+		}
+	};
 	private static final Field fieldInFilterInputStream;
 	private static final Field fieldBinObjectInputStream;
 	private static final Field fieldInObjectInputStream;
@@ -103,24 +117,8 @@ public final class FileTools
 		}
 	}
 
-	static final FilenameDumpClosure FileTools_filenameDump      = new FilenameDumpClosure()
-	{
-		@Override
-		public void dump(StringBuilder buf, Class cl, String filename)
-		{
-			filenameDump(buf, cl, filename);
-		}
-	};
-	static final FilenameDumpClosure FileTools_chainFilenameDump = new FilenameDumpClosure()
-	{
-		@Override
-		public void dump(StringBuilder buf, Class cl, String filename)
-		{
-			chainFilenameDump(buf, cl, filename);
-		}
-	};
-	private static Field fieldPathOutputStream=null;
-	private static Field fieldPathInputStream=null;
+	private static Field fieldPathOutputStream = null;
+	private static Field fieldPathInputStream  = null;
 
 	static
 	{
@@ -159,12 +157,12 @@ public final class FileTools
 		}
 	}
 
-    private FileTools()
-    {
+	private FileTools()
+	{
 
-    }
+	}
 
-    static public int isLastInputStreamWithLatency(InputStream in)
+	static public int isLastInputStreamWithLatency(InputStream in)
 	{
 		if (in == null)
 			return NO_ERROR;
@@ -185,8 +183,8 @@ public final class FileTools
 					in = (InputStream) fieldPeekObjectInputStream.get(
 							fieldInObjectInputStream.get(
 									fieldBinObjectInputStream.get(objIn)
-							)
-					);
+														)
+																	 );
 				}
 			}
 			catch (IllegalAccessException e)
@@ -251,7 +249,7 @@ public final class FileTools
 					// Ok for Java8
 					out = (OutputStream) fieldOutObjectOutputStream.get(
 							fieldBoutObjectOutputStream.get(objIn)
-					);
+																	   );
 				}
 			}
 			catch (IllegalAccessException e)
@@ -396,7 +394,7 @@ public final class FileTools
 					// Ok for Java8
 					out = (OutputStream) fieldOutObjectOutputStream.get(
 							fieldBoutObjectOutputStream.get(objIn)
-					);
+																	   );
 				}
 				dump.dump(buf, out.getClass(), null);
 			}
@@ -473,8 +471,8 @@ public final class FileTools
 	}
 
 	static private CharSequence dumpChain(InputStream in,
-	                                      StringBuilder buf,
-	                                      FilenameDumpClosure dump)
+										  StringBuilder buf,
+										  FilenameDumpClosure dump)
 	{
 		if (in == null) return buf;
 		dump.dump(buf, in.getClass(), null);
@@ -495,8 +493,8 @@ public final class FileTools
 					in = (InputStream) fieldPeekObjectInputStream.get(
 							fieldInObjectInputStream.get(
 									fieldBinObjectInputStream.get(objIn)
-							)
-					);
+														)
+																	 );
 				}
 				dump.dump(buf, in.getClass(), null);
 			}
@@ -583,39 +581,39 @@ public final class FileTools
 		}
 	}
 
+	static String homeFile(String filename)
+	{
+		if (filename.startsWith("file:"))
+		{
+			try
+			{
+				filename = new File(new URL(filename).toURI()).getPath();
+			}
+			catch (Exception e)
+			{
+				// Ignore
+			}
+		}
+		String home = System.getProperty("user.home");
+		String homeFilename;
+		String homeRef = "~";
+		if (File.separator.equals("\\")) // Windows
+			homeRef = "%HOME%";
+		if (filename.startsWith(home))
+		{
+			homeFilename = filename.substring(home.length());
+			if (homeFilename.startsWith(File.separator))
+				homeFilename = homeRef + homeFilename;
+			else
+				homeFilename = homeRef + File.separator + homeFilename;
+		}
+		else
+			homeFilename = filename;
+		return homeFilename;
+	}
+
 	interface FilenameDumpClosure
 	{
 		void dump(StringBuilder buf, Class cl, String filename);
 	}
-
-    static String homeFile(String filename)
-    {
-        if (filename.startsWith("file:"))
-        {
-            try
-            {
-                filename=new File(new URL(filename).toURI()).getPath();
-            }
-            catch (Exception e)
-            {
-                // Ignore
-            }
-        }
-        String home=System.getProperty("user.home");
-        String homeFilename;
-        String homeRef="~";
-        if (File.separator.equals("\\")) // Windows
-            homeRef="%HOME%";
-        if (filename.startsWith(home))
-        {
-            homeFilename=filename.substring(home.length());
-            if (homeFilename.startsWith(File.separator))
-                homeFilename=homeRef+homeFilename;
-            else
-                homeFilename=homeRef+File.separator+homeFilename;
-        }
-        else
-            homeFilename=filename;
-        return homeFilename;
-    }
 }

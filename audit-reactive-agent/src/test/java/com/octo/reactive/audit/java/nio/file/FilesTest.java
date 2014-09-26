@@ -31,7 +31,8 @@ import static com.octo.reactive.audit.TestTools.push;
 
 public class FilesTest
 {
-	private Path getPath() throws IOException
+	private Path getPath()
+			throws IOException
 	{
 		push();
 		Path f = Files.createTempFile("temp-file-name", ".tmp");
@@ -43,7 +44,8 @@ public class FilesTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void copy() throws IOException
+	public void copy()
+			throws IOException
 	{
 		Path path = getPath();
 		Files.delete(path);
@@ -52,7 +54,8 @@ public class FilesTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void readAllBytes() throws IOException
+	public void readAllBytes()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 
@@ -61,7 +64,8 @@ public class FilesTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void readAllLines() throws IOException
+	public void readAllLines()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 
@@ -70,8 +74,9 @@ public class FilesTest
 	}
 
 	@SuppressWarnings("ConstantConditions")
-    @Test(expected = FileAuditReactiveException.class)
-	public void walkFileTree() throws IOException
+	@Test(expected = FileAuditReactiveException.class)
+	public void walkFileTree()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 
@@ -81,7 +86,8 @@ public class FilesTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void write() throws IOException
+	public void write()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 

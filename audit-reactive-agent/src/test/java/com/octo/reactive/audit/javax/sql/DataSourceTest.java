@@ -29,14 +29,16 @@ public class DataSourceTest
 	private final DataSource x = (DataSource) TestTools.createProxy(DataSource.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getConnection() throws SQLException
+	public void getConnection()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.getConnection();
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getConnection_up() throws SQLException
+	public void getConnection_up()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.getConnection(null, null);

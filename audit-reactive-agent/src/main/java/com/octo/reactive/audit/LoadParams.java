@@ -31,7 +31,7 @@ import java.util.logging.Level;
 
 class LoadParams
 {
-	public static final String DEFAULT_THREAD_PATTERN    = "(^.*$)";
+	public static final  String DEFAULT_THREAD_PATTERN   = "(^.*$)";
 	public static final  String KEY_AUDIT_FILENAME       = "auditReactive";
 	private static final String PREFIX                   = KEY_AUDIT_FILENAME + '.';
 	public static final  String KEY_THROW_EXCEPTIONS     = PREFIX + "throwExceptions";
@@ -40,19 +40,17 @@ class LoadParams
 	private static final String KEY_FILE_LATENCY         = PREFIX + "file";
 	private static final String KEY_NETWORK_LATENCY      = PREFIX + "network";
 	private static final String KEY_CPU_LATENCY          = PREFIX + "cpu";
-	public static final  String KEY_LOG_LEVEL            = PREFIX + "logLevel";
 	public static final  String KEY_LOG_OUTPUT           = PREFIX + "logOutput";
 	public static final  String KEY_LOG_FORMAT           = PREFIX + "logFormat";
 	private static final String KEY_LOG_SIZE             = PREFIX + "logSize";
 	private static final String KEY_DEBUG                = PREFIX + "debug";
 	public static final  String DEFAULT_FILENAME         = "auditReactive.properties";
-	private static final String DEFAULT_FILE_LATENCY     = "MEDIUM";
-	private static final String DEFAULT_NETWORK_LATENCY  = "LOW";
-	private static final String DEFAULT_CPU_LATENCY      = "LOW";
-	private static final String DEFAULT_LOG_LEVEL        = Level.WARNING.getName();
 	public static final  String DEFAULT_LOG_OUTPUT       = "console";
 	public static final  String DEFAULT_LOG_FORMAT       = "%4$-7s: %5$s%6$s%n";
 	public static final  String DEFAULT_LOG_SIZE         = "0"; // No limit
+	private static final String DEFAULT_FILE_LATENCY     = Latency.MEDIUM.name();
+	private static final String DEFAULT_NETWORK_LATENCY  = Latency.LOW.name();
+	private static final String DEFAULT_CPU_LATENCY      = Latency.LOW.name();
 	private static final String DEFAULT_BOOTSTRAP_DELAY  = "0";
 	private static final String DEFAULT_THROW_EXCEPTIONS = "false";
 	private static final String DEFAULT_DEBUG            = "false";
@@ -64,11 +62,12 @@ class LoadParams
 	public LoadParams(AuditReactive config, String propertiesFile)
 	{
 		this.config = config;
+		config.logger.setLevel(Level.CONFIG);
 		tx = config.begin();
 		if (propertiesFile == null || propertiesFile.length() == 0)
-        {
-            return;
-        }
+		{
+			return;
+		}
 		try
 		{
 			filename = new URL(propertiesFile);
@@ -133,13 +132,13 @@ class LoadParams
 	private static String getValue(String key, String def, Properties prop)
 	{
 		String val = getAllEnv().getProperty(key);
-        if (val==null)
-        {
-            if (prop != null)
-            {
-                val = prop.getProperty(key);
-            }
-        }
+		if (val == null)
+		{
+			if (prop != null)
+			{
+				val = prop.getProperty(key);
+			}
+		}
 		if (val == null)
 			val = def;
 		return (val != null) ? val.trim() : null;
@@ -153,19 +152,19 @@ class LoadParams
 			config.incSuppress();
 			if (filename != null)
 			{
-                Reader reader=null;
+				Reader reader = null;
 				try
-                {
-                    reader = new InputStreamReader(filename.openStream());
+				{
+					reader = new InputStreamReader(filename.openStream());
 					prop.load(reader);
 				}
-                finally
-                {
-                    if (reader!=null)
-                    {
-                        reader.close();
-                    }
-                }
+				finally
+				{
+					if (reader != null)
+					{
+						reader.close();
+					}
+				}
 			}
 		}
 		catch (IOException e)
@@ -177,12 +176,12 @@ class LoadParams
 			config.decSuppress();
 		}
 		applyProperties(prop);
-		config.logger.config(KEY_THREAD_PATTERN + "  = " + config.getThreadPattern());
-		config.logger.config(KEY_THROW_EXCEPTIONS + " = " + config.isThrow());
-		config.logger.config(KEY_BOOTSTRAP_DELAY + " = " + config.getBootstrapDelay());
-		config.logger.config(KEY_FILE_LATENCY + " = " + config.getFileLatency());
-		config.logger.config(KEY_NETWORK_LATENCY + " = " + config.getNetworkLatency());
-		config.logger.config(KEY_CPU_LATENCY + " = " + config.getCPULatency());
+		config.logger.fine(KEY_THREAD_PATTERN + "  = " + config.getThreadPattern());
+		config.logger.fine(KEY_THROW_EXCEPTIONS + " = " + config.isThrow());
+		config.logger.fine(KEY_BOOTSTRAP_DELAY + " = " + config.getBootstrapDelay());
+		config.logger.fine(KEY_FILE_LATENCY + " = " + config.getFileLatency());
+		config.logger.fine(KEY_NETWORK_LATENCY + " = " + config.getNetworkLatency());
+		config.logger.fine(KEY_CPU_LATENCY + " = " + config.getCPULatency());
 	}
 
 	private void applyProperties(Properties prop)
@@ -194,10 +193,9 @@ class LoadParams
 		tx.latencyFile(getValue(KEY_FILE_LATENCY, DEFAULT_FILE_LATENCY, prop));
 		tx.latencyNetwork(getValue(KEY_NETWORK_LATENCY, DEFAULT_NETWORK_LATENCY, prop));
 		tx.latencyCPU(getValue(KEY_CPU_LATENCY, DEFAULT_CPU_LATENCY, prop));
-		tx.log(convLevelLatency(getValue(KEY_LOG_LEVEL, DEFAULT_LOG_LEVEL, prop).toUpperCase()));
 		tx.logOutput(getValue(KEY_LOG_OUTPUT, DEFAULT_LOG_OUTPUT, prop),
-		             getValue(KEY_LOG_FORMAT, DEFAULT_LOG_FORMAT, prop),
-		             getValue(KEY_LOG_SIZE, DEFAULT_LOG_SIZE, prop));
+					 getValue(KEY_LOG_FORMAT, DEFAULT_LOG_FORMAT, prop),
+					 getValue(KEY_LOG_SIZE, DEFAULT_LOG_SIZE, prop));
 		String threadPattern = getValue(KEY_THREAD_PATTERN, DEFAULT_THREAD_PATTERN, prop);
 		if (threadPattern.length() == 0)  // Empty is not allowed
 			threadPattern = "(^.*$)";
@@ -205,7 +203,7 @@ class LoadParams
 		tx.commit();
 	}
 
-	private Level convLevelLatency(String level)
+	private static Level convLevelLatency(String level)
 	{
 		if (Latency.HIGH.name().equals(level))
 		{
@@ -220,5 +218,21 @@ class LoadParams
 			return Level.INFO;
 		}
 		return Level.parse(level);
+	}
+	public static String convLevelString(Level level)
+	{
+		if (level==Level.SEVERE)
+		{
+			return "HIGH";
+		}
+		if (level==Level.WARNING)
+		{
+			return "MEDIUM";
+		}
+		if (level==Level.INFO)
+		{
+			return "LOW";
+		}
+		return "INFO";
 	}
 }

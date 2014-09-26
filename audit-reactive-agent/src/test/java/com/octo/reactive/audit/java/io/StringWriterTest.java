@@ -25,13 +25,15 @@ import java.io.Writer;
 public class StringWriterTest extends WriterTest
 {
 	@Override
-	protected Writer newWriter() throws IOException
+	protected Writer newWriter()
+			throws IOException
 	{
 		return new StringWriter(10);
 	}
 
 	@Test
-	public void derived() throws IOException
+	public void derived()
+			throws IOException
 	{
 		class Derived extends StringWriter
 		{

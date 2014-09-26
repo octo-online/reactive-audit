@@ -27,35 +27,40 @@ import java.io.IOException;
 public class ImageIOTest
 {
 	@Test(expected = FileAuditReactiveException.class)
-	public void read_File() throws IOException
+	public void read_File()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		ImageIO.read(IOTestTools.getTempFile());
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void read_InputStream() throws IOException
+	public void read_InputStream()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		ImageIO.read(IOTestTools.getTempFileInputStream());
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void read_URL() throws IOException
+	public void read_URL()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		ImageIO.read(IOTestTools.getTempFile().toURI().toURL());
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void write_File() throws IOException
+	public void write_File()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		ImageIO.write(null, "", IOTestTools.getTempFile());
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void write_OutputStream() throws IOException
+	public void write_OutputStream()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		ImageIO.write(null, "", IOTestTools.getTempFileOutputStream());

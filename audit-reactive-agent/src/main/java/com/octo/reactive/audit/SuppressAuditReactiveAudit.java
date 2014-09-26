@@ -26,13 +26,15 @@ import org.aspectj.lang.annotation.Before;
 public class SuppressAuditReactiveAudit
 {
 	@Before("execution(@com.octo.reactive.audit.lib.SuppressAuditReactive * *(..) )")
-	public void beforeSuppress(JoinPoint thisJoinPoint) throws AuditReactiveException
+	public void beforeSuppress(JoinPoint thisJoinPoint)
+			throws AuditReactiveException
 	{
 		AuditReactive.config.incSuppress();
 	}
 
 	@After("execution(@com.octo.reactive.audit.lib.SuppressAuditReactive * *(..))")
-	public void afterSuppress(JoinPoint thisJoinPoint) throws AuditReactiveException
+	public void afterSuppress(JoinPoint thisJoinPoint)
+			throws AuditReactiveException
 	{
 		AuditReactive.config.decSuppress();
 	}

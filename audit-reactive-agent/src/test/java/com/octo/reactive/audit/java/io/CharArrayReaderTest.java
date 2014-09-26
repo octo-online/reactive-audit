@@ -25,7 +25,8 @@ import java.io.Reader;
 public class CharArrayReaderTest extends ReaderTest
 {
 	@Override
-	protected Reader newReader() throws IOException
+	protected Reader newReader()
+			throws IOException
 	{
 		return new CharArrayReader(new char[1]);
 	}

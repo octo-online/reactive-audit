@@ -37,7 +37,8 @@ public class ChannelTest
 	};
 
 	@Test
-	public void close() throws IOException
+	public void close()
+			throws IOException
 	{
 		try (Channel w = channel.get())
 		{

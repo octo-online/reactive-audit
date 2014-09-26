@@ -28,7 +28,8 @@ public class ServerSocketTest
 	private static final int PORT = 12345;
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void accept() throws IOException
+	public void accept()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (ServerSocket socket = new ServerSocket(PORT))

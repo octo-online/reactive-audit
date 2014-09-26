@@ -46,10 +46,11 @@ public class InvokerTest
 	};
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void invoke() throws InvocationTargetException, IllegalAccessException
+	public void invoke()
+			throws InvocationTargetException, IllegalAccessException
 	{
 		AuditReactive.strict.commit();
-		x.invoke(null, (Object)null);
+		x.invoke(null, (Object) null);
 	}
 
 }

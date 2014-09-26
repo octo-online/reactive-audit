@@ -22,8 +22,8 @@ import java.util.Set;
 
 class HistoryStackElement
 {
-//	static final  String                     myPackage = HistoryStackElement.class.getPackage().getName();
-	private final Set<HashStackTraceElement> logged    = Collections.synchronizedSet(new HashSet<HashStackTraceElement>());
+	//	static final  String                     myPackage = HistoryStackElement.class.getPackage().getName();
+	private final Set<HashStackTraceElement> logged = Collections.synchronizedSet(new HashSet<HashStackTraceElement>());
 
 
 	void purge()
@@ -64,7 +64,7 @@ class HistoryStackElement
 		}
 
 		@SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
-        @Override
+		@Override
 		public boolean equals(Object obj)
 		{
 			// It's enough because the probability is very low to have 2 stack trace with the same hash value.

@@ -27,14 +27,16 @@ import java.rmi.server.RMIClientSocketFactory;
 public class RMIClientSocketFactoryTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void createSocket() throws Exception
+	public void createSocket()
+			throws Exception
 	{
 		AuditReactive.strict.commit();
 		RMIClientSocketFactory factory = new RMIClientSocketFactory()
 		{
 
 			@Override
-			public Socket createSocket(String host, int port) throws IOException
+			public Socket createSocket(String host, int port)
+					throws IOException
 			{
 				return null;
 			}

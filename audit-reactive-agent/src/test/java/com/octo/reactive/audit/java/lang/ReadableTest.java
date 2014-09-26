@@ -27,7 +27,8 @@ import java.nio.CharBuffer;
 public class ReadableTest
 {
 	@Test(expected = AuditReactiveException.class)
-	public void waitFor() throws IOException, InterruptedException
+	public void waitFor()
+			throws IOException, InterruptedException
 	{
 		AuditReactive.strict.commit();
 		Readable readable = new StringReader("");

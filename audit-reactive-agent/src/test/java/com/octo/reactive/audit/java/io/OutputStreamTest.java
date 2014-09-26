@@ -24,10 +24,12 @@ import java.io.OutputStream;
 
 public abstract class OutputStreamTest
 {
-	protected abstract OutputStream newOutputStream() throws IOException;
+	protected abstract OutputStream newOutputStream()
+			throws IOException;
 
 	@Test
-	public void New() throws IOException
+	public void New()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		try (OutputStream in = newOutputStream())
@@ -37,7 +39,8 @@ public abstract class OutputStreamTest
 	}
 
 	@Test
-	public void flush() throws IOException
+	public void flush()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (OutputStream out = newOutputStream())
@@ -48,7 +51,8 @@ public abstract class OutputStreamTest
 	}
 
 	@Test
-	public void close() throws IOException
+	public void close()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (OutputStream out = newOutputStream())
@@ -59,7 +63,8 @@ public abstract class OutputStreamTest
 	}
 
 	@Test
-	public void write_b() throws IOException
+	public void write_b()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (OutputStream out = newOutputStream())
@@ -70,7 +75,8 @@ public abstract class OutputStreamTest
 	}
 
 	@Test
-	public void write_B() throws IOException
+	public void write_B()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (OutputStream out = newOutputStream())
@@ -81,7 +87,8 @@ public abstract class OutputStreamTest
 	}
 
 	@Test
-	public void write_Bii() throws IOException
+	public void write_Bii()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (OutputStream out = newOutputStream())

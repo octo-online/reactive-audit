@@ -25,10 +25,12 @@ import java.io.InputStream;
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public abstract class InputStreamTest
 {
-	protected abstract InputStream newInputStream() throws IOException;
+	protected abstract InputStream newInputStream()
+			throws IOException;
 
 	@Test
-	public void New() throws IOException
+	public void New()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		try (InputStream in = newInputStream())
@@ -38,7 +40,8 @@ public abstract class InputStreamTest
 	}
 
 	@Test
-	public void available() throws IOException
+	public void available()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (InputStream in = newInputStream())
@@ -49,7 +52,8 @@ public abstract class InputStreamTest
 	}
 
 	@Test
-	public void close() throws IOException
+	public void close()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (InputStream in = newInputStream())
@@ -60,7 +64,8 @@ public abstract class InputStreamTest
 	}
 
 	@Test
-	public void read() throws IOException
+	public void read()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (InputStream in = newInputStream())
@@ -71,7 +76,8 @@ public abstract class InputStreamTest
 	}
 
 	@Test
-	public void read_B() throws IOException
+	public void read_B()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (InputStream in = newInputStream())
@@ -82,7 +88,8 @@ public abstract class InputStreamTest
 	}
 
 	@Test
-	public void read_Bii() throws IOException
+	public void read_Bii()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (InputStream in = newInputStream())
@@ -93,7 +100,8 @@ public abstract class InputStreamTest
 	}
 
 	@Test
-	public void skip() throws IOException
+	public void skip()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (InputStream in = newInputStream())

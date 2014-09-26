@@ -28,21 +28,24 @@ public class PhaserTest
 	private final Phaser p = new Phaser();
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void arriveAndAwaitAdvance() throws InterruptedException, ExecutionException
+	public void arriveAndAwaitAdvance()
+			throws InterruptedException, ExecutionException
 	{
 		AuditReactive.strict.commit();
 		p.arriveAndAwaitAdvance();
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void awaitAdvance() throws InterruptedException, ExecutionException
+	public void awaitAdvance()
+			throws InterruptedException, ExecutionException
 	{
 		AuditReactive.strict.commit();
 		p.awaitAdvance(1);
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void awaitAdvanceInterruptibly() throws InterruptedException, ExecutionException
+	public void awaitAdvanceInterruptibly()
+			throws InterruptedException, ExecutionException
 	{
 		AuditReactive.strict.commit();
 		p.awaitAdvanceInterruptibly(1);

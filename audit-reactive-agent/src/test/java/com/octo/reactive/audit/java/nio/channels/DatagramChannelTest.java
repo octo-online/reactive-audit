@@ -45,7 +45,8 @@ public class DatagramChannelTest
 			};
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void connect() throws IOException
+	public void connect()
+			throws IOException
 	{
 		try (DatagramChannel w = channel.get())
 		{
@@ -55,7 +56,8 @@ public class DatagramChannelTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void receive_b() throws IOException
+	public void receive_b()
+			throws IOException
 	{
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
@@ -66,7 +68,8 @@ public class DatagramChannelTest
 	}
 
 	@Test
-	public void receive_nb() throws IOException
+	public void receive_nb()
+			throws IOException
 	{
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
@@ -78,7 +81,8 @@ public class DatagramChannelTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void send_b() throws IOException
+	public void send_b()
+			throws IOException
 	{
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
@@ -89,7 +93,8 @@ public class DatagramChannelTest
 	}
 
 	@Test
-	public void send_nb() throws IOException
+	public void send_nb()
+			throws IOException
 	{
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
@@ -101,7 +106,8 @@ public class DatagramChannelTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void read_b() throws IOException
+	public void read_b()
+			throws IOException
 	{
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
@@ -112,7 +118,8 @@ public class DatagramChannelTest
 	}
 
 	@Test(expected = java.nio.channels.NotYetConnectedException.class)
-	public void read_nb() throws IOException
+	public void read_nb()
+			throws IOException
 	{
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
@@ -124,7 +131,8 @@ public class DatagramChannelTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void write_b() throws IOException
+	public void write_b()
+			throws IOException
 	{
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
@@ -135,7 +143,8 @@ public class DatagramChannelTest
 	}
 
 	@Test(expected = java.nio.channels.NotYetConnectedException.class)
-	public void write_nb() throws IOException
+	public void write_nb()
+			throws IOException
 	{
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())

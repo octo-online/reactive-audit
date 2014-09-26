@@ -18,7 +18,6 @@ package com.octo.reactive.audit;
 
 import com.octo.reactive.audit.lib.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
@@ -26,11 +25,8 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.*;
 import java.util.regex.Pattern;
-import com.octo.reactive.audit.LoadParams.*;
 
 import static com.octo.reactive.audit.LoadParams.*;
-import static com.octo.reactive.audit.LoadParams.DEFAULT_LOG_FORMAT;
-import static com.octo.reactive.audit.LoadParams.DEFAULT_LOG_OUTPUT;
 
 @SuppressWarnings("RefusedBequest")
 public class AuditReactive
@@ -45,7 +41,6 @@ public class AuditReactive
 	public static final Transaction          strict            =
 			config.begin()
 					.throwExceptions(true)
-					.log(Level.OFF)
 					.threadPattern(".*")
 					.bootStrapDelay(0)
 					.seal();
@@ -55,8 +50,7 @@ public class AuditReactive
 	public static final Transaction          logOnly           =
 			config.begin()
 					.throwExceptions(false)
-                    .logOutput(DEFAULT_LOG_OUTPUT, DEFAULT_LOG_FORMAT, DEFAULT_LOG_SIZE)
-					.log(Level.WARNING)
+					.logOutput(DEFAULT_LOG_OUTPUT, DEFAULT_LOG_FORMAT, DEFAULT_LOG_SIZE)
 					.threadPattern(DEFAULT_THREAD_PATTERN)
 					.bootStrapDelay(0)
 					.seal();
@@ -66,7 +60,6 @@ public class AuditReactive
 	public static final Transaction          off               =
 			config.begin()
 					.throwExceptions(false)
-					.log(Level.SEVERE)
 					.threadPattern("(?!)")
 					.bootStrapDelay(0)
 					.seal();
@@ -119,25 +112,25 @@ public class AuditReactive
 			bootstrapStart = System.currentTimeMillis();
 			logOnly.commit();
 			final String url = getPropertiesURL();
-            logger.warning("Start audit reactive with " + FileTools.homeFile(url)+" if exist");
 			new LoadParams(this, url).commit();
+			logger.config("Start audit reactive with " + FileTools.homeFile(url));
 		}
 	}
 
 	synchronized void shutdown()
 	{
-		if (!started) return;
+		//if (!started) return;
 		started = false;
 		long low = statLow.sum();
 		long medium = statMedium.sum();
 		long high = statHigh.sum();
-		logger.warning("  Total low   =" + low);
-		logger.warning("  Total medium=" + medium);
-		logger.warning("  Total high  =" + high);
-		logger.warning("  Max. concurrent threads=" + statMaxThread.get() +
-				            " (Good value:" + Runtime.getRuntime().availableProcessors() + ")");
-        logger.info("Shutdown audit");
-        logHandler.flush();
+		logger.config("  Total low   =" + low);
+		logger.config("  Total medium=" + medium);
+		logger.config("  Total high  =" + high);
+		logger.config("  Max. concurrent threads=" + statMaxThread.get() +
+							   " (Good value:" + Runtime.getRuntime().availableProcessors() + ")");
+		logger.config("Shutdown audit");
+		logHandler.flush();
 		if (logHandler != null) logHandler.close();
 	}
 
@@ -160,6 +153,7 @@ public class AuditReactive
 	void setDebug(boolean debug)
 	{
 		this.debug = debug;
+		logger.setLevel((debug) ? Level.FINE : Level.CONFIG);
 		try
 		{
 			Field field = AuditReactiveException.class.getDeclaredField("debug");
@@ -169,7 +163,7 @@ public class AuditReactive
 		catch (Exception e)
 		{
 			// Ignore
-			logger.fine("You detect a bug " + e.getMessage());
+			logger.config("You detect a bug " + e.getMessage());
 		}
 	}
 
@@ -300,18 +294,12 @@ public class AuditReactive
 		return threadPattern.toString();
 	}
 
-	public Level getLogLevel()
-	{
-		return logger.getLevel();
-	}
-
 	/**
 	 * @return Return a transaction with the current value.
 	 */
 	private Transaction current()
 	{
 		return new Transaction()
-				.log(logger.getLevel())
 				.throwExceptions(throwExceptions)
 				.threadPattern(threadPattern.toString())
 				.bootStrapDelay(bootstrapDelay);
@@ -377,7 +365,7 @@ public class AuditReactive
 					break;
 			}
 
-			logger.log(level, latencyLevel.name().toLowerCase() + " latency", e);
+			logger.log(level, e.getMessage(), e);
 		}
 	}
 
@@ -489,7 +477,8 @@ public class AuditReactive
 		private final List<Runnable> commands = new ArrayList<Runnable>();
 		private boolean sealed;
 
-		private void add(Runnable cmd) throws IllegalArgumentException
+		private void add(Runnable cmd)
+				throws IllegalArgumentException
 		{
 			if (sealed) throw new IllegalArgumentException("Sealed");
 			commands.add(cmd);
@@ -526,26 +515,6 @@ public class AuditReactive
 			return this;
 		}
 
-		/**
-		 * Select the trace logLevel.
-		 * May be apply after the commit().
-		 *
-		 * @param level The logLevel.
-		 * @return The current transaction.
-		 */
-		public Transaction log(final Level level)
-		{
-			add(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					logger.setLevel(level);
-				}
-			});
-			return this;
-		}
-
 		public Transaction latencyFile(String level)
 		{
 			final Latency latency = (level.length()) == 0 ? null : Latency.valueOf(level.toUpperCase());
@@ -570,7 +539,7 @@ public class AuditReactive
 				{
 					latencyNetwork = latency;
 				}
-			} );
+			});
 			return this;
 		}
 
@@ -584,17 +553,17 @@ public class AuditReactive
 				{
 					latencyCPU = latency;
 				}
-			} );
+			});
 			return this;
 		}
 
 		/**
-		 * Select the trace logLevel.
+		 * Select the log output.
 		 * May be apply after the commit().
 		 *
-		 * @param output pattern of "console" The logLevel.
+		 * @param output "console" or file name.
 		 * @param format The string format.
-		 * @param size The size before rolling the files.
+		 * @param size   The size before rolling the files.
 		 * @return The current transaction.
 		 */
 		public Transaction logOutput(String output, String format, String size)
@@ -603,9 +572,9 @@ public class AuditReactive
 			{
 				final int isize = Integer.parseInt(size);
 				final Handler handler = ("console".equalsIgnoreCase(output))
-				                        ? new ConsoleHandler()
-				                        : new FileHandler(output, isize,
-				                                          (isize == 0) ? 1 : 5, false);
+										? new ConsoleHandler()
+										: new FileHandler(output, isize,
+														  (isize == 0) ? 1 : 5, false);
 				if (output.endsWith(".xml"))
 					handler.setFormatter(new java.util.logging.XMLFormatter());
 				else
@@ -624,7 +593,7 @@ public class AuditReactive
 						logHandler = handler;
 						logger.addHandler(handler);
 					}
-				} );
+				});
 				logger.setUseParentHandlers(false);
 			}
 			catch (IOException e)
@@ -650,7 +619,7 @@ public class AuditReactive
 				{
 					threadPattern = Pattern.compile(pattern);
 				}
-			} );
+			});
 			return this;
 		}
 
@@ -670,7 +639,7 @@ public class AuditReactive
 				{
 					bootstrapDelay = delay;
 				}
-			} );
+			});
 			return this;
 		}
 
@@ -691,7 +660,7 @@ public class AuditReactive
 				{
 					setDebug(aDebug);
 				}
-			} );
+			});
 			return this;
 		}
 
@@ -701,7 +670,7 @@ public class AuditReactive
 		 */
 		public synchronized void commit()
 		{
-			for (Runnable r:commands) r.run();
+			for (Runnable r : commands) r.run();
 			statLow.reset();
 			statMedium.reset();
 			statLow.reset();

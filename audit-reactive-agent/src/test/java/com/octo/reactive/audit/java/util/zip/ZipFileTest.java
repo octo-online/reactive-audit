@@ -27,7 +27,8 @@ import java.util.zip.ZipFile;
 public class ZipFileTest
 {
 	@Test(expected = FileAuditReactiveException.class)
-	public void New() throws IOException
+	public void New()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		new ZipFile(IOTestTools.getTempFile());

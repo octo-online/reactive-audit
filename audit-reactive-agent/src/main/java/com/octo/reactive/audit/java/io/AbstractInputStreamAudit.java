@@ -31,7 +31,8 @@ import static com.octo.reactive.audit.FileTools.NET_ERROR;
 
 public abstract class AbstractInputStreamAudit extends AbstractFileAudit
 {
-	static public AuditReactiveException latencyInputStream(AuditReactive config, Latency latency, JoinPoint thisJoinPoint, InputStream in)
+	static public AuditReactiveException latencyInputStream(AuditReactive config, Latency latency,
+															JoinPoint thisJoinPoint, InputStream in)
 	{
 		CharSequence msg;
 		if (config.isDebug())

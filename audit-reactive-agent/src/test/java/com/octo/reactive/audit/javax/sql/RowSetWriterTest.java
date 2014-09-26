@@ -29,7 +29,8 @@ public class RowSetWriterTest
 	private final RowSetWriter x = (RowSetWriter) TestTools.createProxy(RowSetWriter.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void readData() throws SQLException
+	public void readData()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.writeData(null);

@@ -26,7 +26,8 @@ import java.nio.channels.Selector;
 public class SelectorTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void select() throws IOException
+	public void select()
+			throws IOException
 	{
 		AuditReactive.config.begin().debug(true).commit();
 		try (Selector r = Selector.open())
@@ -37,7 +38,8 @@ public class SelectorTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void select_l() throws IOException
+	public void select_l()
+			throws IOException
 	{
 		AuditReactive.config.begin().debug(true).commit();
 		try (Selector r = Selector.open())

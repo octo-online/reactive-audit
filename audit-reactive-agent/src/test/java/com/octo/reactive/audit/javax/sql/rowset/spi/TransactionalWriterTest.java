@@ -29,21 +29,24 @@ public class TransactionalWriterTest
 	private final TransactionalWriter tw = (TransactionalWriter) TestTools.createProxy(TransactionalWriter.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void commit() throws SQLException
+	public void commit()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		tw.commit();
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void rollback() throws SQLException
+	public void rollback()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		tw.rollback();
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void rollback_SavePoint() throws SQLException
+	public void rollback_SavePoint()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		tw.rollback(null);

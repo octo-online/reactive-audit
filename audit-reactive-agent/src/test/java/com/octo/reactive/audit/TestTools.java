@@ -43,15 +43,15 @@ public final class TestTools
 	public static Object createProxy(Class<?> clazz)
 	{
 		return Proxy.newProxyInstance(clazz.getClassLoader(),
-		                              new Class[]{clazz},
-		                              new InvocationHandler()
-		                              {
-			                              @Override
-			                              public Object invoke(Object proxy, Method method, Object[] args)
-					                              throws Throwable
-			                              {
-				                              return null;
-			                              }
-		                              });
+									  new Class[]{clazz},
+									  new InvocationHandler()
+									  {
+										  @Override
+										  public Object invoke(Object proxy, Method method, Object[] args)
+												  throws Throwable
+										  {
+											  return null;
+										  }
+									  });
 	}
 }

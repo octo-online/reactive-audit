@@ -30,7 +30,8 @@ import static com.octo.reactive.audit.IOTestTools.PORT;
 public class HttpURLConnectionTest extends URLConnectionTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getResponseCode() throws IOException
+	public void getResponseCode()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		HttpURLConnection conn = (HttpURLConnection) new URL("http://" + HOST + ":" + PORT).openConnection();
@@ -39,7 +40,8 @@ public class HttpURLConnectionTest extends URLConnectionTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getResponseMessage() throws IOException
+	public void getResponseMessage()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		HttpURLConnection conn = (HttpURLConnection) new URL("http://" + HOST + ":" + PORT).openConnection();

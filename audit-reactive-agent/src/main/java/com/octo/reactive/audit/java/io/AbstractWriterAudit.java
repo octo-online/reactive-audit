@@ -30,7 +30,8 @@ import static com.octo.reactive.audit.FileTools.*;
 
 public abstract class AbstractWriterAudit extends AbstractFileAudit
 {
-	public static AuditReactiveException latencyWriter(AuditReactive config, Latency latency, JoinPoint thisJoinPoint, Writer writer)
+	public static AuditReactiveException latencyWriter(AuditReactive config, Latency latency, JoinPoint thisJoinPoint,
+													   Writer writer)
 			throws AuditReactiveException
 	{
 		AuditReactiveException ex = null;
@@ -51,7 +52,8 @@ public abstract class AbstractWriterAudit extends AbstractFileAudit
 		return ex;
 	}
 
-	protected void latency(Latency latency, JoinPoint thisJoinPoint, Writer writer) throws AuditReactiveException
+	protected void latency(Latency latency, JoinPoint thisJoinPoint, Writer writer)
+			throws AuditReactiveException
 	{
 		AuditReactiveException ex = latencyWriter(config, latency, thisJoinPoint, writer);
 		if (ex != null) super.logLatency(latency, thisJoinPoint, ex);

@@ -30,7 +30,8 @@ public class XmlReaderTest
 	private final XmlReader x = (XmlReader) TestTools.createProxy(XmlReader.class);
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void readXML() throws SQLException
+	public void readXML()
+			throws SQLException
 	{
 		AuditReactive.strict.commit();
 		x.readXML(null, IOTestTools.getTempFileReader());

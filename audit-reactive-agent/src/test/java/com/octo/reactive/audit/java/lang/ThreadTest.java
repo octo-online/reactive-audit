@@ -23,7 +23,8 @@ import org.junit.Test;
 public class ThreadTest
 {
 	@Test(expected = AuditReactiveException.class)
-	public void join() throws InterruptedException
+	public void join()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		Thread thread = new Thread();
@@ -32,7 +33,8 @@ public class ThreadTest
 	}
 
 	@Test(expected = AuditReactiveException.class)
-	public void sleep() throws InterruptedException
+	public void sleep()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		Thread.sleep(1);

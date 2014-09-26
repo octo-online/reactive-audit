@@ -32,14 +32,16 @@ public class SAXParserTest
 	{
 
 		@Override
-		@SuppressWarnings( "deprecation" )
-		public Parser getParser() throws SAXException
+		@SuppressWarnings("deprecation")
+		public Parser getParser()
+				throws SAXException
 		{
 			return null;
 		}
 
 		@Override
-		public XMLReader getXMLReader() throws SAXException
+		public XMLReader getXMLReader()
+				throws SAXException
 		{
 			return null;
 		}
@@ -57,66 +59,75 @@ public class SAXParserTest
 		}
 
 		@Override
-		public void setProperty(String s, Object o) throws SAXNotRecognizedException, SAXNotSupportedException
+		public void setProperty(String s, Object o)
+				throws SAXNotRecognizedException, SAXNotSupportedException
 		{
 
 		}
 
 		@Override
-		public Object getProperty(String s) throws SAXNotRecognizedException, SAXNotSupportedException
+		public Object getProperty(String s)
+				throws SAXNotRecognizedException, SAXNotSupportedException
 		{
 			return null;
 		}
 	};
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void parse_File_DefaultHandler() throws IOException, SAXException
+	public void parse_File_DefaultHandler()
+			throws IOException, SAXException
 	{
 		AuditReactive.strict.commit();
 		x.parse(IOTestTools.getTempFile(), (DefaultHandler) null);
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	@SuppressWarnings( "deprecation" )
-	public void parse_File_HandlerBase() throws IOException, SAXException
+	@SuppressWarnings("deprecation")
+	public void parse_File_HandlerBase()
+			throws IOException, SAXException
 	{
 		AuditReactive.strict.commit();
 		x.parse(IOTestTools.getTempFile(), (HandlerBase) null);
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void parse_InputStream_DefaultHandler() throws IOException, SAXException
+	public void parse_InputStream_DefaultHandler()
+			throws IOException, SAXException
 	{
 		AuditReactive.strict.commit();
 		x.parse(IOTestTools.getTempFileInputStream(), (DefaultHandler) null);
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	@SuppressWarnings( "deprecation" )
-	public void parse_InputStream_HandlerBase() throws IOException, SAXException
+	@SuppressWarnings("deprecation")
+	public void parse_InputStream_HandlerBase()
+			throws IOException, SAXException
 	{
 		AuditReactive.strict.commit();
 		x.parse(IOTestTools.getTempFileInputStream(), (HandlerBase) null);
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	@SuppressWarnings( "deprecation" )
-	public void parse_InputStream_HandlerBase_S() throws IOException, SAXException
+	@SuppressWarnings("deprecation")
+	public void parse_InputStream_HandlerBase_S()
+			throws IOException, SAXException
 	{
 		AuditReactive.strict.commit();
 		x.parse(IOTestTools.getTempFileInputStream(), (HandlerBase) null, null);
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void parse_String_DefaultHandler() throws IOException, SAXException
+	public void parse_String_DefaultHandler()
+			throws IOException, SAXException
 	{
 		AuditReactive.strict.commit();
 		x.parse(IOTestTools.getTempFile().toURI().toString(), (DefaultHandler) null);
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	@SuppressWarnings( "deprecation" )
-	public void parse_String_HandlerBase() throws IOException, SAXException
+	@SuppressWarnings("deprecation")
+	public void parse_String_HandlerBase()
+			throws IOException, SAXException
 	{
 		AuditReactive.strict.commit();
 		x.parse(IOTestTools.getTempFile().toURI().toString(), (HandlerBase) null);

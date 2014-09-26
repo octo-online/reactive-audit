@@ -31,7 +31,8 @@ public class ConditionTest
 	{
 
 		@Override
-		public void await() throws InterruptedException
+		public void await()
+				throws InterruptedException
 		{
 
 		}
@@ -43,19 +44,22 @@ public class ConditionTest
 		}
 
 		@Override
-		public long awaitNanos(long l) throws InterruptedException
+		public long awaitNanos(long l)
+				throws InterruptedException
 		{
 			return 0;
 		}
 
 		@Override
-		public boolean await(long l, TimeUnit timeUnit) throws InterruptedException
+		public boolean await(long l, TimeUnit timeUnit)
+				throws InterruptedException
 		{
 			return false;
 		}
 
 		@Override
-		public boolean awaitUntil(Date date) throws InterruptedException
+		public boolean awaitUntil(Date date)
+				throws InterruptedException
 		{
 			return false;
 		}
@@ -74,21 +78,24 @@ public class ConditionTest
 	};
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void await() throws InterruptedException
+	public void await()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		c.await();
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void await_to() throws InterruptedException
+	public void await_to()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		c.await(1, TimeUnit.MILLISECONDS);
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void awaitNanos() throws InterruptedException
+	public void awaitNanos()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		c.awaitNanos(1);

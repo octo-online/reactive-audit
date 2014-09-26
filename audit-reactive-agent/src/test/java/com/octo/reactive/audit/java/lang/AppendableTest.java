@@ -27,7 +27,8 @@ import java.io.IOException;
 public class AppendableTest
 {
 	@Test(expected = AuditReactiveException.class)
-	public void append() throws InterruptedException, IOException
+	public void append()
+			throws InterruptedException, IOException
 	{
 		AuditReactive.strict.commit();
 		Appendable app = new FileWriter(IOTestTools.getTempFile());

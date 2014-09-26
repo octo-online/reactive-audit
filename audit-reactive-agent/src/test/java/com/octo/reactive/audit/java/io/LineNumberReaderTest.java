@@ -29,7 +29,8 @@ import static com.octo.reactive.audit.TestTools.push;
 public class LineNumberReaderTest extends FileReaderTest
 {
 	@Override
-	protected Reader newReader() throws IOException
+	protected Reader newReader()
+			throws IOException
 	{
 		push();
 		Reader in = super.newReader();
@@ -38,9 +39,10 @@ public class LineNumberReaderTest extends FileReaderTest
 	}
 
 	@SuppressWarnings("RedundantMethodOverride")
-    @Test
-    @Override
-    public void derived() throws IOException
+	@Test
+	@Override
+	public void derived()
+			throws IOException
 	{
 		class Derived extends LineNumberReader
 		{

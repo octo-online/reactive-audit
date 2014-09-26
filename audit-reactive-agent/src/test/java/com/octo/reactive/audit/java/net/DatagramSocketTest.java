@@ -31,7 +31,8 @@ public class DatagramSocketTest
 	private static final int PORT = 8080;
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void connect() throws IOException
+	public void connect()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (DatagramSocket socket = new DatagramSocket())
@@ -43,7 +44,8 @@ public class DatagramSocketTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void receive() throws IOException
+	public void receive()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (DatagramSocket socket = new DatagramSocket())
@@ -56,7 +58,8 @@ public class DatagramSocketTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void send() throws IOException
+	public void send()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (DatagramSocket socket = new DatagramSocket())

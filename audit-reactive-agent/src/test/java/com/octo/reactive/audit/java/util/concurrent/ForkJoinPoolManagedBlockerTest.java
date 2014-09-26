@@ -25,13 +25,15 @@ import java.util.concurrent.ForkJoinPool;
 public class ForkJoinPoolManagedBlockerTest
 {
 	@Test(expected = CPUAuditReactiveException.class)
-	public void awaitTermination() throws InterruptedException
+	public void awaitTermination()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		ForkJoinPool.ManagedBlocker m = new ForkJoinPool.ManagedBlocker()
 		{
 			@Override
-			public boolean block() throws InterruptedException
+			public boolean block()
+					throws InterruptedException
 			{
 				return false;
 			}

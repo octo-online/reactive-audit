@@ -32,33 +32,38 @@ import java.rmi.server.*;
 public class RemoteObjectInvocationHandlerTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
-	@SuppressWarnings( "deprecation" )
-	public void invoke() throws Throwable
+	@SuppressWarnings("deprecation")
+	public void invoke()
+			throws Throwable
 	{
 		AuditReactive.strict.commit();
 		RemoteRef ref = new RemoteRef()
 		{
 
 			@Override
-			public Object invoke(Remote obj, Method method, Object[] params, long opnum) throws Exception
+			public Object invoke(Remote obj, Method method, Object[] params, long opnum)
+					throws Exception
 			{
 				return null;
 			}
 
 			@Override
-			public RemoteCall newCall(RemoteObject obj, Operation[] op, int opnum, long hash) throws RemoteException
+			public RemoteCall newCall(RemoteObject obj, Operation[] op, int opnum, long hash)
+					throws RemoteException
 			{
 				return null;
 			}
 
 			@Override
-			public void invoke(RemoteCall call) throws Exception
+			public void invoke(RemoteCall call)
+					throws Exception
 			{
 
 			}
 
 			@Override
-			public void done(RemoteCall call) throws RemoteException
+			public void done(RemoteCall call)
+					throws RemoteException
 			{
 
 			}
@@ -88,13 +93,15 @@ public class RemoteObjectInvocationHandlerTest
 			}
 
 			@Override
-			public void writeExternal(ObjectOutput objectOutput) throws IOException
+			public void writeExternal(ObjectOutput objectOutput)
+					throws IOException
 			{
 
 			}
 
 			@Override
-			public void readExternal(ObjectInput objectInput) throws IOException, ClassNotFoundException
+			public void readExternal(ObjectInput objectInput)
+					throws IOException, ClassNotFoundException
 			{
 
 			}

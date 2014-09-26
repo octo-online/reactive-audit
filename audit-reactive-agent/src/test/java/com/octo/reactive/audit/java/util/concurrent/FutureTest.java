@@ -50,7 +50,8 @@ public class FutureTest
 		}
 
 		@Override
-		public Object get() throws InterruptedException, ExecutionException
+		public Object get()
+				throws InterruptedException, ExecutionException
 		{
 			return null;
 		}
@@ -64,14 +65,16 @@ public class FutureTest
 	};
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void get() throws InterruptedException, ExecutionException
+	public void get()
+			throws InterruptedException, ExecutionException
 	{
 		AuditReactive.strict.commit();
 		f.get();
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void get_to() throws InterruptedException, ExecutionException, TimeoutException
+	public void get_to()
+			throws InterruptedException, ExecutionException, TimeoutException
 	{
 		AuditReactive.strict.commit();
 		f.get(1, TimeUnit.MILLISECONDS);

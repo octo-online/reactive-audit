@@ -28,7 +28,8 @@ import java.rmi.server.RMISocketFactory;
 public class RMISocketFactoryTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void createServerSocket() throws Exception
+	public void createServerSocket()
+			throws Exception
 	{
 		AuditReactive.strict.commit();
 		RMISocketFactory factory = getRmiSocketFactory();
@@ -36,7 +37,8 @@ public class RMISocketFactoryTest
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void createSocket() throws Exception
+	public void createSocket()
+			throws Exception
 	{
 		AuditReactive.strict.commit();
 		RMISocketFactory factory = getRmiSocketFactory();
@@ -48,13 +50,15 @@ public class RMISocketFactoryTest
 		return new RMISocketFactory()
 		{
 			@Override
-			public Socket createSocket(String host, int port) throws IOException
+			public Socket createSocket(String host, int port)
+					throws IOException
 			{
 				return null;
 			}
 
 			@Override
-			public ServerSocket createServerSocket(int port) throws IOException
+			public ServerSocket createServerSocket(int port)
+					throws IOException
 			{
 				return null;
 			}

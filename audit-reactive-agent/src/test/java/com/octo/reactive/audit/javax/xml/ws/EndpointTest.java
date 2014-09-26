@@ -153,7 +153,7 @@ public class EndpointTest
 	public void publish_String_Object_WebServiceFeature()
 	{
 		AuditReactive.strict.commit();
-		Endpoint.publish(null, null, (WebServiceFeature)null);
+		Endpoint.publish(null, null, (WebServiceFeature) null);
 	}
 
 }

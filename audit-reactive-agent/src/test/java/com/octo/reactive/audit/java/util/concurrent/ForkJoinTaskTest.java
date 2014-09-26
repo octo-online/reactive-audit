@@ -50,42 +50,48 @@ public class ForkJoinTaskTest
 	};
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void get() throws InterruptedException, ExecutionException
+	public void get()
+			throws InterruptedException, ExecutionException
 	{
 		AuditReactive.strict.commit();
 		e.get();
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void get_to() throws InterruptedException, ExecutionException, TimeoutException
+	public void get_to()
+			throws InterruptedException, ExecutionException, TimeoutException
 	{
 		AuditReactive.strict.commit();
 		e.get(1, TimeUnit.MILLISECONDS);
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void join() throws InterruptedException, ExecutionException
+	public void join()
+			throws InterruptedException, ExecutionException
 	{
 		AuditReactive.strict.commit();
 		e.join();
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void quietlyInvoke() throws InterruptedException, ExecutionException
+	public void quietlyInvoke()
+			throws InterruptedException, ExecutionException
 	{
 		AuditReactive.strict.commit();
 		e.quietlyInvoke();
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void quietlyJoin() throws InterruptedException, ExecutionException
+	public void quietlyJoin()
+			throws InterruptedException, ExecutionException
 	{
 		AuditReactive.strict.commit();
 		e.quietlyJoin();
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void quietlyComplete() throws InterruptedException, ExecutionException
+	public void quietlyComplete()
+			throws InterruptedException, ExecutionException
 	{
 		AuditReactive.strict.commit();
 		e.quietlyComplete();

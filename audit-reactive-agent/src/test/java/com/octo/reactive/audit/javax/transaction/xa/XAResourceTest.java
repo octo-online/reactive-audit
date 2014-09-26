@@ -29,14 +29,16 @@ public class XAResourceTest
 	private final XAResource x = (XAResource) TestTools.createProxy(XAResource.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void commit() throws XAException
+	public void commit()
+			throws XAException
 	{
 		AuditReactive.strict.commit();
 		x.commit(null, true);
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void rollback() throws XAException
+	public void rollback()
+			throws XAException
 	{
 		AuditReactive.strict.commit();
 		x.rollback(null);

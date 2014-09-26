@@ -26,19 +26,22 @@ import java.net.InetAddress;
 public class InetAddressTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getAllByName() throws IOException
+	public void getAllByName()
+			throws IOException
 	{
 		InetAddress.getAllByName("localhost");
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getByName() throws IOException
+	public void getByName()
+			throws IOException
 	{
 		InetAddress.getByName("localhost");
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getHostName() throws IOException
+	public void getHostName()
+			throws IOException
 	{
 		InetAddress.getLocalHost().getHostName();
 	}

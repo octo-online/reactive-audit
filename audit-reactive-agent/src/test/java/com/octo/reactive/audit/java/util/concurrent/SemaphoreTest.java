@@ -28,14 +28,16 @@ public class SemaphoreTest
 	private final Semaphore p = new Semaphore(1);
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void acquire() throws InterruptedException, ExecutionException
+	public void acquire()
+			throws InterruptedException, ExecutionException
 	{
 		AuditReactive.strict.commit();
 		p.acquire();
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void acquireUninterruptibly() throws InterruptedException, ExecutionException
+	public void acquireUninterruptibly()
+			throws InterruptedException, ExecutionException
 	{
 		AuditReactive.strict.commit();
 		p.acquireUninterruptibly();

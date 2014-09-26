@@ -24,10 +24,12 @@ import java.io.Reader;
 
 public abstract class ReaderTest
 {
-	protected abstract Reader newReader() throws IOException;
+	protected abstract Reader newReader()
+			throws IOException;
 
 	@Test
-	public void New() throws IOException
+	public void New()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		try (Reader reader = newReader())
@@ -38,7 +40,8 @@ public abstract class ReaderTest
 	}
 
 	@Test
-	public void close() throws IOException
+	public void close()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Reader in = newReader())
@@ -49,7 +52,8 @@ public abstract class ReaderTest
 	}
 
 	@Test
-	public void read() throws IOException
+	public void read()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Reader in = newReader())
@@ -60,7 +64,8 @@ public abstract class ReaderTest
 	}
 
 	@Test
-	public void read_C() throws IOException
+	public void read_C()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Reader in = newReader())
@@ -71,7 +76,8 @@ public abstract class ReaderTest
 	}
 
 	@Test
-	public void read_Cii() throws IOException
+	public void read_Cii()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Reader in = newReader())
@@ -93,7 +99,8 @@ public abstract class ReaderTest
 //		}
 //	}
 	@Test
-	public void skip() throws IOException
+	public void skip()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Reader in = newReader())

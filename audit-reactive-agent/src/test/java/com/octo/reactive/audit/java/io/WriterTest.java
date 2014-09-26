@@ -24,10 +24,12 @@ import java.io.Writer;
 
 public abstract class WriterTest
 {
-	protected abstract Writer newWriter() throws IOException;
+	protected abstract Writer newWriter()
+			throws IOException;
 
 	@Test
-	public void New() throws IOException
+	public void New()
+			throws IOException
 	{
 		AuditReactive.strict.commit();
 		try (Writer writer = newWriter())
@@ -38,7 +40,8 @@ public abstract class WriterTest
 	}
 
 	@Test
-	public void append_c() throws IOException
+	public void append_c()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Writer out = newWriter())
@@ -49,7 +52,8 @@ public abstract class WriterTest
 	}
 
 	@Test
-	public void append_CharSequence() throws IOException
+	public void append_CharSequence()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Writer out = newWriter())
@@ -60,7 +64,8 @@ public abstract class WriterTest
 	}
 
 	@Test
-	public void append_CharSequence_ii() throws IOException
+	public void append_CharSequence_ii()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Writer out = newWriter())
@@ -71,7 +76,8 @@ public abstract class WriterTest
 	}
 
 	@Test
-	public void close() throws IOException
+	public void close()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Writer out = newWriter())
@@ -82,7 +88,8 @@ public abstract class WriterTest
 	}
 
 	@Test
-	public void flush() throws IOException
+	public void flush()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Writer out = newWriter())
@@ -93,7 +100,8 @@ public abstract class WriterTest
 	}
 
 	@Test
-	public void write_C() throws IOException
+	public void write_C()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Writer out = newWriter())
@@ -104,7 +112,8 @@ public abstract class WriterTest
 	}
 
 	@Test
-	public void write_Cii() throws IOException
+	public void write_Cii()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Writer out = newWriter())
@@ -115,7 +124,8 @@ public abstract class WriterTest
 	}
 
 	@Test
-	public void write_i() throws IOException
+	public void write_i()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Writer out = newWriter())
@@ -126,7 +136,8 @@ public abstract class WriterTest
 	}
 
 	@Test
-	public void write_String() throws IOException
+	public void write_String()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Writer out = newWriter())
@@ -137,7 +148,8 @@ public abstract class WriterTest
 	}
 
 	@Test
-	public void write_String_ii() throws IOException
+	public void write_String_ii()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Writer out = newWriter())

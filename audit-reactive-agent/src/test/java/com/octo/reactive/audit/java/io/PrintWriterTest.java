@@ -30,8 +30,9 @@ import static com.octo.reactive.audit.TestTools.push;
 public class PrintWriterTest extends OutputStreamWriterTest
 {
 	@SuppressWarnings("RefusedBequest")
-    @Override
-	protected PrintWriter newWriter() throws IOException
+	@Override
+	protected PrintWriter newWriter()
+			throws IOException
 	{
 		push();
 		FileOutputStream out = new FileOutputStream(IOTestTools.getTempFile());
@@ -40,9 +41,26 @@ public class PrintWriterTest extends OutputStreamWriterTest
 		return new PrintWriter(writer);
 	}
 
+	@SuppressWarnings("RedundantMethodOverride")
+	@Test
+	@Override
+	public void derived()
+			throws IOException
+	{
+		class Derived extends PrintWriter
+		{
+			Derived()
+			{
+				super(new ByteArrayOutputStream(10));
+			}
+		}
+		new Derived();
+	}
+
 	@SuppressWarnings("MalformedFormatString")
-    @Test(expected = FileAuditReactiveException.class)
-	public void format_Locale_String_Objects() throws IOException
+	@Test(expected = FileAuditReactiveException.class)
+	public void format_Locale_String_Objects()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (PrintWriter out = newWriter())
@@ -53,7 +71,8 @@ public class PrintWriterTest extends OutputStreamWriterTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void format_Locale_Objects() throws IOException
+	public void format_Locale_Objects()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (PrintWriter out = newWriter())
@@ -64,7 +83,8 @@ public class PrintWriterTest extends OutputStreamWriterTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void print_b() throws IOException
+	public void print_b()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (PrintWriter out = newWriter())
@@ -75,7 +95,8 @@ public class PrintWriterTest extends OutputStreamWriterTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void print_i() throws IOException
+	public void print_i()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (PrintWriter out = newWriter())
@@ -86,8 +107,9 @@ public class PrintWriterTest extends OutputStreamWriterTest
 	}
 
 	@SuppressWarnings("MalformedFormatString")
-    @Test(expected = FileAuditReactiveException.class)
-	public void printf_Locale_String_Object() throws IOException
+	@Test(expected = FileAuditReactiveException.class)
+	public void printf_Locale_String_Object()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (PrintWriter out = newWriter())
@@ -98,7 +120,8 @@ public class PrintWriterTest extends OutputStreamWriterTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void printf_Locale_Object() throws IOException
+	public void printf_Locale_Object()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (PrintWriter out = newWriter())
@@ -109,7 +132,8 @@ public class PrintWriterTest extends OutputStreamWriterTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void println_b() throws IOException
+	public void println_b()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (PrintWriter out = newWriter())
@@ -120,7 +144,8 @@ public class PrintWriterTest extends OutputStreamWriterTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void println_i() throws IOException
+	public void println_i()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (PrintWriter out = newWriter())
@@ -128,20 +153,5 @@ public class PrintWriterTest extends OutputStreamWriterTest
 			AuditReactive.strict.commit();
 			out.println(3);
 		}
-	}
-
-	@SuppressWarnings("RedundantMethodOverride")
-    @Test
-    @Override
-    public void derived() throws IOException
-	{
-		class Derived extends PrintWriter
-		{
-			Derived()
-			{
-				super(new ByteArrayOutputStream(10));
-			}
-		}
-		new Derived();
 	}
 }

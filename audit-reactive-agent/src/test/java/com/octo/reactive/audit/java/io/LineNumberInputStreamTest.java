@@ -29,7 +29,8 @@ import static com.octo.reactive.audit.TestTools.push;
 public class LineNumberInputStreamTest extends FileInputStreamTest
 {
 	@Override
-	protected InputStream newInputStream() throws IOException
+	protected InputStream newInputStream()
+			throws IOException
 	{
 		push();
 		InputStream in = super.newInputStream();
@@ -39,15 +40,17 @@ public class LineNumberInputStreamTest extends FileInputStreamTest
 
 	@Override
 	@Test
-	public void New() throws IOException
+	public void New()
+			throws IOException
 	{
 		super.New();
 	}
 
 	@SuppressWarnings("RedundantMethodOverride")
-    @Test
-    @Override
-    public void derived() throws IOException
+	@Test
+	@Override
+	public void derived()
+			throws IOException
 	{
 		class Derived extends java.io.LineNumberInputStream
 		{

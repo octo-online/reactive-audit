@@ -89,7 +89,6 @@ public class AuditReactiveTest
 	public void setAllParams()
 	{
 		config.begin()
-				.log(Level.FINE)
 				.throwExceptions(true)
 				.threadPattern("")
 				.latencyFile("high")
@@ -97,7 +96,6 @@ public class AuditReactiveTest
 				.latencyCPU("low")
 				.bootStrapDelay(10)
 				.commit();
-		assertEquals(Level.FINE, config.getLogLevel());
 		assertEquals(true, config.isThrow());
 		assertEquals("", config.getThreadPattern());
 		assertEquals(Latency.HIGH, config.getFileLatency());
@@ -105,7 +103,6 @@ public class AuditReactiveTest
 		assertEquals(LOW, config.getCPULatency());
 		assertEquals(10, config.getBootstrapDelay());
 		config.begin()
-				.log(Level.WARNING)
 				.throwExceptions(false)
 				.threadPattern("abc")
 				.latencyFile("")
@@ -113,7 +110,6 @@ public class AuditReactiveTest
 				.latencyCPU("")
 				.bootStrapDelay(0)
 				.commit();
-		assertEquals(Level.WARNING, config.getLogLevel());
 		assertEquals(false, config.isThrow());
 		assertEquals("abc", config.getThreadPattern());
 		assertNull(config.getFileLatency());
@@ -127,17 +123,17 @@ public class AuditReactiveTest
 	{
 		config.begin()
 				.seal()
-				.log(Level.WARNING);
+				.threadPattern("abc");
 	}
 
 	@Test
 	@SuppressAuditReactive // For accept join
-	public void logIfNewThread() throws InterruptedException
+	public void logIfNewThread()
+			throws InterruptedException
 	{
 		config.begin()
 				.threadPattern(".*")
 				.latencyFile("LOW")
-				.log(Level.INFO)
 				.throwExceptions(false)
 				.commit();
 		addHandler();
@@ -238,7 +234,6 @@ public class AuditReactiveTest
 		config.begin()
 				.threadPattern(".*")
 				.latencyFile("LOW")
-				.log(Level.INFO)
 				.throwExceptions(false)
 				.commit();
 		addHandler();
@@ -326,7 +321,7 @@ public class AuditReactiveTest
 	}
 
 	@SuppressWarnings("ConstantConditions")
-    private void addHandler()
+	private void addHandler()
 	{
 		//noinspection ConstantIfStatement
 		if (true) // Remove log on console
@@ -362,7 +357,8 @@ public class AuditReactiveTest
 
 	@SuppressWarnings("PointlessBooleanExpression")
 	@Test
-	public void testPurgeStackTrace() throws NoSuchFieldException, IllegalAccessException
+	public void testPurgeStackTrace()
+			throws NoSuchFieldException, IllegalAccessException
 	{
 		// If debug mode, test nothing
 		Field field = AuditReactiveException.class.getDeclaredField("debug");
@@ -381,7 +377,7 @@ public class AuditReactiveTest
 			for (StackTraceElement traceElement : stack)
 			{
 				assertFalse((traceElement.getClassName().startsWith(auditPackageName)
-						&& !traceElement.getClassName().endsWith("Test"))); // For inner unit test
+									 && !traceElement.getClassName().endsWith("Test"))); // For inner unit test
 			}
 		}
 	}

@@ -29,7 +29,8 @@ public class SQLOutputTest
 	private final SQLOutput output = (SQLOutput) TestTools.createProxy(SQLOutput.class);
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void write() throws InterruptedException, ClassNotFoundException, SQLException
+	public void write()
+			throws InterruptedException, ClassNotFoundException, SQLException
 	{
 		AuditReactive.strict.commit();
 		output.writeBoolean(true);

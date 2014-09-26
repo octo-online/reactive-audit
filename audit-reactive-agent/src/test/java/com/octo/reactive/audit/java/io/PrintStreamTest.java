@@ -29,7 +29,8 @@ import static com.octo.reactive.audit.TestTools.push;
 public class PrintStreamTest extends FilterOutputStreamTest
 {
 	@Override
-	protected OutputStream newOutputStream() throws IOException
+	protected OutputStream newOutputStream()
+			throws IOException
 	{
 		push();
 		OutputStream out = super.newOutputStream();
@@ -38,9 +39,10 @@ public class PrintStreamTest extends FilterOutputStreamTest
 	}
 
 	@SuppressWarnings("RefusedBequest")
-    @Test
-    @Override
-    public void derived() throws IOException
+	@Test
+	@Override
+	public void derived()
+			throws IOException
 	{
 		class Derived extends PrintStream
 		{

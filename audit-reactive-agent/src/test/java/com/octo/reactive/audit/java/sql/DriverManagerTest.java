@@ -28,13 +28,15 @@ public class DriverManagerTest
 {
 	private static final String DB = "jdbc:derby:memory:myDB;create=true";
 
-	private static Connection getDBConnection() throws SQLException
+	private static Connection getDBConnection()
+			throws SQLException
 	{
 		return DriverManager.getConnection(DB, "SA", "");
 	}
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void getConnection() throws InterruptedException, ClassNotFoundException, SQLException
+	public void getConnection()
+			throws InterruptedException, ClassNotFoundException, SQLException
 	{
 		AuditReactive.strict.commit();
 		getDBConnection();

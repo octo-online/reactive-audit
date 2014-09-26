@@ -48,7 +48,8 @@ public class JAXBTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void marshal_URL() throws MalformedURLException
+	public void marshal_URL()
+			throws MalformedURLException
 	{
 		AuditReactive.strict.commit();
 		JAXB.marshal(null, IOTestTools.getTempFile().toURI().toURL());
@@ -76,7 +77,8 @@ public class JAXBTest
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void unmarshal_URL() throws MalformedURLException
+	public void unmarshal_URL()
+			throws MalformedURLException
 	{
 		AuditReactive.strict.commit();
 		JAXB.unmarshal(IOTestTools.getTempFile().toURI().toURL(), null);

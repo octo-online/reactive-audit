@@ -29,7 +29,8 @@ import static com.octo.reactive.audit.TestTools.push;
 public class InputStreamReaderTest extends AuditedReaderTest
 {
 	@Override
-	protected Reader newReader() throws IOException
+	protected Reader newReader()
+			throws IOException
 	{
 		push();
 		InputStream in = new FileInputStream(IOTestTools.getTempFile());
@@ -39,7 +40,8 @@ public class InputStreamReaderTest extends AuditedReaderTest
 
 	// FIXME: est-ce ncessaire ?
 	@Test(expected = FileAuditReactiveException.class)
-	public void read_with_FilterInputStream() throws IOException
+	public void read_with_FilterInputStream()
+			throws IOException
 	{
 		AuditReactive.off.commit();
 		try (Reader in = new InputStreamReader(new BufferedInputStream(new FileInputStream(IOTestTools.getTempFile()))))

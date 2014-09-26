@@ -25,7 +25,8 @@ import java.io.IOException;
 public class ProcessTest
 {
 	@Test(expected = AuditReactiveException.class)
-	public void waitFor() throws IOException, InterruptedException
+	public void waitFor()
+			throws IOException, InterruptedException
 	{
 		AuditReactive.strict.commit();
 		Runtime.getRuntime().exec("java -version").waitFor();

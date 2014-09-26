@@ -27,24 +27,28 @@ import java.io.InputStream;
 public class FileInputStreamTest extends AuditedInputStreamTest
 {
 	@Override
-	protected InputStream newInputStream() throws IOException
+	protected InputStream newInputStream()
+			throws IOException
 	{
 		return new FileInputStream(IOTestTools.getTempFile());
 	}
 
 	@Override
 	@Test(expected = FileAuditReactiveException.class)
-	public void New() throws IOException
+	public void New()
+			throws IOException
 	{
 		super.New();
 	}
 
 	@Test(expected = FileAuditReactiveException.class)
-	public void derived() throws IOException
+	public void derived()
+			throws IOException
 	{
 		class Derived extends FileInputStream
 		{
-			Derived() throws IOException
+			Derived()
+					throws IOException
 			{
 				super(IOTestTools.getTempFile());
 			}

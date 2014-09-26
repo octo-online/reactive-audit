@@ -26,7 +26,8 @@ import java.rmi.RemoteException;
 public class PortableRemoteObjectTest
 {
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void connect() throws RemoteException
+	public void connect()
+			throws RemoteException
 	{
 		AuditReactive.strict.commit();
 		PortableRemoteObject.connect(null, null);

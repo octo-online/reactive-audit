@@ -18,7 +18,7 @@ package com.octo.reactive.audit.lib;
 
 /**
  * The latency level.
- *
+ * <p>
  * <b>LOW</b> is for open file, file exists, etc.
  * <b>MEDIUM</b> is for flush, close, connect, etc.
  * <b>HIGH</b> is for load or write data.

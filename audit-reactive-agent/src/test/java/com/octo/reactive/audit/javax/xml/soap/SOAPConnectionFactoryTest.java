@@ -30,14 +30,16 @@ public class SOAPConnectionFactoryTest
 	{
 
 		@Override
-		public SOAPConnection createConnection() throws SOAPException
+		public SOAPConnection createConnection()
+				throws SOAPException
 		{
 			return null;
 		}
 	};
 
 	@Test(expected = NetworkAuditReactiveException.class)
-	public void createConnection() throws SOAPException
+	public void createConnection()
+			throws SOAPException
 	{
 		AuditReactive.strict.commit();
 		x.createConnection();

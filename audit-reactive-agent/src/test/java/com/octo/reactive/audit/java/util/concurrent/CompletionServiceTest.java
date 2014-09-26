@@ -39,7 +39,8 @@ public class CompletionServiceTest
 	};
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void poll() throws InterruptedException
+	public void poll()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		CompletionService<Object> q = new ExecutorCompletionService<Object>(e);
@@ -47,7 +48,8 @@ public class CompletionServiceTest
 	}
 
 	@Test(expected = CPUAuditReactiveException.class)
-	public void take() throws InterruptedException
+	public void take()
+			throws InterruptedException
 	{
 		AuditReactive.strict.commit();
 		CompletionService<Object> q = new ExecutorCompletionService<Object>(e);

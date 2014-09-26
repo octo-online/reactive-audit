@@ -96,6 +96,8 @@ class VariablesProperties extends Properties
 				startName = value.indexOf(START_CONST, beginIndex);
 			}
 		}
+		else
+			value=variables.getProperty(key);
 
 
 		// Return the value as is

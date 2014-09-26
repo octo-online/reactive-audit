@@ -131,7 +131,7 @@ class LoadParams
 
 	private static String getValue(String key, String def, Properties prop)
 	{
-		String val = getAllEnv().getProperty(key);
+		String val = prop.getProperty(key);
 		if (val == null)
 		{
 			if (prop != null)

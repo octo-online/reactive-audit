@@ -38,7 +38,7 @@ task(audit, dependsOn: 'classes', type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     def framework="default"
 
-    def auditDir = "${buildDir}/reactive-audit-output"
+    def auditDir = "${buildDir}/reports/reactive-audit"
     file(auditDir).mkdirs()
     def auditLibs = "${buildDir}/reactive-audit-libs"
     def aspectjWeaverJar = project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }

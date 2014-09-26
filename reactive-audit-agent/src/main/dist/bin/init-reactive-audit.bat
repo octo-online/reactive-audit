@@ -358,6 +358,7 @@ goto :end
 Rem clean env
 echo off
 set _SILENT=
+set _CONF=
 set _DEBUG=
 set _FRAMEWORK=
 set _WEAVER=

@@ -16,8 +16,8 @@
 
 package com.octo.reactive.audit.java.nio.channels;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -79,7 +79,7 @@ public class ScatteringByteChannelTest
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (ScatteringByteChannel r = channel.get())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			ByteBuffer[] srcs = {buf};
 			r.read(srcs);
 		}
@@ -92,7 +92,7 @@ public class ScatteringByteChannelTest
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (ScatteringByteChannel r = channel.get())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			ByteBuffer[] srcs = {buf};
 			r.read(srcs, 0, 1);
 		}

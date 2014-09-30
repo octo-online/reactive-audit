@@ -14,23 +14,21 @@
  * limitations under the License.
  */
 
-package com.octo.reactive.audit.javax.xml.ws;
+package com.octo.reactive.audit.lib;
 
-import com.octo.reactive.audit.TestTools;
-import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
-import org.junit.Test;
+import java.lang.annotation.*;
 
-import javax.xml.ws.Dispatch;
-
-public class DispatchTest
+/**
+ * Annotation forcing the JVM agent to tolerate a method call to a blocking API without log or exception.
+ * All blocking call from this method or from one of its callees is accepted without generating an alert.
+ *
+ * @author Philippe PRADOS
+ * @since 1.0
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Target(ElementType.METHOD)
+public @interface AssumeLatency
 {
-	final private Dispatch<?> x = (Dispatch) TestTools.createProxy(Dispatch.class);
-
-	@Test(expected = NetworkReactiveAuditException.class)
-	public void invoke()
-	{
-        TestTools.strict.commit();
-		x.invoke(null);
-	}
-
+	String value() default "Tolerate a call to a blocking method from this method or its callees.";
 }

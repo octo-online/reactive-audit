@@ -16,8 +16,8 @@
 
 package com.octo.reactive.audit.java.nio.channels;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -50,7 +50,7 @@ public class DatagramChannelTest
 	{
 		try (DatagramChannel w = channel.get())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			w.connect(null);
 		}
 	}
@@ -62,7 +62,7 @@ public class DatagramChannelTest
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			w.receive(buf);
 		}
 	}
@@ -75,7 +75,7 @@ public class DatagramChannelTest
 		try (DatagramChannel w = channel.get())
 		{
 			w.configureBlocking(false);
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			w.receive(buf);
 		}
 	}
@@ -87,7 +87,7 @@ public class DatagramChannelTest
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			w.send(buf, new InetSocketAddress(HOST, PORT));
 		}
 	}
@@ -100,7 +100,7 @@ public class DatagramChannelTest
 		try (DatagramChannel w = channel.get())
 		{
 			w.configureBlocking(false);
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			w.send(buf, new InetSocketAddress(HOST, PORT));
 		}
 	}
@@ -112,7 +112,7 @@ public class DatagramChannelTest
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			w.read(buf);
 		}
 	}
@@ -125,7 +125,7 @@ public class DatagramChannelTest
 		try (DatagramChannel w = channel.get())
 		{
 			w.configureBlocking(false);
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			w.read(buf);
 		}
 	}
@@ -137,7 +137,7 @@ public class DatagramChannelTest
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			w.read(buf);
 		}
 	}
@@ -150,7 +150,7 @@ public class DatagramChannelTest
 		try (DatagramChannel w = channel.get())
 		{
 			w.configureBlocking(false);
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			w.read(buf);
 		}
 	}

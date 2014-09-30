@@ -16,8 +16,8 @@
 
 package com.octo.reactive.audit.javax.xml.parsers;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
 import org.junit.Test;
 import org.xml.sax.*;
@@ -77,7 +77,7 @@ public class SAXParserTest
 	public void parse_File_DefaultHandler()
 			throws IOException, SAXException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.parse(IOTestTools.getTempFile(), (DefaultHandler) null);
 	}
 
@@ -86,7 +86,7 @@ public class SAXParserTest
 	public void parse_File_HandlerBase()
 			throws IOException, SAXException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.parse(IOTestTools.getTempFile(), (HandlerBase) null);
 	}
 
@@ -94,7 +94,7 @@ public class SAXParserTest
 	public void parse_InputStream_DefaultHandler()
 			throws IOException, SAXException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.parse(IOTestTools.getTempFileInputStream(), (DefaultHandler) null);
 	}
 
@@ -103,7 +103,7 @@ public class SAXParserTest
 	public void parse_InputStream_HandlerBase()
 			throws IOException, SAXException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.parse(IOTestTools.getTempFileInputStream(), (HandlerBase) null);
 	}
 
@@ -112,7 +112,7 @@ public class SAXParserTest
 	public void parse_InputStream_HandlerBase_S()
 			throws IOException, SAXException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.parse(IOTestTools.getTempFileInputStream(), (HandlerBase) null, null);
 	}
 
@@ -120,7 +120,7 @@ public class SAXParserTest
 	public void parse_String_DefaultHandler()
 			throws IOException, SAXException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.parse(IOTestTools.getTempFile().toURI().toString(), (DefaultHandler) null);
 	}
 
@@ -129,7 +129,7 @@ public class SAXParserTest
 	public void parse_String_HandlerBase()
 			throws IOException, SAXException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.parse(IOTestTools.getTempFile().toURI().toString(), (HandlerBase) null);
 	}
 

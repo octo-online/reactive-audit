@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.util.concurrent.locks;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.CPUReactiveAuditException;
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ public class StampedLockTest
 	public void readLock()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		c.readLock();
 	}
 
@@ -38,7 +38,7 @@ public class StampedLockTest
 	public void readLockInterruptibly()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		c.readLockInterruptibly();
 	}
 
@@ -46,7 +46,7 @@ public class StampedLockTest
 	public void writeLock()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		c.writeLock();
 	}
 
@@ -54,7 +54,7 @@ public class StampedLockTest
 	public void writeLockInterruptibly()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		c.writeLockInterruptibly();
 	}
 

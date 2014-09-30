@@ -16,8 +16,8 @@
 
 package com.octo.reactive.audit.java.nio.channels;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.junit.Test;
 
@@ -44,7 +44,7 @@ public class SeekableByteChannelTest
 	{
 		try (SeekableByteChannel r = channel.get())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			r.position(0);
 		}
 	}
@@ -55,7 +55,7 @@ public class SeekableByteChannelTest
 	{
 		try (SeekableByteChannel r = channel.get())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			r.truncate(0);
 		}
 	}

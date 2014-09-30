@@ -16,7 +16,6 @@
 
 package com.octo.reactive.audit.java.sql;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
@@ -32,7 +31,7 @@ public class PreparedStatementTest
 	public void execute()
 			throws InterruptedException, ClassNotFoundException, SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		stm.execute();
 	}
 
@@ -40,7 +39,7 @@ public class PreparedStatementTest
 	public void executeQuery()
 			throws InterruptedException, ClassNotFoundException, SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		stm.executeQuery();
 	}
 
@@ -48,7 +47,7 @@ public class PreparedStatementTest
 	public void executeLargeUpdate()
 			throws InterruptedException, ClassNotFoundException, SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		stm.executeLargeUpdate();
 	}
 
@@ -56,7 +55,7 @@ public class PreparedStatementTest
 	public void executeUpdate()
 			throws InterruptedException, ClassNotFoundException, SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		stm.executeUpdate();
 	}
 }

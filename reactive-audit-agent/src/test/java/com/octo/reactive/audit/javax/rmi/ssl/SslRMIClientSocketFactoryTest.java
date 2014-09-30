@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.javax.rmi.ssl;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -29,7 +29,7 @@ public class SslRMIClientSocketFactoryTest
 	public void connect()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		new SslRMIClientSocketFactory().createSocket(null, 0);
 	}
 }

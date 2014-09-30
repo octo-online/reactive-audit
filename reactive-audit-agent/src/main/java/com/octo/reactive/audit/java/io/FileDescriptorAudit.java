@@ -28,7 +28,7 @@ import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 @Aspect
 public class FileDescriptorAudit extends AbstractOutputStreamAudit
 {
-	@Before("call(* java.io.FileDescriptor.*())") // FIXME
+	@Before("call(* java.io.FileDescriptor.*())") // FIXME : write unit test
 	public void advice_medium(JoinPoint thisJoinPoint)
 	{
 		latency(MEDIUM, thisJoinPoint, (OutputStream) thisJoinPoint.getTarget());

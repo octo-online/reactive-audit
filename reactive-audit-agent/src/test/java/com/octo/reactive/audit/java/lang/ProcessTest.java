@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.lang;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class ProcessTest
 	public void waitFor()
 			throws IOException, InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		Runtime.getRuntime().exec("java -version").waitFor();
 	}
 }

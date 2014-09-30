@@ -16,8 +16,8 @@
 
 package com.octo.reactive.audit.javax.xml.bind;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
 import org.junit.Test;
 
@@ -29,21 +29,21 @@ public class JAXBTest
 	@Test(expected = FileReactiveAuditException.class)
 	public void marshal_File()
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		JAXB.marshal(null, IOTestTools.getTempFile());
 	}
 
 	@Test(expected = FileReactiveAuditException.class)
 	public void marshal_OutputStream()
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		JAXB.marshal(null, IOTestTools.getTempFileOutputStream());
 	}
 
 	@Test(expected = FileReactiveAuditException.class)
 	public void marshal_Writer()
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		JAXB.marshal(null, IOTestTools.getTempFileWriter());
 	}
 
@@ -51,28 +51,28 @@ public class JAXBTest
 	public void marshal_URL()
 			throws MalformedURLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		JAXB.marshal(null, IOTestTools.getTempFile().toURI().toURL());
 	}
 
 	@Test(expected = FileReactiveAuditException.class)
 	public void unmarshal_File()
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		JAXB.unmarshal(IOTestTools.getTempFile(), null);
 	}
 
 	@Test(expected = FileReactiveAuditException.class)
 	public void unmarshal_InputStream()
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		JAXB.unmarshal(IOTestTools.getTempFileInputStream(), null);
 	}
 
 	@Test(expected = FileReactiveAuditException.class)
 	public void unmarshal_Reader()
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		JAXB.unmarshal(IOTestTools.getTempFileReader(), null);
 	}
 
@@ -80,7 +80,7 @@ public class JAXBTest
 	public void unmarshal_URL()
 			throws MalformedURLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		JAXB.unmarshal(IOTestTools.getTempFile().toURI().toURL(), null);
 	}
 }

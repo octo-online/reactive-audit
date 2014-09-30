@@ -16,8 +16,8 @@
 
 package com.octo.reactive.audit.org.xml.sax;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
 import org.junit.Test;
 import org.xml.sax.InputSource;
@@ -32,7 +32,7 @@ public class InputSourceTest
 	public void new_InputStream()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		new InputSource(new FileInputStream(IOTestTools.getTempFile()));
 	}
 
@@ -40,7 +40,7 @@ public class InputSourceTest
 	public void new_Reader()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		new InputSource(new FileReader(IOTestTools.getTempFile()));
 	}
 

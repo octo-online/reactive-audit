@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.javax.xml.ws;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 import org.w3c.dom.Element;
@@ -124,35 +124,35 @@ public class EndpointTest
 	@Test(expected = NetworkReactiveAuditException.class)
 	public void publish_HttpContext()
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.publish((HttpContext) null);
 	}
 
 	@Test(expected = NetworkReactiveAuditException.class)
 	public void publish_Object()
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.publish((Object) null);
 	}
 
 	@Test(expected = NetworkReactiveAuditException.class)
 	public void publish_String()
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.publish((String) null);
 	}
 
 	@Test(expected = NetworkReactiveAuditException.class)
 	public void publish_String_Object()
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		Endpoint.publish(null, null);
 	}
 
 	@Test(expected = NetworkReactiveAuditException.class)
 	public void publish_String_Object_WebServiceFeature()
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		Endpoint.publish(null, null, (WebServiceFeature) null);
 	}
 

@@ -16,8 +16,8 @@
 
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class FileTest
 	public void createNewFile()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		IOTestTools.getTempFile().createNewFile();
 	}
 
@@ -39,7 +39,7 @@ public class FileTest
 	public void createTempFile()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		File.createTempFile("prefix", "suffix");
 	}
 
@@ -47,7 +47,7 @@ public class FileTest
 	public void delete()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		IOTestTools.getTempFile().delete();
 	}
 
@@ -55,7 +55,7 @@ public class FileTest
 	public void exists()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		IOTestTools.getTempFile().exists();
 	}
 
@@ -63,7 +63,7 @@ public class FileTest
 	public void getFreeSpace()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		IOTestTools.getTempFile().getFreeSpace();
 	}
 
@@ -71,7 +71,7 @@ public class FileTest
 	public void getTotalSpace()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		IOTestTools.getTempFile().getTotalSpace();
 	}
 
@@ -79,7 +79,7 @@ public class FileTest
 	public void getUsableSpace()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		IOTestTools.getTempFile().getUsableSpace();
 	}
 
@@ -87,7 +87,7 @@ public class FileTest
 	public void list()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		IOTestTools.getTempFile().list();
 	}
 
@@ -95,7 +95,7 @@ public class FileTest
 	public void listFiles()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		IOTestTools.getTempFile().listFiles();
 	}
 
@@ -103,7 +103,7 @@ public class FileTest
 	public void mkdir()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		IOTestTools.getTempFile().mkdir();
 	}
 
@@ -111,7 +111,7 @@ public class FileTest
 	public void mkdirs()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		IOTestTools.getTempFile().mkdirs();
 	}
 
@@ -120,7 +120,7 @@ public class FileTest
 			throws IOException
 	{
 		File newName = new File("toto");
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		IOTestTools.getTempFile().renameTo(newName);
 	}
 
@@ -128,7 +128,7 @@ public class FileTest
 	public void setX()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		IOTestTools.getTempFile().setExecutable(true);
 	}
 }

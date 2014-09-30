@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.util.concurrent.locks;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.CPUReactiveAuditException;
 import org.junit.Test;
 
@@ -81,7 +81,7 @@ public class ConditionTest
 	public void await()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		c.await();
 	}
 
@@ -89,7 +89,7 @@ public class ConditionTest
 	public void await_to()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		c.await(1, TimeUnit.MILLISECONDS);
 	}
 
@@ -97,7 +97,7 @@ public class ConditionTest
 	public void awaitNanos()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		c.awaitNanos(1);
 	}
 }

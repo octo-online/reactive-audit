@@ -17,6 +17,7 @@
 package com.octo.reactive.audit.java.net;
 
 import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -39,7 +40,7 @@ public class SocketTest
 	public void new_1()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		try (Socket socket = new Socket())
 		{
 			socket.isConnected();
@@ -52,7 +53,7 @@ public class SocketTest
 	{
 		ReactiveAudit.off.commit();
 		InetAddress target = getByName(HOST);
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		try (Socket socket = new Socket(target, PORT))
 		{
 			socket.isConnected();
@@ -66,7 +67,7 @@ public class SocketTest
 	{
 		ReactiveAudit.off.commit();
 		InetAddress target = getByName(HOST);
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		try (Socket socket = new Socket(target, PORT, false))
 		{
 			socket.isConnected();
@@ -79,7 +80,7 @@ public class SocketTest
 	{
 		ReactiveAudit.off.commit();
 		InetAddress target = getByName(HOST);
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		try (Socket socket = new Socket(target, PORT, null, 0))
 		{
 			socket.isConnected();
@@ -91,7 +92,7 @@ public class SocketTest
 			throws IOException
 	{
 		ReactiveAudit.off.commit();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		try (Socket socket = new Socket(HOST, PORT))
 		{
 			socket.isConnected();
@@ -103,7 +104,7 @@ public class SocketTest
 			throws IOException
 	{
 		ReactiveAudit.off.commit();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		try (Socket socket = new Socket(HOST, PORT))
 		{
 			socket.isConnected();
@@ -115,7 +116,7 @@ public class SocketTest
 			throws IOException
 	{
 		ReactiveAudit.off.commit();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		try (Socket socket = new Socket(HOST, PORT, null, 0))
 		{
 			socket.isConnected();
@@ -130,7 +131,7 @@ public class SocketTest
 		try (Socket socket = new Socket())
 		{
 			SocketAddress add = new InetSocketAddress(HOST, PORT);
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			socket.connect(add);
 		}
 	}
@@ -142,7 +143,7 @@ public class SocketTest
 		ReactiveAudit.off.commit();
 		try (Socket socket = new Socket(HOST, PORT))
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			socket.getInputStream();
 		}
 	}
@@ -154,7 +155,7 @@ public class SocketTest
 		ReactiveAudit.off.commit();
 		try (Socket socket = new Socket(HOST, PORT))
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			socket.getInputStream().read();
 		}
 	}
@@ -166,7 +167,7 @@ public class SocketTest
 		ReactiveAudit.off.commit();
 		try (Socket socket = new Socket(HOST, PORT))
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			socket.getOutputStream();
 		}
 	}
@@ -178,7 +179,7 @@ public class SocketTest
 		ReactiveAudit.off.commit();
 		try (Socket socket = new Socket(HOST, PORT))
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			socket.getOutputStream().write(new byte[1]);
 		}
 	}
@@ -191,7 +192,7 @@ public class SocketTest
 		ReactiveAudit.off.commit();
 		try (Socket socket = new Socket("www.google.com", PORT))
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			socket.sendUrgentData(DATA);
 		}
 	}

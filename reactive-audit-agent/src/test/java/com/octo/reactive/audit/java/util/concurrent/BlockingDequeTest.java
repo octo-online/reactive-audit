@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.util.concurrent;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.CPUReactiveAuditException;
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ public class BlockingDequeTest
 	@Test(expected = CPUReactiveAuditException.class)
 	public void poll()
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		BlockingDeque<Object> q = new LinkedBlockingDeque<>();
 		q.poll();
 	}
@@ -39,7 +39,7 @@ public class BlockingDequeTest
 	public void pool_tu()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		BlockingDeque<Object> q = new LinkedBlockingDeque<>();
 		q.poll(1, TimeUnit.MILLISECONDS);
 	}
@@ -48,7 +48,7 @@ public class BlockingDequeTest
 	public void poolFirst()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		BlockingDeque<Object> q = new LinkedBlockingDeque<>();
 		q.pollFirst(1, TimeUnit.MILLISECONDS);
 	}
@@ -57,7 +57,7 @@ public class BlockingDequeTest
 	public void poolLast()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		BlockingDeque<Object> q = new LinkedBlockingDeque<>();
 		q.pollLast(1, TimeUnit.MILLISECONDS);
 	}
@@ -66,7 +66,7 @@ public class BlockingDequeTest
 	public void put()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		BlockingDeque<Object> q = new LinkedBlockingDeque<>();
 		q.put("");
 	}
@@ -75,7 +75,7 @@ public class BlockingDequeTest
 	public void putFirst()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		BlockingDeque<Object> q = new LinkedBlockingDeque<>();
 		q.putFirst("");
 	}
@@ -84,7 +84,7 @@ public class BlockingDequeTest
 	public void putLast()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		BlockingDeque<Object> q = new LinkedBlockingDeque<>();
 		q.putLast("");
 	}

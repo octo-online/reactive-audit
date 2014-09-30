@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.util.concurrent.locks;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.CPUReactiveAuditException;
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ public class AbstractQueuedLongSynchronizerTest
 	public void acquire()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		c.acquire(1);
 	}
 
@@ -41,7 +41,7 @@ public class AbstractQueuedLongSynchronizerTest
 	public void acquireInterruptibly()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		c.acquireInterruptibly(1);
 	}
 
@@ -49,7 +49,7 @@ public class AbstractQueuedLongSynchronizerTest
 	public void acquireShared()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		c.acquireShared(1);
 	}
 
@@ -57,7 +57,7 @@ public class AbstractQueuedLongSynchronizerTest
 	public void acquireSharedInterruptibly()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		c.acquireSharedInterruptibly(1);
 	}
 }

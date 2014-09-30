@@ -16,7 +16,6 @@
 
 package com.octo.reactive.audit.javax.sql.rowset;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
@@ -33,7 +32,7 @@ public class JdbcRowSetTest
 	public void commit()
 			throws SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.commit();
 	}
 
@@ -41,7 +40,7 @@ public class JdbcRowSetTest
 	public void rollback()
 			throws SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.rollback();
 	}
 
@@ -49,7 +48,7 @@ public class JdbcRowSetTest
 	public void rollback_SavePoint()
 			throws InterruptedException, IOException, SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.rollback(null);
 	}
 }

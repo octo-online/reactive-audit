@@ -16,8 +16,8 @@
 
 package com.octo.reactive.audit.java.lang;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ public class AppendableTest
 	public void append()
 			throws InterruptedException, IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		Appendable app = new FileWriter(IOTestTools.getTempFile());
 		app.append("a");
 	}

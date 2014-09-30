@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.javax.xml.soap;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -41,7 +41,7 @@ public class SOAPConnectionFactoryTest
 	public void createConnection()
 			throws SOAPException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.createConnection();
 	}
 

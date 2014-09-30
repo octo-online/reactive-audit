@@ -16,7 +16,6 @@
 
 package com.octo.reactive.audit.javax.sql.rowset;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
@@ -33,7 +32,7 @@ public class CachedRowSetTest
 	public void acceptChanges()
 			throws SyncProviderException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.acceptChanges();
 	}
 
@@ -41,7 +40,7 @@ public class CachedRowSetTest
 	public void acceptChanges_Connection()
 			throws SyncProviderException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.acceptChanges(null);
 	}
 
@@ -49,7 +48,7 @@ public class CachedRowSetTest
 	public void commit()
 			throws SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.commit();
 	}
 
@@ -57,7 +56,7 @@ public class CachedRowSetTest
 	public void execute()
 			throws SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.execute(null);
 	}
 
@@ -65,7 +64,7 @@ public class CachedRowSetTest
 	public void rollback()
 			throws SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.rollback();
 	}
 
@@ -73,7 +72,7 @@ public class CachedRowSetTest
 	public void rollback_SavePoint()
 			throws SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.rollback(null);
 	}
 }

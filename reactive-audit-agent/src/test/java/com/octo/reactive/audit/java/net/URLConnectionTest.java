@@ -17,6 +17,7 @@
 package com.octo.reactive.audit.java.net;
 
 import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -46,7 +47,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getContent();
 	}
 
@@ -57,7 +58,7 @@ public abstract class URLConnectionTest
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ReactiveAudit.off.commit();
 		conn.connect();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getContent();
 	}
 
@@ -67,7 +68,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getContent(new Class[]{String.class});
 	}
 
@@ -77,7 +78,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getContentEncoding();
 	}
 
@@ -87,7 +88,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getContentLength();
 	}
 
@@ -97,7 +98,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getContentLengthLong();
 	}
 
@@ -107,7 +108,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getContentType();
 	}
 
@@ -117,7 +118,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getDate();
 	}
 
@@ -127,7 +128,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getExpiration();
 	}
 
@@ -137,7 +138,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getHeaderField(0);
 	}
 
@@ -147,7 +148,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getHeaderField("mime/type");
 	}
 
@@ -157,7 +158,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getHeaderFieldDate("expiration", 0);
 	}
 
@@ -167,7 +168,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getHeaderFieldInt("expiration", 0);
 	}
 
@@ -177,7 +178,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getHeaderFieldKey(0);
 	}
 
@@ -187,7 +188,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getHeaderFieldLong("expiration", 0);
 	}
 
@@ -197,7 +198,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getHeaderFields();
 	}
 
@@ -207,7 +208,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getIfModifiedSince();
 	}
 
@@ -217,7 +218,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getInputStream();
 	}
 
@@ -228,7 +229,7 @@ public abstract class URLConnectionTest
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		InputStream in = conn.getInputStream();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		in.read();
 	}
 
@@ -238,7 +239,7 @@ public abstract class URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getLastModified();
 	}
 
@@ -249,7 +250,7 @@ public abstract class URLConnectionTest
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		conn.setDoOutput(true);
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		conn.getOutputStream();
 	}
 
@@ -261,7 +262,7 @@ public abstract class URLConnectionTest
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		conn.setDoOutput(true);
 		OutputStream out = conn.getOutputStream();
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		out.write(new byte[1]);
 	}
 

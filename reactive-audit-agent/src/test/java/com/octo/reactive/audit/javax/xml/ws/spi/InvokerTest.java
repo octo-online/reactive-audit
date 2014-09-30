@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.javax.xml.ws.spi;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -49,7 +49,7 @@ public class InvokerTest
 	public void invoke()
 			throws InvocationTargetException, IllegalAccessException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.invoke(null, (Object) null);
 	}
 

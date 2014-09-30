@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.javax.net.ssl;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ public class SSLSocketTest
 	@Test(expected = NetworkReactiveAuditException.class)
 	public void New()
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		new MySSLSocket();
 	}
 

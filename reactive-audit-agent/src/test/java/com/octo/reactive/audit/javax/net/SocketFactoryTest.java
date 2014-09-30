@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.javax.net;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -61,7 +61,7 @@ public class SocketFactoryTest
 	public void createSocket()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		sf.createSocket();
 	}
 
@@ -69,7 +69,7 @@ public class SocketFactoryTest
 	public void createSocket_InetAddressI()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		sf.createSocket(InetAddress.getLocalHost(), 1);
 	}
 }

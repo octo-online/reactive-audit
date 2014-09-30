@@ -17,6 +17,7 @@
 package com.octo.reactive.audit.java.net;
 
 import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -34,7 +35,7 @@ public class ServerSocketTest
 		ReactiveAudit.off.commit();
 		try (ServerSocket socket = new ServerSocket(PORT))
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			ReactiveAudit.config.begin().debug(true).commit();
 			socket.accept();
 		}

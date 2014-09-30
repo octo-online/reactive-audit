@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.util.concurrent;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.CPUReactiveAuditException;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class ExecutorServiceTest
 	public void awaitTermination()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		e.awaitTermination(1, TimeUnit.MILLISECONDS);
 	}
 
@@ -39,7 +39,7 @@ public class ExecutorServiceTest
 	public void invokeAny()
 			throws InterruptedException, ExecutionException, TimeoutException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		e.invokeAny(new ArrayList<Callable<Object>>(), 1, TimeUnit.MILLISECONDS);
 	}
 
@@ -47,7 +47,7 @@ public class ExecutorServiceTest
 	public void shutdownNow()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		e.shutdownNow();
 	}
 }

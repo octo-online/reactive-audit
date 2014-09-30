@@ -94,7 +94,6 @@ test {
 //    }
 
     include 'com/octo/reactive/audit/**'
-
     def weaver = "-javaagent:" +
             project.configurations.testRuntime.find { it.name.startsWith("aspectjweaver-") }
     def reactiveAuditConf = "-DreactiveAudit=src/test/resources/testReactiveAudit.properties"

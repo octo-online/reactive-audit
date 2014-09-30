@@ -16,8 +16,8 @@
 
 package com.octo.reactive.audit.javax.xml.parsers;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
 import org.junit.Test;
 import org.w3c.dom.DOMImplementation;
@@ -83,7 +83,7 @@ public class DocumentBuilderTest
 	public void parse_File()
 			throws IOException, SAXException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.parse(IOTestTools.getTempFile());
 	}
 
@@ -91,7 +91,7 @@ public class DocumentBuilderTest
 	public void parse_String()
 			throws IOException, SAXException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.parse(IOTestTools.getTempFile().toURI().toString());
 	}
 

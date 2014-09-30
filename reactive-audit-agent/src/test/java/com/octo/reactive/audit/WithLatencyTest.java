@@ -16,8 +16,8 @@
 
 package com.octo.reactive.audit;
 
-import com.octo.reactive.audit.lib.ReactiveAuditException;
 import com.octo.reactive.audit.lib.Latency;
+import com.octo.reactive.audit.lib.ReactiveAuditException;
 import com.octo.reactive.audit.lib.WithLatency;
 import org.junit.Test;
 
@@ -27,10 +27,10 @@ import static org.junit.Assert.fail;
 
 public class WithLatencyTest
 {
-	@Test
+	@Test(expected = ReactiveAuditException.class)
 	public void invokeWithLatencyLow()
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		class Test
 		{
 			@WithLatency(LOW)
@@ -46,13 +46,14 @@ public class WithLatencyTest
 		catch (ReactiveAuditException e)
 		{
 			assertEquals(LOW, e.getLatency());
+            throw e;
 		}
 	}
 
-	@Test
+	@Test(expected = ReactiveAuditException.class)
 	public void invokeWithLatencyMedium()
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		class Test
 		{
 			@WithLatency(Latency.MEDIUM)
@@ -68,13 +69,14 @@ public class WithLatencyTest
 		catch (ReactiveAuditException e)
 		{
 			assertEquals(MEDIUM, e.getLatency());
+            throw e;
 		}
 	}
 
-	@Test
+	@Test(expected = ReactiveAuditException.class)
 	public void invokeWithLatencyHigh()
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		class Test
 		{
 			@WithLatency(Latency.HIGH)
@@ -90,6 +92,7 @@ public class WithLatencyTest
 		catch (ReactiveAuditException e)
 		{
 			assertEquals(HIGH, e.getLatency());
+            throw e;
 		}
 	}
 }

@@ -16,7 +16,6 @@
 
 package com.octo.reactive.audit.javax.sql;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
@@ -33,7 +32,7 @@ public class ConnectionPoolDataSourceTest
 	public void getPooledConnection()
 			throws SQLException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.getPooledConnection();
 	}
 
@@ -41,7 +40,7 @@ public class ConnectionPoolDataSourceTest
 	public void getPooledConnection_up()
 			throws SQLException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.getPooledConnection(null, null);
 	}
 

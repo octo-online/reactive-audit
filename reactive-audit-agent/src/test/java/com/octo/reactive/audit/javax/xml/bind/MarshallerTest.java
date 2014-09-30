@@ -16,7 +16,6 @@
 
 package com.octo.reactive.audit.javax.xml.bind;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
@@ -33,7 +32,7 @@ public class MarshallerTest
 	public void marshal_File()
 			throws JAXBException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.marshal(null, IOTestTools.getTempFile());
 	}
 
@@ -41,7 +40,7 @@ public class MarshallerTest
 	public void marshal_OutputStream()
 			throws JAXBException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.marshal(null, IOTestTools.getTempFileOutputStream());
 	}
 
@@ -49,7 +48,7 @@ public class MarshallerTest
 	public void marshal_Writer()
 			throws JAXBException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.marshal(null, IOTestTools.getTempFileWriter());
 	}
 

@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.rmi.server;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -37,7 +37,7 @@ public class RemoteRefTest
 	public void invoke()
 			throws Exception
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		RemoteRef ref = new RemoteRef()
 		{
 

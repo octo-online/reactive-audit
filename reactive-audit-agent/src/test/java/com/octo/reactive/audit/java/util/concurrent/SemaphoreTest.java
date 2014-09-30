@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.util.concurrent;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.CPUReactiveAuditException;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class SemaphoreTest
 	public void acquire()
 			throws InterruptedException, ExecutionException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		p.acquire();
 	}
 
@@ -39,7 +39,7 @@ public class SemaphoreTest
 	public void acquireUninterruptibly()
 			throws InterruptedException, ExecutionException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		p.acquireUninterruptibly();
 	}
 

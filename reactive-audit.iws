@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="55459f4c-5cfd-4c19-a011-f7f63020437d" name="Default" comment="Fix Linux usage">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/reactive-audit-agent/src/main/java/com/octo/reactive/audit/SuppressReactiveAuditAudit.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/reactive-audit-agent/src/test/java/com/octo/reactive/audit/SuppressReactiveAuditTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/reactive-audit-lib/src/main/java/com/octo/reactive/audit/lib/SuppressReactiveAudit.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reactive-audit-agent/src/main/java/com/octo/reactive/audit/ReactiveAudit.java" afterPath="$PROJECT_DIR$/reactive-audit-agent/src/main/java/com/octo/reactive/audit/ReactiveAudit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reactive-audit-agent/src/test/java/com/octo/reactive/audit/ReactiveAuditTest.java" afterPath="$PROJECT_DIR$/reactive-audit-agent/src/test/java/com/octo/reactive/audit/ReactiveAuditTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reactive-audit-integration/src/main/java/com/octo/reactive/sample/TestApp.java" afterPath="$PROJECT_DIR$/reactive-audit-integration/src/main/java/com/octo/reactive/sample/TestApp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reactive-audit-agent/src/main/resources/META-INF/aop.xml" afterPath="$PROJECT_DIR$/reactive-audit-agent/src/main/resources/META-INF/aop.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reactive-audit-integration/build.gradle" afterPath="$PROJECT_DIR$/reactive-audit-integration/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reactive-audit-lib/build.gradle" afterPath="$PROJECT_DIR$/reactive-audit-lib/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reactive-audit-agent/reactive-audit-agent.iml" afterPath="$PROJECT_DIR$/reactive-audit-agent/reactive-audit-agent.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reactive-audit-lib/reactive-audit-lib.iml" afterPath="$PROJECT_DIR$/reactive-audit-lib/reactive-audit-lib.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reactive-audit.iml" afterPath="$PROJECT_DIR$/reactive-audit.iml" />
+    <list default="true" id="55459f4c-5cfd-4c19-a011-f7f63020437d" name="Default" comment="Extend integration&#10;Rename annotation">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reactive-audit.iws" afterPath="$PROJECT_DIR$/reactive-audit.iws" />
     </list>
     <ignored path="reactive-audit.iws" />
@@ -25,6 +13,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="Commander">
+    <leftPanel />
+    <rightPanel />
+    <splitter proportion="0.5" />
+  </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
@@ -73,11 +66,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ReactiveAudit.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ReactiveAudit.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/reactive-audit-agent/src/main/java/com/octo/reactive/audit/ReactiveAudit.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.12371134" vertical-offset="1679" max-vertical-offset="10421">
-              <caret line="120" column="5" selection-start-line="120" selection-start-column="5" selection-end-line="120" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1679" max-vertical-offset="10421">
+              <caret line="138" column="16" selection-start-line="138" selection-start-column="16" selection-end-line="138" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2879#2892#0" expanded="true" />
@@ -102,21 +95,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="build.gradle" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/reactive-audit-integration/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
+            <state vertical-scroll-proportion="0.25671142" vertical-offset="0" max-vertical-offset="1020">
               <caret line="23" column="42" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/reactive-audit-integration/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3111">
-              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -125,9 +108,21 @@
       <file leaf-file-name="version.properties" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/reactive-audit-agent/src/main/resources/version.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
-              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="596">
+              <caret line="0" column="23" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="23" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WithLatencyTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/reactive-audit-agent/src/test/java/com/octo/reactive/audit/WithLatencyTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="355" max-vertical-offset="1258">
+              <caret line="60" column="8" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="8" />
+              <folding>
+                <element signature="e#1453#1454#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -161,9 +156,9 @@
         <option value="$PROJECT_DIR$/reactive-audit-agent/src/main/java/com/octo/reactive/audit/AssumeLatencyAudit.java" />
         <option value="$PROJECT_DIR$/reactive-audit-agent/src/main/resources/META-INF/aop.xml" />
         <option value="$PROJECT_DIR$/reactive-audit-integration/src/main/java/com/octo/reactive/sample/TestApp.java" />
-        <option value="$PROJECT_DIR$/reactive-audit-agent/src/main/resources/version.properties" />
         <option value="$PROJECT_DIR$/reactive-audit-integration/build.gradle" />
         <option value="$PROJECT_DIR$/reactive-audit-agent/src/main/java/com/octo/reactive/audit/ReactiveAudit.java" />
+        <option value="$PROJECT_DIR$/reactive-audit-agent/src/main/resources/version.properties" />
       </list>
     </option>
   </component>
@@ -433,8 +428,9 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/reactive-audit-agent/build.gradle" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="FullScreen" value="false" />
+    <property name="external.system.task.project.file.to.start" value="$PROJECT_DIR$/reactive-audit-agent/build.gradle" />
   </component>
-  <component name="RunManager" selected="Remote.Testremote">
+  <component name="RunManager" selected="Gradle.Test">
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -586,7 +582,7 @@
     </configuration>
     <configuration default="false" name="Test" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/reactive-audit-agent/build.gradle" />
         <option name="externalSystemIdString" value="GRADLE" />
         <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
@@ -604,7 +600,9 @@
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
       </RunnerSettings>
+      <RunnerSettings RunnerId="ExternalSystemTaskRunner" />
       <ConfigurationWrapper RunnerId="ExternalSystemTaskDebugRunner" />
+      <ConfigurationWrapper RunnerId="ExternalSystemTaskRunner" />
       <method />
     </configuration>
     <configuration default="false" name="Testremote" type="Remote" factoryName="Remote">
@@ -644,7 +642,11 @@
       <created>1412070478331</created>
       <updated>1412070478331</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Extend integration&#10;Rename annotation">
+      <created>1412073654813</created>
+      <updated>1412073654813</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -654,14 +656,15 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.4997236" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12325831" sideWeight="0.5002764" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34405145" sideWeight="0.4997236" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34405145" sideWeight="0.4997236" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20232172" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.4997236" order="1" side_tool="false" content_ui="tabs" />
@@ -670,7 +673,6 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22829582" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3290461" sideWeight="0.4997236" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Palette " active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -715,12 +717,15 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
     <MESSAGE value="Fix Linux usage" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix Linux usage" />
+    <MESSAGE value="Extend integration&#10;Rename annotation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Extend integration&#10;Rename annotation" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -746,6 +751,10 @@
       </breakpoints>
       <option name="time" value="36" />
     </breakpoint-manager>
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/init-home.sh">
@@ -1002,17 +1011,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/reactive-audit-agent/src/test/java/com/octo/reactive/audit/WithLatencyTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.580756" vertical-offset="274" max-vertical-offset="1258">
-          <caret line="60" column="18" selection-start-line="60" selection-start-column="18" selection-end-line="60" selection-end-column="18" />
-          <folding>
-            <element signature="e#1436#1437#0" expanded="true" />
-            <element signature="e#1453#1454#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/reactive-audit-agent/src/main/resources/META-INF/aop.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="551" max-vertical-offset="3927">
@@ -1045,6 +1043,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/reactive-audit-integration/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.71308726" vertical-offset="0" max-vertical-offset="3111">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reactive-audit-agent/src/main/java/com/octo/reactive/audit/ReactiveAudit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1679" max-vertical-offset="10421">
+          <caret line="138" column="16" selection-start-line="138" selection-start-column="16" selection-end-line="138" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2879#2892#0" expanded="true" />
+            <element signature="e#5364#5365#0" expanded="true" />
+            <element signature="e#5383#5384#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reactive-audit-agent/src/main/resources/version.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="582">
+          <caret line="0" column="23" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reactive-audit-agent/src/test/java/com/octo/reactive/audit/WithLatencyTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="355" max-vertical-offset="1258">
+          <caret line="60" column="8" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="8" />
+          <folding>
+            <element signature="e#1453#1454#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/reactive-audit-integration/src/main/java/com/octo/reactive/sample/TestApp.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="98" max-vertical-offset="697">
@@ -1057,40 +1094,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/reactive-audit-integration/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3111">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/reactive-audit-agent/src/main/resources/version.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/reactive-audit-integration/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
+        <state vertical-scroll-proportion="0.25671142" vertical-offset="0" max-vertical-offset="1020">
           <caret line="23" column="42" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/reactive-audit-agent/src/main/java/com/octo/reactive/audit/ReactiveAudit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12371134" vertical-offset="1679" max-vertical-offset="10421">
-          <caret line="120" column="5" selection-start-line="120" selection-start-column="5" selection-end-line="120" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2879#2892#0" expanded="true" />
-            <element signature="e#5364#5365#0" expanded="true" />
-            <element signature="e#5383#5384#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

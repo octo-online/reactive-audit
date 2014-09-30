@@ -16,7 +16,6 @@
 
 package com.octo.reactive.audit.javax.xml.bind;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
@@ -34,7 +33,7 @@ public class UnmarshallerTest
 	public void unmarshal_File()
 			throws JAXBException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.unmarshal(IOTestTools.getTempFile());
 	}
 
@@ -42,7 +41,7 @@ public class UnmarshallerTest
 	public void unmarshal_InputStream()
 			throws JAXBException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.unmarshal(IOTestTools.getTempFileInputStream());
 	}
 
@@ -50,7 +49,7 @@ public class UnmarshallerTest
 	public void unmarshal_Reader()
 			throws JAXBException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.unmarshal(IOTestTools.getTempFileReader());
 	}
 
@@ -58,7 +57,7 @@ public class UnmarshallerTest
 	public void unmarshal_URL()
 			throws MalformedURLException, JAXBException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.unmarshal(IOTestTools.getTempFile().toURI().toURL());
 	}
 

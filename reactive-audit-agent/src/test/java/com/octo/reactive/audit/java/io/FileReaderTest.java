@@ -16,8 +16,9 @@
 
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
 import org.junit.Test;
 
@@ -48,7 +49,7 @@ public class FileReaderTest extends InputStreamReaderTest
 	public void New()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		try (Reader in = new FileReader(IOTestTools.getTempFile()))
 		{
 			ReactiveAudit.off.commit();
@@ -59,7 +60,7 @@ public class FileReaderTest extends InputStreamReaderTest
 	public void New_String()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		try (Reader in = new FileReader(IOTestTools.getTempFile().getName()))
 		{
 			ReactiveAudit.off.commit();

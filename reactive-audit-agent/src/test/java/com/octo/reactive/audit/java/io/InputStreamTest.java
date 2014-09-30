@@ -17,6 +17,7 @@
 package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -32,7 +33,7 @@ public abstract class InputStreamTest
 	public void New()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		try (InputStream in = newInputStream())
 		{
 			ReactiveAudit.off.commit();
@@ -46,7 +47,7 @@ public abstract class InputStreamTest
 		ReactiveAudit.off.commit();
 		try (InputStream in = newInputStream())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			in.available();
 		}
 	}
@@ -58,7 +59,7 @@ public abstract class InputStreamTest
 		ReactiveAudit.off.commit();
 		try (InputStream in = newInputStream())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			in.close();
 		}
 	}
@@ -70,7 +71,7 @@ public abstract class InputStreamTest
 		ReactiveAudit.off.commit();
 		try (InputStream in = newInputStream())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			in.read();
 		}
 	}
@@ -82,7 +83,7 @@ public abstract class InputStreamTest
 		ReactiveAudit.off.commit();
 		try (InputStream in = newInputStream())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			in.read(new byte[1]);
 		}
 	}
@@ -94,7 +95,7 @@ public abstract class InputStreamTest
 		ReactiveAudit.off.commit();
 		try (InputStream in = newInputStream())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			in.read(new byte[1], 0, 1);
 		}
 	}
@@ -106,7 +107,7 @@ public abstract class InputStreamTest
 		ReactiveAudit.off.commit();
 		try (InputStream in = newInputStream())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			in.skip(0);
 		}
 	}

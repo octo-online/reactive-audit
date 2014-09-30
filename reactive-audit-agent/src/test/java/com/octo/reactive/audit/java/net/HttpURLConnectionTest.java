@@ -17,6 +17,7 @@
 package com.octo.reactive.audit.java.net;
 
 import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -35,7 +36,7 @@ public class HttpURLConnectionTest extends URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		HttpURLConnection conn = (HttpURLConnection) new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		conn.getResponseCode();
 	}
 
@@ -45,7 +46,7 @@ public class HttpURLConnectionTest extends URLConnectionTest
 	{
 		ReactiveAudit.off.commit();
 		HttpURLConnection conn = (HttpURLConnection) new URL("http://" + HOST + ":" + PORT).openConnection();
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		conn.getResponseMessage();
 	}
 }

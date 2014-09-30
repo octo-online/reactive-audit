@@ -17,6 +17,7 @@
 package com.octo.reactive.audit.java.nio.channels;
 
 import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -32,7 +33,7 @@ public class SelectorTest
 		ReactiveAudit.config.begin().debug(true).commit();
 		try (Selector r = Selector.open())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			r.select();
 		}
 	}
@@ -44,7 +45,7 @@ public class SelectorTest
 		ReactiveAudit.config.begin().debug(true).commit();
 		try (Selector r = Selector.open())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			r.select(100);
 		}
 	}

@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.util.concurrent;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.CPUReactiveAuditException;
 import org.junit.Test;
 
@@ -42,7 +42,7 @@ public class CompletionServiceTest
 	public void poll()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		CompletionService<Object> q = new ExecutorCompletionService<Object>(e);
 		q.poll(1, TimeUnit.MILLISECONDS);
 	}
@@ -51,7 +51,7 @@ public class CompletionServiceTest
 	public void take()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		CompletionService<Object> q = new ExecutorCompletionService<Object>(e);
 		q.take();
 	}

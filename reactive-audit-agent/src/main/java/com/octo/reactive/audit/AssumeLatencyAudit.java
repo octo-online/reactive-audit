@@ -14,25 +14,28 @@
  * limitations under the License.
  */
 
-package com.octo.reactive.audit.java.lang;
+package com.octo.reactive.audit;
 
-import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.ReactiveAuditException;
-import org.junit.Test;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.nio.CharBuffer;
-
-public class ReadableTest
+@Aspect
+public class AssumeLatencyAudit
 {
-	@Test(expected = ReactiveAuditException.class)
-	public void waitFor()
-			throws IOException, InterruptedException
+	@Before("execution(@com.octo.reactive.audit.lib.AssumeLatency * *(..) )")
+	public void beforeSuppress(JoinPoint thisJoinPoint)
+			throws ReactiveAuditException
 	{
-        TestTools.strict.commit();
-		Readable readable = new StringReader("");
-		CharBuffer buf = CharBuffer.allocate(1);
-		readable.read(buf);
+		ReactiveAudit.config.incSuppress();
+	}
+
+	@After("execution(@com.octo.reactive.audit.lib.AssumeLatency * *(..))")
+	public void afterSuppress(JoinPoint thisJoinPoint)
+			throws ReactiveAuditException
+	{
+		ReactiveAudit.config.decSuppress();
 	}
 }

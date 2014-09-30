@@ -15,6 +15,7 @@
 # AUDIT_OPTS  - JVM options for audit
 # *_OPTS      - If <framework> would like.
 #
+trap "set +e" SIGHUP SIGINT SIGTERM
 set -e
 
 usage() {
@@ -109,15 +110,14 @@ cygwinpath() {
 
 # Generates Paths format
 cygwinpaths() {
+  local files="$1"
   shift
   if is_cygwin; then
-      local files=$(cygwinpath $1)
       for file in $*
       do
         files="$files;$(cygwinpath ${file})"
       done
   else
-      local files=$(cygunixpath $1)
       for file in $*
       do
         files="$files:$(cygunixpath ${file})"
@@ -302,3 +302,7 @@ else
 fi
 
 fi  # java_version
+
+unset jre_home
+
+set +e # Else, the futur error exit the shell

@@ -49,47 +49,47 @@ to *detect* and *inject* each audits rules._
 You can add a framework name as a parameter of this command, such as
 `catalina`, `jetty` or `play`.
 
-To start **JVM** with the audit on Windows:
+To start **JVM** with the audit on *Windows*:
 
     > init-reactive-audit
     > java %AUDIT_OPTS% ...
 
-To start **JVM** with the audit on Mac/Linux:
+To start **JVM** with the audit on *Mac/Linux*:
 
     > source init-reactive-audit.sh
     > java %AUDIT_OPTS% ...
 
-To start **jetty** with the audit on Windows:
+To start **jetty** with the audit on *Windows*:
 
     > init-reactive-audit jetty
     > java %AUDIT_OPTS% -jar start.jar
 
-To start **jetty** with the audit on Mac/Linux:
+To start **jetty** with the audit on *Mac/Linux*:
 
     > source init-reactive-audit.sh jetty
     > java %AUDIT_OPTS% -jar start.jar
 
-To start **catalina** (Tomcat) with audit on Windows:
+To start **catalina** (Tomcat) with audit on *Windows*:
 
     > init-reactive-audit catalina
     > catalina run
 
-To start **catalina** (Tomcat) with audit on Mac/Linux:
+To start **catalina** (Tomcat) with audit on *Mac/Linux*:
 
     > source init-reactive-audit.sh catalina
     > catalina run
 
-To start **play** with the audit on Windows:
+To start **play** with the audit on *Windows*:
 
     > init-reactive-audit play
     > activator run
 
-To start **play** with the audit on Mac/Linux:
+To start **play** with the audit on *Mac/Linux*:
 
     >source init-reactive-audit.sh play
     > activator run
 
-For the background, this script adds the boot classpath `<audit home>/lib`
+For the background, this script append the `java.ext.dir` with `<audit home>/lib`
 and adds the agent using `-javaagent:<audit home>/lib/aspectjweaver.jar`.
 
 If a framework is selected, this script adds a default associated parameter file
@@ -100,7 +100,7 @@ Sometime, the specific environment variable is set to start the framework.
 All the parameters are named using the pattern `reactiveAudit.<key>`.
 To set the parameters, you can use:
 
-* an environment variable (`set reactiveAudit.file=low`)
+* an environment variable (`set reactiveAudit_file=low`)
 * a properties file (`reactiveAudit.file=low`)
 * or the java system properties (`java -DreactiveAudit.file=low ...`)
 
@@ -131,6 +131,14 @@ use one of
 
     ./gradlew distZip
     ./gradlew distTar
+
+## Use IntelliJ
+Init projets
+    ./gradlew idea
+
+## Use Eclipse
+Init projets
+    ./gradlew eclipse
 
 ## Test distribution (Option 1)
 Add `./build/install/reactive-audit/bin` in `PATH`, and

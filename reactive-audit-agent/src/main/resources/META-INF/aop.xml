@@ -42,7 +42,7 @@
         <aspect name="com.octo.reactive.audit.DebugAspect"/>
         <!--<aspect name="com.octo.reactive.audit.DumpJoinPoint"/>-->
         <aspect name="com.octo.reactive.audit.MainAspect"/>
-        <aspect name="com.octo.reactive.audit.SuppressReactiveAuditAudit"/>
+        <aspect name="com.octo.reactive.audit.AssumeLatencyAudit"/>
         <aspect name="com.octo.reactive.audit.WithLatencyAudit"/>
 
         <!-- java.io -->

@@ -16,10 +16,10 @@
 
 package com.octo.reactive.audit;
 
+import com.octo.reactive.audit.lib.AssumeLatency;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
-import com.octo.reactive.audit.lib.ReactiveAuditException;
 import com.octo.reactive.audit.lib.Latency;
-import com.octo.reactive.audit.lib.SuppressReactiveAudit;
+import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.junit.Test;
 
 import java.io.File;
@@ -127,7 +127,7 @@ public class ReactiveAuditTest
 	}
 
 	@Test
-	@SuppressReactiveAudit // For accept join
+	@AssumeLatency // For accept join
 	public void logIfNewThread()
 			throws InterruptedException
 	{

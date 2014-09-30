@@ -120,14 +120,24 @@ public class ReactiveAudit
     synchronized void shutdown()
 	{
         // Just shortly
-        logger.config("Total low   =" + statLow.sum());
-        logger.config("Total medium=" + statMedium.sum());
-        logger.config("Total high  =" + statHigh.sum());
-        logger.config("Max. concurrent threads=" + statMaxThread +
-                " (Number of node:" + Runtime.getRuntime().availableProcessors() + ")");
-        logger.config("Shutdown audit");
-        if (logHandler != null) {
-            logHandler.close();
+        synchronized (LogManager.getLogManager())
+        {
+            String cr = System.getProperty("line.separator");
+            long low = statLow.sum();
+            long medium = statMedium.sum();
+            long high = statHigh.sum();
+            StringBuilder buf =
+                    new StringBuilder(cr)
+                            .append("\tTotal high  =").append(high).append(cr)
+                            .append("\tTotal medium=").append(medium).append(cr)
+                            .append("\tTotal low   =").append(low).append(cr)
+                            .append("\tMax. concurrent threads=").append(statMaxThread.get())
+                            .append(" (Number of node:").append(Runtime.getRuntime().availableProcessors()).append(")").append(cr)
+                            .append("Shutdown audit");
+            logger.config(buf.toString());
+            if (logHandler != null) {
+                logHandler.close();
+            }
         }
 	}
 

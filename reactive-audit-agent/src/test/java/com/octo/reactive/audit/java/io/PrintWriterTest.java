@@ -16,8 +16,9 @@
 
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
 import org.junit.Test;
 
@@ -65,7 +66,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 		ReactiveAudit.off.commit();
 		try (PrintWriter out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.format(Locale.getDefault(), "", "");
 		}
 	}
@@ -77,7 +78,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 		ReactiveAudit.off.commit();
 		try (PrintWriter out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.format(Locale.getDefault(), "");
 		}
 	}
@@ -89,7 +90,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 		ReactiveAudit.off.commit();
 		try (PrintWriter out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.print(true);
 		}
 	}
@@ -101,7 +102,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 		ReactiveAudit.off.commit();
 		try (PrintWriter out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.print(3);
 		}
 	}
@@ -114,7 +115,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 		ReactiveAudit.off.commit();
 		try (PrintWriter out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.printf(Locale.getDefault(), "", 3);
 		}
 	}
@@ -126,7 +127,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 		ReactiveAudit.off.commit();
 		try (PrintWriter out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.printf(Locale.getDefault(), "");
 		}
 	}
@@ -138,7 +139,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 		ReactiveAudit.off.commit();
 		try (PrintWriter out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.println(true);
 		}
 	}
@@ -150,7 +151,7 @@ public class PrintWriterTest extends OutputStreamWriterTest
 		ReactiveAudit.off.commit();
 		try (PrintWriter out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.println(3);
 		}
 	}

@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.rmi.registry;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -32,7 +32,7 @@ public class RegistryTest
 	public void lookup()
 			throws NotBoundException, RemoteException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		LocateRegistry.createRegistry(RMIPORT);
 		LocateRegistry.getRegistry().lookup("abc");
 	}

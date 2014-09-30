@@ -43,14 +43,27 @@ public class MarshallerAudit extends AbstractFileAudit
 	@Before("call(* javax.xml.bind.Marshaller.marshal(Object,java.io.OutputStream)) && args(o,out)")
 	public void marshal(JoinPoint thisJoinPoint, Object o, OutputStream out)
 	{
-		ReactiveAuditException ex = AbstractOutputStreamAudit.latencyOutputStream(config, HIGH, thisJoinPoint, out);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex =
+				AbstractOutputStreamAudit.latencyOutputStream(config, HIGH, thisJoinPoint, out);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 
 	@Before("call(* javax.xml.bind.Marshaller.marshal(Object,java.io.Writer)) && args(o,out)")
 	public void marshal(JoinPoint thisJoinPoint, Object o, Writer out)
 	{
-		ReactiveAuditException ex = AbstractWriterAudit.latencyWriter(config, HIGH, thisJoinPoint, out);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex = AbstractWriterAudit.latencyWriter(config, HIGH, thisJoinPoint, out);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 }

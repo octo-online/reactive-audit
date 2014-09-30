@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.util.concurrent;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.CPUReactiveAuditException;
 import org.junit.Test;
 
@@ -53,7 +53,7 @@ public class ForkJoinTaskTest
 	public void get()
 			throws InterruptedException, ExecutionException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		e.get();
 	}
 
@@ -61,7 +61,7 @@ public class ForkJoinTaskTest
 	public void get_to()
 			throws InterruptedException, ExecutionException, TimeoutException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		e.get(1, TimeUnit.MILLISECONDS);
 	}
 
@@ -69,7 +69,7 @@ public class ForkJoinTaskTest
 	public void join()
 			throws InterruptedException, ExecutionException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		e.join();
 	}
 
@@ -77,7 +77,7 @@ public class ForkJoinTaskTest
 	public void quietlyInvoke()
 			throws InterruptedException, ExecutionException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		e.quietlyInvoke();
 	}
 
@@ -85,7 +85,7 @@ public class ForkJoinTaskTest
 	public void quietlyJoin()
 			throws InterruptedException, ExecutionException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		e.quietlyJoin();
 	}
 
@@ -93,7 +93,7 @@ public class ForkJoinTaskTest
 	public void quietlyComplete()
 			throws InterruptedException, ExecutionException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		e.quietlyComplete();
 	}
 }

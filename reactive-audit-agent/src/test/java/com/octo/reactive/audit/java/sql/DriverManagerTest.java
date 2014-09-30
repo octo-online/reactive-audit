@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.sql;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -38,7 +38,7 @@ public class DriverManagerTest
 	public void getConnection()
 			throws InterruptedException, ClassNotFoundException, SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		getDBConnection();
 	}
 }

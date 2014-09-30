@@ -49,22 +49,40 @@ public class JAXBAudit extends AbstractFileAudit
 	@Before("call(* javax.xml.bind.JAXB.marshal(Object,java.io.OutputStream)) && args(o,out)")
 	public void marshal(JoinPoint thisJoinPoint, Object o, OutputStream out)
 	{
-		ReactiveAuditException ex = AbstractOutputStreamAudit.latencyOutputStream(config, HIGH, thisJoinPoint, out);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex = AbstractOutputStreamAudit.latencyOutputStream(config, HIGH, thisJoinPoint, out);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 
 	@Before("call(* javax.xml.bind.JAXB.marshal(Object,java.io.Writer)) && args(o,out)")
 	public void marshal(JoinPoint thisJoinPoint, Object o, Writer out)
 	{
-		ReactiveAuditException ex = AbstractWriterAudit.latencyWriter(config, HIGH, thisJoinPoint, out);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex = AbstractWriterAudit.latencyWriter(config, HIGH, thisJoinPoint, out);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 
 	@Before("call(* javax.xml.bind.JAXB.marshal(Object,java.net.URL)) && args(o,url)")
 	public void marshal(JoinPoint thisJoinPoint, Object o, URL url)
 	{
-		ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 
 	@Before("call(* javax.xml.bind.JAXB.unmarshal(java.io.File,..))")
@@ -76,22 +94,40 @@ public class JAXBAudit extends AbstractFileAudit
 	@Before("call(* javax.xml.bind.JAXB.unmarshal(java.io.InputStream,Class)) && args(in,cl)")
 	public void unmarshal(JoinPoint thisJoinPoint, InputStream in, Class<?> cl)
 	{
-		ReactiveAuditException ex = AbstractInputStreamAudit.latencyInputStream(config, HIGH, thisJoinPoint, in);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex = AbstractInputStreamAudit.latencyInputStream(config, HIGH, thisJoinPoint, in);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 
 	@Before("call(* javax.xml.bind.JAXB.unmarshal(java.io.Reader,Class)) && args(in,cl)")
 	public void unmarshal(JoinPoint thisJoinPoint, Reader in, Class<?> cl)
 	{
-		ReactiveAuditException ex = AbstractReaderAudit.latencyReader(config, HIGH, thisJoinPoint, in);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex = AbstractReaderAudit.latencyReader(config, HIGH, thisJoinPoint, in);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 
 	@Before("call(* javax.xml.bind.JAXB.unmarshal(java.net.URL,Class)) && args(url,cl)")
 	public void unmarshal(JoinPoint thisJoinPoint, URL url, Class<?> cl)
 	{
-		ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 	// TODO: XMLEventReader et XMLStreamReader ?
 	// TODO: XMLEventWriter et XMLStreamWriter ?

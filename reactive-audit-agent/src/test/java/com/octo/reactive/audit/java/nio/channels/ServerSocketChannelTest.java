@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.nio.channels;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -35,7 +35,7 @@ public class ServerSocketChannelTest
 			try
 			{
 				r.bind(new InetSocketAddress(9999));
-				ReactiveAudit.strict.commit();
+                TestTools.strict.commit();
 				r.accept();
 			}
 			finally

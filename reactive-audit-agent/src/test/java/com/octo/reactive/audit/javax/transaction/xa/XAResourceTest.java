@@ -16,7 +16,6 @@
 
 package com.octo.reactive.audit.javax.transaction.xa;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
@@ -32,7 +31,7 @@ public class XAResourceTest
 	public void commit()
 			throws XAException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.commit(null, true);
 	}
 
@@ -40,7 +39,7 @@ public class XAResourceTest
 	public void rollback()
 			throws XAException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.rollback(null);
 	}
 

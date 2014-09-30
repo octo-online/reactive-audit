@@ -16,8 +16,9 @@
 
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
 import org.junit.Test;
 
@@ -36,7 +37,7 @@ public class RandomAccessFileTest
 	public void new_file()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		try (RandomAccessFile rw = new RandomAccessFile(IOTestTools.getTempFile(), "rw"))
 		{
 			ReactiveAudit.off.commit();
@@ -48,7 +49,7 @@ public class RandomAccessFileTest
 	public void new_string()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		try (RandomAccessFile rw = new RandomAccessFile(IOTestTools.getTempFile().getAbsoluteFile(), "rw"))
 		{
 			ReactiveAudit.off.commit();
@@ -63,7 +64,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.read();
 		}
 
@@ -76,7 +77,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.read(new byte[1]);
 		}
 
@@ -89,7 +90,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.read(new byte[1], 0, 1);
 		}
 
@@ -102,7 +103,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.readLine();
 		}
 
@@ -115,7 +116,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.readBoolean();
 		}
 
@@ -128,7 +129,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.readByte();
 		}
 
@@ -141,7 +142,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.readChar();
 		}
 
@@ -154,7 +155,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.readDouble();
 		}
 
@@ -167,7 +168,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.readFloat();
 		}
 
@@ -180,7 +181,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.readFully(new byte[1]);
 		}
 
@@ -193,7 +194,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.readInt();
 		}
 
@@ -206,7 +207,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.readLong();
 		}
 
@@ -219,7 +220,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.readShort();
 		}
 
@@ -232,7 +233,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.readUnsignedByte();
 		}
 
@@ -245,7 +246,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.readUnsignedShort();
 		}
 
@@ -258,7 +259,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.readUTF();
 		}
 
@@ -271,7 +272,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.write(new byte[1]);
 		}
 
@@ -284,7 +285,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.write(new byte[1], 0, 1);
 		}
 
@@ -297,7 +298,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.write(0);
 		}
 
@@ -310,7 +311,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.writeBoolean(true);
 		}
 
@@ -323,7 +324,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.writeByte(0);
 		}
 
@@ -336,7 +337,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.writeBytes("");
 		}
 
@@ -349,7 +350,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.writeChar(0);
 		}
 
@@ -362,7 +363,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.writeChars("");
 		}
 
@@ -375,7 +376,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.writeDouble(0);
 		}
 
@@ -388,7 +389,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.writeFloat(0);
 		}
 
@@ -401,7 +402,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.writeShort(0);
 		}
 
@@ -414,7 +415,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.writeUTF("");
 		}
 
@@ -427,7 +428,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.seek(0);
 		}
 
@@ -440,7 +441,7 @@ public class RandomAccessFileTest
 		ReactiveAudit.off.commit();
 		try (RandomAccessFile rw = newRandomAccessFile())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			rw.close();
 		}
 

@@ -65,10 +65,9 @@ public class ReactiveAudit
 					.seal();
 	// Help to rename the package
 	public static final String               auditPackageName  = ReactiveAudit.class.getPackage().getName();
-	public final        Logger               logger            =
-			Logger.getLogger(ReactiveAudit.class.getPackage().getName());
+	public final        Logger               logger            = Logger.getAnonymousLogger();
 	// FIXME : Fake logger to test Jboss. Jboss has a problem with Aspectj :-(
-//	public final        FakeLogger          logger           = new FakeLogger();
+//	public final        FakeLogger          logger             = new FakeLogger();
 	private final       LongAdder            statLow           = new LongAdder();
 	private final       LongAdder            statMedium        = new LongAdder();
 	private final       LongAdder            statHigh          = new LongAdder();
@@ -96,7 +95,7 @@ public class ReactiveAudit
 	private boolean debug           = false;
 	private Handler logHandler;
 
-	public static String getPropertiesURL()
+    public static String getPropertiesURL()
 	{
 		String url = System.getenv(KEY_AUDIT_FILENAME);
 		if (url == null) url = DEFAULT_FILENAME;
@@ -117,21 +116,29 @@ public class ReactiveAudit
 		}
 	}
 
-	synchronized void shutdown()
+
+    synchronized void shutdown()
 	{
-		//if (!started) return;
-		started = false;
-		long low = statLow.sum();
-		long medium = statMedium.sum();
-		long high = statHigh.sum();
-		logger.config("Total low   =" + low);
-		logger.config("Total medium=" + medium);
-		logger.config("Total high  =" + high);
-		logger.config("Max. concurrent threads=" + statMaxThread.get() +
-							  " (Number of node:" + Runtime.getRuntime().availableProcessors() + ")");
-		logger.config("Shutdown audit");
-		logHandler.flush();
-		if (logHandler != null) logHandler.close();
+        // Just shortly
+        synchronized (LogManager.getLogManager())
+        {
+            String cr = System.getProperty("line.separator");
+            long low = statLow.sum();
+            long medium = statMedium.sum();
+            long high = statHigh.sum();
+            StringBuilder buf =
+                    new StringBuilder(cr)
+                            .append("\tTotal high  =").append(high).append(cr)
+                            .append("\tTotal medium=").append(medium).append(cr)
+                            .append("\tTotal low   =").append(low).append(cr)
+                            .append("\tMax. concurrent threads=").append(statMaxThread.get())
+                            .append(" (Number of node:").append(Runtime.getRuntime().availableProcessors()).append(")").append(cr)
+                            .append("Shutdown audit");
+            logger.config(buf.toString());
+            if (logHandler != null) {
+                logHandler.close();
+            }
+        }
 	}
 
 	void reset()
@@ -566,34 +573,31 @@ public class ReactiveAudit
 		 * @param size   The size before rolling the files.
 		 * @return The current transaction.
 		 */
-		public Transaction logOutput(String output, String format, String size)
+		public Transaction logOutput(final String output, final String format, final String size)
 		{
 			try
 			{
 				final int isize = Integer.parseInt(size);
-				final Handler handler = ("console".equalsIgnoreCase(output))
-										? new ConsoleHandler()
-										: new FileHandler(output, isize,
-														  (isize == 0) ? 1 : 5, false);
-				if (output.endsWith(".xml"))
-					handler.setFormatter(new java.util.logging.XMLFormatter());
-				else
-				{
-					handler.setFormatter(new AuditLogFormat(format));
-				}
-				add(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						for (Handler h : logger.getHandlers())
-						{
-							logger.removeHandler(h);
-						}
-						logHandler = handler;
-						logger.addHandler(handler);
-					}
-				});
+                final Handler handler = ("console".equalsIgnoreCase(output))
+                        ? new ConsoleHandler()
+                        : new FileHandler(output, isize,
+                        (isize == 0) ? 1 : 5, false);
+                if (output.endsWith(".xml"))
+                    handler.setFormatter(new java.util.logging.XMLFormatter());
+                else
+                {
+                    handler.setFormatter(new AuditLogFormat(format));
+                }
+				add(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (Handler h : logger.getHandlers()) {
+                            logger.removeHandler(h);
+                        }
+                        logHandler = handler;
+                        logger.addHandler(handler);
+                    }
+                });
 				logger.setUseParentHandlers(false);
 				handler.setLevel(Level.CONFIG);
 			}

@@ -16,8 +16,8 @@
 
 package com.octo.reactive.audit.java.nio.channels;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -36,7 +36,7 @@ public class SocketChannelTest
 	{
 		try (SocketChannel r = IOTestTools.getSocketChannel())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			r.connect(null);
 		}
 	}
@@ -47,7 +47,7 @@ public class SocketChannelTest
 	{
 		try (SocketChannel r = IOTestTools.getSocketChannel())
 		{
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			r.finishConnect();
 		}
 	}
@@ -56,7 +56,7 @@ public class SocketChannelTest
 	public void open()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		SocketChannel.open(new InetSocketAddress(HOST, PORT));
 	}
 }

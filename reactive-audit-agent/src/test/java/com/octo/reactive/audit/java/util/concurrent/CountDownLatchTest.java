@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.util.concurrent;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.CPUReactiveAuditException;
 import org.junit.Test;
 
@@ -29,7 +29,7 @@ public class CountDownLatchTest
 	public void await()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		CountDownLatch c = new CountDownLatch(1);
 		c.await();
 	}
@@ -38,7 +38,7 @@ public class CountDownLatchTest
 	public void await_to()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		CountDownLatch c = new CountDownLatch(1);
 		c.await(1, TimeUnit.MILLISECONDS);
 	}

@@ -16,7 +16,6 @@
 
 package com.octo.reactive.audit.javax.sql.rowset.spi;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
@@ -33,7 +32,7 @@ public class XmlReaderTest
 	public void readXML()
 			throws SQLException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.readXML(null, IOTestTools.getTempFileReader());
 	}
 

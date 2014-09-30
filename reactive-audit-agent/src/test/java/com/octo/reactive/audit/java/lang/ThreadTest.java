@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.lang;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ public class ThreadTest
 	public void join()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		Thread thread = new Thread();
 		thread.setDaemon(true);
 		thread.join();
@@ -36,7 +36,7 @@ public class ThreadTest
 	public void sleep()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		Thread.sleep(1);
 	}
 }

@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.util.concurrent;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.CPUReactiveAuditException;
 import org.junit.Test;
 
@@ -32,7 +32,7 @@ public class ForkJoinPoolTest
 	public void awaitQuiescence()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		e.awaitQuiescence(1, TimeUnit.MILLISECONDS);
 	}
 
@@ -40,7 +40,7 @@ public class ForkJoinPoolTest
 	public void awaitTermination()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		e.awaitTermination(1, TimeUnit.MILLISECONDS);
 	}
 
@@ -48,7 +48,7 @@ public class ForkJoinPoolTest
 	public void invoke()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		e.invoke(new ForkJoinTask<Object>()
 		{
 			@Override
@@ -75,7 +75,7 @@ public class ForkJoinPoolTest
 	public void managedBlock()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		ForkJoinPool.managedBlock(new ForkJoinPool.ManagedBlocker()
 		{
 			@Override

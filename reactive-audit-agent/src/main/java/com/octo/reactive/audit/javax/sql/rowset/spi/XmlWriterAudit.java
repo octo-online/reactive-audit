@@ -35,7 +35,13 @@ public class XmlWriterAudit extends AbstractNetworkAudit
 	@Before("call(* javax.sql.rowset.spi.XmlWriter.writeXML(javax.sql.rowset.WebRowSet,java.io.Writer)) && args(wrs,out)")
 	public void commit(JoinPoint thisJoinPoint, WebRowSet wrs, Writer out)
 	{
-		ReactiveAuditException ex = AbstractWriterAudit.latencyWriter(config, HIGH, thisJoinPoint, out);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex = AbstractWriterAudit.latencyWriter(config, HIGH, thisJoinPoint, out);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 }

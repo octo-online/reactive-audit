@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.util.concurrent.locks;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.CPUReactiveAuditException;
 import org.junit.Test;
 
@@ -74,7 +74,7 @@ public class LockTest
 	public void lock()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		c.lock();
 	}
 
@@ -82,7 +82,7 @@ public class LockTest
 	public void lockInterruptibly()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		c.lockInterruptibly();
 	}
 

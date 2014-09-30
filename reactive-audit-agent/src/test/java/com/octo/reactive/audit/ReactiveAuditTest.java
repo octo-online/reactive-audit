@@ -16,10 +16,10 @@
 
 package com.octo.reactive.audit;
 
+import com.octo.reactive.audit.lib.AssumeLatency;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
-import com.octo.reactive.audit.lib.ReactiveAuditException;
 import com.octo.reactive.audit.lib.Latency;
-import com.octo.reactive.audit.lib.SuppressReactiveAudit;
+import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.junit.Test;
 
 import java.io.File;
@@ -29,7 +29,6 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 import static com.octo.reactive.audit.ReactiveAudit.auditPackageName;
-import static com.octo.reactive.audit.ReactiveAudit.strict;
 import static com.octo.reactive.audit.lib.Latency.*;
 import static org.junit.Assert.*;
 
@@ -66,7 +65,7 @@ public class ReactiveAuditTest
 	@Test
 	public void currentThread_test()
 	{
-		strict.commit();
+        TestTools.strict.commit();
 		assertTrue(config.isThreadNameMatch(Thread.currentThread().getName()));
 	}
 
@@ -127,7 +126,7 @@ public class ReactiveAuditTest
 	}
 
 	@Test
-	@SuppressReactiveAudit // For accept join
+	@AssumeLatency // For accept join
 	public void logIfNewThread()
 			throws InterruptedException
 	{
@@ -364,7 +363,7 @@ public class ReactiveAuditTest
 		Field field = ReactiveAuditException.class.getDeclaredField("debug");
 		field.setAccessible(true);
 		if (((Boolean) field.get(null)) == true) return;
-		strict.commit();
+        TestTools.strict.commit();
 
 		try
 		{

@@ -47,24 +47,42 @@ public class SAXParserAudit extends AbstractFileAudit
 	@Before("call(* javax.xml.parsers.SAXParser.parse(java.io.InputStream,org.xml.sax.helpers.DefaultHandler)) && args(in,dh)")
 	public void parse(JoinPoint thisJoinPoint, InputStream in, DefaultHandler dh)
 	{
-		ReactiveAuditException ex = AbstractInputStreamAudit.latencyInputStream(config, HIGH, thisJoinPoint, in);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex = AbstractInputStreamAudit.latencyInputStream(config, HIGH, thisJoinPoint, in);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 
 	@Before("call(* javax.xml.parsers.SAXParser.parse(java.io.InputStream,org.xml.sax.HandlerBase)) && args(in,hb)")
 	@SuppressWarnings("deprecation")
 	public void parse(JoinPoint thisJoinPoint, InputStream in, org.xml.sax.HandlerBase hb)
 	{
-		ReactiveAuditException ex = AbstractInputStreamAudit.latencyInputStream(config, HIGH, thisJoinPoint, in);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex = AbstractInputStreamAudit.latencyInputStream(config, HIGH, thisJoinPoint, in);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 
 	@Before("call(* javax.xml.parsers.SAXParser.parse(java.io.InputStream,org.xml.sax.HandlerBase,String)) && args(in,hb,s)")
 	@SuppressWarnings("deprecation")
 	public void parse(JoinPoint thisJoinPoint, InputStream in, org.xml.sax.HandlerBase hb, String s)
 	{
-		ReactiveAuditException ex = AbstractInputStreamAudit.latencyInputStream(config, HIGH, thisJoinPoint, in);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex = AbstractInputStreamAudit.latencyInputStream(config, HIGH, thisJoinPoint, in);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 
 	@Before("call(* javax.xml.parsers.SAXParser.parse(String,org.xml.sax.helpers.DefaultHandler)) && args(uri,dh)")
@@ -73,8 +91,14 @@ public class SAXParserAudit extends AbstractFileAudit
 		try
 		{
 			URL url = new URI(uri).toURL();
-			ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-			if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+			final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
+			if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+			{
+				public ReactiveAuditException lazyException()
+				{
+					return ex;
+				}
+			});
 		}
 		catch (URISyntaxException e)
 		{
@@ -93,8 +117,14 @@ public class SAXParserAudit extends AbstractFileAudit
 		try
 		{
 			URL url = new URI(uri).toURL();
-			ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-			if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+			final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
+			if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+			{
+				public ReactiveAuditException lazyException()
+				{
+					return ex;
+				}
+			});
 		}
 		catch (URISyntaxException e)
 		{

@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.util.concurrent;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.CPUReactiveAuditException;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class ForkJoinPoolManagedBlockerTest
 	public void awaitTermination()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		ForkJoinPool.ManagedBlocker m = new ForkJoinPool.ManagedBlocker()
 		{
 			@Override

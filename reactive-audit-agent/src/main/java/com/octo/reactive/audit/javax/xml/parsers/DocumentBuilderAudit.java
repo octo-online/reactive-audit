@@ -47,8 +47,14 @@ public class DocumentBuilderAudit extends AbstractFileAudit
 		try
 		{
 			URL url = new URI(uri).toURL();
-			ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-			if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+			final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
+			if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+			{
+				public ReactiveAuditException lazyException()
+				{
+					return ex;
+				}
+			});
 		}
 		catch (URISyntaxException e)
 		{

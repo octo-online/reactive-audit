@@ -35,15 +35,27 @@ public class URLAudit extends AbstractNetworkAudit
 	public void openStream(JoinPoint thisJoinPoint)
 	{
 		URL url = (URL) thisJoinPoint.getTarget();
-		ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 
 	@Before("call(java.io.InputStream java.net.URL.openConnection())")
-	public void openConnection(JoinPoint thisJoinPoint) // FIXME: Write test unitaire
+	public void openConnection(JoinPoint thisJoinPoint) // FIXME: Write unit test
 	{
 		URL url = (URL) thisJoinPoint.getTarget();
-		ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 }

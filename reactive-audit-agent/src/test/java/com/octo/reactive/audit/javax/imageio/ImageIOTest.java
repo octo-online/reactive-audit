@@ -16,8 +16,8 @@
 
 package com.octo.reactive.audit.javax.imageio;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ public class ImageIOTest
 	public void read_File()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		ImageIO.read(IOTestTools.getTempFile());
 	}
 
@@ -38,7 +38,7 @@ public class ImageIOTest
 	public void read_InputStream()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		ImageIO.read(IOTestTools.getTempFileInputStream());
 	}
 
@@ -46,7 +46,7 @@ public class ImageIOTest
 	public void read_URL()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		ImageIO.read(IOTestTools.getTempFile().toURI().toURL());
 	}
 
@@ -54,7 +54,7 @@ public class ImageIOTest
 	public void write_File()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		ImageIO.write(null, "", IOTestTools.getTempFile());
 	}
 
@@ -62,7 +62,7 @@ public class ImageIOTest
 	public void write_OutputStream()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		ImageIO.write(null, "", IOTestTools.getTempFileOutputStream());
 	}
 }

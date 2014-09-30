@@ -18,8 +18,8 @@ package com.octo.reactive.audit.java.lang;
 
 import com.octo.reactive.audit.AbstractAudit;
 import com.octo.reactive.audit.FactoryException;
-import com.octo.reactive.audit.lib.ReactiveAuditException;
 import com.octo.reactive.audit.lib.Latency;
+import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -95,7 +95,14 @@ public class AppendableAudit extends AbstractAudit
 		{
 			ex = FactoryException.newFile(latency, thisJoinPoint);
 		}
-		if (ex != null) logLatency(LOW, thisJoinPoint, ex);
+		final ReactiveAuditException ee=ex;
+		if (ex != null) logLatency(LOW, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ee;
+			}
+		});
 	}
 
 	@Override

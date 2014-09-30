@@ -16,8 +16,8 @@
 
 package com.octo.reactive.audit.javax.activation;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
 import org.junit.Test;
 
@@ -28,14 +28,14 @@ public class FileDataSourceTest
 	@Test(expected = FileReactiveAuditException.class)
 	public void new_File()
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		new FileDataSource(IOTestTools.getTempFile());
 	}
 
 	@Test(expected = FileReactiveAuditException.class)
 	public void new_String()
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		new FileDataSource(IOTestTools.getTempFile().getAbsolutePath());
 	}
 }

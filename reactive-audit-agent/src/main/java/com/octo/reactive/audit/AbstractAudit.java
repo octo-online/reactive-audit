@@ -16,8 +16,8 @@
 
 package com.octo.reactive.audit;
 
-import com.octo.reactive.audit.lib.ReactiveAuditException;
 import com.octo.reactive.audit.lib.Latency;
+import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.aspectj.lang.JoinPoint;
 
 public abstract class AbstractAudit
@@ -29,6 +29,10 @@ public abstract class AbstractAudit
 		return ReactiveAudit.config.isThreadNameMatch(Thread.currentThread().getName());
 	}
 
+	public static interface ExceptionFactory
+	{
+		public ReactiveAuditException lazyException();
+	}
 	abstract protected ReactiveAuditException newException(Latency latency, JoinPoint thisJoinPoint);
 
 	private boolean checkForAll()
@@ -36,17 +40,23 @@ public abstract class AbstractAudit
 		return isReactiveThread() && !config.isSuppressAudit();
 	}
 
-	protected void latency(Latency latency,
-						   JoinPoint thisJoinPoint
+	protected void latency(final Latency latency,
+						   final JoinPoint thisJoinPoint
 						  )
 			throws ReactiveAuditException
 	{
-		logLatency(latency, thisJoinPoint, newException(latency, thisJoinPoint));
+		logLatency(latency, thisJoinPoint,new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return newException(latency, thisJoinPoint);
+			}
+		});
 	}
 
 	protected void logLatency(Latency latency,
 							  JoinPoint thisJoinPoint,
-							  ReactiveAuditException e)
+							  ExceptionFactory ef)
 			throws ReactiveAuditException
 	{
 		if (checkForAll())
@@ -54,6 +64,7 @@ public abstract class AbstractAudit
 			final ReactiveAudit config = ReactiveAudit.config;
 			if (!config.isAfterStartupDelay())
 				return;
+			final ReactiveAuditException e=ef.lazyException();
 			config.logIfNew(latency, e);
 			if (config.isThrow())  // LOW, MEDIUM, HIGH ?
 				throw e;

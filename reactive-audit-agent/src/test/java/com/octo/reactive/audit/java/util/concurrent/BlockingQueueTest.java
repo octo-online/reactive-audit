@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.util.concurrent;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.CPUReactiveAuditException;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class BlockingQueueTest
 	public void offer()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		BlockingQueue<Object> q = new LinkedBlockingDeque<>();
 		q.offer("", 1, TimeUnit.MILLISECONDS);
 	}
@@ -40,7 +40,7 @@ public class BlockingQueueTest
 	public void poll()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		BlockingQueue<Object> q = new LinkedBlockingDeque<>();
 		q.poll(1, TimeUnit.MILLISECONDS);
 	}
@@ -49,7 +49,7 @@ public class BlockingQueueTest
 	public void put()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		BlockingQueue<Object> q = new LinkedBlockingDeque<>();
 		q.put("");
 	}
@@ -58,7 +58,7 @@ public class BlockingQueueTest
 	public void take()
 			throws InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		BlockingQueue<Object> q = new LinkedBlockingDeque<>();
 		q.take();
 	}

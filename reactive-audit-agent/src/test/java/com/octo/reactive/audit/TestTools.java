@@ -20,12 +20,23 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import static com.octo.reactive.audit.LoadParams.DEFAULT_LOG_FORMAT;
+import static com.octo.reactive.audit.LoadParams.DEFAULT_LOG_SIZE;
+
 /**
  * Helper for unit test.
  */
 public final class TestTools
 {
-	private TestTools()
+    public static final ReactiveAudit.Transaction strict            =
+            ReactiveAudit.config.begin()
+                    .throwExceptions(true)
+                    .threadPattern(".*")
+                    .logOutput("build/test.log", DEFAULT_LOG_FORMAT, DEFAULT_LOG_SIZE)
+                    .bootStrapDelay(0)
+                    .seal();
+
+    private TestTools()
 	{
 	}
 

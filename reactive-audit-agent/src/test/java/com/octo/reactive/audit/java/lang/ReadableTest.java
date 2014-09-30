@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.lang;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ public class ReadableTest
 	public void waitFor()
 			throws IOException, InterruptedException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		Readable readable = new StringReader("");
 		CharBuffer buf = CharBuffer.allocate(1);
 		readable.read(buf);

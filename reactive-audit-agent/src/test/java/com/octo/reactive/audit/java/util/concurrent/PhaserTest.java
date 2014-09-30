@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.util.concurrent;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.CPUReactiveAuditException;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class PhaserTest
 	public void arriveAndAwaitAdvance()
 			throws InterruptedException, ExecutionException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		p.arriveAndAwaitAdvance();
 	}
 
@@ -39,7 +39,7 @@ public class PhaserTest
 	public void awaitAdvance()
 			throws InterruptedException, ExecutionException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		p.awaitAdvance(1);
 	}
 
@@ -47,7 +47,7 @@ public class PhaserTest
 	public void awaitAdvanceInterruptibly()
 			throws InterruptedException, ExecutionException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		p.awaitAdvanceInterruptibly(1);
 	}
 }

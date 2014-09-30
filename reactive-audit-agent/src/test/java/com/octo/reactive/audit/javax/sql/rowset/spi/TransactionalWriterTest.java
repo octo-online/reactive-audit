@@ -16,7 +16,6 @@
 
 package com.octo.reactive.audit.javax.sql.rowset.spi;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
@@ -32,7 +31,7 @@ public class TransactionalWriterTest
 	public void commit()
 			throws SQLException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		tw.commit();
 	}
 
@@ -40,7 +39,7 @@ public class TransactionalWriterTest
 	public void rollback()
 			throws SQLException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		tw.rollback();
 	}
 
@@ -48,7 +47,7 @@ public class TransactionalWriterTest
 	public void rollback_SavePoint()
 			throws SQLException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		tw.rollback(null);
 	}
 }

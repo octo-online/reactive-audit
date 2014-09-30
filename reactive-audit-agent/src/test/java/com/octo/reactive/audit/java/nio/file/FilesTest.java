@@ -17,6 +17,7 @@
 package com.octo.reactive.audit.java.nio.file;
 
 import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
 import org.junit.Test;
 
@@ -49,7 +50,7 @@ public class FilesTest
 	{
 		Path path = getPath();
 		Files.delete(path);
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		Files.copy(new ByteArrayInputStream("abc".getBytes()), path);
 	}
 
@@ -59,7 +60,7 @@ public class FilesTest
 	{
 		ReactiveAudit.off.commit();
 
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		Files.readAllBytes(getPath());
 	}
 
@@ -69,7 +70,7 @@ public class FilesTest
 	{
 		ReactiveAudit.off.commit();
 
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		Files.readAllLines(getPath());
 	}
 
@@ -80,7 +81,7 @@ public class FilesTest
 	{
 		ReactiveAudit.off.commit();
 
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		Path p = Paths.get(".", "");
 		Files.walkFileTree(p, null, 1, null);
 	}
@@ -91,7 +92,7 @@ public class FilesTest
 	{
 		ReactiveAudit.off.commit();
 
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		Files.write(getPath(), new byte[1]);
 	}
 }

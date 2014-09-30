@@ -56,6 +56,7 @@ signing {
     required { isReleaseVersion }
     sign configurations.archives
 }
+
 uploadArchives {
     repositories {
         mavenDeployer {
@@ -118,7 +119,7 @@ uploadArchives {
                     }
                     developer {
                         id 'ybenabderrahmane'
-                        name 'yacine Benabderrahmane'
+                        name 'Yacine Benabderrahmane'
                         organization = 'OCTO Technology'
                         organizationUrl 'http://www.octo.com'
                         roles {

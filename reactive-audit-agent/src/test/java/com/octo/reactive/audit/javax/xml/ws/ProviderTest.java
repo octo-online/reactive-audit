@@ -16,7 +16,6 @@
 
 package com.octo.reactive.audit.javax.xml.ws;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
@@ -30,7 +29,7 @@ public class ProviderTest
 	@Test(expected = NetworkReactiveAuditException.class)
 	public void invoke()
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.invoke(null);
 	}
 

@@ -17,6 +17,8 @@
 package com.octo.reactive.audit.java.nio.channels;
 
 import com.octo.reactive.audit.FactoryException;
+import com.octo.reactive.audit.lib.FileReactiveAuditException;
+import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -31,7 +33,14 @@ public class FileChannelAudit extends AbstractChannelsAudit
 	@Before("call(java.nio.channels.FileChannel java.nio.channels.FileChannel.open(..))")
 	public void open(JoinPoint thisJoinPoint)
 	{
-		logLatency(MEDIUM, thisJoinPoint, FactoryException.newFile(MEDIUM, thisJoinPoint));
+		final FileReactiveAuditException ex=FactoryException.newFile(MEDIUM, thisJoinPoint);
+		logLatency(MEDIUM, thisJoinPoint,new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		} );
 	}
 
 	@Before("call(long java.nio.channels.FileChannel.transferFrom(java.nio.channels.ReadableByteChannel,long,long))")

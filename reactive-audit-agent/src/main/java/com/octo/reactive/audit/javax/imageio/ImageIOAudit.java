@@ -45,15 +45,27 @@ public class ImageIOAudit extends AbstractFileAudit
 	@Before("call(* javax.imageio.ImageIO.read(java.io.InputStream)) && args(in)")
 	public void read(JoinPoint thisJoinPoint, InputStream in)
 	{
-		ReactiveAuditException ex = AbstractInputStreamAudit.latencyInputStream(config, HIGH, thisJoinPoint, in);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex = AbstractInputStreamAudit.latencyInputStream(config, HIGH, thisJoinPoint, in);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 
 	@Before("call(* javax.imageio.ImageIO.read(java.net.URL)) && args(url)")
 	public void read(JoinPoint thisJoinPoint, URL url)
 	{
-		ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 
 	@Before("call(* javax.imageio.ImageIO.write(java.awt.image.RenderedImage, String, java.io.File))")
@@ -66,8 +78,14 @@ public class ImageIOAudit extends AbstractFileAudit
 	public void write(JoinPoint thisJoinPoint, RenderedImage r, String s, OutputStream out)
 	{
 		latency(HIGH, thisJoinPoint);
-		ReactiveAuditException ex = AbstractOutputStreamAudit.latencyOutputStream(config, HIGH, thisJoinPoint, out);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, ex);
+		final ReactiveAuditException ex = AbstractOutputStreamAudit.latencyOutputStream(config, HIGH, thisJoinPoint, out);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 
 }

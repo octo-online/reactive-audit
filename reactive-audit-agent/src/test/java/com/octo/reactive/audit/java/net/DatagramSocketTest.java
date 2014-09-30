@@ -17,6 +17,7 @@
 package com.octo.reactive.audit.java.net;
 
 import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -38,7 +39,7 @@ public class DatagramSocketTest
 		try (DatagramSocket socket = new DatagramSocket())
 		{
 			InetSocketAddress localhost = new InetSocketAddress("localhost", PORT);
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			socket.connect(localhost);
 		}
 	}
@@ -51,7 +52,7 @@ public class DatagramSocketTest
 		try (DatagramSocket socket = new DatagramSocket())
 		{
 			new InetSocketAddress("localhost", PORT);
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			DatagramPacket packet = new DatagramPacket(new byte[10], 10);
 			socket.receive(packet);
 		}
@@ -65,7 +66,7 @@ public class DatagramSocketTest
 		try (DatagramSocket socket = new DatagramSocket())
 		{
 			new InetSocketAddress("localhost", PORT);
-			ReactiveAudit.strict.commit();
+			TestTools.strict.commit();
 			DatagramPacket packet = new DatagramPacket(new byte[10], 10);
 			socket.send(packet);
 		}

@@ -110,7 +110,7 @@ class LoadParams
 
 	private static Properties getAllEnv()
 	{
-		if (allEnv == null)
+        if (allEnv == null)
 		{
 			Properties tempAllEnv = new Properties();
 			// First: Java properties
@@ -122,7 +122,10 @@ class LoadParams
 			Map<String, String> map = System.getenv();
 			for (Map.Entry<String, String> entry : map.entrySet())
 			{
-				tempAllEnv.put(entry.getKey(), entry.getValue());
+                String key=entry.getKey();
+                if (key.startsWith("reactiveAudit_"))
+                    key = key.replaceFirst("_", "\\.");
+				tempAllEnv.put(key, entry.getValue());
 			}
 			allEnv = tempAllEnv;
 		}

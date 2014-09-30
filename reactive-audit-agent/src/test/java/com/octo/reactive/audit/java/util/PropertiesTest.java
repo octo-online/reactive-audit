@@ -16,8 +16,9 @@
 
 package com.octo.reactive.audit.java.util;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.junit.Test;
 
@@ -33,7 +34,7 @@ public class PropertiesTest
 	{
 		ReactiveAudit.off.commit();
 		InputStream in = new FileInputStream(IOTestTools.getTempFile());
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		Properties prop = new Properties();
 		prop.load(in);
 	}
@@ -44,7 +45,7 @@ public class PropertiesTest
 	{
 		ReactiveAudit.off.commit();
 		Reader in = new FileReader(IOTestTools.getTempFile());
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		Properties prop = new Properties();
 		prop.load(in);
 	}
@@ -55,7 +56,7 @@ public class PropertiesTest
 	{
 		ReactiveAudit.off.commit();
 		InputStream in = new ByteArrayInputStream(new byte[1]);
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		Properties prop = new Properties();
 		prop.load(in);
 	}
@@ -66,7 +67,7 @@ public class PropertiesTest
 	{
 		ReactiveAudit.off.commit();
 		Reader in = new StringReader("");
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		Properties prop = new Properties();
 		prop.load(in);
 	}

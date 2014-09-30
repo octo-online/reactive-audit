@@ -18,8 +18,8 @@ package com.octo.reactive.audit.java.nio.channels;
 
 import com.octo.reactive.audit.AbstractAudit;
 import com.octo.reactive.audit.FactoryException;
-import com.octo.reactive.audit.lib.ReactiveAuditException;
 import com.octo.reactive.audit.lib.Latency;
+import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.aspectj.lang.JoinPoint;
 
 import java.nio.channels.FileChannel;
@@ -36,11 +36,16 @@ class AbstractChannelsAudit extends AbstractAudit
 	@Override
 	protected void latency(Latency latency, JoinPoint thisJoinPoint)
 	{
-		ReactiveAuditException ex;
-		if (thisJoinPoint.getTarget() instanceof FileChannel)
-			ex = FactoryException.newFile(latency, thisJoinPoint);
-		else
-			ex = FactoryException.newNetwork(latency, thisJoinPoint);
-		super.logLatency(latency, thisJoinPoint, ex);
+		final ReactiveAuditException ex=
+			(thisJoinPoint.getTarget() instanceof FileChannel)
+			? FactoryException.newFile(latency, thisJoinPoint)
+			: FactoryException.newNetwork(latency, thisJoinPoint);
+		super.logLatency(latency, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 }

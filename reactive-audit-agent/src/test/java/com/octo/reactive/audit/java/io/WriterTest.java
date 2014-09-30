@@ -17,6 +17,7 @@
 package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ public abstract class WriterTest
 	public void New()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		try (Writer writer = newWriter())
 		{
 			ReactiveAudit.off.commit();
@@ -46,7 +47,7 @@ public abstract class WriterTest
 		ReactiveAudit.off.commit();
 		try (Writer out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.append('c');
 		}
 	}
@@ -58,7 +59,7 @@ public abstract class WriterTest
 		ReactiveAudit.off.commit();
 		try (Writer out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.append("abc");
 		}
 	}
@@ -70,7 +71,7 @@ public abstract class WriterTest
 		ReactiveAudit.off.commit();
 		try (Writer out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.append("abc", 0, 1);
 		}
 	}
@@ -82,7 +83,7 @@ public abstract class WriterTest
 		ReactiveAudit.off.commit();
 		try (Writer out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.close();
 		}
 	}
@@ -94,7 +95,7 @@ public abstract class WriterTest
 		ReactiveAudit.off.commit();
 		try (Writer out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.flush();
 		}
 	}
@@ -106,7 +107,7 @@ public abstract class WriterTest
 		ReactiveAudit.off.commit();
 		try (Writer out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.write(new char[1]);
 		}
 	}
@@ -118,7 +119,7 @@ public abstract class WriterTest
 		ReactiveAudit.off.commit();
 		try (Writer out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.write(new char[1], 0, 1);
 		}
 	}
@@ -130,7 +131,7 @@ public abstract class WriterTest
 		ReactiveAudit.off.commit();
 		try (Writer out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.write(0);
 		}
 	}
@@ -142,7 +143,7 @@ public abstract class WriterTest
 		ReactiveAudit.off.commit();
 		try (Writer out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.write("abc");
 		}
 	}
@@ -154,7 +155,7 @@ public abstract class WriterTest
 		ReactiveAudit.off.commit();
 		try (Writer out = newWriter())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			out.write("abc", 0, 1);
 		}
 	}

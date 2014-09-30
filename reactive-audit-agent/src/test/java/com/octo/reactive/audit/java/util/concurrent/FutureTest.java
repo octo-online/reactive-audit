@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.util.concurrent;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.CPUReactiveAuditException;
 import org.junit.Test;
 
@@ -68,7 +68,7 @@ public class FutureTest
 	public void get()
 			throws InterruptedException, ExecutionException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		f.get();
 	}
 
@@ -76,7 +76,7 @@ public class FutureTest
 	public void get_to()
 			throws InterruptedException, ExecutionException, TimeoutException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		f.get(1, TimeUnit.MILLISECONDS);
 	}
 }

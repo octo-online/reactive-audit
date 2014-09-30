@@ -17,6 +17,7 @@
 package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ public abstract class ReaderTest
 	public void New()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		try (Reader reader = newReader())
 		{
 			ReactiveAudit.off.commit();
@@ -46,7 +47,7 @@ public abstract class ReaderTest
 		ReactiveAudit.off.commit();
 		try (Reader in = newReader())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			in.close();
 		}
 	}
@@ -58,7 +59,7 @@ public abstract class ReaderTest
 		ReactiveAudit.off.commit();
 		try (Reader in = newReader())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			in.read();
 		}
 	}
@@ -70,7 +71,7 @@ public abstract class ReaderTest
 		ReactiveAudit.off.commit();
 		try (Reader in = newReader())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			in.read(new char[1]);
 		}
 	}
@@ -82,7 +83,7 @@ public abstract class ReaderTest
 		ReactiveAudit.off.commit();
 		try (Reader in = newReader())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			in.read(new char[1], 0, 1);
 		}
 	}
@@ -94,7 +95,7 @@ public abstract class ReaderTest
 //		ConfigReactiveAudit.off.commit();
 //		try (Reader in= newReader())
 //		{
-//			ConfigReactiveAudit.strict.commit();
+//			TestTools.strict.commit();
 //			in.read(new byte[1], 0, 1);
 //		}
 //	}
@@ -105,7 +106,7 @@ public abstract class ReaderTest
 		ReactiveAudit.off.commit();
 		try (Reader in = newReader())
 		{
-			ReactiveAudit.strict.commit();
+            TestTools.strict.commit();
 			in.skip(0);
 		}
 	}

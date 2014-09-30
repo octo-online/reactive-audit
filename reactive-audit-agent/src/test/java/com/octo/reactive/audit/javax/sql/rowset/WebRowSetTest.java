@@ -16,7 +16,6 @@
 
 package com.octo.reactive.audit.javax.sql.rowset;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.ReactiveAuditException;
@@ -34,7 +33,7 @@ public class WebRowSetTest
 	public void readXML_InputStream()
 			throws IOException, SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.readXml(IOTestTools.getTempFileInputStream());
 	}
 
@@ -42,7 +41,7 @@ public class WebRowSetTest
 	public void readXML_Reader()
 			throws SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.readXml(IOTestTools.getTempFileReader());
 	}
 
@@ -50,7 +49,7 @@ public class WebRowSetTest
 	public void writeXML_OutputStream()
 			throws IOException, SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.writeXml(IOTestTools.getTempFileOutputStream());
 	}
 
@@ -58,7 +57,7 @@ public class WebRowSetTest
 	public void writeXML_RS_OutputStream()
 			throws IOException, SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.writeXml(null, IOTestTools.getTempFileOutputStream());
 	}
 
@@ -66,7 +65,7 @@ public class WebRowSetTest
 	public void writeXML_Writer()
 			throws SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.writeXml(IOTestTools.getTempFileWriter());
 	}
 
@@ -74,7 +73,7 @@ public class WebRowSetTest
 	public void writeXML_RS_Writer()
 			throws SQLException
 	{
-		ReactiveAudit.strict.commit();
+		TestTools.strict.commit();
 		x.writeXml(null, IOTestTools.getTempFileWriter());
 	}
 }

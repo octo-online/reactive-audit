@@ -16,7 +16,6 @@
 
 package com.octo.reactive.audit.javax.tools;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
 import org.junit.Test;
@@ -32,7 +31,7 @@ public class FileObjectTest
 	@Test(expected = FileReactiveAuditException.class)
 	public void delete()
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.delete();
 	}
 
@@ -40,7 +39,7 @@ public class FileObjectTest
 	public void openInputStream()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.openInputStream();
 	}
 
@@ -48,7 +47,7 @@ public class FileObjectTest
 	public void openOutputStream()
 			throws InterruptedException, IOException, SQLException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.openOutputStream();
 	}
 
@@ -56,7 +55,7 @@ public class FileObjectTest
 	public void openReader()
 			throws InterruptedException, IOException, SQLException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.openReader(true);
 	}
 
@@ -64,7 +63,7 @@ public class FileObjectTest
 	public void openWriter()
 			throws InterruptedException, IOException, SQLException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		x.openWriter();
 	}
 }

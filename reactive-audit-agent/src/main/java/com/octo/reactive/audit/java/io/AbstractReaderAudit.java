@@ -16,11 +16,11 @@
 
 package com.octo.reactive.audit.java.io;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.FactoryException;
 import com.octo.reactive.audit.FileTools;
-import com.octo.reactive.audit.lib.ReactiveAuditException;
+import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.lib.Latency;
+import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.aspectj.lang.JoinPoint;
 
 import java.io.Reader;
@@ -55,7 +55,13 @@ public abstract class AbstractReaderAudit extends AbstractInputStreamAudit
 
 	protected void latency(Latency latency, JoinPoint thisJoinPoint, Reader reader)
 	{
-		ReactiveAuditException ex = latencyReader(config, latency, thisJoinPoint, reader);
-		if (ex != null) super.logLatency(latency, thisJoinPoint, ex);
+		final ReactiveAuditException ex = latencyReader(config, latency, thisJoinPoint, reader);
+		if (ex != null) super.logLatency(latency, thisJoinPoint, new  ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
 	}
 }

@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.rmi.server;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class RMISocketFactoryTest
 	public void createServerSocket()
 			throws Exception
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		RMISocketFactory factory = getRmiSocketFactory();
 		factory.createServerSocket(1);
 	}
@@ -40,7 +40,7 @@ public class RMISocketFactoryTest
 	public void createSocket()
 			throws Exception
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		RMISocketFactory factory = getRmiSocketFactory();
 		factory.createSocket("", 1);
 	}

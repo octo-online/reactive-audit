@@ -16,8 +16,8 @@
 
 package com.octo.reactive.audit.java.util.zip;
 
-import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.IOTestTools;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ public class ZipFileTest
 	public void New()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		new ZipFile(IOTestTools.getTempFile());
 	}
 

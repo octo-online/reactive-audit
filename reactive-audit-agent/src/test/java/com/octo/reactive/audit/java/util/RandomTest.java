@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit.java.util;
 
-import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.CPUReactiveAuditException;
 import org.junit.Test;
 
@@ -29,7 +29,7 @@ public class RandomTest
 	public void nextBoolean()
 			throws IOException
 	{
-		ReactiveAudit.strict.commit();
+        TestTools.strict.commit();
 		Random r = new Random();
 		r.nextBoolean();
 	}

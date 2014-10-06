@@ -63,6 +63,6 @@ task(audit, dependsOn: 'classes', type: JavaExec) {
             //"-DreactiveAudit=${agentConf}!/reactive-audit-agent/etc/${framework}.properties"
             // else, use specific properties
             "-DreactiveAudit=src/test/resources/reactiveAudit.properties"
-    ]
+        ]
 }
 

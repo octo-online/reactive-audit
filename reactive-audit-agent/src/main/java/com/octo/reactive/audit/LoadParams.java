@@ -136,20 +136,13 @@ class LoadParams
 	{
 		String val = prop.getProperty(key);
 		if (val == null)
-		{
-			if (prop != null)
-			{
-				val = prop.getProperty(key);
-			}
-		}
-		if (val == null)
 			val = def;
 		return (val != null) ? val.trim() : null;
 	}
 
 	void commit()
 	{
-		Properties prop = new VariablesProperties(getAllEnv());
+		Properties prop = new Properties();
 		try
 		{
 			config.incSuppress();
@@ -178,7 +171,8 @@ class LoadParams
 		{
 			config.decSuppress();
 		}
-		applyProperties(prop);
+		prop.putAll(getAllEnv());
+		applyProperties(new VariablesProperties(prop));
 		config.logger.fine(KEY_THREAD_PATTERN + "  = " + config.getThreadPattern());
 		config.logger.fine(KEY_THROW_EXCEPTIONS + " = " + config.isThrow());
 		config.logger.fine(KEY_BOOTSTRAP_DELAY + " = " + config.getBootstrapDelay());

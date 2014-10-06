@@ -65,7 +65,7 @@ public class ReactiveAuditTest
 	@Test
 	public void currentThread_test()
 	{
-        TestTools.strict.commit();
+		TestTools.strict.commit();
 		assertTrue(config.isThreadNameMatch(Thread.currentThread().getName()));
 	}
 
@@ -77,16 +77,9 @@ public class ReactiveAuditTest
 	}
 
 	@Test
-	public void variableProperties()
-	{
-		String url = getClass().getResource("/testEnv.properties").toExternalForm();
-		new LoadParams(config, url).commit();
-		assertEquals(config.getThreadPattern(), System.getProperty("os.name"));
-	}
-
-	@Test
 	public void setAllParams()
 	{
+		config.reset();
 		config.begin()
 				.throwExceptions(true)
 				.threadPattern("")
@@ -120,6 +113,7 @@ public class ReactiveAuditTest
 	@Test(expected = IllegalArgumentException.class)
 	public void lockTransaction()
 	{
+		config.reset();
 		config.begin()
 				.seal()
 				.threadPattern("abc");
@@ -130,100 +124,106 @@ public class ReactiveAuditTest
 	public void logIfNewThread()
 			throws InterruptedException
 	{
+		config.reset();
 		config.begin()
 				.threadPattern(".*")
 				.latencyFile("LOW")
 				.throwExceptions(false)
 				.commit();
-		addHandler();
 
-		Thread t;
-
-		log[0] = 0;
-		Runnable rctx1 = new Runnable()
+		try
 		{
-			@Override
-			public void run()
+			addHandler();
+			Thread t;
+			log[0] = 0;
+			Runnable rctx1 = new Runnable()
 			{
-				latencyCall1();
-			}
-		};
-		// First turn, invoke log.
-		t = new Thread(rctx1);
-		t.setDaemon(true);
-		t.start();
-		t.join();
-		assertEquals(1, log[0]);
+				@Override
+				public void run()
+				{
+					latencyCall1();
+				}
+			};
+			// First turn, invoke log.
+			t = new Thread(rctx1);
+			t.setDaemon(true);
+			t.start();
+			t.join();
+			assertEquals(1, log[0]);
 
-		// Second turn, invoke log.
-		log[0] = 0;
-		Runnable rctx2 = new Runnable()
+			// Second turn, invoke log.
+			log[0] = 0;
+			Runnable rctx2 = new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					latencyCall2();
+				}
+			};
+			t = new Thread(rctx2);
+			t.setDaemon(true);
+			t.start();
+			t.join();
+			assertEquals(1, log[0]);
+
+			// Third turn, same context, no invoke log.
+			log[0] = 0;
+			t = new Thread(rctx1);
+			t.setDaemon(true);
+			t.start();
+			t.join();
+			assertEquals(0, log[0]);
+
+			log[0] = 0;
+			Runnable rctx3 = new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					latencyCall3();
+				}
+			};
+			t = new Thread(rctx3);
+			t.setDaemon(true);
+			t.start();
+			t.join();
+			assertEquals(1, log[0]);
+
+			log[0] = 0;
+			Runnable rctx4 = new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					latencyCall4();
+				}
+			};
+			t = new Thread(rctx4);
+			t.setDaemon(true);
+			t.start();
+			t.join();
+			assertEquals(2, log[0]);
+
+			log[0] = 0;
+			t = new Thread(rctx3);
+			t.setDaemon(true);
+			t.start();
+			t.join();
+			assertEquals(0, log[0]);
+
+			log[0] = 0;
+			t = new Thread(rctx4);
+			t.setDaemon(true);
+			t.start();
+			t.join();
+			assertEquals(0, log[0]);
+
+		}
+		finally
 		{
-			@Override
-			public void run()
-			{
-				latencyCall2();
-			}
-		};
-		t = new Thread(rctx2);
-		t.setDaemon(true);
-		t.start();
-		t.join();
-		assertEquals(1, log[0]);
-
-		// Third turn, same context, no invoke log.
-		log[0] = 0;
-		t = new Thread(rctx1);
-		t.setDaemon(true);
-		t.start();
-		t.join();
-		assertEquals(0, log[0]);
-
-		log[0] = 0;
-		Runnable rctx3 = new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				latencyCall3();
-			}
-		};
-		t = new Thread(rctx3);
-		t.setDaemon(true);
-		t.start();
-		t.join();
-		assertEquals(1, log[0]);
-
-		log[0] = 0;
-		Runnable rctx4 = new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				latencyCall4();
-			}
-		};
-		t = new Thread(rctx4);
-		t.setDaemon(true);
-		t.start();
-		t.join();
-		assertEquals(2, log[0]);
-
-		log[0] = 0;
-		t = new Thread(rctx3);
-		t.setDaemon(true);
-		t.start();
-		t.join();
-		assertEquals(0, log[0]);
-
-		log[0] = 0;
-		t = new Thread(rctx4);
-		t.setDaemon(true);
-		t.start();
-		t.join();
-		assertEquals(0, log[0]);
-
-		removeHandler();
+			removeHandler();
+		}
 	}
 
 	@Test
@@ -232,20 +232,27 @@ public class ReactiveAuditTest
 		config.reset();
 		config.begin()
 				.threadPattern(".*")
+				.logOutput(LoadParams.DEFAULT_LOG_OUTPUT,LoadParams.DEFAULT_LOG_FORMAT,LoadParams.DEFAULT_LOG_SIZE)
 				.latencyFile("LOW")
 				.throwExceptions(false)
 				.commit();
-		addHandler();
 
-		for (int i = 0; i < 5; ++i)
+		try
 		{
-			log[0] = 0;
-			latencyCall1();
-			if (i == 0) assertEquals(1, log[0]);
-			else assertEquals(0, log[0]);
+			addHandler();
+			for (int i = 0; i < 5; ++i)
+			{
+				log[0] = 0;
+				latencyCall1();
+				if (i == 0) assertEquals(1, log[0]);
+				else assertEquals(0, log[0]);
 
+			}
 		}
-		removeHandler();
+		finally
+		{
+			removeHandler();
+		}
 	}
 
 	@Test
@@ -255,63 +262,86 @@ public class ReactiveAuditTest
 		config.begin()
 				.latencyFile("")
 				.commit();
-		addHandler();
-		log[0] = 0;
-		config.logIfNew(LOW, new FileReactiveAuditException(LOW, ""));
-		assertEquals(0, log[0]);
-		log[0] = 0;
-		config.logIfNew(MEDIUM, new FileReactiveAuditException(MEDIUM, ""));
-		assertEquals(0, log[0]);
-		log[0] = 0;
-		config.logIfNew(HIGH, new FileReactiveAuditException(HIGH, ""));
-		assertEquals(0, log[0]);
-		removeHandler();
-
+		try
+		{
+			addHandler();
+			log[0] = 0;
+			config.logIfNew(LOW, new FileReactiveAuditException(LOW, ""));
+			assertEquals(0, log[0]);
+			log[0] = 0;
+			config.logIfNew(MEDIUM, new FileReactiveAuditException(MEDIUM, ""));
+			assertEquals(0, log[0]);
+			log[0] = 0;
+			config.logIfNew(HIGH, new FileReactiveAuditException(HIGH, ""));
+			assertEquals(0, log[0]);
+		}
+		finally
+		{
+			removeHandler();
+		}
 
 		config.begin()
 				.latencyFile("LOW")
 				.commit();
-		addHandler();
-		log[0] = 0;
-		config.logIfNew(LOW, new FileReactiveAuditException(LOW, ""));
-		assertEquals(1, log[0]);
-		log[0] = 0;
-		config.logIfNew(MEDIUM, new FileReactiveAuditException(MEDIUM, ""));
-		assertEquals(1, log[0]);
-		log[0] = 0;
-		config.logIfNew(HIGH, new FileReactiveAuditException(HIGH, ""));
-		assertEquals(1, log[0]);
-		removeHandler();
+		try
+		{
+			addHandler();
+			log[0] = 0;
+			config.logIfNew(LOW, new FileReactiveAuditException(LOW, ""));
+			assertEquals(1, log[0]);
+			log[0] = 0;
+			config.logIfNew(MEDIUM, new FileReactiveAuditException(MEDIUM, ""));
+			assertEquals(1, log[0]);
+			log[0] = 0;
+			config.logIfNew(HIGH, new FileReactiveAuditException(HIGH, ""));
+			assertEquals(1, log[0]);
+		}
+		finally
+		{
+			removeHandler();
+		}
 
 		config.begin()
 				.latencyFile("MEDIUM")
 				.commit();
-		addHandler();
-		log[0] = 0;
-		config.logIfNew(LOW, new FileReactiveAuditException(LOW, ""));
-		assertEquals(0, log[0]);
-		log[0] = 0;
-		config.logIfNew(MEDIUM, new FileReactiveAuditException(MEDIUM, ""));
-		assertEquals(1, log[0]);
-		log[0] = 0;
-		config.logIfNew(HIGH, new FileReactiveAuditException(HIGH, ""));
-		assertEquals(1, log[0]);
-		removeHandler();
+		try
+		{
+			addHandler();
+			log[0] = 0;
+			config.logIfNew(LOW, new FileReactiveAuditException(LOW, ""));
+			assertEquals(0, log[0]);
+			log[0] = 0;
+			config.logIfNew(MEDIUM, new FileReactiveAuditException(MEDIUM, ""));
+			assertEquals(1, log[0]);
+			log[0] = 0;
+			config.logIfNew(HIGH, new FileReactiveAuditException(HIGH, ""));
+			assertEquals(1, log[0]);
+		}
+		finally
+		{
+			removeHandler();
+		}
 
 		config.begin()
 				.latencyFile("HIGH")
 				.commit();
-		addHandler();
-		log[0] = 0;
-		config.logIfNew(LOW, new FileReactiveAuditException(LOW, ""));
-		assertEquals(0, log[0]);
-		log[0] = 0;
-		config.logIfNew(MEDIUM, new FileReactiveAuditException(MEDIUM, ""));
-		assertEquals(0, log[0]);
-		log[0] = 0;
-		config.logIfNew(HIGH, new FileReactiveAuditException(HIGH, ""));
-		assertEquals(1, log[0]);
-		removeHandler();
+		try
+		{
+			addHandler();
+			log[0] = 0;
+			config.logIfNew(LOW, new FileReactiveAuditException(LOW, ""));
+			assertEquals(0, log[0]);
+			log[0] = 0;
+			config.logIfNew(MEDIUM, new FileReactiveAuditException(MEDIUM, ""));
+			assertEquals(0, log[0]);
+			log[0] = 0;
+			config.logIfNew(HIGH, new FileReactiveAuditException(HIGH, ""));
+			assertEquals(1, log[0]);
+		}
+		finally
+		{
+			removeHandler();
+		}
 	}
 
 	private void removeHandler()

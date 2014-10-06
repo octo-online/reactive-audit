@@ -40,11 +40,9 @@ class VariablesProperties extends Properties
 	{
 
 
-		String value = super.getProperty(key);
+		String value = variables.getProperty(key);
 		if (value != null)
 		{
-
-
 			// Get the index of the first constant, if any
 			int beginIndex = 0;
 			int startName = value.indexOf(START_CONST, beginIndex);
@@ -97,7 +95,7 @@ class VariablesProperties extends Properties
 			}
 		}
 		else
-			value=variables.getProperty(key);
+			value=super.getProperty(key);
 
 
 		// Return the value as is

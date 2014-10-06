@@ -148,7 +148,6 @@ public class ReactiveAudit
 		history.purge();
 		stack.clear();
 		historyThreadName.clear();
-		suppressAudit.set(0);
 		startup();
 	}
 

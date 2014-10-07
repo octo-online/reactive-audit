@@ -39,7 +39,7 @@ medium and high latency file APIs generate an alert.
 
 # Usage
 To set the environment variables, use `bin/init-reactive-audit`.
-This will set the variabls `REACTIVE_AUDIT_HOME` to the reactive audit tool home directory
+This will set the variable `REACTIVE_AUDIT_HOME` to the reactive audit tool home directory
 and `AUDIT_OPTS` with the parameters needed to start a JVM.
 
 _Note: The application startup can be *SLOW*. Each class to load must be inspected

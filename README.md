@@ -13,41 +13,40 @@ Now, 517 blocking methods are detected.
 # How it works
 To detect where the application uses a blocking API, this tool injects some
 checks using a JVM agent (using [Aspectj](https://www.eclipse.org/aspectj/)).
-We choose to use the load-time-wearing in order to not modify the compiled code.
+We chose to use the load-time-weawing in order to not modify the compiled code.
 Thus, it is easier to add or remove the audit.
 
 The agent tries to detect all the invocations of blocking APIs *at runtime*.
-It is not possible to detect them *at compile time*, because it is
-depending on the specific running instance. For example, the
+It is not possible to detect them *at compile time*, because it 
+depends on the specific running instance. For example, the
 `Writer.write(..)` can be used for a byte array in memory
 or for a socket.
 
-Some threads can invoke a blocking API, others can not. It is possible
+Some threads can invoke a blocking API, others cannot. It is possible
 to select for which thread the agent must detect a call to a blocking API
 (parameter `reactiveAudit.threadPattern`).
 
-At the application startup, it is common to use some blocking API to
-load parameters from file, etc. Therefore, it is possible to shift the
+At the application startup, it is common to use some blocking APIs to
+load parameters from a file, etc. Therefore, it is possible to shift the
 audit start time to a few seconds after the application startup
 (parameter `reactiveAudit.bootstrapDelay`).
 
 Some blocking APIs are used to manage files. If the file system uses a SSD,
 the latency is low. But if the file system is on a NAS or on the Cloud,
-the latency is important. Therefore, it is possible to select the
+the latency is high. Therefore, it is possible to select the
 acceptable level of latency for all the file API. By default, only the
-medium and high file latency API generates an alert, because it is not possible
-blocking API.
+medium and high latency file APIs generate an alert.
 
 # Usage
 To set the environment variables, use `bin/init-reactive-audit`.
-This will set the variables `REACTIVE_AUDIT_HOME` to the reactive audit tool home directory
-and `AUDIT_OPTS` to all the parameters to start a JVM.
+This will set the variable `REACTIVE_AUDIT_HOME` to the reactive audit tool home directory
+and `AUDIT_OPTS` with the parameters needed to start a JVM.
 
 _Note: The application startup can be *SLOW*. Each class to load must be inspected
 to *detect* and *inject* each audits rules._
 
-You can add a framework name as a parameter of this command, such as
-`catalina`, `jetty` or `play`.
+You can add a framework or server name as a parameter of this command, such as
+`catalina`, `jetty` or `play` in order to apply a pre-defined configuration.
 
 To start **JVM** with the audit on *Windows*:
 
@@ -92,17 +91,17 @@ To start **play** with the audit on *Mac/Linux*:
 For the background, this script append the `java.ext.dir` with `<audit home>/lib`
 and adds the agent using `-javaagent:<audit home>/lib/aspectjweaver.jar`.
 
-If a framework is selected, this script adds a default associated parameter file
+If a framework is selected, this script adds the pre-defined associated parameter file
 with `-DreactiveAudit=<audit home>/etc/<framework>.properties`.
-Sometime, the specific environment variable is set to start the framework.
+Sometimes other specific environment variables are set to start the framework.
 
 # Parameters
 All the parameters are named using the pattern `reactiveAudit.<key>`.
 To set the parameters, you can use:
 
-* an environment variable (`set reactiveAudit_file=low`)
-* a properties file (`reactiveAudit.file=low`)
-* or the java system properties (`java -DreactiveAudit.file=low ...`)
+* environment variables (`set reactiveAudit_file=low`)
+* properties file (`reactiveAudit.file=low`)
+* java system properties (`java -DreactiveAudit.file=low ...`)
 
 The values are read in the latter order.
 

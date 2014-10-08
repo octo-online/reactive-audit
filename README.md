@@ -117,6 +117,9 @@ or
 
 You can set all the parameters described in `<audit home>/etc/default.properties`.
 
+# Get sources
+    git clone --recursive https://github.com/octo-online/reactive-audit.git
+
 # Build
     ./gradlew usage
 

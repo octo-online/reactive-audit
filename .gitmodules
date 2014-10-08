@@ -1,0 +1,3 @@
+[submodule "reactive-audit-integration"]
+	path = reactive-audit-integration
+	url = https://github.com/octo-online/reactive-audit-integration.git

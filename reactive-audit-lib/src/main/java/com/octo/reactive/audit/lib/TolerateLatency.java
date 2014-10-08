@@ -28,7 +28,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Target(ElementType.METHOD)
-public @interface AssumeLatency
+public @interface TolerateLatency
 {
 	String value() default "Tolerate a call to a blocking method from this method or its callees.";
 }

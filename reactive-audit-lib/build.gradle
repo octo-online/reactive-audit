@@ -48,7 +48,6 @@ artifacts {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 

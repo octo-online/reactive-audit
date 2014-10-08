@@ -16,7 +16,7 @@
 
 package com.octo.reactive.audit;
 
-import com.octo.reactive.audit.lib.AssumeLatency;
+import com.octo.reactive.audit.lib.TolerateLatency;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
 import com.octo.reactive.audit.lib.Latency;
 import com.octo.reactive.audit.lib.ReactiveAuditException;
@@ -120,7 +120,7 @@ public class ReactiveAuditTest
 	}
 
 	@Test
-	@AssumeLatency // For accept join
+	@TolerateLatency // For accept join
 	public void logIfNewThread()
 			throws InterruptedException
 	{

@@ -37,6 +37,10 @@ the latency is high. Therefore, it is possible to select the
 acceptable level of latency for all the file API. By default, only the
 medium and high latency file APIs generate an alert.
 
+# Download
+Unzip [this file](https://oss.sonatype.org/content/groups/staging/com/octo/reactive/audit/reactive-audit-agent/0.7/reactive-audit-agent-0.7.zip)
+and add the `<home>/bin` directory in `PATH`.
+
 # Usage
 To set the environment variables, use `bin/init-reactive-audit`.
 This will set the variable `REACTIVE_AUDIT_HOME` to the reactive audit tool home directory

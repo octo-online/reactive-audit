@@ -25,14 +25,14 @@ import org.aspectj.lang.annotation.Before;
 @Aspect
 public class AssumeLatencyAudit
 {
-	@Before("execution(@com.octo.reactive.audit.lib.AssumeLatency * *(..) )")
+	@Before("execution(@com.octo.reactive.audit.lib.TolerateLatency * *(..) )")
 	public void beforeAssume(JoinPoint thisJoinPoint)
 			throws ReactiveAuditException
 	{
 		ReactiveAudit.config.incSuppress();
 	}
 
-	@After("execution(@com.octo.reactive.audit.lib.AssumeLatency * *(..))")
+	@After("execution(@com.octo.reactive.audit.lib.TolerateLatency * *(..))")
 	public void afterAssume(JoinPoint thisJoinPoint)
 			throws ReactiveAuditException
 	{

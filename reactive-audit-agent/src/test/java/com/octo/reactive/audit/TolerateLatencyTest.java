@@ -16,23 +16,23 @@
 
 package com.octo.reactive.audit;
 
-import com.octo.reactive.audit.lib.AssumeLatency;
+import com.octo.reactive.audit.lib.TolerateLatency;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class AssumeLatencyTest
+public class TolerateLatencyTest
 {
 	@Test
-	@AssumeLatency("Direct call")
+	@TolerateLatency("Direct call")
 	public void directCall()
 	{
 		assertTrue(ReactiveAudit.config.isSuppressAudit());
 	}
 
 	@Test
-	@AssumeLatency("Indirect call")
+	@TolerateLatency("Indirect call")
 	public void indirectCall()
 	{
 		Runnable r = new Runnable()
@@ -50,12 +50,12 @@ public class AssumeLatencyTest
 	}
 
 	@Test
-	@AssumeLatency("Double call")
+	@TolerateLatency("Double call")
 	public void doubleCall()
 	{
 		Runnable r = new Runnable()
 		{
-			@AssumeLatency
+			@TolerateLatency
 			@Override
 			public void run()
 			{

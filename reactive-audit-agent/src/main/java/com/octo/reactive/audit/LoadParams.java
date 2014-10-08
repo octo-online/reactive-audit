@@ -33,7 +33,7 @@ class LoadParams
 {
 	public static final  String DEFAULT_THREAD_PATTERN   = "(^.*$)";
 	public static final  String KEY_AUDIT_FILENAME       = "reactiveAudit";
-	private static final String PREFIX                   = KEY_AUDIT_FILENAME + '.';
+	private static final String PREFIX                   = KEY_AUDIT_FILENAME + '_';
 	public static final  String KEY_THROW_EXCEPTIONS     = PREFIX + "throwExceptions";
 	public static final  String KEY_THREAD_PATTERN       = PREFIX + "threadPattern";
 	public static final  String KEY_BOOTSTRAP_DELAY      = PREFIX + "bootstrapDelay";
@@ -122,10 +122,7 @@ class LoadParams
 			Map<String, String> map = System.getenv();
 			for (Map.Entry<String, String> entry : map.entrySet())
 			{
-                String key=entry.getKey();
-                if (key.startsWith("reactiveAudit_"))
-                    key = key.replaceFirst("_", "\\.");
-				tempAllEnv.put(key, entry.getValue());
+				tempAllEnv.put(entry.getKey(), entry.getValue());
 			}
 			allEnv = tempAllEnv;
 		}

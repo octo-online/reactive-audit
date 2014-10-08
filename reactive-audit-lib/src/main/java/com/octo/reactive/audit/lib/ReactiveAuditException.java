@@ -18,7 +18,7 @@ package com.octo.reactive.audit.lib;
 
 /**
  * Exception thrown by the JVM agent if a blocking API is used.
- * This exception is thrown only if the reactiveAudit.throwExceptions parameter is set to <b>true</b>.
+ * This exception is thrown only if the reactiveAudit_throwExceptions parameter is set to <b>true</b>.
  *
  * @author Philippe PRADOS
  * @since 1.0

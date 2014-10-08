@@ -24,12 +24,12 @@ or for a socket.
 
 Some threads can invoke a blocking API, others cannot. It is possible
 to select for which thread the agent must detect a call to a blocking API
-(parameter `reactiveAudit.threadPattern`).
+(parameter `reactiveAudit_threadPattern`).
 
 At the application startup, it is common to use some blocking APIs to
 load parameters from a file, etc. Therefore, it is possible to shift the
 audit start time to a few seconds after the application startup
-(parameter `reactiveAudit.bootstrapDelay`).
+(parameter `reactiveAudit_bootstrapDelay`).
 
 Some blocking APIs are used to manage files. If the file system uses a SSD,
 the latency is low. But if the file system is on a NAS or on the Cloud,
@@ -89,7 +89,7 @@ To start **play** with the audit on *Windows*:
 
 To start **play** with the audit on *Mac/Linux*:
 
-    >source init-reactive-audit.sh play
+    > source init-reactive-audit.sh play
     > activator run
 
 For the background, this script append the `java.ext.dir` with `<audit home>/lib`
@@ -100,16 +100,16 @@ with `-DreactiveAudit=<audit home>/etc/<framework>.properties`.
 Sometimes other specific environment variables are set to start the framework.
 
 # Parameters
-All the parameters are named using the pattern `reactiveAudit.<key>`.
+All the parameters are named using the pattern `reactiveAudit_<key>`.
 To set the parameters, you can use:
 
 * environment variable (`export reactiveAudit_logOutput=console`)
-* java system properties (`java -DreactiveAudit.file=low ...`)
-* a properties file (`reactiveAudit.file=low`)
+* java system properties (`java -DreactiveAudit_file=low ...`)
+* a properties file (`reactiveAudit_file=low`)
 
 The values are read in the latter order.
 
-The filename of parameters file is by default: `reactiveAudit.properties`
+The filename of parameters file is by default: `reactiveAudit_properties`
 To use another file, set the variable `reactiveAudit`:
 
     java -DreactiveAudit=config.properties ...

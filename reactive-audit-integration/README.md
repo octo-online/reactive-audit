@@ -11,4 +11,6 @@ Execute
 Execute
     gradle audit
     
-# SBT: TODO
+# SBT
+Execute
+    sbt compile // FIXME

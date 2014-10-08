@@ -99,8 +99,8 @@ Sometimes other specific environment variables are set to start the framework.
 All the parameters are named using the pattern `reactiveAudit.<key>`.
 To set the parameters, you can use:
 
-* environment variables (`set reactiveAudit_file=low`)
-* properties file (`reactiveAudit.file=low`)
+* environment variable (`export reactiveAudit_file=low`)
+* a properties file (`reactiveAudit.file=low`)
 * java system properties (`java -DreactiveAudit.file=low ...`)
 
 The values are read in the latter order.

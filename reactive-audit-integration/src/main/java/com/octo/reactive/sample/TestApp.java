@@ -17,6 +17,7 @@
 package com.octo.reactive.sample;
 
 import com.octo.reactive.audit.lib.AssumeLatency;
+import com.octo.reactive.audit.lib.Latency;
 import com.octo.reactive.audit.lib.WithLatency;
 
 /**
@@ -24,8 +25,7 @@ import com.octo.reactive.audit.lib.WithLatency;
  */
 public class TestApp
 {
-
-    @WithLatency
+    @WithLatency(Latency.MEDIUM)
     public static void withLatency()
     {
         // A method with latency
@@ -40,10 +40,10 @@ public class TestApp
 	public static void main(String[] args)
 			throws InterruptedException
 	{
-		System.out.println("Reactive test application is running !!");
+		System.out.println("Reactive test application is running...");
 		Thread.sleep(200L);
         withLatency();
         assumeLatency();
-		System.out.println("Reactive test application stopped.");
+		System.out.println("...and now stopped.");
 	}
 }

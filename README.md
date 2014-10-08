@@ -6,7 +6,7 @@ The code must also use Java 8 concurrency utility classes `Future<>` and `Comple
 The frameworks [Play](https://www.playframework.com/ "Play framework"), [AKKA](http://www.akka.io/ "AKKA framework")
 and [Scala](http://www.scala-lang.org/ "Scala lang") promote this approach.
 
-**WARNING:** This is a beta version
+_**WARNING:** This is a beta version_
 
 Now, 517 blocking methods are detected.
 
@@ -39,7 +39,7 @@ medium and high latency file APIs generate an alert.
 
 # Download
 Unzip [this file](https://oss.sonatype.org/content/groups/staging/com/octo/reactive/audit/reactive-audit-agent/0.7/reactive-audit-agent-0.7.zip)
-and add the `<home>/bin` directory in `PATH`.
+and add the `<audit home>/bin` directory in `PATH`.
 
 # Usage
 To set the environment variables, use `bin/init-reactive-audit`.
@@ -103,9 +103,9 @@ Sometimes other specific environment variables are set to start the framework.
 All the parameters are named using the pattern `reactiveAudit.<key>`.
 To set the parameters, you can use:
 
-* environment variable (`export reactiveAudit_file=low`)
-* a properties file (`reactiveAudit.file=low`)
+* environment variable (`export reactiveAudit_logOutput=console`)
 * java system properties (`java -DreactiveAudit.file=low ...`)
+* a properties file (`reactiveAudit.file=low`)
 
 The values are read in the latter order.
 
@@ -116,21 +116,29 @@ To use another file, set the variable `reactiveAudit`:
     
 or
 
-    set reactiveAudit=config.properties
+    export reactiveAudit=config.properties
     java ...
 
 You can set all the parameters described in `<audit home>/etc/default.properties`.
 
-# Get sources
+# Contribute
+
+## Get sources
     git clone --recursive https://github.com/octo-online/reactive-audit.git
 
-# Build
+## Use IntelliJ
+Init projects
+
+    ./gradlew idea
+
+## Use Eclipse
+Init projects
+
+    ./gradlew eclipse
+
+## Compile
+
     ./gradlew usage
-
-## Unit test can be compiled only with Java 8+.
-
-    ./gradlew build (with Jdk8+)
-    ./gradlew build -x test (with Jdk7)
 
 ## Distribution
 use one of
@@ -138,26 +146,7 @@ use one of
     ./gradlew distZip
     ./gradlew distTar
 
-## Use IntelliJ
-Init projets
-    ./gradlew idea
-
-## Use Eclipse
-Init projets
-    ./gradlew eclipse
-
-## Test distribution (Option 1)
+## Test distribution
 Add `./build/install/reactive-audit/bin` in `PATH`, and
 
     ./gradlew installDist
-
-
-## Test distribution (Option 2)
-Then, add `./home/bin` in `PATH`, and
-
-    ./init-home.sh (simulate installation with links)
-    
-To build more quickly
-
-    ./gradlew build
-

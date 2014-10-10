@@ -6,3 +6,5 @@ http://types.cs.washington.edu/checker-framework/current/checker-framework-manua
 
 FIXME : http://aspectj.2085585.n4.nabble.com/org-aspectj-weaver-bcel-BcelWorld-Unable-to-find-class-td2084509.html
 FIXME : agréger un seul jar : http://forums.gradle.org/gradle/topics/how_to_depend_on_a_subprojects_sourceset
+
+TODO: tester avec une application Vert.X

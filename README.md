@@ -42,7 +42,7 @@ Unzip [this file](https://oss.sonatype.org/content/groups/staging/com/octo/react
 and add the `<audit home>/bin` directory in `PATH`.
 
 # Usage
-To set the environment variables, use `bin/init-reactive-audit`.
+To set the environment variables, use `bin/reactive-audit`.
 This will set the variable `REACTIVE_AUDIT_HOME` to the reactive audit tool home directory
 and `AUDIT_OPTS` with the parameters needed to start a JVM.
 
@@ -54,43 +54,80 @@ You can add a framework or server name as a parameter of this command, such as
 
 To start **JVM** with the audit on *Windows*:
 
-    > init-reactive-audit
+    > reactive-audit
     > java %AUDIT_OPTS% ...
 
 To start **JVM** with the audit on *Mac/Linux*:
 
-    > source init-reactive-audit.sh
+    > source reactive-audit.sh
     > java %AUDIT_OPTS% ...
 
 To start **jetty** with the audit on *Windows*:
 
-    > init-reactive-audit jetty
+    > reactive-audit jetty
     > java %AUDIT_OPTS% -jar start.jar
 
 To start **jetty** with the audit on *Mac/Linux*:
 
-    > source init-reactive-audit.sh jetty
+    > source reactive-audit.sh jetty
     > java %AUDIT_OPTS% -jar start.jar
 
 To start **catalina** (Tomcat) with audit on *Windows*:
 
-    > init-reactive-audit catalina
+    > reactive-audit catalina
     > catalina run
+    
+or    
 
+    > reactive-audit catalina -c catalina run
+    
 To start **catalina** (Tomcat) with audit on *Mac/Linux*:
 
-    > source init-reactive-audit.sh catalina
+    > source reactive-audit.sh catalina
     > catalina run
+    
+or
+
+    > reactive-audit.sh catalina -c catalina run    
 
 To start **play** with the audit on *Windows*:
 
-    > init-reactive-audit play
+    > reactive-audit play
     > activator run
+    
+or    
+
+    > reactive-audit play -c activator run
+    
 
 To start **play** with the audit on *Mac/Linux*:
 
-    > source init-reactive-audit.sh play
+    > source reactive-audit.sh play
     > activator run
+    
+or    
+
+    > reactive-audit.sh play -c activator run
+    
+To start **Vert.X** with the audit on *Windows*:
+
+    > reactive-audit vertx
+    > vertx run ...
+    
+or    
+
+    > reactive-audit vertx -c vertx run ...
+    
+
+To start **Vert.X** with the audit on *Mac/Linux*:
+
+    > source reactive-audit.sh vertx
+    > vertx run ...
+    
+or    
+
+    > reactive-audit.sh vertx -c vertx run ...
+    
 
 For the background, this script append the `java.ext.dir` with `<audit home>/lib`
 and adds the agent using `-javaagent:<audit home>/lib/aspectjweaver.jar`.

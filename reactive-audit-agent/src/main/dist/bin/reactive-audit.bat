@@ -1,4 +1,4 @@
-@REM init-reactive-audit script
+@REM reactive-audit script
 @REM
 @REM Environment:
 @REM JAVA_HOME - location of a JDK home dir (optional if java on path)
@@ -8,7 +8,7 @@
 @REM Parameters:
 @REM -help       : Print help (optional)
 @REM -s          : Silent mode (optional)
-@REM <framework> : Framework name. Must be "jetty", "catalina" or "play". (optional)
+@REM <framework> : Framework name.
 @REM
 @REM Set:
 @REM AUDIT_OPTS  - JVM options for audit
@@ -41,6 +41,7 @@ set _JRE_HOME=%JRE_HOME%
 set _JAVA_HOME=%JAVA_HOME%
 set _REACTIVE_AUDIT_HOME=%REACTIVE_AUDIT_HOME%
 set _FRAMEWORKS_HOME=%FRAMEWORKS_HOME%
+set _CMD=
 
 rem Otherwise either JRE or JDK are fine
 if not "%_JRE_HOME%" == "" goto gotJreHome
@@ -177,12 +178,21 @@ if "%1"=="-ds" (
     shift
     goto :parse
 )
+if "%1"=="-e" (
+    set _SILENT=true
+    set _CMD=%2 %3 %4 %5 %6 %7 %8 %9
+    shift
+    goto :endparse
+)
+
 if not "%1"=="" (
     set _FRAMEWORK=%1
     set _CONF=-DreactiveAudit=%_FRAMEWORKS_HOME%\%1.properties
     shift
     goto :parse
 )
+
+:endparse
 
 REM ************************ Set parameters
 set _WEAVER=-javaagent:%_REACTIVE_AUDIT_HOME%\lib\aspectjweaver.jar
@@ -211,6 +221,7 @@ set AUDIT_OPTS=%_CONF% %_WEAVER% %_EXTDIR%
 if "%_DEBUG%"=="true" (
     echo REACTIVE_AUDIT_HOME = %REACTIVE_AUDIT_HOME%
     echo FRAMEWORKS_HOME     = %_FRAMEWORKS_HOME%
+    echo FRAMEWORKS_HOME     = %_FRAMEWORK%
     echo JRE_HOME            = %_JRE_HOME%
     echo EXT                 = %_EXT%
     echo JAVACMD             = %_JAVACMD%
@@ -276,28 +287,16 @@ rem         echo JVM_ARGS was set. You can use 'server run ^<server-name^>'.
 rem     )
 rem )
 
-if "%_FRAMEWORK%" == "play" (
-    set SBT_OPTS=%AUDIT_OPTS%
-    if not "%_SILENT%"=="true" (
-        echo SBT_OPTS was set. You can use TypeSafe 'activator run'.
-    )
-)
 if "%_FRAMEWORK%" == "ant" (
     set ANT_OPTS=%AUDIT_OPTS%
     if not "%_SILENT%"=="true" (
         echo ANT_OPTS was set. You can use 'ant'.
     )
 )
-if "%_FRAMEWORK%" == "sbt" (
-    set SBT_OPTS=%AUDIT_OPTS%
+if "%_FRAMEWORK%" == "catalina" (
+    set CATALINA_OPTS=%AUDIT_OPTS%
     if not "%_SILENT%"=="true" (
-        echo SBT_OPTS was set. You can use TypeSafe 'activator run'.
-    )
-)
-if "%_FRAMEWORK%" == "maven" (
-    set MAVEN_OPTS=%AUDIT_OPTS%
-    if not "%_SILENT%"=="true" (
-        echo MAVEN_OPTS was set. You can use 'mvn'.
+        echo CATALINA_OPTS was set. You can use 'catalina run'.
     )
 )
 if "%_FRAMEWORK%" == "gradle" (
@@ -311,11 +310,28 @@ if "%_FRAMEWORK%" == "jetty" (
         echo To start Jetty, use: java %%AUDIT_OPTS%% -jar start.jar
     )
 )
-
-if "%_FRAMEWORK%" == "catalina" (
-    set CATALINA_OPTS=%AUDIT_OPTS%
+if "%_FRAMEWORK%" == "maven" (
+    set MAVEN_OPTS=%AUDIT_OPTS%
     if not "%_SILENT%"=="true" (
-        echo CATALINA_OPTS was set. You can use 'catalina run'.
+        echo MAVEN_OPTS was set. You can use 'mvn'.
+    )
+)
+if "%_FRAMEWORK%" == "play" (
+    set SBT_OPTS=%AUDIT_OPTS%
+    if not "%_SILENT%"=="true" (
+        echo SBT_OPTS was set. You can use TypeSafe 'activator run'.
+    )
+)
+if "%_FRAMEWORK%" == "sbt" (
+    set SBT_OPTS=%AUDIT_OPTS%
+    if not "%_SILENT%"=="true" (
+        echo SBT_OPTS was set. You can use TypeSafe 'activator run'.
+    )
+)
+if "%_FRAMEWORK%" == "vertx" (
+    set VERTX_OPTS=%AUDIT_OPTS%
+    if not "%_SILENT%"=="true" (
+        echo VERTX_OPTS was set. You can use 'vertx run ...'.
     )
 )
 
@@ -325,13 +341,14 @@ goto :end
 
 :help
     echo.
-    echo Usage init-reactive-audit [options] [framework]
+    echo Usage reactive-audit [options] [framework] [-e ^<cmd^>]
     echo.
     echo Framework:
     echo ^<nothing^>  Set AUDIT_OPTS
-    echo jetty      Set AUDIT_OPTS to start jetty
     echo catalina   Set CATALINA_OPTS
+    echo jetty      Set AUDIT_OPTS to start jetty
     echo play       Set SBT_OPTS
+    echo vertx      Set VERTX_OPTS
     echo.
     echo ant        Set ANT_OPTS
     echo gradle     Set GRADLE_OPTS
@@ -343,6 +360,7 @@ goto :end
     echo Options:
     echo -s Silent mode
     echo -d Debug mode. Print values
+    echo -e ^<cmd^> Execute cmd with the specific parameters
     echo.
     echo Environment variables ^(read from context^):
     echo REACTIVE_AUDIT_HOME  Env. variable, if unset uses the home directory of this batch.
@@ -375,3 +393,5 @@ set _MAJOR=
 set _MINOR=
 set _BUILD=
 set _FRAMEWORKS_HOME=
+
+%_CMD%

@@ -1,5 +1,5 @@
 #!/bin/bash
-# init-reactive-audit script
+# reactive-audit script
 #
 # Environment:
 # JAVA_HOME - location of a JDK home dir (optional if java on path)
@@ -9,7 +9,7 @@
 # Parameters:
 # -help       : Print help (optional)
 # -s          : Silent mode (optional)
-# <framework> : Framework name. Must be "jetty", "catalina" or "play". (optional)
+# <framework> : Framework name. Must be "catalina", "jetty", "play" or "vertx". (optional)
 #
 # Set:
 # AUDIT_OPTS  - JVM options for audit
@@ -20,12 +20,13 @@ set -e
 
 usage() {
     cat <<_EOF
-    Usage init-reactive-audit [options] [framework]
+    Usage reactive-audit [options] [framework]
     Framework:
     <nothing>  Set AUDIT_OPTS
-    jetty      Set AUDIT_OPTS to start jetty
     catalina   Set CATALINA_OPTS
+    jetty      Set AUDIT_OPTS to start jetty
     play       Set SBT_OPTS
+    vertx      Set VERTX_OPTS
 
     ant        Set ANT_OPTS
     gradle     Set GRADLE_OPTS
@@ -168,9 +169,15 @@ process_args () {
              -s) silent=1 && shift ;;
              -d) debug=1 && shift ;;
         -sd|-ds) silent=1 && debug=1 && shift ;;
-              *) framework=$1 && conf=-DreactiveAudit="$(cygwinpath "${FRAMEWORKS_HOME}/$1.properties")" &&  shift ;;
+              *) framework=$1 && conf=-DreactiveAudit="$(cygwinpath "${FRAMEWORKS_HOME}/$1.properties")" &&  shift && break ;;
     esac
   done
+  if [[ "$1" == "-c" ]]
+  then
+    shift
+    silent=1
+    cmd=$*
+  fi
 }
 
 
@@ -245,6 +252,7 @@ AUDIT_OPTS="${conf} ${weaver} ${extdir}"
 if [[ -n "$debug" ]]; then
 dlog "REACTIVE_AUDIT_HOME = $REACTIVE_AUDIT_HOME"
 dlog "FRAMEWORKS_HOME     = $FRAMEWORKS_HOME"
+dlog "FRAMEWORK           = $framework"
 dlog "JRE_HOME            = $jre_home"
 dlog "EXT                 = $ext"
 dlog "JAVACMD             = $java_cmd"
@@ -260,42 +268,46 @@ if [[ -z "$framework" ]]; then
         echo 'Add -DreactiveAudit=<yourfile>.properties to select a specific configuration.'
     fi
 
+elif [[ "$framework" == "catalina" ]]; then
+    export CATALINA_OPTS=${AUDIT_OPTS}
+    if [[ -z "$silent" ]]; then
+        echo "CATALINA_OPTS was set. You can use 'catalina run'."
+    fi
 elif [[ "$framework" == "jboss" ]] ; then
     echo Not yet implemented
-
+elif [[ "$framework" == "jetty" ]]; then
+    if [[ -z "$silent" ]]; then
+        echo 'To start Jetty, use: java $AUDIT_OPTS -jar start.jar'
+    fi
 elif [[ "$framework" == "play" ]]; then
     export SBT_OPTS=${AUDIT_OPTS}
     if [[ -z "$silent" ]]; then
         echo "SBT_OPTS was set. You can use TypeSafe 'activator run'."
+    fi
+elif [[ "$framework" == "vertx" ]]; then
+    export SBT_OPTS=${AUDIT_OPTS}
+    if [[ -z "$silent" ]]; then
+        echo "VERTX_OPTS was set. You can use 'vertx run ...'."
     fi
 elif [[ "$framework" == "ant" ]]; then
     export ANT_OPTS=${AUDIT_OPTS}
     if [[ -z "$silent" ]]; then
         echo "ANT_OPTS was set. You can use 'ant'."
     fi
-elif [[ "$framework" == "sbt" ]]; then
-    export SBT_OPTS=${AUDIT_OPTS}
+elif [[ "$framework" == "gradle" ]]; then
+    export GRADLE_OPTS=${AUDIT_OPTS}
     if [[ -z "$silent" ]]; then
-        echo "SBT_OPTS was set. You can use TypeSafe 'activator run'."
+        echo "GRADLE_OPTS was set. You can use 'gradle'."
     fi
 elif [[ "$framework" == "maven" ]]; then
     export MAVEN_OPTS=${AUDIT_OPTS}
     if [[ -z "$silent" ]]; then
         echo "MAVEN_OPTS was set. You can use 'mvn'."
     fi
-elif [[ "$framework" == "gradle" ]]; then
-    export GRADLE_OPTS=${AUDIT_OPTS}
+elif [[ "$framework" == "sbt" ]]; then
+    export SBT_OPTS=${AUDIT_OPTS}
     if [[ -z "$silent" ]]; then
-        echo "GRADLE_OPTS was set. You can use 'gradle'."
-    fi
-elif [[ "$framework" == "jetty" ]]; then
-    if [[ -z "$silent" ]]; then
-        echo 'To start Jetty, use: java $AUDIT_OPTS -jar start.jar'
-    fi
-elif [[ "$framework" == "catalina" ]]; then
-    export CATALINA_OPTS=${AUDIT_OPTS}
-    if [[ -z "$silent" ]]; then
-        echo "CATALINA_OPTS was set. You can use 'catalina run'."
+        echo "SBT_OPTS was set. You can use TypeSafe 'activator run'."
     fi
 else
    echoerr "Framework $framework unknown !"
@@ -306,3 +318,7 @@ fi  # java_version
 unset jre_home
 
 set +e # Else, the futur error exit the shell
+
+if [[ -n "${cmd}" ]] ; then
+  ${cmd}
+fi

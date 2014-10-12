@@ -172,7 +172,7 @@ process_args () {
               *) framework=$1 && conf=-DreactiveAudit="$(cygwinpath "${FRAMEWORKS_HOME}/$1.properties")" &&  shift && break ;;
     esac
   done
-  if [[ "$1" == "-c" ]]
+  if [[ "$1" == "-e" ]]
   then
     shift
     silent=1

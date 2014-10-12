@@ -20,7 +20,7 @@ import java.lang.annotation.*;
 
 /**
  * Annotation to declare that a specific method has latency.
- * A call of this method can generate a log or throw an {@link ReactiveAuditException}
+ * A call of this method can generate a log or throw a {@link ReactiveAuditException}
  * if the audit agent is used.
  *
  * @author Philippe PRADOS

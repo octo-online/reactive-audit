@@ -16,10 +16,10 @@ source "${REACTIVE_AUDIT_HOME}/reactive-audit-agent/build/install/reactive-audit
 
 pushd "$REACTIVE_AUDIT_HOME/home/bin" >/dev/null
 ln -s ../../reactive-audit-agent/src/test/bin/debug-reactive-audit.bat debug-reactive-audit.bat
-ln -s ../../reactive-audit-agent/src/test/bin/debug-reactive-audit.sh  debug-reactive-audit.sh
+ln -s ../../reactive-audit-agent/src/test/bin/debug-reactive-audit  debug-reactive-audit
 ln -s ../../reactive-audit-agent/src/main/resources/version.properties version.properties
 ln -s ../../reactive-audit-agent/src/main/dist/bin/reactive-audit.bat  reactive-audit.bat
-ln -s ../../reactive-audit-agent/src/main/dist/bin/reactive-audit.sh   reactive-audit.sh
+ln -s ../../reactive-audit-agent/src/main/dist/bin/reactive-audit   reactive-audit
 popd >/dev/null
 
 pushd "$REACTIVE_AUDIT_HOME/home" >/dev/null

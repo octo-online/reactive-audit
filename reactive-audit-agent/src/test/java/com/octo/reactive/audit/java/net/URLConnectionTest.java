@@ -51,7 +51,7 @@ public abstract class URLConnectionTest
 		conn.getContent();
 	}
 
-	@Test
+	@Test(expected = NetworkReactiveAuditException.class)
 	public void getContent_2()
 			throws IOException
 	{

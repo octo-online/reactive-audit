@@ -18,12 +18,14 @@ package com.octo.reactive.audit.java.net;
 
 import com.octo.reactive.audit.AbstractNetworkAudit;
 import com.octo.reactive.audit.NetworkTools;
-import com.octo.reactive.audit.lib.ReactiveAuditException;
+import com.octo.reactive.audit.URLTools;
 import com.octo.reactive.audit.lib.Latency;
+import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
+import java.net.URL;
 import java.net.URLConnection;
 
 import static com.octo.reactive.audit.lib.Latency.HIGH;
@@ -157,7 +159,17 @@ public class URLConnectionAudit extends AbstractNetworkAudit
 	protected void latency(Latency latency, JoinPoint thisJoinPoint)
 			throws ReactiveAuditException
 	{
-		if (!NetworkTools.isURLConnected((URLConnection) thisJoinPoint.getTarget()))
-			super.latency(HIGH, thisJoinPoint);
+		URL url = ((URLConnection) thisJoinPoint.getTarget()).getURL();
+		final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
+		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return ex;
+			}
+		});
+		else
+			if (!NetworkTools.isURLConnected((URLConnection) thisJoinPoint.getTarget()))
+				super.latency(HIGH, thisJoinPoint);
 	}
 }

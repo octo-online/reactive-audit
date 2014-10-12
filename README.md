@@ -44,14 +44,22 @@ and add the `<audit home>/bin` directory in `PATH`.
 # Usage
 To set the environment variables, after add `<audit home>/bin` in `PATH`, use `reactive-audit`.
 This will set the variable `REACTIVE_AUDIT_HOME` to the reactive audit tool home directory
-and `AUDIT_OPTS` with the parameters needed to start a JVM.
+and `AUDIT_OPTS` with the parameters needed to start a JVM. It's a shell script.
+Because this script must update some environment variable, with Mac/Linux you must
+invoke with `source reactive-audit ...`.
 
 You can add a framework or server name as a parameter of this command, such as
 `catalina`, `jetty`, `play`, etc. in order to apply a pre-defined configuration.
 
 ```sh-session
-$ reactive-audit catalina
+$ # Mac/Linux
+$ source reactive-audit catalina
 $ catalina run
+```
+```sh-session
+> REM Windows
+> reactive-audit catalina
+> catalina run
 ```
 
 The parameter `-d` is for debug.
@@ -130,7 +138,8 @@ $ java ...
 
 We will be very happy if you can contribute. This king of tools must be tested with a lot of
 contexts. May be, the default parameters for different frameworks are not enough ; 
-you have a better idea to integrate this tool with other ; ...
+you have a better idea to integrate this tool with other ; 
+Some rules can be extended to filter more precisely the context, ...
 
 ## Get sources
 ```sh-session

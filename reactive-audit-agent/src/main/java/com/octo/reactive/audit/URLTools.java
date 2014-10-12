@@ -30,6 +30,7 @@ public final class URLTools
 	{
 	}
 
+	// FIXME: return factory
 	public static ReactiveAuditException latencyURL(ReactiveAudit config, JoinPoint thisJoinPoint, URL url)
 	{
 		ReactiveAuditException e;

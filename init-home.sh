@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 # Tools to simulate an installation in ./home with some "soft link"
+# Compile quickly with gradlew jar
 
 ./gradlew instDist
 

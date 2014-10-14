@@ -179,6 +179,7 @@ if "%1"=="-ds" (
     goto :parse
 )
 if "%1"=="-e" (
+    setlocal
     set _SILENT=true
     set _CMD=%2 %3 %4 %5 %6 %7 %8 %9
     shift

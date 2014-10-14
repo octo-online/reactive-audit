@@ -58,14 +58,7 @@ public class ImageIOAudit extends AbstractFileAudit
 	@Before("call(* javax.imageio.ImageIO.read(java.net.URL)) && args(url)")
 	public void read(JoinPoint thisJoinPoint, URL url)
 	{
-		final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		super.logLatency(HIGH, thisJoinPoint, URLTools.latencyURL(config, thisJoinPoint, url));
 	}
 
 	@Before("call(* javax.imageio.ImageIO.write(java.awt.image.RenderedImage, String, java.io.File))")

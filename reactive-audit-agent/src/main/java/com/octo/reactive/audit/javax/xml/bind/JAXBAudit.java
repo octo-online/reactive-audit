@@ -75,14 +75,7 @@ public class JAXBAudit extends AbstractFileAudit
 	@Before("call(* javax.xml.bind.JAXB.marshal(Object,java.net.URL)) && args(o,url)")
 	public void marshal(JoinPoint thisJoinPoint, Object o, URL url)
 	{
-		final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		super.logLatency(HIGH, thisJoinPoint, URLTools.latencyURL(config, thisJoinPoint, url));
 	}
 
 	@Before("call(* javax.xml.bind.JAXB.unmarshal(java.io.File,..))")
@@ -120,14 +113,7 @@ public class JAXBAudit extends AbstractFileAudit
 	@Before("call(* javax.xml.bind.JAXB.unmarshal(java.net.URL,Class)) && args(url,cl)")
 	public void unmarshal(JoinPoint thisJoinPoint, URL url, Class<?> cl)
 	{
-		final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		super.logLatency(HIGH, thisJoinPoint, URLTools.latencyURL(config, thisJoinPoint, url));
 	}
 	// TODO: XMLEventReader et XMLStreamReader ?
 	// TODO: XMLEventWriter et XMLStreamWriter ?

@@ -64,7 +64,7 @@ $ catalina run
 
 The parameter `-d` is for debug.
 The parameter `-s` is for silent.
-At the end, the parameter `-c` can be use to chain with the framework.
+At the end, the parameter `-e` can be use to chain with the framework.
 
 _Note: The application startup can be *SLOW*. Each class to load must be inspected
 to *detect* and *inject* each audits rules._
@@ -74,12 +74,12 @@ Framework | Windows | Mac/linux
 :-- | --- | ---
 unknown  | > reactive-audit<br>> java %AUDIT_OPTS% ...|$ source reactive-audit<br>$ java %AUDIT_OPTS% ... 
 jetty    | > reactive-audit jetty<br>> java %AUDIT_OPTS% -jar start.jar  | $ source reactive-audit jetty<br>$ java %AUDIT_OPTS% -jar start.jar
-catalina | > reactive-audit catalina -c catalina run | $ reactive-audit catalina -c catalina run
-play     | > reactive-audit play -c activator run    | $ reactive-audit play -c activator run
-vert.x   | > reactive-audit vertx -c vertx run ...   | $ reactive-audit vertx -c vertx run ...
-maven    | > reactive-audit maven -c mvn ...         | $ reactive-audit maven -c mvn ...
-gradle   | > reactive-audit gradle -c gradle ...     | $ reactive-audit gradle -c gradle ...
-sbt      | > reactive-audit sbt -c sbt ...           | $ reactive-audit sbt -c sbt ...
+catalina | > reactive-audit catalina -e catalina run | $ reactive-audit catalina -c catalina run
+play     | > reactive-audit play     -e activator run    | $ reactive-audit play -c activator run
+vert.x   | > reactive-audit vertx    -e vertx run ...   | $ reactive-audit vertx -c vertx run ...
+maven    | > reactive-audit maven    -e mvn ...         | $ reactive-audit maven -c mvn ...
+gradle   | > reactive-audit gradle   -e gradle ...     | $ reactive-audit gradle -c gradle ...
+sbt      | > reactive-audit sbt      -e sbt ...           | $ reactive-audit sbt -c sbt ...
 
 For the background, this script append the `java.ext.dir` with `<audit home>/lib`
 and adds the agent using `-javaagent:<audit home>/lib/aspectjweaver.jar`.
@@ -126,8 +126,8 @@ $ export reactiveAudit=config.properties
 $ java ...
 ```    
 
-You can set all the parameters described in `<audit home>/etc/default.properties`.
-
+You can set all the parameters described in 
+<audit home>/etc/[default.properties](https://github.com/octo-online/reactive-audit/blob/master/reactive-audit-agent/src/main/dist/etc/default.properties).
 For sample, to force the log to console without modify some file:
 ```sh-session
 $ export reactiveAudit_logOutput=console

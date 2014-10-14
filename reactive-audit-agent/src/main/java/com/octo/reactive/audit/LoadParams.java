@@ -45,6 +45,7 @@ class LoadParams
 	private static final String KEY_LOG_SIZE             = PREFIX + "logSize";
 	private static final String KEY_DEBUG                = PREFIX + "debug";
 	public static final  String DEFAULT_FILENAME         = "reactiveAudit.properties";
+	public static final  Level  DEFAULT_LOG_LEVEL        = Level.CONFIG;
 	public static final  String DEFAULT_LOG_OUTPUT       = "console";
 	public static final  String DEFAULT_LOG_FORMAT       = "%4$-7s: %5$s%6$s%n";
 	public static final  String DEFAULT_LOG_SIZE         = "0"; // No limit

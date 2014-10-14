@@ -91,14 +91,7 @@ public class SAXParserAudit extends AbstractFileAudit
 		try
 		{
 			URL url = new URI(uri).toURL();
-			final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-			if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-			{
-				public ReactiveAuditException lazyException()
-				{
-					return ex;
-				}
-			});
+			super.logLatency(HIGH, thisJoinPoint, URLTools.latencyURL(config, thisJoinPoint, url));
 		}
 		catch (URISyntaxException e)
 		{
@@ -117,14 +110,7 @@ public class SAXParserAudit extends AbstractFileAudit
 		try
 		{
 			URL url = new URI(uri).toURL();
-			final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-			if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-			{
-				public ReactiveAuditException lazyException()
-				{
-					return ex;
-				}
-			});
+			super.logLatency(HIGH, thisJoinPoint, URLTools.latencyURL(config, thisJoinPoint, url));
 		}
 		catch (URISyntaxException e)
 		{

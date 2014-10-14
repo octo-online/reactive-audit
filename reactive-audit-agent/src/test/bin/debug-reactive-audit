@@ -1,3 +1,8 @@
 #!/bin/bash
+if [[ -z "${REACTIVE_AUDIT_HOME}" ]]
+then
+  declare REACTIVE_AUDIT_HOME="dirname $0"
+fi
+
 FRAMEWORK_HOME="`dirname $0`/etc"
-. "${FRAMEWORKS_HOME}/../reactive-audit-agent/bin/reactive-audit"
+${REACTIVE_AUDIT_HOME} "${FRAMEWORKS_HOME}/../reactive-audit-agent/bin/reactive-audit"

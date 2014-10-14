@@ -66,7 +66,7 @@ public class ReactiveAudit
 	// Help to rename the package
 	public static final String               auditPackageName  = ReactiveAudit.class.getPackage().getName();
 	public final        Logger               logger            = Logger.getAnonymousLogger();
-	// FIXME : Fake logger to test Jboss. Jboss has a problem with Aspectj :-(
+	// FIXME : Try to use a fake logger to test Jboss. Jboss has a problem with Aspectj :-(
 //	public final        FakeLogger          logger             = new FakeLogger();
 	private final       LongAdder            statLow           = new LongAdder();
 	private final       LongAdder            statMedium        = new LongAdder();
@@ -159,7 +159,7 @@ public class ReactiveAudit
 	void setDebug(boolean debug)
 	{
 		this.debug = debug;
-		logger.setLevel((debug) ? Level.FINE : Level.CONFIG);
+		logger.setLevel((debug) ? Level.FINE : DEFAULT_LOG_LEVEL);
 		try
 		{
 			Field field = ReactiveAuditException.class.getDeclaredField("debug");
@@ -587,18 +587,24 @@ public class ReactiveAudit
                 {
                     handler.setFormatter(new AuditLogFormat(format));
                 }
-				add(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (Handler h : logger.getHandlers()) {
-                            logger.removeHandler(h);
-                        }
-                        logHandler = handler;
-                        logger.addHandler(handler);
-                    }
-                });
-				logger.setUseParentHandlers(false);
-				handler.setLevel(Level.CONFIG);
+				handler.setLevel(DEFAULT_LOG_LEVEL);
+				add(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						for (Handler h : logger.getHandlers())
+						{
+							logger.removeHandler(h);
+						}
+						logHandler = handler;
+						logger.addHandler(handler);
+						logger.setUseParentHandlers(false);
+						final Level level=(debug) ? Level.FINE : DEFAULT_LOG_LEVEL;
+						logger.setLevel(level);
+						handler.setLevel(level);
+					}
+				});
 			}
 			catch (IOException e)
 			{

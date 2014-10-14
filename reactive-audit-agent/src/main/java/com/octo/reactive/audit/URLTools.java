@@ -30,23 +30,26 @@ public final class URLTools
 	{
 	}
 
-	// FIXME: return factory
-	public static ReactiveAuditException latencyURL(ReactiveAudit config, JoinPoint thisJoinPoint, URL url)
+	public static AbstractAudit.ExceptionFactory latencyURL(ReactiveAudit config, final JoinPoint thisJoinPoint, URL url)
 	{
 		ReactiveAuditException e;
 		String s = url.toExternalForm();
 		CharSequence msg = null;
 		if (config.isDebug())
 		{
-			config.logger.finest(
-					thisJoinPoint.toString() + "  with " + url);
+			config.logger.finest(thisJoinPoint.toString() + "  with " + url);
 			msg = url.toString();
 		}
-		if (s.startsWith("jar:file:") || s.startsWith("file:"))
-			e = FactoryException.newFile(LOW, thisJoinPoint, msg);
-		else
-			e = FactoryException.newNetwork(MEDIUM, thisJoinPoint, msg);
-		return e;
-
+		final boolean fileEx=(s.startsWith("jar:file:") || s.startsWith("file:"));
+		final CharSequence fmsg=msg;
+		return new AbstractAudit.ExceptionFactory()
+		{
+			public ReactiveAuditException lazyException()
+			{
+				return fileEx
+					   ? FactoryException.newFile(LOW, thisJoinPoint, fmsg)
+					   : FactoryException.newNetwork(MEDIUM, thisJoinPoint, fmsg);
+			}
+		};
 	}
 }

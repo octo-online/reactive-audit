@@ -160,14 +160,8 @@ public class URLConnectionAudit extends AbstractNetworkAudit
 			throws ReactiveAuditException
 	{
 		URL url = ((URLConnection) thisJoinPoint.getTarget()).getURL();
-		final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		if (url!=null)
+			super.logLatency(HIGH, thisJoinPoint, URLTools.latencyURL(config, thisJoinPoint, url));
 		else
 			if (!NetworkTools.isURLConnected((URLConnection) thisJoinPoint.getTarget()))
 				super.latency(HIGH, thisJoinPoint);

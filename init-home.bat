@@ -1,5 +1,6 @@
 @Rem
 @Rem Tools to simulate an installation in ./home with some "soft link"
+@Rem Compile quickly with gradlew jar
 @echo off
 call gradlew instDist
 @echo off

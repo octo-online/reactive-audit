@@ -18,7 +18,6 @@ package com.octo.reactive.audit.javax.xml.parsers;
 
 import com.octo.reactive.audit.AbstractFileAudit;
 import com.octo.reactive.audit.URLTools;
-import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -47,14 +46,7 @@ public class DocumentBuilderAudit extends AbstractFileAudit
 		try
 		{
 			URL url = new URI(uri).toURL();
-			final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-			if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-			{
-				public ReactiveAuditException lazyException()
-				{
-					return ex;
-				}
-			});
+			super.logLatency(HIGH, thisJoinPoint, URLTools.latencyURL(config, thisJoinPoint, url));
 		}
 		catch (URISyntaxException e)
 		{

@@ -71,13 +71,6 @@ public class UnmarshallerAudit extends AbstractFileAudit
 	@Before("call(* javax.xml.bind.Unmarshaller.unmarshal(java.net.URL)) && args(url)")
 	public void unmarshal(JoinPoint thisJoinPoint, URL url)
 	{
-		final ReactiveAuditException ex = URLTools.latencyURL(config, thisJoinPoint, url);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		super.logLatency(HIGH, thisJoinPoint, URLTools.latencyURL(config, thisJoinPoint, url));
 	}
 }

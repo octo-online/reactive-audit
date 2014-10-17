@@ -17,8 +17,10 @@
 package com.octo.reactive.audit;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
+import java.net.UnknownHostException;
 import java.nio.channels.*;
 import java.nio.file.Path;
 import java.util.Enumeration;
@@ -257,4 +259,24 @@ public final class IOTestTools
 			return null;
 		}
 	}
+
+    private static volatile int network=-1;
+    static public boolean isNetworkConnected()
+    {
+        if (network==-1) {
+            try {
+                ReactiveAudit.config.incSuppress();
+                InetAddress.getByName("www.google.com");
+                network = 1;
+            } catch (UnknownHostException e) {
+                network = 0;
+            }
+            finally
+            {
+                ReactiveAudit.config.decSuppress();
+            }
+        }
+        System.err.println("network="+network);
+        return network==1;
+    }
 }

@@ -246,7 +246,7 @@ public class ReactiveAudit
 	boolean isAfterStartupDelay()
 	{
 		if (afterBootstrap) return true;
-		if ((System.currentTimeMillis() - bootstrapStart) > bootstrapDelay)
+		if ((System.currentTimeMillis() - bootstrapStart) > (bootstrapDelay*1000))
 		{
 			afterBootstrap = true;
 			return true;
@@ -647,7 +647,7 @@ public class ReactiveAudit
 				@Override
 				public void run()
 				{
-					bootstrapDelay = delay*1000;
+					bootstrapDelay = delay;
 				}
 			});
 			return this;

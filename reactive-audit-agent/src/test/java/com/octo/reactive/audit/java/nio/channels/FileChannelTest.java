@@ -58,6 +58,7 @@ public class FileChannelTest
 		FileChannel.open(IOTestTools.getTempPath());
 	}
 
+    /*
 	@Test(expected = FileReactiveAuditException.class)
 	public void transferFrom()
 			throws IOException
@@ -81,6 +82,7 @@ public class FileChannelTest
 			s.transferTo(0, 1, d);
 		}
 	}
+	*/
 
 	@Test(expected = FileReactiveAuditException.class)
 	public void lock()

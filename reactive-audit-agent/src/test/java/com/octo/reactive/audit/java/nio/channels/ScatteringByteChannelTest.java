@@ -19,6 +19,7 @@ package com.octo.reactive.audit.java.nio.channels;
 import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.ReactiveAuditException;
+import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -76,6 +77,7 @@ public class ScatteringByteChannelTest
 	public void read()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (ScatteringByteChannel r = channel.get())
 		{
@@ -89,6 +91,7 @@ public class ScatteringByteChannelTest
 	public void read_ii()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (ScatteringByteChannel r = channel.get())
 		{

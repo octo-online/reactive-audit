@@ -16,9 +16,11 @@
 
 package com.octo.reactive.audit.java.net;
 
+import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
+import org.junit.Assume;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -37,6 +39,7 @@ public abstract class URLConnectionTest
 	public void connect()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		conn.connect();
 	}
@@ -45,6 +48,7 @@ public abstract class URLConnectionTest
 	public void getContent()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -55,6 +59,7 @@ public abstract class URLConnectionTest
 	public void getContent_2()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		ReactiveAudit.off.commit();
 		conn.connect();
@@ -66,6 +71,7 @@ public abstract class URLConnectionTest
 	public void getContent_AClass()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -76,6 +82,7 @@ public abstract class URLConnectionTest
 	public void getContentEncoding()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -86,6 +93,7 @@ public abstract class URLConnectionTest
 	public void getContentLength()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -96,6 +104,7 @@ public abstract class URLConnectionTest
 	public void getContentLengthLong()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -106,6 +115,7 @@ public abstract class URLConnectionTest
 	public void getContentType()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -116,6 +126,7 @@ public abstract class URLConnectionTest
 	public void getDate()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -126,6 +137,7 @@ public abstract class URLConnectionTest
 	public void getExpiration()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -136,6 +148,7 @@ public abstract class URLConnectionTest
 	public void getHeaderField_i()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -146,6 +159,7 @@ public abstract class URLConnectionTest
 	public void getHeaderField()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -156,6 +170,7 @@ public abstract class URLConnectionTest
 	public void getHeaderFieldDate()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -166,6 +181,7 @@ public abstract class URLConnectionTest
 	public void getHeaderFieldInt()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -176,6 +192,7 @@ public abstract class URLConnectionTest
 	public void getHeaderFieldKey()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -186,6 +203,7 @@ public abstract class URLConnectionTest
 	public void getHeaderFieldLong()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -196,6 +214,7 @@ public abstract class URLConnectionTest
 	public void getHeaderFields()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -206,6 +225,7 @@ public abstract class URLConnectionTest
 	public void getIfModifiedSince()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -216,6 +236,7 @@ public abstract class URLConnectionTest
 	public void getInputStream()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -226,6 +247,7 @@ public abstract class URLConnectionTest
 	public void getInputStream_use()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		InputStream in = conn.getInputStream();
@@ -237,6 +259,7 @@ public abstract class URLConnectionTest
 	public void getLastModified()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
         TestTools.strict.commit();
@@ -247,6 +270,7 @@ public abstract class URLConnectionTest
 	public void getOutputStream()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		conn.setDoOutput(true);
@@ -258,6 +282,7 @@ public abstract class URLConnectionTest
 	public void getOutputStream_use()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		URLConnection conn = new URL("http://" + HOST + ":" + PORT).openConnection();
 		conn.setDoOutput(true);
@@ -269,6 +294,6 @@ public abstract class URLConnectionTest
 	@Test
 	public void bind()
 	{
-
+        // TODO : add unit test for bind()
 	}
 }

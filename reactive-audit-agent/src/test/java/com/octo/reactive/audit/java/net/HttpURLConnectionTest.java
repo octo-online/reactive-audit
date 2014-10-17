@@ -16,9 +16,11 @@
 
 package com.octo.reactive.audit.java.net;
 
+import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
+import org.junit.Assume;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -34,6 +36,7 @@ public class HttpURLConnectionTest extends URLConnectionTest
 	public void getResponseCode()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		HttpURLConnection conn = (HttpURLConnection) new URL("http://" + HOST + ":" + PORT).openConnection();
 		TestTools.strict.commit();
@@ -44,6 +47,7 @@ public class HttpURLConnectionTest extends URLConnectionTest
 	public void getResponseMessage()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		HttpURLConnection conn = (HttpURLConnection) new URL("http://" + HOST + ":" + PORT).openConnection();
 		TestTools.strict.commit();

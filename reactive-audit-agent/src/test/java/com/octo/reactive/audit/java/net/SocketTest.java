@@ -16,9 +16,11 @@
 
 package com.octo.reactive.audit.java.net;
 
+import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
+import org.junit.Assume;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -40,6 +42,7 @@ public class SocketTest
 	public void new_1()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
         TestTools.strict.commit();
 		try (Socket socket = new Socket())
 		{
@@ -51,6 +54,7 @@ public class SocketTest
 	public void new_2()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		InetAddress target = getByName(HOST);
         TestTools.strict.commit();
@@ -65,6 +69,7 @@ public class SocketTest
 	public void new_3()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		InetAddress target = getByName(HOST);
         TestTools.strict.commit();
@@ -78,6 +83,7 @@ public class SocketTest
 	public void new_4()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		InetAddress target = getByName(HOST);
         TestTools.strict.commit();
@@ -91,6 +97,7 @@ public class SocketTest
 	public void new_5()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
         TestTools.strict.commit();
 		try (Socket socket = new Socket(HOST, PORT))
@@ -103,6 +110,7 @@ public class SocketTest
 	public void new_6()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
         TestTools.strict.commit();
 		try (Socket socket = new Socket(HOST, PORT))
@@ -115,6 +123,7 @@ public class SocketTest
 	public void new_7()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
         TestTools.strict.commit();
 		try (Socket socket = new Socket(HOST, PORT, null, 0))
@@ -127,6 +136,7 @@ public class SocketTest
 	public void connect()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		try (Socket socket = new Socket())
 		{
@@ -140,6 +150,7 @@ public class SocketTest
 	public void getInputStream()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		try (Socket socket = new Socket(HOST, PORT))
 		{
@@ -152,6 +163,7 @@ public class SocketTest
 	public void getInputStream_use()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		try (Socket socket = new Socket(HOST, PORT))
 		{
@@ -164,6 +176,7 @@ public class SocketTest
 	public void getOutputStream()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		try (Socket socket = new Socket(HOST, PORT))
 		{
@@ -176,6 +189,7 @@ public class SocketTest
 	public void getOutputStream_use()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ReactiveAudit.off.commit();
 		try (Socket socket = new Socket(HOST, PORT))
 		{
@@ -188,6 +202,7 @@ public class SocketTest
 	public void sendUrgentData()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		final int DATA = 255;
 		ReactiveAudit.off.commit();
 		try (Socket socket = new Socket("www.google.com", PORT))

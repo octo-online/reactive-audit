@@ -19,6 +19,7 @@ package com.octo.reactive.audit.java.nio.channels;
 import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
+import org.junit.Assume;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -34,6 +35,7 @@ public class SocketChannelTest
 	public void connect()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		try (SocketChannel r = IOTestTools.getSocketChannel())
 		{
 			TestTools.strict.commit();
@@ -45,6 +47,7 @@ public class SocketChannelTest
 	public void finishConnect()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		try (SocketChannel r = IOTestTools.getSocketChannel())
 		{
 			TestTools.strict.commit();
@@ -56,6 +59,7 @@ public class SocketChannelTest
 	public void open()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		TestTools.strict.commit();
 		SocketChannel.open(new InetSocketAddress(HOST, PORT));
 	}

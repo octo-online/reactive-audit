@@ -19,6 +19,7 @@ package com.octo.reactive.audit.java.nio.channels;
 import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
+import org.junit.Assume;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -59,6 +60,7 @@ public class DatagramChannelTest
 	public void receive_b()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
 		{
@@ -71,6 +73,7 @@ public class DatagramChannelTest
 	public void receive_nb()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
 		{
@@ -84,6 +87,7 @@ public class DatagramChannelTest
 	public void send_b()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
 		{
@@ -96,6 +100,7 @@ public class DatagramChannelTest
 	public void send_nb()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
 		{
@@ -109,6 +114,7 @@ public class DatagramChannelTest
 	public void read_b()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
 		{
@@ -121,6 +127,7 @@ public class DatagramChannelTest
 	public void read_nb()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
 		{
@@ -134,6 +141,7 @@ public class DatagramChannelTest
 	public void write_b()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
 		{
@@ -146,6 +154,7 @@ public class DatagramChannelTest
 	public void write_nb()
 			throws IOException
 	{
+        Assume.assumeTrue(IOTestTools.isNetworkConnected());
 		ByteBuffer buf = ByteBuffer.allocate(10);
 		try (DatagramChannel w = channel.get())
 		{

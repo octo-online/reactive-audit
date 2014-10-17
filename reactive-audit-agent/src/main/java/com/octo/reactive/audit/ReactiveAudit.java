@@ -647,7 +647,7 @@ public class ReactiveAudit
 				@Override
 				public void run()
 				{
-					bootstrapDelay = delay;
+					bootstrapDelay = delay*1000;
 				}
 			});
 			return this;

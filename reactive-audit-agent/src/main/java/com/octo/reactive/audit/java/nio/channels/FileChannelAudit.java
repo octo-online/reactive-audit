@@ -26,7 +26,7 @@ import org.aspectj.lang.annotation.Before;
 import static com.octo.reactive.audit.lib.Latency.HIGH;
 import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
-// Nb methods: 6
+// Nb methods: 4
 @Aspect
 public class FileChannelAudit extends AbstractChannelsAudit
 {
@@ -41,18 +41,6 @@ public class FileChannelAudit extends AbstractChannelsAudit
 				return ex;
 			}
 		} );
-	}
-
-	@Before("call(long java.nio.channels.FileChannel.transferFrom(java.nio.channels.ReadableByteChannel,long,long))")
-	public void transferFrom(JoinPoint thisJoinPoint)
-	{
-		latency(HIGH, thisJoinPoint);
-	}
-
-	@Before("call(long java.nio.channels.FileChannel.transferTo(long,long,java.nio.channels.WritableByteChannel))")
-	public void transferTo(JoinPoint thisJoinPoint)
-	{
-		latency(HIGH, thisJoinPoint);
 	}
 
 	@Before("call(java.nio.channels.FileLock java.nio.channels.FileChannel.lock(..))")

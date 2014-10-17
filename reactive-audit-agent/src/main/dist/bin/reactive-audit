@@ -138,9 +138,6 @@ cygunixpath() {
 
 # Detect if we should use JAVA_HOME or just try PATH.
 get_jre_home() {
-dlog "JRE_HOME=$JRE_HOME"
-dlog "JAVA_HOME=$JAVA_HOME"
-
   if [[ -n "$JRE_HOME" ]] ; then
     echo "$(cygunixpath "$JRE_HOME")"
   else
@@ -187,7 +184,7 @@ process_args () {
 
 if [[ -z "${REACTIVE_AUDIT_HOME}" ]]
 then
-  declare REACTIVE_AUDIT_HOME="$(dirname $(realpath "../$0"))"
+  declare REACTIVE_AUDIT_HOME="$(dirname "${BASH_SOURCE[0]}")/.."
 else
   declare REACTIVE_AUDIT_HOME="$(realpath "${REACTIVE_AUDIT_HOME}")"
 fi
@@ -231,7 +228,7 @@ elif [[ ! "${java_version}" > "1.7" ]]; then
   echo
 else
 
-weaver=-javaagent:$(cygwinpath "$REACTIVE_AUDIT_HOME/lib/aspectjweaver.jar")
+weaver=-javaagent:$(cygwinpath $(realpath "$REACTIVE_AUDIT_HOME/lib/aspectjweaver.jar"))
 # Add audit agent with bootclasspath
 # strategy with Xbootclasspath
 # xboot=-Xbootclasspath/p:${REACTIVE_AUDIT_HOME}/lib/aspectjweaver.jar:${REACTIVE_AUDIT_HOME}/lib/reactive-audit.jar:${REACTIVE_AUDIT_HOME}/lib/reactive-audit-lib.jar
@@ -246,7 +243,7 @@ else
   echoerr "Not found JAVA_HOME/lib/ext"
   return 1
 fi
-extdir="-Djava.ext.dirs=$(cygwinpaths "$ext" "${REACTIVE_AUDIT_HOME}/lib")"
+extdir="-Djava.ext.dirs=$(cygwinpaths "$ext" "$(realpath ${REACTIVE_AUDIT_HOME}/lib)")"
 AUDIT_OPTS="${conf} ${weaver} ${extdir}"
 
 if [[ -n "$debug" ]]; then
@@ -320,5 +317,6 @@ unset jre_home
 set +e # Else, the futur error exit the shell
 
 if [[ -n "${cmd}" ]] ; then
+echo TRY TO EXECUTE ${cmd}
   ${cmd}
 fi

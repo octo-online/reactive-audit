@@ -231,7 +231,7 @@ set AUDIT_OPTS=%_CONF% %_WEAVER% %_EXTDIR%
 if "%_DEBUG%"=="true" (
     echo REACTIVE_AUDIT_HOME = %REACTIVE_AUDIT_HOME%
     echo FRAMEWORKS_HOME     = %_FRAMEWORKS_HOME%
-    echo FRAMEWORKS_HOME     = %_FRAMEWORK%
+    echo FRAMEWORK           = %_FRAMEWORK%
     echo JRE_HOME            = %_JRE_HOME%
     echo EXT                 = %_EXT%
     echo JAVACMD             = %_JAVACMD%

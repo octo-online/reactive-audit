@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.Formatter;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.*;
 import java.util.regex.Pattern;
@@ -113,6 +114,15 @@ public class ReactiveAudit
 			final String url = getPropertiesURL();
 			new LoadParams(this, url).commit();
 			logger.config("Start reactive audit with " + FileTools.homeFile(url));
+            if (config.logger.isLoggable(Level.FINE))
+            {
+                config.logger.fine(String.format("%-30s = %s",KEY_THREAD_PATTERN,config.getThreadPattern()));
+                config.logger.fine(String.format("%-30s = %s",KEY_THROW_EXCEPTIONS,config.isThrow()));
+                config.logger.fine(String.format("%-30s = %s",KEY_BOOTSTRAP_DELAY,config.getBootstrapDelay()));
+                config.logger.fine(String.format("%-30s = %s",KEY_FILE_LATENCY, config.getFileLatency()));
+                config.logger.fine(String.format("%-30s = %s",KEY_NETWORK_LATENCY,config.getNetworkLatency()));
+                config.logger.fine(String.format("%-30s = %s",KEY_CPU_LATENCY ,config.getCPULatency()));
+            }
 		}
 	}
 

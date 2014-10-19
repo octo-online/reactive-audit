@@ -574,7 +574,7 @@ public final class FileTools
 	{
 		if (filename != null)
 		{
-			buf.append(" with ").append(filename);
+			buf.append("with ").append(filename);
 		}
 	}
 

@@ -1,10 +1,14 @@
 # Introduction
-This audit tool aims to provide help to the use of *[Reactive architecture](http://www.reactivemanifesto.org/)* in project implementations.
+This audit tool aims to provide help to the use of 
+*[Reactive architecture](http://www.reactivemanifesto.org/)* in project implementations.
 For reminder, when applying this approach the application must use only **non-blocking APIs** and,
 as soon as possible, return the current thread to a pool, limited by the number of CPU cores.
-The code must also use Java 8 concurrency utility classes `Future<>` and `CompletableFuture<>` everywhere.
-The frameworks [Play](https://www.playframework.com/ "Play framework"), [AKKA](http://www.akka.io/ "AKKA framework"),
-[Scala](http://www.scala-lang.org/ "Scala lang") or [Vert.x](http://vertx.io/) promote this approach.
+The code must also use Java 8 concurrency utility classes CompletableFuture<>` everywhere.
+The frameworks [Play](https://www.playframework.com/ "Play framework"), 
+[AKKA](http://www.akka.io/ "AKKA framework"),
+[Scala](http://www.scala-lang.org/ "Scala lang"), 
+[RxJava](https://github.com/ReactiveX/RxJava)
+or [Vert.x](http://vertx.io/) promote this approach.
 
 _**WARNING:** This is a beta version_
 
@@ -64,7 +68,16 @@ $ catalina run
 
 The parameter `-d` is for debug.
 The parameter `-s` is for silent.
-At the end, the parameter `-e` can be use to chain with the framework.
+
+Else, you can use `-run` parameter to chain with the startup of the server.
+```sh-session
+$ # Mac/Linux
+$ reactive-audit catalina -run catalina run
+```
+```sh-session
+> REM Windows
+> reactive-audit catalina -run catalina run
+```
 
 _Note: The application startup can be *SLOW*. Each class to load must be inspected
 to *detect* and *inject* each audits rules._
@@ -74,12 +87,12 @@ Framework | Windows | Mac/linux
 :-- | --- | ---
 unknown  | > reactive-audit<br>> java %AUDIT_OPTS% ...|$ source reactive-audit<br>$ java %AUDIT_OPTS% ... 
 jetty    | > reactive-audit jetty<br>> java %AUDIT_OPTS% -jar start.jar  | $ source reactive-audit jetty<br>$ java %AUDIT_OPTS% -jar start.jar
-catalina | > reactive-audit catalina -e catalina run | $ reactive-audit catalina -c catalina run
-play     | > reactive-audit play     -e activator run    | $ reactive-audit play -c activator run
-vert.x   | > reactive-audit vertx    -e vertx run ...   | $ reactive-audit vertx -c vertx run ...
-maven    | > reactive-audit maven    -e mvn ...         | $ reactive-audit maven -c mvn ...
-gradle   | > reactive-audit gradle   -e gradle ...     | $ reactive-audit gradle -c gradle ...
-sbt      | > reactive-audit sbt      -e sbt ...           | $ reactive-audit sbt -c sbt ...
+catalina | > reactive-audit catalina -run catalina run     | $ reactive-audit catalina -run catalina run
+play     | > reactive-audit play     -run activator run    | $ reactive-audit play     -run activator run
+vert.x   | > reactive-audit vertx    -run vertx run ...    | $ reactive-audit vertx    -run vertx run ...
+maven    | > reactive-audit maven    -run mvn ...          | $ reactive-audit maven    -run mvn ...
+gradle   | > reactive-audit gradle   -run gradle ...       | $ reactive-audit gradle   -run gradle ...
+sbt      | > reactive-audit sbt      -run sbt ...          | $ reactive-audit sbt      -run sbt ...
 
 For the background, this script append the `java.ext.dir` with `<audit home>/lib`
 and adds the agent using `-javaagent:<audit home>/lib/aspectjweaver.jar`.

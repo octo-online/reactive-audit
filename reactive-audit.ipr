@@ -173,17 +173,75 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/reactive-audit.iml" filepath="$PROJECT_DIR$/reactive-audit.iml" />
       <module fileurl="file://$PROJECT_DIR$/reactive-audit-agent/reactive-audit-agent.iml" filepath="$PROJECT_DIR$/reactive-audit-agent/reactive-audit-agent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/reactive-audit-integration/.idea/modules/reactive-audit-integration.iml" filepath="$PROJECT_DIR$/reactive-audit-integration/.idea/modules/reactive-audit-integration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/reactive-audit-integration/.idea/modules/reactive-audit-integration-build.iml" filepath="$PROJECT_DIR$/reactive-audit-integration/.idea/modules/reactive-audit-integration-build.iml" />
       <module fileurl="file://$PROJECT_DIR$/reactive-audit-lib/reactive-audit-lib.iml" filepath="$PROJECT_DIR$/reactive-audit-lib/reactive-audit-lib.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
+  <component name="ScalaSbtSettings">
+    <option name="linkedExternalProjectsSettings">
+      <SbtProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/reactive-audit-integration" />
+        <option name="useAutoImport" value="true" />
+      </SbtProjectSettings>
+    </option>
+  </component>
   <component name="SvnBranchConfigurationManager">
     <option name="mySupportsUserInfoFilter" value="true" />
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/reactive-audit-integration" vcs="Git" />
+  </component>
+  <component name="libraryTable">
+    <library name="SBT: com.octo.reactive.audit:reactive-audit-agent:0.7">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.ivy2/cache/com.octo.reactive.audit/reactive-audit-agent/jars/reactive-audit-agent-0.7.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="SBT: com.octo.reactive.audit:reactive-audit-lib:0.7">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.ivy2/cache/com.octo.reactive.audit/reactive-audit-lib/jars/reactive-audit-lib-0.7.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="SBT: org.aspectj:aspectjrt:1.8.2">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.ivy2/cache/org.aspectj/aspectjrt/jars/aspectjrt-1.8.2.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="SBT: org.aspectj:aspectjweaver:1.8.2">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.ivy2/cache/org.aspectj/aspectjweaver/jars/aspectjweaver-1.8.2.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="SBT: org.scala-lang:scala-library:2.10.4">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.sbt/boot/scala-2.10.4/lib/scala-library.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="SBT:: scala-compiler-bundle:2.10.4">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.sbt/boot/scala-2.10.4/lib/scala-compiler.jar!/" />
+        <root url="jar://$USER_HOME$/.sbt/boot/scala-2.10.4/lib/scala-library.jar!/" />
+        <root url="jar://$USER_HOME$/.sbt/boot/scala-2.10.4/lib/scala-reflect.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
   </component>
   <component name="masterDetails">
     <states>

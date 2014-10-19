@@ -8,6 +8,7 @@
 @REM Parameters:
 @REM -help       : Print help (optional)
 @REM -s          : Silent mode (optional)
+@REM -c <cmd>    : Silent mode (optional)
 @REM <framework> : Framework name.
 @REM
 @REM Set:
@@ -178,7 +179,15 @@ if "%1"=="-ds" (
     shift
     goto :parse
 )
-if "%1"=="-e" (
+if "%1"=="-run" (
+    setlocal
+    set _SILENT=true
+    set _CMD=%2 %3 %4 %5 %6 %7 %8 %9
+    shift
+    goto :endparse
+)
+
+if "%1"=="--run" (
     setlocal
     set _SILENT=true
     set _CMD=%2 %3 %4 %5 %6 %7 %8 %9
@@ -342,7 +351,7 @@ goto :end
 
 :help
     echo.
-    echo Usage reactive-audit [options] [framework] [-e ^<cmd^>]
+    echo Usage reactive-audit [options] [framework] [-run ^<cmd^>]
     echo.
     echo Framework:
     echo ^<nothing^>  Set AUDIT_OPTS
@@ -361,7 +370,7 @@ goto :end
     echo Options:
     echo -s Silent mode
     echo -d Debug mode. Print values
-    echo -e ^<cmd^> Execute cmd with the specific parameters
+    echo -run ^<cmd^> Execute cmd with the specific parameters
     echo.
     echo Environment variables ^(read from context^):
     echo REACTIVE_AUDIT_HOME  Env. variable, if unset uses the home directory of this batch.

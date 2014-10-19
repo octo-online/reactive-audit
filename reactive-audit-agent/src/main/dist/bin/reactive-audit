@@ -15,12 +15,31 @@
 # AUDIT_OPTS  - JVM options for audit
 # *_OPTS      - If <framework> would like.
 #
-trap "set +e" SIGHUP SIGINT SIGTERM
+trap "goto end" SIGHUP SIGINT SIGTERM
 set -e
+
+cleanup() {
+set +e
+unset usage
+unset echoerr
+unset dlog
+unset realpath
+unset is_cygwin
+unset cygwinpath
+unset cygwinpaths
+unset cygunixpath
+unset get_jre_home
+unset get_java_cmd
+unset process_args
+unset cleanup
+unset cleanup
+unset silent
+unset debug
+}
 
 usage() {
     cat <<_EOF
-    Usage reactive-audit [options] [framework]
+    Usage reactive-audit [options] [framework] [-run <cmd>]
     Framework:
     <nothing>  Set AUDIT_OPTS
     catalina   Set CATALINA_OPTS
@@ -38,8 +57,9 @@ usage() {
     Options:
     -s Silent mode
     -d Debug mode. Print values
+    -run <cmd> Execute cmd with the specific parameters
 
-    Environment variables ^(read from context^):
+    Environment variables (read from context):
     REACTIVE_AUDIT_HOME  Env. variable, if unset uses the home directory of this batch.
     FRAMEWORKS_HOME      Env. variable, if unset uses REACTIVE_AUDIT_HOME/etc
 
@@ -169,7 +189,7 @@ process_args () {
               *) framework=$1 && conf=-DreactiveAudit="$(cygwinpath "${FRAMEWORKS_HOME}/$1.properties")" &&  shift && break ;;
     esac
   done
-  if [[ "$1" == "-e" ]]
+  if [[ "$1" == "-run" ]] || [[ "$1" == "--run" ]]
   then
     shift
     silent=1
@@ -184,10 +204,11 @@ process_args () {
 
 if [[ -z "${REACTIVE_AUDIT_HOME}" ]]
 then
-  declare REACTIVE_AUDIT_HOME="$(dirname "${BASH_SOURCE[0]}")/.."
-else
-  declare REACTIVE_AUDIT_HOME="$(realpath "${REACTIVE_AUDIT_HOME}")"
+  declare REACTIVE_AUDframeworkIT_HOME="$(dirname "${BASH_SOURCE[0]}")/.."
 fi
+pushd $REACTIVE_AUDIT_HOME >/dev/null
+REACTIVE_AUDIT_HOME=$(pwd)
+popd  >/dev/null
 
 if [[ -z "${FRAMEWORKS_HOME}" ]]
 then
@@ -317,6 +338,7 @@ unset jre_home
 set +e # Else, the futur error exit the shell
 
 if [[ -n "${cmd}" ]] ; then
-echo TRY TO EXECUTE ${cmd}
   ${cmd}
 fi
+
+cleanup

@@ -37,9 +37,9 @@ class LoadParams
 	public static final  String KEY_THROW_EXCEPTIONS     = PREFIX + "throwExceptions";
 	public static final  String KEY_THREAD_PATTERN       = PREFIX + "threadPattern";
 	public static final  String KEY_BOOTSTRAP_DELAY      = PREFIX + "bootstrapDelay";
-	private static final String KEY_FILE_LATENCY         = PREFIX + "file";
-	private static final String KEY_NETWORK_LATENCY      = PREFIX + "network";
-	private static final String KEY_CPU_LATENCY          = PREFIX + "cpu";
+	public static final String KEY_FILE_LATENCY         = PREFIX + "file";
+	public static final String KEY_NETWORK_LATENCY      = PREFIX + "network";
+	public static final String KEY_CPU_LATENCY          = PREFIX + "cpu";
 	public static final  String KEY_LOG_OUTPUT           = PREFIX + "logOutput";
 	public static final  String KEY_LOG_FORMAT           = PREFIX + "logFormat";
 	private static final String KEY_LOG_SIZE             = PREFIX + "logSize";
@@ -171,12 +171,6 @@ class LoadParams
 		}
 		prop.putAll(getAllEnv());
 		applyProperties(new VariablesProperties(prop));
-		config.logger.fine(KEY_THREAD_PATTERN + "  = " + config.getThreadPattern());
-		config.logger.fine(KEY_THROW_EXCEPTIONS + " = " + config.isThrow());
-		config.logger.fine(KEY_BOOTSTRAP_DELAY + " = " + config.getBootstrapDelay());
-		config.logger.fine(KEY_FILE_LATENCY + " = " + config.getFileLatency());
-		config.logger.fine(KEY_NETWORK_LATENCY + " = " + config.getNetworkLatency());
-		config.logger.fine(KEY_CPU_LATENCY + " = " + config.getCPULatency());
 	}
 
 	private void applyProperties(Properties prop)

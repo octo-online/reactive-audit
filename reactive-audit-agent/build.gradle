@@ -158,6 +158,11 @@ uploadArchives {
                     authentication(userName: sonatypeUsername, password: sonatypePassword)
                 }
             }
+//            repository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+//                if (project.hasProperty("sonatypeUsername") && project.hasProperty("sonatypePassword")) {
+//                    authentication(userName: sonatypeUsername, password: sonatypePassword)
+//                }
+//            }
 
             pom.project {
                 name "${project.name}"

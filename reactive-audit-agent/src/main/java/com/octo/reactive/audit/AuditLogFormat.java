@@ -65,7 +65,7 @@ class AuditLogFormat extends Formatter
 			ReactiveAudit.config.decSuppress();
 		}
 		/* FIXME CRADOS */
-		System.out.println("Message out: " + message);
+		System.err.println("Message out: " + message);
 		new Exception().printStackTrace();
 		/* FIXME CRADOS */
 		return String.format(this.format,

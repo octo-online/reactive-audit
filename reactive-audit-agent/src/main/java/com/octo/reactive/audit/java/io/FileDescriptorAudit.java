@@ -16,22 +16,28 @@
 
 package com.octo.reactive.audit.java.io;
 
+import com.octo.reactive.audit.AbstractAudit;
+import com.octo.reactive.audit.FactoryException;
+import com.octo.reactive.audit.lib.Latency;
+import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
-import java.io.OutputStream;
-
+import static com.octo.reactive.audit.lib.Latency.LOW;
 import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 
 // Nb methods: 2
 @Aspect
-public class FileDescriptorAudit extends AbstractOutputStreamAudit
+public class FileDescriptorAudit extends AbstractAudit
 {
-	@Before("call(* java.io.FileDescriptor.*())") // FIXME : write unit test
+	@Before("call(* java.io.FileDescriptor.*())")
 	public void advice_medium(JoinPoint thisJoinPoint)
 	{
-		latency(MEDIUM, thisJoinPoint, (OutputStream) thisJoinPoint.getTarget());
+		latency(MEDIUM, thisJoinPoint);
 	}
-
+	protected ReactiveAuditException newException(Latency latency, JoinPoint thisJoinPoint)
+	{
+		return FactoryException.newFile(LOW, thisJoinPoint, null);
+	}
 }

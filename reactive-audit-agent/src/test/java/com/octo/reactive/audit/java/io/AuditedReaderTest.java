@@ -16,10 +16,14 @@
 
 package com.octo.reactive.audit.java.io;
 
+import com.octo.reactive.audit.ReactiveAudit;
+import com.octo.reactive.audit.TestTools;
 import com.octo.reactive.audit.lib.FileReactiveAuditException;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.io.Reader;
+import java.nio.CharBuffer;
 
 public abstract class AuditedReaderTest extends ReaderTest
 {
@@ -55,12 +59,19 @@ public abstract class AuditedReaderTest extends ReaderTest
 		super.read_Cii();
 	}
 
-	//	@Override  TODO CharBuffer
-	//	@Test(expected=ReactiveAuditException.class)
-//	public void read_CharBuffer() throws IOException
-//	{
-//		super.read_CharBuffer();
-//	}
+	@Override
+	@Test(expected = FileReactiveAuditException.class)
+	public void read_CharBuffer() throws IOException
+	{
+		CharBuffer cb = CharBuffer.allocate(12);
+		ReactiveAudit.off.commit();
+		try (Reader in= newReader())
+		{
+			TestTools.strict.commit();
+			in.read(cb);
+		}
+	}
+
 	@Override
 	@Test(expected = FileReactiveAuditException.class)
 	public void skip()

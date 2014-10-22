@@ -18,10 +18,12 @@ package com.octo.reactive.audit.java.io;
 
 import com.octo.reactive.audit.ReactiveAudit;
 import com.octo.reactive.audit.TestTools;
+import com.octo.reactive.audit.lib.FileReactiveAuditException;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.CharBuffer;
 
 public abstract class ReaderTest
 {
@@ -88,17 +90,17 @@ public abstract class ReaderTest
 		}
 	}
 
-	//	@Test TODO CharBuffer
-//	public void read_CharBuffer() throws IOException
-//	{
-//		CharBuffer buffer=new CharBuffer();
-//		ConfigReactiveAudit.off.commit();
-//		try (Reader in= newReader())
-//		{
-//			TestTools.strict.commit();
-//			in.read(new byte[1], 0, 1);
-//		}
-//	}
+	@Test(expected = FileReactiveAuditException.class)
+	public void read_CharBuffer() throws IOException
+	{
+		CharBuffer cb = CharBuffer.allocate(12);
+		ReactiveAudit.off.commit();
+		try (Reader in= newReader())
+		{
+			TestTools.strict.commit();
+			in.read(cb);
+		}
+	}
 	@Test
 	public void skip()
 			throws IOException

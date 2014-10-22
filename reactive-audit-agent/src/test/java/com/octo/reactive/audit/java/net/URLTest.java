@@ -55,4 +55,12 @@ public class URLTest
 		URL url = new URL("JAR:file:///toto!/toto" + HOST + ":" + PORT);
 		url.openStream();
 	}
+	@Test(expected = NetworkReactiveAuditException.class)
+	public void openConnection_http()
+			throws IOException
+	{
+		TestTools.strict.commit();
+		URL url = new URL("http://" + HOST + ":" + PORT);
+		url.openConnection();
+	}
 }

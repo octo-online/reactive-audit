@@ -18,7 +18,6 @@ package com.octo.reactive.audit.javax.sql.rowset.spi;
 
 import com.octo.reactive.audit.AbstractNetworkAudit;
 import com.octo.reactive.audit.java.io.AbstractReaderAudit;
-import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -35,13 +34,7 @@ public class XmlReaderAudit extends AbstractNetworkAudit
 	@Before("call(* javax.sql.rowset.spi.XmlReader.readXML(javax.sql.rowset.WebRowSet,java.io.Reader)) && args(wrs,in)")
 	public void commit(JoinPoint thisJoinPoint, WebRowSet wrs, Reader in)
 	{
-		final ReactiveAuditException ex = AbstractReaderAudit.latencyReader(config, HIGH, thisJoinPoint, in);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		final ExceptionFactory ef = AbstractReaderAudit.latencyReader(config, HIGH, thisJoinPoint, in);
+		if (ef != null) super.logLatency(HIGH, thisJoinPoint, ef);
 	}
 }

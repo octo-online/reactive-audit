@@ -54,66 +54,36 @@ public class WebRowSetAudit extends AbstractNetworkAudit
 	@Before("call(* javax.sql.rowset.WebRowSet.readXml(java.io.Reader)) && args(in)")
 	public void readXml(JoinPoint thisJoinPoint, Reader in)
 	{
-		final ReactiveAuditException ex = AbstractReaderAudit.latencyReader(config, HIGH, thisJoinPoint, in);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		final ExceptionFactory ef = AbstractReaderAudit.latencyReader(config, HIGH, thisJoinPoint, in);
+		if (ef != null) super.logLatency(HIGH, thisJoinPoint, ef);
 	}
 
 	@Before("call(* javax.sql.rowset.WebRowSet.writeXml(java.io.OutputStream)) && args(out)")
 	public void writeXml(JoinPoint thisJoinPoint, OutputStream out)
 	{
-		final ReactiveAuditException ex = AbstractOutputStreamAudit.latencyOutputStream(config, HIGH, thisJoinPoint, out);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		final ExceptionFactory ef = AbstractOutputStreamAudit.latencyOutputStream(config, HIGH, thisJoinPoint, out);
+		if (ef != null) super.logLatency(HIGH, thisJoinPoint, ef);
 	}
 
 	@Before("call(* javax.sql.rowset.WebRowSet.writeXml(java.sql.ResultSet,java.io.OutputStream)) && args(r,out)")
 	public void writeXml(JoinPoint thisJoinPoint, ResultSet r, OutputStream out)
 	{
-		final ReactiveAuditException ex = AbstractOutputStreamAudit.latencyOutputStream(config, HIGH, thisJoinPoint, out);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		final ExceptionFactory ef = AbstractOutputStreamAudit.latencyOutputStream(config, HIGH, thisJoinPoint, out);
+		if (ef != null) super.logLatency(HIGH, thisJoinPoint, ef);
 	}
 
 	@Before("call(* javax.sql.rowset.WebRowSet.writeXml(java.sql.ResultSet,java.io.Writer)) && args(r,out)")
 	public void writeXml(JoinPoint thisJoinPoint, java.sql.ResultSet r, Writer out)
 	{
-		final ReactiveAuditException ex = AbstractWriterAudit.latencyWriter(config, HIGH, thisJoinPoint, out);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		final ExceptionFactory ef = AbstractWriterAudit.latencyWriter(config, HIGH, thisJoinPoint, out);
+		if (ef != null) super.logLatency(HIGH, thisJoinPoint, ef);
 	}
 
 	@Before("call(* javax.sql.rowset.WebRowSet.writeXml(java.io.Writer)) && args(out)")
 	public void writeXml(JoinPoint thisJoinPoint, Writer out)
 	{
-		final ReactiveAuditException ex = AbstractWriterAudit.latencyWriter(config, HIGH, thisJoinPoint, out);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		final ExceptionFactory ef = AbstractWriterAudit.latencyWriter(config, HIGH, thisJoinPoint, out);
+		if (ef != null) super.logLatency(HIGH, thisJoinPoint, ef);
 	}
 
 }

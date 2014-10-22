@@ -49,27 +49,15 @@ public class JAXBAudit extends AbstractFileAudit
 	@Before("call(* javax.xml.bind.JAXB.marshal(Object,java.io.OutputStream)) && args(o,out)")
 	public void marshal(JoinPoint thisJoinPoint, Object o, OutputStream out)
 	{
-		final ReactiveAuditException ex = AbstractOutputStreamAudit.latencyOutputStream(config, HIGH, thisJoinPoint, out);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		final ExceptionFactory ef = AbstractOutputStreamAudit.latencyOutputStream(config, HIGH, thisJoinPoint, out);
+		if (ef != null) super.logLatency(HIGH, thisJoinPoint, ef);
 	}
 
 	@Before("call(* javax.xml.bind.JAXB.marshal(Object,java.io.Writer)) && args(o,out)")
 	public void marshal(JoinPoint thisJoinPoint, Object o, Writer out)
 	{
-		final ReactiveAuditException ex = AbstractWriterAudit.latencyWriter(config, HIGH, thisJoinPoint, out);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		final ExceptionFactory ef = AbstractWriterAudit.latencyWriter(config, HIGH, thisJoinPoint, out);
+		if (ef != null) super.logLatency(HIGH, thisJoinPoint, ef);
 	}
 
 	@Before("call(* javax.xml.bind.JAXB.marshal(Object,java.net.URL)) && args(o,url)")
@@ -100,14 +88,8 @@ public class JAXBAudit extends AbstractFileAudit
 	@Before("call(* javax.xml.bind.JAXB.unmarshal(java.io.Reader,Class)) && args(in,cl)")
 	public void unmarshal(JoinPoint thisJoinPoint, Reader in, Class<?> cl)
 	{
-		final ReactiveAuditException ex = AbstractReaderAudit.latencyReader(config, HIGH, thisJoinPoint, in);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		final ExceptionFactory ef = AbstractReaderAudit.latencyReader(config, HIGH, thisJoinPoint, in);
+		if (ef != null) super.logLatency(HIGH, thisJoinPoint, ef);
 	}
 
 	@Before("call(* javax.xml.bind.JAXB.unmarshal(java.net.URL,Class)) && args(url,cl)")

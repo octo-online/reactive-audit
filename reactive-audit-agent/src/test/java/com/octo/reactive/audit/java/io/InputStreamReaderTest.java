@@ -39,7 +39,6 @@ public class InputStreamReaderTest extends AuditedReaderTest
 		return new InputStreamReader(in);
 	}
 
-	// FIXME: est-ce ncessaire ?
 	@Test(expected = FileReactiveAuditException.class)
 	public void read_with_FilterInputStream()
 			throws IOException

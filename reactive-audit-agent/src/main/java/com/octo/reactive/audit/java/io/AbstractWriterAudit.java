@@ -30,38 +30,52 @@ import static com.octo.reactive.audit.FileTools.*;
 
 public abstract class AbstractWriterAudit extends AbstractFileAudit
 {
-	public static ReactiveAuditException latencyWriter(ReactiveAudit config, Latency latency, JoinPoint thisJoinPoint,
-													   Writer writer)
+	public static ExceptionFactory latencyWriter(
+			final ReactiveAudit config,
+			final Latency latency,
+			final JoinPoint thisJoinPoint,
+			final Writer writer)
 			throws ReactiveAuditException
 	{
-		ReactiveAuditException ex = null;
-		CharSequence msg;
-		if (config.isDebug())
-			msg = FileTools.dumpChain(writer);
-		else
-			msg = FileTools.printFilename(writer);
+		ExceptionFactory ef=null;
 		switch (isLastOutputStreamFromWriterWithLatency(writer))
 		{
 			case NET_ERROR:
-				ex = FactoryException.newNetwork(latency, thisJoinPoint, msg);
+				ef=new ExceptionFactory()
+				{
+
+					@Override
+					public ReactiveAuditException lazyException()
+					{
+						CharSequence msg=(config.isDebug())
+										 ? FileTools.dumpChain(writer)
+										 : FileTools.printFilename(writer);
+						return FactoryException.newNetwork(latency, thisJoinPoint, msg);
+					}
+				};
 				break;
 			case FILE_ERROR:
-				ex = FactoryException.newFile(latency, thisJoinPoint, msg);
+				ef=new ExceptionFactory()
+				{
+
+					@Override
+					public ReactiveAuditException lazyException()
+					{
+						CharSequence msg=(config.isDebug())
+										 ? FileTools.dumpChain(writer)
+										 : FileTools.printFilename(writer);
+						return FactoryException.newFile(latency, thisJoinPoint, msg);
+					}
+				};
 				break;
 		}
-		return ex;
+		return ef;
 	}
 
 	protected void latency(Latency latency, JoinPoint thisJoinPoint, Writer writer)
 			throws ReactiveAuditException
 	{
-		final ReactiveAuditException ex = latencyWriter(config, latency, thisJoinPoint, writer);
-		if (ex != null) super.logLatency(latency, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		final ExceptionFactory ef = latencyWriter(config, latency, thisJoinPoint, writer);
+		if (ef != null) super.logLatency(latency, thisJoinPoint, ef);
 	}
 }

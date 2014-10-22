@@ -49,13 +49,7 @@ public class InputSourceAudit extends AbstractFileAudit
 	@Before("call(org.xml.sax.InputSource.new(java.io.Reader)) && args(in)")
 	public void read(JoinPoint thisJoinPoint, Reader in)
 	{
-		final ReactiveAuditException ex = AbstractReaderAudit.latencyReader(config, HIGH, thisJoinPoint, in);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		final ExceptionFactory ef = AbstractReaderAudit.latencyReader(config, HIGH, thisJoinPoint, in);
+		if (ef != null) super.logLatency(HIGH, thisJoinPoint, ef);
 	}
 }

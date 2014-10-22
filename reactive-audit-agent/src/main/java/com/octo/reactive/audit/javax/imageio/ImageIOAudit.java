@@ -71,14 +71,8 @@ public class ImageIOAudit extends AbstractFileAudit
 	public void write(JoinPoint thisJoinPoint, RenderedImage r, String s, OutputStream out)
 	{
 		latency(HIGH, thisJoinPoint);
-		final ReactiveAuditException ex = AbstractOutputStreamAudit.latencyOutputStream(config, HIGH, thisJoinPoint, out);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		final ExceptionFactory ef = AbstractOutputStreamAudit.latencyOutputStream(config, HIGH, thisJoinPoint, out);
+		if (ef != null) super.logLatency(HIGH, thisJoinPoint, ef);
 	}
 
 }

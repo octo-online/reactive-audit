@@ -19,7 +19,6 @@ package com.octo.reactive.audit.javax.xml.bind;
 import com.octo.reactive.audit.AbstractFileAudit;
 import com.octo.reactive.audit.java.io.AbstractOutputStreamAudit;
 import com.octo.reactive.audit.java.io.AbstractWriterAudit;
-import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -43,27 +42,15 @@ public class MarshallerAudit extends AbstractFileAudit
 	@Before("call(* javax.xml.bind.Marshaller.marshal(Object,java.io.OutputStream)) && args(o,out)")
 	public void marshal(JoinPoint thisJoinPoint, Object o, OutputStream out)
 	{
-		final ReactiveAuditException ex =
+		final ExceptionFactory ef =
 				AbstractOutputStreamAudit.latencyOutputStream(config, HIGH, thisJoinPoint, out);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		if (ef != null) super.logLatency(HIGH, thisJoinPoint,ef);
 	}
 
 	@Before("call(* javax.xml.bind.Marshaller.marshal(Object,java.io.Writer)) && args(o,out)")
 	public void marshal(JoinPoint thisJoinPoint, Object o, Writer out)
 	{
-		final ReactiveAuditException ex = AbstractWriterAudit.latencyWriter(config, HIGH, thisJoinPoint, out);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		final ExceptionFactory ef = AbstractWriterAudit.latencyWriter(config, HIGH, thisJoinPoint, out);
+		if (ef != null) super.logLatency(HIGH, thisJoinPoint, ef);
 	}
 }

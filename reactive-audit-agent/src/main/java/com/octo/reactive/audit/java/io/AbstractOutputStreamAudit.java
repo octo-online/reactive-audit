@@ -30,36 +30,50 @@ import static com.octo.reactive.audit.FileTools.*;
 
 public abstract class AbstractOutputStreamAudit extends AbstractFileAudit
 {
-	public static ReactiveAuditException latencyOutputStream(ReactiveAudit config, Latency latency,
-															 JoinPoint thisJoinPoint, OutputStream out)
+	public static ExceptionFactory latencyOutputStream(
+			final ReactiveAudit config,
+			final Latency latency,
+			final JoinPoint thisJoinPoint,
+			final OutputStream out)
 	{
-		CharSequence msg;
-		if (config.isDebug())
-			msg = FileTools.dumpChain(out);
-		else
-			msg = FileTools.printFilename(out);
-		ReactiveAuditException ex = null;
+		ExceptionFactory ef=null;
 		switch (isLastOutputStreamWithLatency(out))
 		{
 			case NET_ERROR:
-				ex = FactoryException.newNetwork(latency, thisJoinPoint, msg);
+				ef=new ExceptionFactory()
+				{
+
+					@Override
+					public ReactiveAuditException lazyException()
+					{
+						CharSequence msg=(config.isDebug())
+										 ? FileTools.dumpChain(out)
+										 : FileTools.printFilename(out);
+						return FactoryException.newNetwork(latency, thisJoinPoint, msg);
+					}
+				};
 				break;
 			case FILE_ERROR:
-				ex = FactoryException.newFile(latency, thisJoinPoint, msg);
+				ef=new ExceptionFactory()
+				{
+
+					@Override
+					public ReactiveAuditException lazyException()
+					{
+						CharSequence msg=(config.isDebug())
+										 ? FileTools.dumpChain(out)
+										 : FileTools.printFilename(out);
+						return FactoryException.newFile(latency, thisJoinPoint, msg);
+					}
+				};
 				break;
 		}
-		return ex;
+		return ef;
 	}
 
 	/*package*/ void latency(Latency latency, JoinPoint thisJoinPoint, OutputStream out)
 	{
-		final ReactiveAuditException ex = latencyOutputStream(config, latency, thisJoinPoint, out);
-		if (ex != null) super.logLatency(latency, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		final ExceptionFactory ef = latencyOutputStream(config, latency, thisJoinPoint, out);
+		if (ef != null) super.logLatency(latency, thisJoinPoint, ef);
 	}
 }

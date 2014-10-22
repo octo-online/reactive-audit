@@ -18,7 +18,6 @@ package com.octo.reactive.audit.javax.sql.rowset.spi;
 
 import com.octo.reactive.audit.AbstractNetworkAudit;
 import com.octo.reactive.audit.java.io.AbstractWriterAudit;
-import com.octo.reactive.audit.lib.ReactiveAuditException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -35,13 +34,7 @@ public class XmlWriterAudit extends AbstractNetworkAudit
 	@Before("call(* javax.sql.rowset.spi.XmlWriter.writeXML(javax.sql.rowset.WebRowSet,java.io.Writer)) && args(wrs,out)")
 	public void commit(JoinPoint thisJoinPoint, WebRowSet wrs, Writer out)
 	{
-		final ReactiveAuditException ex = AbstractWriterAudit.latencyWriter(config, HIGH, thisJoinPoint, out);
-		if (ex != null) super.logLatency(HIGH, thisJoinPoint, new  ExceptionFactory()
-		{
-			public ReactiveAuditException lazyException()
-			{
-				return ex;
-			}
-		});
+		final ExceptionFactory ef = AbstractWriterAudit.latencyWriter(config, HIGH, thisJoinPoint, out);
+		if (ef != null) super.logLatency(HIGH, thisJoinPoint, ef);
 	}
 }

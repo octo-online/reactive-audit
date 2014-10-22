@@ -144,25 +144,25 @@ uploadArchives {
         mavenDeployer {
             beforeDeployment {
                 MavenDeployment deployment ->
-                    if (!isReleaseVersion) {
-                        throw new GradleException("Current version is ${version}. Use a release version")
-                    }
+//                    if (!isReleaseVersion) {
+//                        throw new GradleException("Current version is ${version}. Use a release version")
+//                    }
                     if (!project.hasProperty("sonatypeUsername") || !project.hasProperty("sonatypePassword")) {
                         throw new GradleException('Set sonatypeUsername and sonatypePassword in ~/.gradle/gradle.properties or with -D<x>=<y>')
                     }
                     signing.signPom(deployment)
             }
 
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                if (project.hasProperty("sonatypeUsername") && project.hasProperty("sonatypePassword")) {
-                    authentication(userName: sonatypeUsername, password: sonatypePassword)
-                }
-            }
-//            repository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+//            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
 //                if (project.hasProperty("sonatypeUsername") && project.hasProperty("sonatypePassword")) {
 //                    authentication(userName: sonatypeUsername, password: sonatypePassword)
 //                }
 //            }
+            repository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+                if (project.hasProperty("sonatypeUsername") && project.hasProperty("sonatypePassword")) {
+                    authentication(userName: sonatypeUsername, password: sonatypePassword)
+                }
+            }
 
             pom.project {
                 name "${project.name}"

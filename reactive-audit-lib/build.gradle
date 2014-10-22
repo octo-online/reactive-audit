@@ -61,9 +61,9 @@ uploadArchives {
         mavenDeployer {
             beforeDeployment {
                 MavenDeployment deployment ->
-                    if (!isReleaseVersion) {
-                        throw new GradleException("Current version is ${version}. Use a release version")
-                    }
+//                    if (!isReleaseVersion) {
+//                        throw new GradleException("Current version is ${version}. Use a release version")
+//                    }
                     if (!project.hasProperty("sonatypeUsername") || !project.hasProperty("sonatypePassword")) {
                         throw new GradleException('Set sonatypeUsername and sonatypePassword in ~/.gradle/gradle.properties or with -D<x>=<y>')
                     }

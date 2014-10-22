@@ -37,7 +37,7 @@ class AuditLogFormat extends Formatter
 	@Override
 	public synchronized String format(LogRecord record)
 	{
-		dat.setTime(record.getMillis());
+		this.dat.setTime(record.getMillis());
 		String source;
 		if (record.getSourceClassName() != null)
 		{
@@ -51,21 +51,25 @@ class AuditLogFormat extends Formatter
 		{
 			source = record.getLoggerName();
 		}
-		String message = formatMessage(record);
+		final String message = formatMessage(record);
 		String throwable = "";
 		if (record.getThrown() != null)
 		{
 			ReactiveAudit.config.incSuppress();
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
+			final StringWriter sw = new StringWriter();
+			final PrintWriter pw = new PrintWriter(sw);
 			pw.println();
 			record.getThrown().printStackTrace(pw);
 			pw.close();
 			throwable = sw.toString();
 			ReactiveAudit.config.decSuppress();
 		}
-		return String.format(format,
-							 dat,
+		/* FIXME CRADOS */
+		System.out.println("Message out: " + message);
+		new Exception().printStackTrace();
+		/* FIXME CRADOS */
+		return String.format(this.format,
+							 this.dat,
 							 source,
 							 record.getLoggerName(),
 							 LoadParams.convLevelString(record.getLevel()),
@@ -75,7 +79,7 @@ class AuditLogFormat extends Formatter
 
 	String getFormat()
 	{
-		return format;
+		return this.format;
 	}
 }
 

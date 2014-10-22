@@ -16,18 +16,43 @@
 
 package com.octo.reactive.audit;
 
-import com.octo.reactive.audit.lib.*;
+import static com.octo.reactive.audit.LoadParams.DEFAULT_FILENAME;
+import static com.octo.reactive.audit.LoadParams.DEFAULT_LOG_FORMAT;
+import static com.octo.reactive.audit.LoadParams.DEFAULT_LOG_LEVEL;
+import static com.octo.reactive.audit.LoadParams.DEFAULT_LOG_OUTPUT;
+import static com.octo.reactive.audit.LoadParams.DEFAULT_LOG_SIZE;
+import static com.octo.reactive.audit.LoadParams.DEFAULT_THREAD_PATTERN;
+import static com.octo.reactive.audit.LoadParams.KEY_AUDIT_FILENAME;
+import static com.octo.reactive.audit.LoadParams.KEY_BOOTSTRAP_DELAY;
+import static com.octo.reactive.audit.LoadParams.KEY_CPU_LATENCY;
+import static com.octo.reactive.audit.LoadParams.KEY_FILE_LATENCY;
+import static com.octo.reactive.audit.LoadParams.KEY_NETWORK_LATENCY;
+import static com.octo.reactive.audit.LoadParams.KEY_THREAD_PATTERN;
+import static com.octo.reactive.audit.LoadParams.KEY_THROW_EXCEPTIONS;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
-import java.util.*;
-import java.util.Formatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.Stack;
+import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.*;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-import static com.octo.reactive.audit.LoadParams.*;
+import com.octo.reactive.audit.lib.CPUReactiveAuditException;
+import com.octo.reactive.audit.lib.FileReactiveAuditException;
+import com.octo.reactive.audit.lib.Latency;
+import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
+import com.octo.reactive.audit.lib.ReactiveAuditException;
 
 @SuppressWarnings("RefusedBequest")
 public class ReactiveAudit
@@ -106,14 +131,14 @@ public class ReactiveAudit
 
 	synchronized void startup()
 	{
-		if (!started)
+		if (!this.started)
 		{
-			started = true;
-			bootstrapStart = System.currentTimeMillis();
+			this.started = true;
+			this.bootstrapStart = System.currentTimeMillis();
 			logOnly.commit();
 			final String url = getPropertiesURL();
 			new LoadParams(this, url).commit();
-			logger.config("Start reactive audit with " + FileTools.homeFile(url));
+			this.logger.config("Start reactive audit with " + FileTools.homeFile(url));
             if (config.logger.isLoggable(Level.FINE))
             {
                 config.logger.fine(String.format("%-30s = %s",KEY_THREAD_PATTERN,config.getThreadPattern()));
@@ -132,54 +157,54 @@ public class ReactiveAudit
         // Just shortly
         synchronized (LogManager.getLogManager())
         {
-            String cr = System.getProperty("line.separator");
-            long low = statLow.sum();
-            long medium = statMedium.sum();
-            long high = statHigh.sum();
-            StringBuilder buf =
+            final String cr = System.getProperty("line.separator");
+            final long low = this.statLow.sum();
+            final long medium = this.statMedium.sum();
+            final long high = this.statHigh.sum();
+            final StringBuilder buf =
                     new StringBuilder(cr)
                             .append("\tTotal high  =").append(high).append(cr)
                             .append("\tTotal medium=").append(medium).append(cr)
                             .append("\tTotal low   =").append(low).append(cr)
-                            .append("\tMax. concurrent threads=").append(statMaxThread.get())
+                            .append("\tMax. concurrent threads=").append(this.statMaxThread.get())
                             .append(" (Number of node:").append(Runtime.getRuntime().availableProcessors()).append(")").append(cr)
                             .append("Shutdown audit");
-            logger.config(buf.toString());
-            if (logHandler != null) {
-                logHandler.close();
+            this.logger.config(buf.toString());
+            if (this.logHandler != null) {
+                this.logHandler.close();
             }
         }
 	}
 
 	void reset()
 	{
-		started = false;
-		afterBootstrap = false;
-		history.purge();
-		stack.clear();
-		historyThreadName.clear();
+		this.started = false;
+		this.afterBootstrap = false;
+		this.history.purge();
+		this.stack.clear();
+		this.historyThreadName.clear();
 		startup();
 	}
 
 	public boolean isDebug()
 	{
-		return debug;
+		return this.debug;
 	}
 
 	void setDebug(boolean debug)
 	{
 		this.debug = debug;
-		logger.setLevel((debug) ? Level.FINE : DEFAULT_LOG_LEVEL);
+		this.logger.setLevel((debug) ? Level.FINE : DEFAULT_LOG_LEVEL);
 		try
 		{
-			Field field = ReactiveAuditException.class.getDeclaredField("debug");
+			final Field field = ReactiveAuditException.class.getDeclaredField("debug");
 			field.setAccessible(true);
 			field.set(null, debug);
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			// Ignore
-			logger.config("You detect a bug !"+System.getenv("line.separator")+ e.getMessage());
+			this.logger.config("You detect a bug !"+System.getenv("line.separator")+ e.getMessage());
 		}
 	}
 
@@ -188,7 +213,7 @@ public class ReactiveAudit
 	 */
 	public void incSuppress()
 	{
-		suppressAudit.set(suppressAudit.get() + 1);
+		this.suppressAudit.set(this.suppressAudit.get() + 1);
 	}
 
 	/**
@@ -196,7 +221,7 @@ public class ReactiveAudit
 	 */
 	public void decSuppress()
 	{
-		suppressAudit.set(suppressAudit.get() - 1);
+		this.suppressAudit.set(this.suppressAudit.get() - 1);
 	}
 
 	/**
@@ -206,7 +231,7 @@ public class ReactiveAudit
 	 */
 	int getSuppress()
 	{
-		return suppressAudit.get();
+		return this.suppressAudit.get();
 	}
 
 	/**
@@ -218,29 +243,29 @@ public class ReactiveAudit
 	boolean isThreadNameMatch(String name)
 	{
 		if (name == null) return false;
-		if (threadPattern == null)
+		if (this.threadPattern == null)
 		{
 			return false;
 		}
-		if (historyThreadName.add(name))
+		if (this.historyThreadName.add(name))
 		{
-			int now = ManagementFactory.getThreadMXBean().getThreadCount();
+			final int now = ManagementFactory.getThreadMXBean().getThreadCount();
 			int old;
 			for (; ; )
 			{
-				old = statMaxThread.get();
+				old = this.statMaxThread.get();
 				if (now > old)
 				{
-					if (statMaxThread.compareAndSet(old, now))
+					if (this.statMaxThread.compareAndSet(old, now))
 						break;
 				}
 				else
 					break;
 				Thread.yield();
 			}
-			if (debug) logger.fine("Detect thread name \"" + name + "\"");
+			if (this.debug) this.logger.fine("Detect thread name \"" + name + "\"");
 		}
-		return threadPattern.matcher(name).matches();
+		return this.threadPattern.matcher(name).matches();
 	}
 
 	/**
@@ -250,15 +275,15 @@ public class ReactiveAudit
 	 */
 	boolean isSuppressAudit()
 	{
-		return suppressAudit.get() != 0;
+		return this.suppressAudit.get() != 0;
 	}
 
 	boolean isAfterStartupDelay()
 	{
-		if (afterBootstrap) return true;
-		if ((System.currentTimeMillis() - bootstrapStart) > (bootstrapDelay*1000))
+		if (this.afterBootstrap) return true;
+		if ((System.currentTimeMillis() - this.bootstrapStart) > (this.bootstrapDelay*1000))
 		{
-			afterBootstrap = true;
+			this.afterBootstrap = true;
 			return true;
 		}
 		return false;
@@ -271,22 +296,22 @@ public class ReactiveAudit
 	 */
 	public long getBootstrapDelay()
 	{
-		return bootstrapDelay;
+		return this.bootstrapDelay;
 	}
 
 	public Latency getFileLatency()
 	{
-		return latencyFile;
+		return this.latencyFile;
 	}
 
 	public Latency getNetworkLatency()
 	{
-		return latencyNetwork;
+		return this.latencyNetwork;
 	}
 
 	public Latency getCPULatency()
 	{
-		return latencyCPU;
+		return this.latencyCPU;
 	}
 
 	/**
@@ -297,7 +322,7 @@ public class ReactiveAudit
 	public boolean isThrow()
 	{
 		//logger.warn("Throw exception");
-		return throwExceptions;
+		return this.throwExceptions;
 	}
 
 	/**
@@ -307,7 +332,7 @@ public class ReactiveAudit
 	 */
 	public String getThreadPattern()
 	{
-		return threadPattern.toString();
+		return this.threadPattern.toString();
 	}
 
 	/**
@@ -316,9 +341,9 @@ public class ReactiveAudit
 	private Transaction current()
 	{
 		return new Transaction()
-				.throwExceptions(throwExceptions)
-				.threadPattern(threadPattern.toString())
-				.bootStrapDelay(bootstrapDelay);
+				.throwExceptions(this.throwExceptions)
+				.threadPattern(this.threadPattern.toString())
+				.bootStrapDelay(this.bootstrapDelay);
 	}
 
 	/**
@@ -326,7 +351,7 @@ public class ReactiveAudit
 	 */
 	protected void push()
 	{
-		stack.push(current());
+		this.stack.push(current());
 	}
 
 	/**
@@ -334,7 +359,7 @@ public class ReactiveAudit
 	 */
 	protected void pop()
 	{
-		stack.pop().commit();
+		this.stack.pop().commit();
 	}
 
 	/**
@@ -353,49 +378,49 @@ public class ReactiveAudit
 	{
 		Latency baseLatency = null;
 		if (e instanceof FileReactiveAuditException)
-			baseLatency = latencyFile;
+			baseLatency = this.latencyFile;
 		else if (e instanceof NetworkReactiveAuditException)
-			baseLatency = latencyNetwork;
+			baseLatency = this.latencyNetwork;
 		else if (e instanceof CPUReactiveAuditException)
-			baseLatency = latencyCPU;
+			baseLatency = this.latencyCPU;
 		if (baseLatency == null) return;
 		if (e.getLatency().ordinal() < baseLatency.ordinal())
 			return;
 
-		if (!history.isAlreadyLogged(e.getStackTrace()))
+		if (!this.history.isAlreadyLogged(e.getStackTrace()))
 		{
 			Level level;
 			switch (latencyLevel)
 			{
 				case LOW:
 					level = Level.INFO;
-					statLow.add(1);
+					this.statLow.add(1);
 					break;
 				case MEDIUM:
 					level = Level.WARNING;
-					statMedium.add(1);
+					this.statMedium.add(1);
 					break;
 				default:
 					level = Level.SEVERE;
-					statHigh.add(1);
+					this.statHigh.add(1);
 					break;
 			}
 
-			logger.log(level, e.getMessage(), e);
+			this.logger.log(level, e.getMessage(), e);
 		}
 	}
 
 	public void debug(Object s)
 	{
-		logger.fine(String.valueOf(s));
+		this.logger.fine(String.valueOf(s));
 	}
 
 	public void dumpTarget(Object obj)
 	{
 		debug("DUMP TARGET: " + obj);
-		Class<?> cl = obj.getClass();
+		final Class<?> cl = obj.getClass();
 		debug(cl.getName() + " extends " + cl.getSuperclass());
-		for (Class<?> c : cl.getInterfaces())
+		for (final Class<?> c : cl.getInterfaces())
 		{
 			ReactiveAudit.config.debug("implements " + c);
 		}
@@ -496,8 +521,8 @@ public class ReactiveAudit
 		private void add(Runnable cmd)
 				throws IllegalArgumentException
 		{
-			if (sealed) throw new IllegalArgumentException("Sealed");
-			commands.add(cmd);
+			if (this.sealed) throw new IllegalArgumentException("Sealed");
+			this.commands.add(cmd);
 		}
 
 		/**
@@ -507,7 +532,7 @@ public class ReactiveAudit
 		 */
 		/*package*/ Transaction seal()
 		{
-			sealed = true;
+			this.sealed = true;
 			return this;
 		}
 
@@ -525,7 +550,7 @@ public class ReactiveAudit
 				@Override
 				public void run()
 				{
-					throwExceptions = onOff;
+					ReactiveAudit.this.throwExceptions = onOff;
 				}
 			});
 			return this;
@@ -539,7 +564,7 @@ public class ReactiveAudit
 				@Override
 				public void run()
 				{
-					latencyFile = latency;
+					ReactiveAudit.this.latencyFile = latency;
 				}
 			});
 			return this;
@@ -553,7 +578,7 @@ public class ReactiveAudit
 				@Override
 				public void run()
 				{
-					latencyNetwork = latency;
+					ReactiveAudit.this.latencyNetwork = latency;
 				}
 			});
 			return this;
@@ -567,7 +592,7 @@ public class ReactiveAudit
 				@Override
 				public void run()
 				{
-					latencyCPU = latency;
+					ReactiveAudit.this.latencyCPU = latency;
 				}
 			});
 			return this;
@@ -603,22 +628,25 @@ public class ReactiveAudit
 					@Override
 					public void run()
 					{
-						for (Handler h : logger.getHandlers())
+						for (final Handler h : ReactiveAudit.this.logger.getHandlers())
 						{
-							logger.removeHandler(h);
+							ReactiveAudit.this.logger.removeHandler(h);
 						}
-						logHandler = handler;
-						logger.addHandler(handler);
-						logger.setUseParentHandlers(false);
-						final Level level=(debug) ? Level.FINE : DEFAULT_LOG_LEVEL;
-						logger.setLevel(level);
+						ReactiveAudit.this.logHandler = handler;
+						ReactiveAudit.this.logger.addHandler(handler);
+						ReactiveAudit.this.logger.setUseParentHandlers(false);
+						final Level level=(ReactiveAudit.this.debug) ? Level.FINE : DEFAULT_LOG_LEVEL;
+						ReactiveAudit.this.logger.setLevel(level);
 						handler.setLevel(level);
 					}
 				});
 			}
-			catch (IOException e)
+			catch (final IOException e)
 			{
-				logger.severe("Log file error (" + e.getMessage() + ")");
+				ReactiveAudit.this.logger.severe("Log file error (" + e.getMessage() + ")");
+			} catch (final Throwable th) {
+			    System.err.println("ERROR: " + th.getMessage());
+			    th.printStackTrace();
 			}
 			return this;
 		}
@@ -637,7 +665,7 @@ public class ReactiveAudit
 				@Override
 				public void run()
 				{
-					threadPattern = Pattern.compile(pattern);
+					ReactiveAudit.this.threadPattern = Pattern.compile(pattern);
 				}
 			});
 			return this;
@@ -657,7 +685,7 @@ public class ReactiveAudit
 				@Override
 				public void run()
 				{
-					bootstrapDelay = delay;
+					ReactiveAudit.this.bootstrapDelay = delay;
 				}
 			});
 			return this;
@@ -690,10 +718,10 @@ public class ReactiveAudit
 		 */
 		public synchronized void commit()
 		{
-			for (Runnable r : commands) r.run();
-			statLow.reset();
-			statMedium.reset();
-			statLow.reset();
+			for (final Runnable r : this.commands) r.run();
+			ReactiveAudit.this.statLow.reset();
+			ReactiveAudit.this.statMedium.reset();
+			ReactiveAudit.this.statLow.reset();
 		}
 	}
 }

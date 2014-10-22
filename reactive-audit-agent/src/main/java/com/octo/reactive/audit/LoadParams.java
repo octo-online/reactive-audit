@@ -82,11 +82,11 @@ class LoadParams
 			}
 			catch (MalformedURLException ee)
 			{
-				config.logger.warning(propertiesFile + " malformed");
+				config.logger.config(propertiesFile + " malformed");
 			}
 			catch (IOException e1)
 			{
-				config.logger.warning(propertiesFile + " malformed");
+				config.logger.config(propertiesFile + " malformed");
 			}
 		}
 		// @See bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=438989
@@ -98,7 +98,7 @@ class LoadParams
 			}
 			catch (MalformedURLException e)
 			{
-				config.logger.warning(filename + " malformed");
+				config.logger.config(filename + " malformed");
 			}
 		}
 	}

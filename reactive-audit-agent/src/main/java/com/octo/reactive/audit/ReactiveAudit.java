@@ -21,8 +21,8 @@ import com.octo.reactive.audit.lib.*;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
+import java.nio.file.InvalidPathException;
 import java.util.*;
-import java.util.Formatter;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.*;
 import java.util.regex.Pattern;
@@ -179,7 +179,7 @@ public class ReactiveAudit
 		catch (Exception e)
 		{
 			// Ignore
-			logger.config("You detect a bug !"+System.getenv("line.separator")+ e.getMessage());
+			logger.config("You detect a bug !" + System.getenv("line.separator") + e.getMessage());
 		}
 	}
 
@@ -296,7 +296,7 @@ public class ReactiveAudit
 	 */
 	public boolean isThrow()
 	{
-		//logger.warn("Throw exception");
+		//logger.config("Throw exception");
 		return throwExceptions;
 	}
 
@@ -618,7 +618,11 @@ public class ReactiveAudit
 			}
 			catch (IOException e)
 			{
-				logger.severe("Log file error (" + e.getMessage() + ")");
+				logger.config("Log file error (" + e.getMessage() + ")");
+			}
+			catch (InvalidPathException e)
+			{
+				logger.config("Log file error (" + e.getMessage() + ")");
 			}
 			return this;
 		}

@@ -42,7 +42,7 @@ acceptable level of latency for all the file API. By default, only the
 medium and high latency file APIs generate an alert.
 
 # Download
-Unzip [this file](http://search.maven.org/remotecontent?filepath=com/octo/reactive/audit/reactive-audit-agent/0.7/reactive-audit-agent-0.7.zip)
+Unzip [this file](http://search.maven.org/remotecontent?filepath=com/octo/reactive/audit/reactive-audit-agent/0.7.1/reactive-audit-agent-0.7.1.zip)
 and add the `<audit home>/bin` directory in `PATH`.
 
 # Usage

@@ -28,7 +28,6 @@ import static com.octo.reactive.audit.lib.Latency.MEDIUM;
 @Aspect
 public class ChannelAudit extends AbstractChannelsAudit
 {
-	// FIXME : Write unit test
 	@Before("call(void java.nio.channels.Channel+.close())")
 	public void close(JoinPoint thisJoinPoint)
 	{

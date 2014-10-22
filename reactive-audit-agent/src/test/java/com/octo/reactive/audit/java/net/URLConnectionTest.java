@@ -290,10 +290,4 @@ public abstract class URLConnectionTest
         TestTools.strict.commit();
 		out.write(new byte[1]);
 	}
-
-	@Test
-	public void bind()
-	{
-        // TODO : add unit test for bind()
-	}
 }

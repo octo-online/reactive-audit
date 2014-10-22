@@ -18,9 +18,11 @@ package com.octo.reactive.audit.java.nio.channels;
 
 import com.octo.reactive.audit.IOTestTools;
 import com.octo.reactive.audit.TestTools;
+import com.octo.reactive.audit.lib.NetworkReactiveAuditException;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.channels.ByteChannel;
 import java.nio.channels.Channel;
 import java.util.function.Supplier;
 
@@ -37,12 +39,24 @@ public class ChannelTest
 	};
 
 	@Test
-	public void close()
+	public void close_Interruptible()
 			throws IOException
 	{
 		try (Channel w = channel.get())
 		{
             TestTools.strict.commit();
+			w.close();
+		}
+	}
+
+	@Test(expected = NetworkReactiveAuditException.class)
+	public void close_uninterruptible()
+			throws IOException
+	{
+		try (ByteChannel w = null)
+		{
+
+			TestTools.strict.commit();
 			w.close();
 		}
 	}

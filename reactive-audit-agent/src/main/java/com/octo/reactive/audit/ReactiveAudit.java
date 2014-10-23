@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.nio.file.InvalidPathException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.*;
@@ -113,7 +114,7 @@ public class ReactiveAudit
 			logOnly.commit();
 			final String url = getPropertiesURL();
 			new LoadParams(this, url).commit();
-			logger.config("Start reactive audit with " + FileTools.homeFile(url));
+			logger.config("Start reactive audit with " + FileTools.homeFile(url)+ " at "+new SimpleDateFormat("HH:mm:ss z yyyy").format(new Date()));
             if (config.logger.isLoggable(Level.FINE))
             {
                 config.logger.fine(String.format("%-30s = %s",KEY_THREAD_PATTERN,config.getThreadPattern()));

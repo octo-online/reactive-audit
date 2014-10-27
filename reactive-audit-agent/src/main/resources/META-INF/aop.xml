@@ -39,6 +39,7 @@
         <!--<aspect name="com.octo.reactive.audit.DebugAspect"/>-->
 
         <!-- Global -->
+        <aspect name="com.octo.reactive.audit.StartAuditAspect"/>
         <aspect name="com.octo.reactive.audit.DebugAspect"/>
         <!--<aspect name="com.octo.reactive.audit.DumpJoinPoint"/>-->
         <aspect name="com.octo.reactive.audit.MainAspect"/>

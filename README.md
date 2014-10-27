@@ -156,7 +156,7 @@ Some rules can be extended to filter more precisely the context, ...
 
 ## Get sources
 ```sh-session
-$ git clone --recursive https://github.com/octo-online/reactive-audit.git
+$ git clone -b v0.7.1 --depth 1 --recursive https://github.com/octo-online/reactive-audit.git
 ```    
 ## Build
 Target| Command

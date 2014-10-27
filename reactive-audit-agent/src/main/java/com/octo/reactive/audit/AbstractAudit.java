@@ -35,11 +35,6 @@ public abstract class AbstractAudit
 	}
 	abstract protected ReactiveAuditException newException(Latency latency, JoinPoint thisJoinPoint);
 
-	private boolean checkForAll()
-	{
-		return isReactiveThread() && !config.isSuppressAudit();
-	}
-
 	protected void latency(final Latency latency,
 						   final JoinPoint thisJoinPoint
 						  )
@@ -59,11 +54,9 @@ public abstract class AbstractAudit
 							  ExceptionFactory ef)
 			throws ReactiveAuditException
 	{
-		if (checkForAll())
+		if (config.isStarted() && !config.isSuppressAudit() && isReactiveThread())
 		{
 			final ReactiveAudit config = ReactiveAudit.config;
-			if (!config.isAfterStartupDelay())
-				return;
 			final ReactiveAuditException e=ef.lazyException();
 			config.logIfNew(latency, e);
 			if (config.isThrow())  // LOW, MEDIUM, HIGH ?

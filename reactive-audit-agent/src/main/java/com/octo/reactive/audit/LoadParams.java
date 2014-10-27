@@ -36,10 +36,11 @@ class LoadParams
 	private static final String PREFIX                   = KEY_AUDIT_FILENAME + '_';
 	public static final  String KEY_THROW_EXCEPTIONS     = PREFIX + "throwExceptions";
 	public static final  String KEY_THREAD_PATTERN       = PREFIX + "threadPattern";
+	public static final  String KEY_BOOTSTRAP_MODE       = PREFIX + "bootstrapMode";
 	public static final  String KEY_BOOTSTRAP_DELAY      = PREFIX + "bootstrapDelay";
-	public static final String KEY_FILE_LATENCY         = PREFIX + "file";
-	public static final String KEY_NETWORK_LATENCY      = PREFIX + "network";
-	public static final String KEY_CPU_LATENCY          = PREFIX + "cpu";
+	public static final String KEY_FILE_LATENCY          = PREFIX + "file";
+	public static final String KEY_NETWORK_LATENCY       = PREFIX + "network";
+	public static final String KEY_CPU_LATENCY           = PREFIX + "cpu";
 	public static final  String KEY_LOG_OUTPUT           = PREFIX + "logOutput";
 	public static final  String KEY_LOG_FORMAT           = PREFIX + "logFormat";
 	private static final String KEY_LOG_SIZE             = PREFIX + "logSize";
@@ -52,6 +53,7 @@ class LoadParams
 	private static final String DEFAULT_FILE_LATENCY     = Latency.MEDIUM.name();
 	private static final String DEFAULT_NETWORK_LATENCY  = Latency.LOW.name();
 	private static final String DEFAULT_CPU_LATENCY      = Latency.LOW.name();
+	private static final String DEFAULT_BOOTSTRAP_MODE   = "delay";
 	private static final String DEFAULT_BOOTSTRAP_DELAY  = "0";
 	private static final String DEFAULT_THROW_EXCEPTIONS = "false";
 	private static final String DEFAULT_DEBUG            = "false";
@@ -177,6 +179,7 @@ class LoadParams
 	{
 		Boolean debug = Boolean.parseBoolean(getValue(KEY_DEBUG, DEFAULT_DEBUG, prop));
 		tx.debug(debug);
+		tx.bootStrapMode(ReactiveAudit.BootStrapMode.valueOf(getValue(KEY_BOOTSTRAP_MODE, DEFAULT_BOOTSTRAP_MODE, prop).toUpperCase()));
 		tx.bootStrapDelay(Long.parseLong(getValue(KEY_BOOTSTRAP_DELAY, DEFAULT_BOOTSTRAP_DELAY, prop)));
 		tx.throwExceptions(Boolean.parseBoolean(getValue(KEY_THROW_EXCEPTIONS, DEFAULT_THROW_EXCEPTIONS, prop)));
 		tx.latencyFile(getValue(KEY_FILE_LATENCY, DEFAULT_FILE_LATENCY, prop));

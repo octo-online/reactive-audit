@@ -44,11 +44,13 @@ public class LoadParamsTest
 			System.setProperty(KEY_THROW_EXCEPTIONS, "true");
 			System.setProperty(KEY_THREAD_PATTERN, "abc");
 			System.setProperty(KEY_BOOTSTRAP_DELAY, "10");
+			System.setProperty(KEY_BOOTSTRAP_MODE, "annotation");
 			new LoadParams(ReactiveAudit.config, null).commit();
 			assertTrue(config.logger.getHandlers()[0] instanceof ConsoleHandler);
 			assertEquals("format", ((AuditLogFormat) config.logger.getHandlers()[0].getFormatter()).getFormat());
 			assertEquals(true, config.isThrow());
 			assertEquals("abc", config.getThreadPattern());
+			assertEquals(ReactiveAudit.BootStrapMode.ANNOTATION,config.getBootStrapMode());
 			assertEquals(10, config.getBootstrapDelay());
 		}
 		finally
@@ -58,6 +60,7 @@ public class LoadParamsTest
 			System.clearProperty(KEY_LOG_FORMAT);
 			System.clearProperty(KEY_THROW_EXCEPTIONS);
 			System.clearProperty(KEY_THREAD_PATTERN);
+			System.clearProperty(KEY_BOOTSTRAP_MODE);
 			System.clearProperty(KEY_BOOTSTRAP_DELAY);
 			LoadParams.resetAllEnv();
 		}

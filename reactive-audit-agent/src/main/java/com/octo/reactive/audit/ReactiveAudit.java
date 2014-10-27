@@ -88,16 +88,18 @@ public class ReactiveAudit
 	/*package*/ volatile boolean started = false;
 	private Pattern threadPattern   = Pattern.compile(DEFAULT_THREAD_PATTERN);
 	private boolean throwExceptions = false;
-	private long    bootstrapStart  = 0L;
-	private long    bootstrapDelay  = 0L;
-	private boolean afterBootstrap  = false;
-	private Latency latencyFile     = Latency.MEDIUM;
-	private Latency latencyNetwork  = Latency.LOW;
-	private Latency latencyCPU      = Latency.MEDIUM;
-	private boolean debug           = false;
+	public enum BootStrapMode { DELAY,ANNOTATION };
+	private BootStrapMode bootStrapMode			=BootStrapMode.DELAY;
+	/*private*/ long    bootstrapStart  = 0L;
+	private long    bootstrapDelay  	= 0L;
+	private boolean auditStarted    	= false;
+	private Latency latencyFile     	= Latency.MEDIUM;
+	private Latency latencyNetwork  	= Latency.LOW;
+	private Latency latencyCPU      	= Latency.MEDIUM;
+	private boolean debug           	= false;
 	private Handler logHandler;
 
-    public static String getPropertiesURL()
+	public static String getPropertiesURL()
 	{
 		String url = System.getenv(KEY_AUDIT_FILENAME);
 		if (url == null) url = DEFAULT_FILENAME;
@@ -114,14 +116,15 @@ public class ReactiveAudit
 			logOnly.commit();
 			final String url = getPropertiesURL();
 			new LoadParams(this, url).commit();
-			logger.config("Start reactive audit with " + FileTools.homeFile(url)+ " at "+new SimpleDateFormat("HH:mm:ss z yyyy").format(new Date()));
-            if (config.logger.isLoggable(Level.FINE))
-            {
-                config.logger.fine(String.format("%-30s = %s",KEY_THREAD_PATTERN,config.getThreadPattern()));
-                config.logger.fine(String.format("%-30s = %s",KEY_THROW_EXCEPTIONS,config.isThrow()));
-                config.logger.fine(String.format("%-30s = %s",KEY_BOOTSTRAP_DELAY,config.getBootstrapDelay()));
-                config.logger.fine(String.format("%-30s = %s",KEY_FILE_LATENCY, config.getFileLatency()));
-                config.logger.fine(String.format("%-30s = %s",KEY_NETWORK_LATENCY,config.getNetworkLatency()));
+			logger.config("Start reactive audit with " + FileTools.homeFile(url) + " at " + new SimpleDateFormat(
+					"HH:mm:ss z yyyy").format(new Date()));
+			if (config.logger.isLoggable(Level.FINE))
+			{
+				config.logger.fine(String.format("%-30s = %s", KEY_THREAD_PATTERN, config.getThreadPattern()));
+				config.logger.fine(String.format("%-30s = %s", KEY_THROW_EXCEPTIONS, config.isThrow()));
+				config.logger.fine(String.format("%-30s = %s", KEY_BOOTSTRAP_DELAY, config.getBootstrapDelay()));
+				config.logger.fine(String.format("%-30s = %s", KEY_FILE_LATENCY, config.getFileLatency()));
+				config.logger.fine(String.format("%-30s = %s",KEY_NETWORK_LATENCY,config.getNetworkLatency()));
                 config.logger.fine(String.format("%-30s = %s",KEY_CPU_LATENCY ,config.getCPULatency()));
             }
 		}
@@ -155,7 +158,7 @@ public class ReactiveAudit
 	void reset()
 	{
 		started = false;
-		afterBootstrap = false;
+		auditStarted = false;
 		history.purge();
 		stack.clear();
 		historyThreadName.clear();
@@ -254,22 +257,39 @@ public class ReactiveAudit
 		return suppressAudit.get() != 0;
 	}
 
-	boolean isAfterStartupDelay()
+	boolean isStarted()
 	{
-		if (afterBootstrap) return true;
-		if ((System.currentTimeMillis() - bootstrapStart) > (bootstrapDelay*1000))
+		if (auditStarted) return true;
+		switch (bootStrapMode)
 		{
-			afterBootstrap = true;
-			return true;
+			case DELAY:
+				if ((System.currentTimeMillis() - bootstrapStart) > (bootstrapDelay*1000))
+				{
+					auditStarted=true;
+					return true;
+				}
+				break;
+			case ANNOTATION:
+				break;
 		}
 		return false;
 	}
 
-	/**
-	 * Return the current bootstrap delay before start the audit.
-	 *
-	 * @return The delay in MS after the startup.
-	 */
+	void setStarted(boolean started)
+	{
+		auditStarted=started;
+	}
+	public BootStrapMode getBootStrapMode()
+	{
+		return bootStrapMode;
+	}
+	public void setBootStrapMode(BootStrapMode mode)
+	{
+		bootStrapMode=mode;
+		bootstrapStart=System.currentTimeMillis();
+		setStarted(false);
+
+	}
 	public long getBootstrapDelay()
 	{
 		return bootstrapDelay;
@@ -588,16 +608,16 @@ public class ReactiveAudit
 			try
 			{
 				final int isize = Integer.parseInt(size);
-                final Handler handler = ("console".equalsIgnoreCase(output))
-                        ? new ConsoleHandler()
-                        : new FileHandler(output, isize,
-                        (isize == 0) ? 1 : 5, false);
-                if (output.endsWith(".xml"))
-                    handler.setFormatter(new java.util.logging.XMLFormatter());
-                else
-                {
-                    handler.setFormatter(new AuditLogFormat(format));
-                }
+				final Handler handler = ("console".equalsIgnoreCase(output))
+										? new ConsoleHandler()
+										: new FileHandler(output, isize,
+														  (isize == 0) ? 1 : 5, false);
+				if (output.endsWith(".xml"))
+					handler.setFormatter(new java.util.logging.XMLFormatter());
+				else
+				{
+					handler.setFormatter(new AuditLogFormat(format));
+				}
 				handler.setLevel(DEFAULT_LOG_LEVEL);
 				add(new Runnable()
 				{
@@ -611,7 +631,7 @@ public class ReactiveAudit
 						logHandler = handler;
 						logger.addHandler(handler);
 						logger.setUseParentHandlers(false);
-						final Level level=(debug) ? Level.FINE : DEFAULT_LOG_LEVEL;
+						final Level level = (debug) ? Level.FINE : DEFAULT_LOG_LEVEL;
 						logger.setLevel(level);
 						handler.setLevel(level);
 					}
@@ -648,6 +668,18 @@ public class ReactiveAudit
 			return this;
 		}
 
+		public Transaction bootStrapMode(final BootStrapMode mode)
+		{
+			add(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					bootStrapMode = mode;
+				}
+			});
+			return this;
+		}
 		/**
 		 * Ask a specific boot strap delay before start the audit.
 		 * May be apply after the commit().

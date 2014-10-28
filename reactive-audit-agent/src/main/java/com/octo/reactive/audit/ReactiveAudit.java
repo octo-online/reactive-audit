@@ -88,7 +88,7 @@ public class ReactiveAudit
 	/*package*/ volatile boolean started = false;
 	private Pattern threadPattern   = Pattern.compile(DEFAULT_THREAD_PATTERN);
 	private boolean throwExceptions = false;
-	public enum BootStrapMode { DELAY,ANNOTATION };
+	public enum BootStrapMode { DELAY,ANNOTATION,CPU };
 	private BootStrapMode bootStrapMode			=BootStrapMode.DELAY;
 	/*private*/ long    bootstrapStart  = 0L;
 	private long    bootstrapDelay  	= 0L;
@@ -122,6 +122,7 @@ public class ReactiveAudit
 			{
 				config.logger.fine(String.format("%-30s = %s", KEY_THREAD_PATTERN, config.getThreadPattern()));
 				config.logger.fine(String.format("%-30s = %s", KEY_THROW_EXCEPTIONS, config.isThrow()));
+				config.logger.fine(String.format("%-30s = %s", KEY_BOOTSTRAP_MODE, config.getBootStrapMode()));
 				config.logger.fine(String.format("%-30s = %s", KEY_BOOTSTRAP_DELAY, config.getBootstrapDelay()));
 				config.logger.fine(String.format("%-30s = %s", KEY_FILE_LATENCY, config.getFileLatency()));
 				config.logger.fine(String.format("%-30s = %s",KEY_NETWORK_LATENCY,config.getNetworkLatency()));
@@ -157,12 +158,20 @@ public class ReactiveAudit
 
 	void reset()
 	{
-		started = false;
-		auditStarted = false;
-		history.purge();
-		stack.clear();
-		historyThreadName.clear();
-		startup();
+		try
+		{
+			incSuppress();
+			started = false;
+			auditStarted = false;
+			history.purge();
+			stack.clear();
+			historyThreadName.clear();
+			startup();
+		}
+		finally
+		{
+			decSuppress();
+		}
 	}
 
 	public boolean isDebug()
@@ -275,7 +284,7 @@ public class ReactiveAudit
 		return false;
 	}
 
-	void setStarted(boolean started)
+	public void setStarted(boolean started)
 	{
 		auditStarted=started;
 	}

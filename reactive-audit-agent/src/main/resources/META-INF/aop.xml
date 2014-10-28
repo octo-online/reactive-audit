@@ -121,14 +121,18 @@
         <aspect name="com.octo.reactive.audit.java.sql.StatementAudit"/>
 
         <!-- java.util -->
+        <aspect name="com.octo.reactive.audit.java.util.HashtableAudit"/>
         <aspect name="com.octo.reactive.audit.java.util.RandomAudit"/>
         <aspect name="com.octo.reactive.audit.java.util.PropertiesAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.StackAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.VectorAudit"/>
 
         <!-- java.util.concurrent -->
         <aspect name="com.octo.reactive.audit.java.util.concurrent.BlockingDequeAudit"/>
         <aspect name="com.octo.reactive.audit.java.util.concurrent.BlockingQueueAudit"/>
         <aspect name="com.octo.reactive.audit.java.util.concurrent.CompletableFutureAudit"/>
         <aspect name="com.octo.reactive.audit.java.util.concurrent.CompletionServiceAudit"/>
+        <aspect name="com.octo.reactive.audit.java.util.concurrent.ConcurrentMapAudit"/>
         <aspect name="com.octo.reactive.audit.java.util.concurrent.CountDownLatchAudit"/>
         <aspect name="com.octo.reactive.audit.java.util.concurrent.CyclicBarrierAudit"/>
         <aspect name="com.octo.reactive.audit.java.util.concurrent.ExchangerAudit"/>

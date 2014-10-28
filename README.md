@@ -12,7 +12,7 @@ or [Vert.x](http://vertx.io/) promote this approach.
 
 _**WARNING:** This is a beta version_
 
-Now, 517 blocking methods are detected.
+Now, 603 blocking methods are detected.
 
 # How it works
 To detect where the application uses a blocking API, this tool injects some
@@ -40,6 +40,8 @@ the latency is low. But if the file system is on a NAS or on the Cloud,
 the latency is high. Therefore, it is possible to select the
 acceptable level of latency for all the file API. By default, only the
 medium and high latency file APIs generate an alert.
+
+More info [here](http://fr.slideshare.net/pprados/audit-your-reactive-applications)
 
 # Download
 Unzip [this file](http://search.maven.org/remotecontent?filepath=com/octo/reactive/audit/reactive-audit-agent/0.7.1/reactive-audit-agent-0.7.1.zip)
@@ -165,3 +167,10 @@ Intellij | $ ./gradlew idea
 Eclipse | $ ./gradlew eclipse
 Compile | $ ./gradlew usage
 Distribution | $ ./gradlew distZip<br>$ ./gradlew distTar<br>$ ./gradlew installDist
+
+## History
+Version | Comments
+:-- | ---
+v0.8 | Add @StartAudit annotation.<br>Add java.util.{Hashtable,Stack,Vector}<br>and java.util.concurrent.ConcurrentMap  
+v0.7.1 | Fix bugs
+v0.7 | First public version

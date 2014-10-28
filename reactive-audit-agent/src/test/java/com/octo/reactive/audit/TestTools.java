@@ -42,8 +42,16 @@ public final class TestTools
 
 	public static void push()
 	{
-		ReactiveAudit.config.push();
-		ReactiveAudit.off.commit();
+		try
+		{
+			ReactiveAudit.config.incSuppress();
+			ReactiveAudit.config.push();
+			ReactiveAudit.off.commit();
+		}
+		finally
+		{
+			ReactiveAudit.config.decSuppress();
+		}
 	}
 
 	public static void pop()

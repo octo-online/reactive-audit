@@ -119,8 +119,16 @@ public class LoadParamsTest
 	{
 		LoadParams.resetAllEnv();
 		String url = getClass().getResource("/testEnv.properties").toExternalForm();
-		new LoadParams(config, url).commit();
-		assertEquals(config.getThreadPattern(), System.getProperty("os.name"));
+		ReactiveAudit.config.incSuppress();
+		try
+		{
+			new LoadParams(config, url).commit();
+			assertEquals(config.getThreadPattern(), System.getProperty("os.name"));
+		}
+		finally
+		{
+			ReactiveAudit.config.decSuppress();
+		}
 	}
 
 

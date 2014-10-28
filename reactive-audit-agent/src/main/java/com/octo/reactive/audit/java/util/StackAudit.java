@@ -14,18 +14,32 @@
  * limitations under the License.
  */
 
-package com.octo.reactive.audit;
+package com.octo.reactive.audit.java.util;
 
+import com.octo.reactive.audit.AbstractCPUAudit;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
+import static com.octo.reactive.audit.lib.Latency.LOW;
+
+// Nb methods: 3
 @Aspect
-public class StartAuditAspect extends AbstractCPUAudit
+public class StackAudit extends AbstractCPUAudit
 {
-	@Before("execution(@com.octo.reactive.audit.lib.StartAudit * *(..) )")
-	public void start(JoinPoint thisJoinPoint)
+	@Before("call(* java.util.Stack.pop())")
+	public void pop(JoinPoint thisJoinPoint)
 	{
-		ReactiveAudit.config.setStarted(true);
+		latency(LOW, thisJoinPoint);
+	}
+	@Before("call(* java.util.Stack.peek())")
+	public void peek(JoinPoint thisJoinPoint)
+	{
+		latency(LOW, thisJoinPoint);
+	}
+	@Before("call(* java.util.Stack.search(..))")
+	public void search(JoinPoint thisJoinPoint)
+	{
+		latency(LOW, thisJoinPoint);
 	}
 }

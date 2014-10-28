@@ -276,7 +276,6 @@ public final class IOTestTools
                 ReactiveAudit.config.decSuppress();
             }
         }
-        System.err.println("network="+network);
         return network==1;
     }
 }

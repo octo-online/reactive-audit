@@ -9,7 +9,7 @@
 # Parameters:
 # -help       : Print help (optional)
 # -s          : Silent mode (optional)
-# <framework> : Framework name. Must be "catalina", "jetty", "play" or "vertx". (optional)
+# <framework> : Framework name. Must be "catalina", "jetty", "play", "akka", or "vertx". (optional)
 #
 # Set:
 # AUDIT_OPTS  - JVM options for audit
@@ -45,6 +45,7 @@ usage() {
     catalina   Set CATALINA_OPTS
     jetty      Set AUDIT_OPTS to start jetty
     play       Set SBT_OPTS
+    akka       Set SBT_OPTS
     vertx      Set VERTX_OPTS
 
     ant        Set ANT_OPTS
@@ -298,6 +299,11 @@ elif [[ "$framework" == "jetty" ]]; then
         echo 'To start Jetty, use: java $AUDIT_OPTS -jar start.jar'
     fi
 elif [[ "$framework" == "play" ]]; then
+    export SBT_OPTS=${AUDIT_OPTS}
+    if [[ -z "$silent" ]]; then
+        echo "SBT_OPTS was set. You can use TypeSafe 'activator run'."
+    fi
+elif [[ "$framework" == "akka" ]]; then
     export SBT_OPTS=${AUDIT_OPTS}
     if [[ -z "$silent" ]]; then
         echo "SBT_OPTS was set. You can use TypeSafe 'activator run'."

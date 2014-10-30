@@ -332,6 +332,12 @@ if "%_FRAMEWORK%" == "play" (
         echo SBT_OPTS was set. You can use TypeSafe 'activator run'.
     )
 )
+if "%_FRAMEWORK%" == "akka" (
+    set SBT_OPTS=%AUDIT_OPTS%
+    if not "%_SILENT%"=="true" (
+        echo SBT_OPTS was set. You can use TypeSafe 'activator run'.
+    )
+)
 if "%_FRAMEWORK%" == "sbt" (
     set SBT_OPTS=%AUDIT_OPTS%
     if not "%_SILENT%"=="true" (
@@ -358,6 +364,7 @@ goto :end
     echo catalina   Set CATALINA_OPTS
     echo jetty      Set AUDIT_OPTS to start jetty
     echo play       Set SBT_OPTS
+    echo akka       Set SBT_OPTS
     echo vertx      Set VERTX_OPTS
     echo.
     echo ant        Set ANT_OPTS

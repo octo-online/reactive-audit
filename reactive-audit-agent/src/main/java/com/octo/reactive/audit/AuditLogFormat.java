@@ -33,6 +33,11 @@ class AuditLogFormat extends Formatter
 		this.format = format;
 	}
 
+	@Override
+	public String toString()
+	{
+		return format;
+	}
 	@SuppressWarnings("ThrowableResultOfMethodCallIgnored")
 	@Override
 	public synchronized String format(LogRecord record)

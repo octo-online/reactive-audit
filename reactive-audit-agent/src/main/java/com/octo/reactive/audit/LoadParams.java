@@ -37,6 +37,7 @@ class LoadParams
 	public static final  String KEY_THROW_EXCEPTIONS     = PREFIX + "throwExceptions";
 	public static final  String KEY_THREAD_PATTERN       = PREFIX + "threadPattern";
 	public static final  String KEY_BOOTSTRAP_MODE       = PREFIX + "bootstrapMode";
+	public static final  String KEY_BOOTSTRAP_CPUDELAY   = PREFIX + "bootstrapCPUDelay";
 	public static final  String KEY_BOOTSTRAP_DELAY      = PREFIX + "bootstrapDelay";
 	public static final String KEY_FILE_LATENCY          = PREFIX + "file";
 	public static final String KEY_NETWORK_LATENCY       = PREFIX + "network";
@@ -48,12 +49,13 @@ class LoadParams
 	public static final  String DEFAULT_FILENAME         = "reactiveAudit.properties";
 	public static final  Level  DEFAULT_LOG_LEVEL        = Level.CONFIG;
 	public static final  String DEFAULT_LOG_OUTPUT       = "console";
-	public static final  String DEFAULT_LOG_FORMAT       = "%4$-7s: %5$s%6$s%n";
+	public static final  String DEFAULT_LOG_FORMAT       = "%4$-7S: %5$s%6$s%n";
 	public static final  String DEFAULT_LOG_SIZE         = "0"; // No limit
 	private static final String DEFAULT_FILE_LATENCY     = Latency.MEDIUM.name();
 	private static final String DEFAULT_NETWORK_LATENCY  = Latency.LOW.name();
 	private static final String DEFAULT_CPU_LATENCY      = Latency.LOW.name();
 	private static final String DEFAULT_BOOTSTRAP_MODE   = "delay";
+	public static final  String DEFAULT_BOOTSTRAP_CPUDELAY = "2";
 	private static final String DEFAULT_BOOTSTRAP_DELAY  = "0";
 	private static final String DEFAULT_THROW_EXCEPTIONS = "false";
 	private static final String DEFAULT_DEBUG            = "false";
@@ -162,6 +164,8 @@ class LoadParams
 					}
 				}
 			}
+			prop.putAll(getAllEnv());
+			applyProperties(new VariablesProperties(prop));
 		}
 		catch (IOException e)
 		{
@@ -171,8 +175,6 @@ class LoadParams
 		{
 			config.decSuppress();
 		}
-		prop.putAll(getAllEnv());
-		applyProperties(new VariablesProperties(prop));
 	}
 
 	private void applyProperties(Properties prop)
@@ -180,6 +182,7 @@ class LoadParams
 		Boolean debug = Boolean.parseBoolean(getValue(KEY_DEBUG, DEFAULT_DEBUG, prop));
 		tx.debug(debug);
 		tx.bootStrapMode(ReactiveAudit.BootStrapMode.valueOf(getValue(KEY_BOOTSTRAP_MODE, DEFAULT_BOOTSTRAP_MODE, prop).toUpperCase()));
+		tx.bootStrapCPUDelay(Long.parseLong(getValue(KEY_BOOTSTRAP_CPUDELAY, DEFAULT_BOOTSTRAP_CPUDELAY, prop)));
 		tx.bootStrapDelay(Long.parseLong(getValue(KEY_BOOTSTRAP_DELAY, DEFAULT_BOOTSTRAP_DELAY, prop)));
 		tx.throwExceptions(Boolean.parseBoolean(getValue(KEY_THROW_EXCEPTIONS, DEFAULT_THROW_EXCEPTIONS, prop)));
 		tx.latencyFile(getValue(KEY_FILE_LATENCY, DEFAULT_FILE_LATENCY, prop));
@@ -215,16 +218,16 @@ class LoadParams
 	{
 		if (level==Level.SEVERE)
 		{
-			return "HIGH";
+			return "high";
 		}
 		if (level==Level.WARNING)
 		{
-			return "MEDIUM";
+			return "medium";
 		}
 		if (level==Level.INFO)
 		{
-			return "LOW";
+			return "low";
 		}
-		return "INFO";
+		return "info";
 	}
 }

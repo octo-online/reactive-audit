@@ -20,6 +20,7 @@ import com.octo.reactive.audit.lib.*;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 import java.lang.reflect.Field;
 import java.nio.file.InvalidPathException;
 import java.text.SimpleDateFormat;
@@ -67,6 +68,7 @@ public class ReactiveAudit
 					.seal();
 	// Help to rename the package
 	public static final String               auditPackageName  = ReactiveAudit.class.getPackage().getName();
+	public final        Logger               loggerBoot        = Logger.getAnonymousLogger();
 	public final        Logger               logger            = Logger.getAnonymousLogger();
 	// FIXME : Try to use a fake logger to test Jboss. Jboss has a problem with Aspectj :-(
 //	public final        FakeLogger          logger             = new FakeLogger();
@@ -88,16 +90,24 @@ public class ReactiveAudit
 	/*package*/ volatile boolean started = false;
 	private Pattern threadPattern   = Pattern.compile(DEFAULT_THREAD_PATTERN);
 	private boolean throwExceptions = false;
-	public enum BootStrapMode { DELAY,ANNOTATION,CPU };
-	private BootStrapMode bootStrapMode			=BootStrapMode.DELAY;
-	/*private*/ long    bootstrapStart  = 0L;
-	private long    bootstrapDelay  	= 0L;
-	private boolean auditStarted    	= false;
-	private Latency latencyFile     	= Latency.MEDIUM;
-	private Latency latencyNetwork  	= Latency.LOW;
-	private Latency latencyCPU      	= Latency.MEDIUM;
-	private boolean debug           	= false;
+
+	public enum BootStrapMode
+	{
+		UNKNOWN, DELAY, ANNOTATION, CPU
+	}
+
+	;
+	private BootStrapMode bootStrapMode = BootStrapMode.UNKNOWN;
+	/*private*/ long bootstrapStart = 0L;
+	private long    bootstrapCPUDelay = 1000L;
+	private long    bootstrapDelay    = 0L;
+	private boolean auditStarted      = false;
+	private Latency latencyFile       = Latency.MEDIUM;
+	private Latency latencyNetwork    = Latency.LOW;
+	private Latency latencyCPU        = Latency.MEDIUM;
+	private boolean debug             = false;
 	private Handler logHandler;
+	private String  logFormat;
 
 	public static String getPropertiesURL()
 	{
@@ -114,48 +124,155 @@ public class ReactiveAudit
 			started = true;
 			bootstrapStart = System.currentTimeMillis();
 			logOnly.commit();
+			for (Handler h : loggerBoot.getHandlers())
+			{
+				loggerBoot.removeHandler(h);
+			}
 			final String url = getPropertiesURL();
 			new LoadParams(this, url).commit();
-			logger.config("Start reactive audit with " + FileTools.homeFile(url) + " at " + new SimpleDateFormat(
-					"HH:mm:ss z yyyy").format(new Date()));
-			if (config.logger.isLoggable(Level.FINE))
+			Handler console = new ConsoleHandler();
+			console.setLevel(Level.FINE);
+			console.setFormatter(new AuditLogFormat(logFormat));
+			loggerBoot.addHandler(console);
+			loggerBoot.setUseParentHandlers(false);
+			loggerBoot.setLevel(Level.FINE);
+			final String msg = "Use reactive audit with " + FileTools.homeFile(url) + " at " + new SimpleDateFormat(
+					"HH:mm:ss z yyyy").format(new Date());
+			loggerBoot.config(msg);
+			if (!(logHandler instanceof ConsoleHandler))
 			{
-				config.logger.fine(String.format("%-30s = %s", KEY_THREAD_PATTERN, config.getThreadPattern()));
-				config.logger.fine(String.format("%-30s = %s", KEY_THROW_EXCEPTIONS, config.isThrow()));
-				config.logger.fine(String.format("%-30s = %s", KEY_BOOTSTRAP_MODE, config.getBootStrapMode()));
-				config.logger.fine(String.format("%-30s = %s", KEY_BOOTSTRAP_DELAY, config.getBootstrapDelay()));
-				config.logger.fine(String.format("%-30s = %s", KEY_FILE_LATENCY, config.getFileLatency()));
-				config.logger.fine(String.format("%-30s = %s",KEY_NETWORK_LATENCY,config.getNetworkLatency()));
-                config.logger.fine(String.format("%-30s = %s",KEY_CPU_LATENCY ,config.getCPULatency()));
+				logger.config(msg);
+			}
+			if (logger.isLoggable(Level.FINE))
+			{
+				logger.fine(String.format("%-30s = %s", KEY_THREAD_PATTERN, getThreadPattern()));
+				logger.fine(String.format("%-30s = %s", KEY_THROW_EXCEPTIONS, isThrow()));
+				logger.fine(String.format("%-30s = %s", KEY_BOOTSTRAP_MODE, getBootStrapMode()));
+				logger.fine(String.format("%-30s = %s", KEY_BOOTSTRAP_DELAY, getBootstrapDelay()));
+				logger.fine(String.format("%-30s = %s", KEY_FILE_LATENCY, getFileLatency()));
+				logger.fine(String.format("%-30s = %s",KEY_NETWORK_LATENCY,getNetworkLatency()));
+                logger.fine(String.format("%-30s = %s",KEY_CPU_LATENCY ,getCPULatency()));
             }
+
 		}
 	}
 
+	final   ThreadMXBean cpuBean     = ManagementFactory.getThreadMXBean();
+	private Timer        timer       = null;
+	static volatile boolean tryUseCpuBean  = true;
+	private int nbEmptyCpu=0;
 
-    synchronized void shutdown()
+	private void cpuAnalyze()
 	{
-        // Just shortly
-        synchronized (LogManager.getLogManager())
-        {
-            String cr = System.getProperty("line.separator");
-            long low = statLow.sum();
-            long medium = statMedium.sum();
-            long high = statHigh.sum();
-            StringBuilder buf =
-                    new StringBuilder(cr)
-                            .append("\tTotal high  =").append(high).append(cr)
-                            .append("\tTotal medium=").append(medium).append(cr)
-                            .append("\tTotal low   =").append(low).append(cr)
-                            .append("\tMax. concurrent threads=").append(statMaxThread.get())
-                            .append(" (Number of node:").append(Runtime.getRuntime().availableProcessors()).append(")").append(cr)
-                            .append("Shutdown audit");
-            logger.config(buf.toString());
-            if (logHandler != null) {
-                logHandler.close();
-            }
-        }
+		if (timer == null)
+		{
+			class CPUPooling extends TimerTask
+			{
+				private final HashMap<Long, Long> history     = new HashMap<>();
+				private       long                previousCpu = -1;
+
+				@Override
+				public void run()
+				{
+					try
+					{
+						final long threadId = Thread.currentThread().getId();
+						if (tryUseCpuBean)
+						{
+							if (cpuBean.isCurrentThreadCpuTimeSupported())
+							{
+								final long[] ids = cpuBean.getAllThreadIds();
+								boolean first = true;
+								long cpuAllThreads = 0;
+								long userAllThreads = 0;
+								for (long id : ids)
+								{
+									if (id == threadId) continue;
+									//final long user = cpuBean.getThreadUserTime(id);
+									final long cpu = cpuBean.getThreadCpuTime(id);
+									if (cpu == -1)
+										continue;   // Thread died
+									Long previousCpuTime = history.get(id);
+									if (previousCpuTime != null)
+									{
+										final long delta = cpu - previousCpuTime;
+										if (delta < 0) continue;
+										first = false;
+										cpuAllThreads += cpu - previousCpuTime;
+										history.put(id, cpu);
+
+									}
+									history.put(id, cpu);
+								}
+
+								previousCpu = cpuAllThreads;
+								if (!first && cpuAllThreads == 0L)
+								{
+									++nbEmptyCpu;
+									if (nbEmptyCpu==2)
+									{
+										shutdowntimer();
+										setStarted(true);
+									}
+								}
+							}
+							else
+							{
+								logger.config("CPU time not supported");
+								tryUseCpuBean = false;
+								shutdowntimer();
+							}
+						}
+					}
+					catch (Throwable e)
+					{
+						logger.fine("You find a bug ("+e.getMessage()+")");
+					}
+				}
+
+				private void shutdowntimer()
+				{
+					history.clear();
+					timer.cancel();
+					timer = null;
+				}
+			}
+			timer = new Timer();
+			timer.schedule(new CPUPooling(), 0, bootstrapCPUDelay / 2);
+		}
 	}
 
+	synchronized void shutdown()
+	{
+		// Just shortly
+		synchronized (LogManager.getLogManager())
+		{
+			final String cr = System.getProperty("line.separator");
+			final long low = statLow.sum();
+			final long medium = statMedium.sum();
+			final long high = statHigh.sum();
+
+			final ThreadGroup systemTG=Thread.currentThread().getThreadGroup().getParent();
+			final int systemThreadCount = systemTG.enumerate(new Thread[systemTG.activeCount()], false);
+			int maxThreads = statMaxThread.get() - systemThreadCount;
+			if (maxThreads<0) maxThreads=statMaxThread.get();
+			final StringBuilder buf =
+					new StringBuilder(cr)
+							.append("\tTotal high      =").append(high).append(cr)
+							.append("\tTotal medium    =").append(medium).append(cr)
+							.append("\tTotal low       =").append(low).append(cr)
+							.append("\tMax. // threads =").append(maxThreads)
+							.append(" (# of core:").append(Runtime.getRuntime().availableProcessors()).append(
+							")").append(cr)
+							.append("\t# started thread=" + (cpuBean.getTotalStartedThreadCount() - systemThreadCount)).append(
+							cr);
+			logger.config(buf.toString());
+			if (logHandler != null)
+			{
+				logHandler.close();
+			}
+		}
+	}
 	void reset()
 	{
 		try
@@ -271,10 +388,12 @@ public class ReactiveAudit
 		if (auditStarted) return true;
 		switch (bootStrapMode)
 		{
+			case UNKNOWN:
+				return false;
 			case DELAY:
-				if ((System.currentTimeMillis() - bootstrapStart) > (bootstrapDelay*1000))
+				if ((System.currentTimeMillis() - bootstrapStart) > (bootstrapDelay * 1000))
 				{
-					auditStarted=true;
+					setStarted(true);
 					return true;
 				}
 				break;
@@ -286,19 +405,26 @@ public class ReactiveAudit
 
 	public void setStarted(boolean started)
 	{
-		auditStarted=started;
+		if (!auditStarted)
+		{
+			loggerBoot.config("Reactive audit started");
+		}
+		auditStarted = started;
 	}
+
 	public BootStrapMode getBootStrapMode()
 	{
 		return bootStrapMode;
 	}
+
 	public void setBootStrapMode(BootStrapMode mode)
 	{
-		bootStrapMode=mode;
-		bootstrapStart=System.currentTimeMillis();
+		bootStrapMode = mode;
+		bootstrapStart = System.currentTimeMillis();
 		setStarted(false);
 
 	}
+
 	public long getBootstrapDelay()
 	{
 		return bootstrapDelay;
@@ -638,9 +764,10 @@ public class ReactiveAudit
 							logger.removeHandler(h);
 						}
 						logHandler = handler;
+						logFormat = format;
+						final Level level = (debug) ? Level.FINE : DEFAULT_LOG_LEVEL;
 						logger.addHandler(handler);
 						logger.setUseParentHandlers(false);
-						final Level level = (debug) ? Level.FINE : DEFAULT_LOG_LEVEL;
 						logger.setLevel(level);
 						handler.setLevel(level);
 					}
@@ -685,6 +812,8 @@ public class ReactiveAudit
 				public void run()
 				{
 					bootStrapMode = mode;
+					if (mode==BootStrapMode.CPU)
+						cpuAnalyze();
 				}
 			});
 			return this;
@@ -704,6 +833,25 @@ public class ReactiveAudit
 				public void run()
 				{
 					bootstrapDelay = delay;
+				}
+			});
+			return this;
+		}
+		/**
+		 * Ask a specific boot strap delay before start the audit.
+		 * May be apply after the commit().
+		 *
+		 * @param delay The new delay.
+		 * @return The current transaction.
+		 */
+		public Transaction bootStrapCPUDelay(final long delay)
+		{
+			add(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					bootstrapCPUDelay = delay * 1000;
 				}
 			});
 			return this;

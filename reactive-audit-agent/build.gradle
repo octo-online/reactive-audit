@@ -87,7 +87,7 @@ jar {
 }
 
 test {
-//    testLogging.showStandardStreams = true
+    testLogging.showStandardStreams = true
 //    beforeTest { descriptor ->
 //        logger.lifecycle("Running test: " + descriptor)
 //    }

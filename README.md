@@ -33,7 +33,9 @@ to select for which thread the agent must detect a call to a blocking API
 At the application startup, it is common to use some blocking APIs to
 load parameters from a file, etc. Therefore, it is possible to shift the
 audit start time to a few seconds after the application startup
-(parameter `reactiveAudit_bootstrapDelay`).
+(parameter `reactiveAudit_bootstrapDelay`). Or, it is possible to wait a pause
+in the process to detect the end of the application startup 
+(parameter `reactiveAudit_bootstrapMode=CPU`).
 
 Some blocking APIs are used to manage files. If the file system uses a SSD,
 the latency is low. But if the file system is on a NAS or on the Cloud,
@@ -91,6 +93,7 @@ unknown  | > reactive-audit<br>> java %AUDIT_OPTS% ...|$ source reactive-audit<b
 jetty    | > reactive-audit jetty<br>> java %AUDIT_OPTS% -jar start.jar  | $ source reactive-audit jetty<br>$ java %AUDIT_OPTS% -jar start.jar
 catalina | > reactive-audit catalina -run catalina run     | $ reactive-audit catalina -run catalina run
 play     | > reactive-audit play     -run activator run    | $ reactive-audit play     -run activator run
+akka     | > reactive-audit akka     -run activator run    | $ reactive-audit akka     -run activator run
 vert.x   | > reactive-audit vertx    -run vertx run ...    | $ reactive-audit vertx    -run vertx run ...
 maven    | > reactive-audit maven    -run mvn ...          | $ reactive-audit maven    -run mvn ...
 gradle   | > reactive-audit gradle   -run gradle ...       | $ reactive-audit gradle   -run gradle ...

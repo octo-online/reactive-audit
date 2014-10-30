@@ -17,7 +17,7 @@
 package com.octo.reactive.audit.lib;
 
 /**
- * Exception throw by the JVM agent if a file blocking API is used.
+ * Exception thrown by the JVM agent if a CPU bound blocking API is used.
  * This exception is thrown only if the throwExceptions parameter is true.
  *
  * @author Philippe PRADOS

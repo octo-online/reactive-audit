@@ -44,7 +44,7 @@ medium and high latency file APIs generate an alert.
 More info [here](http://fr.slideshare.net/pprados/audit-your-reactive-applications)
 
 # Download
-Unzip [this file](http://search.maven.org/remotecontent?filepath=com/octo/reactive/audit/reactive-audit-agent/0.7.1/reactive-audit-agent-0.7.1.zip)
+Unzip [this file](http://search.maven.org/remotecontent?filepath=com/octo/reactive/audit/reactive-audit-agent/0.8/reactive-audit-agent-0.8.zip)
 and add the `<audit home>/bin` directory in `PATH`.
 
 # Usage

@@ -205,7 +205,7 @@ process_args () {
 
 if [[ -z "${REACTIVE_AUDIT_HOME}" ]]
 then
-  declare REACTIVE_AUDframeworkIT_HOME="$(dirname "${BASH_SOURCE[0]}")/.."
+  declare REACTIVE_AUDIT_HOME="$(dirname "${BASH_SOURCE[0]}")/.."
 fi
 pushd $REACTIVE_AUDIT_HOME >/dev/null
 REACTIVE_AUDIT_HOME=$(pwd)
@@ -282,7 +282,7 @@ fi
 
 if [[ -z "$framework" ]]; then
     if [[ -z "$silent" ]]; then
-        echo 'Now you can use the environment variable AUDIT_OPTS for launch Java program.'
+        echo 'Now you can use the environment variable AUDIT_OPTS to launch a Java program.'
         echo ' set JAVA_OPTS=$AUDIT_OPTS'
         echo 'Add -DreactiveAudit=<yourfile>.properties to select a specific configuration.'
     fi

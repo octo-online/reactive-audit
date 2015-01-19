@@ -8,3 +8,6 @@ target/
 home/
 MYTODO.txt
 *~
+*.iml
+*.ipr
+*.iws

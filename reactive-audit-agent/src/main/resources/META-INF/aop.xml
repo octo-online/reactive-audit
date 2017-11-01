@@ -80,6 +80,7 @@
         <aspect name="com.octo.reactive.audit.java.net.SocketAudit"/>
         <aspect name="com.octo.reactive.audit.java.net.URLConnectionAudit"/>
         <aspect name="com.octo.reactive.audit.java.net.URLAudit"/>
+        <aspect name="com.octo.reactive.audit.com.twitter.util.AwaitAudit"/>
 
         <!-- java.nio.channel -->
         <aspect name="com.octo.reactive.audit.java.nio.channels.AbstractInterruptibleChannelAudit"/>

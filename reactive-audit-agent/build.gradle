@@ -16,13 +16,13 @@
 
 buildscript {
     repositories {
-        maven {
-            url "https://maven.eveoh.nl/content/repositories/releases"
-        }
+        maven { url "https://maven.eveoh.nl/content/repositories/releases"}
+        maven { url "https://plugins.gradle.org/m2/" }
     }
 
     dependencies {
         classpath "nl.eveoh:gradle-aspectj:1.4"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
     }
 }
 
@@ -43,7 +43,7 @@ apply plugin: 'signing'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-apply plugin: "sonar-runner"
+apply plugin: "org.sonarqube"
 
 sourceCompatibility = '7'
 targetCompatibility = '7'

@@ -167,7 +167,7 @@ $ git clone -b v0.7.1 --depth 1 --recursive https://github.com/octo-online/react
 ```    
 ## Build
 Target| Command
-:-- | --- | ---
+:-- | ---
 Intellij | $ ./gradlew idea
 Eclipse | $ ./gradlew eclipse
 Compile | $ ./gradlew usage

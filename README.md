@@ -3,7 +3,7 @@ This audit tool aims to provide help to the use of
 *[Reactive architecture](http://www.reactivemanifesto.org/)* in project implementations.
 For reminder, when applying this approach the application must use only **non-blocking APIs** and,
 as soon as possible, return the current thread to a pool, limited by the number of CPU cores.
-The code must also use Java 8 concurrency utility classes CompletableFuture<>` everywhere.
+The code must also use Java 8 concurrency utility classes `CompletableFuture<>` everywhere.
 The frameworks [Play](https://www.playframework.com/ "Play framework"), 
 [AKKA](http://www.akka.io/ "AKKA framework"),
 [Scala](http://www.scala-lang.org/ "Scala lang"), 
@@ -147,7 +147,7 @@ $ java ...
 ```    
 
 You can set all the parameters described in 
-<audit home>/etc/[default.properties](https://github.com/octo-online/reactive-audit/blob/master/reactive-audit-agent/src/main/dist/etc/default.properties).
+<code>\<audit home>/etc/[default.properties](https://github.com/octo-online/reactive-audit/blob/master/reactive-audit-agent/src/main/dist/etc/default.properties)</code>.
 For sample, to force the log to console without modify some file:
 ```sh-session
 $ export reactiveAudit_logOutput=console
